@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Easy.Admin.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Easy.Admin.Core.Entities.Entity`1">
+            <summary>
+            表实体继承
+            </summary>
+            <typeparam name="TKey">主键类型</typeparam>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Entity`1.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.IEntity">
+            <summary>
+            所有实体类继承
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.IEntity`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey">主键类型</typeparam>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.IEntity`1.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.ISoftDelete">
+            <summary>
+            软删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.ISoftDelete.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="F:Easy.Core.YitIdHelperExtension.Salt">
+            <summary>
+            盐值
+            </summary>
+        </member>
+        <member name="M:Easy.Core.YitIdHelperExtension.AddIdGenerator(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册雪花ID服务（默认配置）
+            </summary>
+            <param name="service"></param>
+        </member>
+        <member name="M:Easy.Core.YitIdHelperExtension.AddIdGenerator(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            注册雪花ID服务（自定义配置）
+            </summary>
+            <param name="service"></param>
+            <param name="sectionName"></param>
+        </member>
+        <member name="M:Easy.Core.YitIdHelperExtension.AddIdGenerator(Microsoft.Extensions.DependencyInjection.IServiceCollection,Yitter.IdGenerator.IdGeneratorOptions)">
+            <summary>
+            注册雪花ID服务（自定义配置）
+            </summary>
+            <param name="service"></param>
+            <param name="options">配置</param>
+        </member>
+        <member name="M:Easy.Core.YitIdHelperExtension.NextId(Yitter.IdGenerator.IIdGenerator)">
+            <summary>
+            生成ID
+            </summary>
+            <param name="generator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Core.YitIdHelperExtension.Encode(Yitter.IdGenerator.IIdGenerator,System.Int64,System.String)">
+            <summary>
+            加密ID（生成短ID）
+            </summary>
+            <param name="generator"></param>
+            <param name="id">long类型ID</param>
+            <param name="salt">盐值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Core.YitIdHelperExtension.Decode(Yitter.IdGenerator.IIdGenerator,System.String,System.String)">
+            <summary>
+            解密加密ID（解密短ID）
+            </summary>
+            <param name="generator"></param>
+            <param name="text">密文</param>
+            <param name="salt">盐值</param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlSugar.ISqlSugarRepository`1">
+            <summary>
+            泛型仓储
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,SqlSugar.ConnectionConfig,System.Action{SqlSugar.ISqlSugarClient})">
+            <summary>
+            添加 SqlSugar 拓展（适用于单个数据库）
+            </summary>
+            <param name="services"></param>
+            <param name="config">数据库连接对象</param>
+            <param name="buildAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,SqlSugar.ConnectionConfig[],System.Action{SqlSugar.ISqlSugarClient})">
+            <summary>
+            添加 SqlSugar 拓展（适用于多数据库）
+            </summary>
+            <param name="services"></param>
+            <param name="configs">数据库连接对象集合</param>
+            <param name="buildAction"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlSugar.SqlSugarRepository`1">
+            <summary>
+            泛型仓储
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+    </members>
+</doc>
