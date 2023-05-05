@@ -10,11 +10,7 @@
   >
     <!-- 博主介绍 -->
     <div class="blogger-info">
-      <v-avatar
-        size="110"
-        :image="img"
-        style="margin-bottom: 0.5rem"
-      >
+      <v-avatar size="110" :image="img" style="margin-bottom: 0.5rem">
       </v-avatar>
     </div>
     <!-- 博客信息 -->
@@ -86,30 +82,36 @@
           <i class="iconfont iconpinglunzu" /> 留言
         </router-link>
       </div>
-      <div class="menus-item">
+      <div v-if="!isLogin" class="menus-item">
         <!-- <a><i class="iconfont icondenglu" /> 登录 </a> -->
-        <a><i class="iconfont iconqq" /> 登录 </a>
+        <a @click="handleLogin"><i class="iconfont iconqq" /> 登录 </a>
       </div>
-      <div>
-        <div class="menus-item">
-          <router-link to="/user">
-            <i class="iconfont icongerenzhongxin" /> 个人中心
-          </router-link>
-        </div>
-        <div class="menus-item">
-          <a><i class="iconfont icontuichu" /> 退出</a>
-        </div>
+      <div v-else class="menus-item">
+        <router-link to="/user">
+          <i class="iconfont icongerenzhongxin" /> 个人中心
+        </router-link>
+      </div>
+      <div class="menus-item">
+        <a @click="handleLoginOut"><i class="iconfont icontuichu" /> 退出</a>
       </div>
     </div>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import img from "@/assets/images/1.jpg";
-
+const isLogin = ref(false);
 const { drawer } = storeToRefs(useDrawerSettingStore());
+
+const handleLogin = () => {
+  isLogin.value = true;
+};
+const handleLoginOut = () => {
+  isLogin.value = false;
+};
 </script>
 
 <style scoped>

@@ -12,7 +12,6 @@ import "./assets/css/markdown.css";
 import "highlight.js/styles/atom-one-dark.css";
 import "vue-toastification/dist/index.css";
 import "vue3-cute-component/dist/style.css";
-import '@icon-park/vue-next/styles/index.css';
 import InfiniteLoading from "vue-infinite-loading";
 import formatDateTime from "./plugins/formatDateTime";
 import Toast, { PluginOptions } from "vue-toastification";

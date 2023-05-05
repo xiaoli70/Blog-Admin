@@ -105,26 +105,30 @@
         </div>
         <div class="menus-item">
           <!-- <a class="menu-btn"> <i class="iconfont icondenglu" /> 登录 </a> -->
-          <!-- <a class="menu-btn"> <i class="iconfont iconqq" /> 登录 </a> -->
+          <a v-if="!isLogin" @click="handleLogin" class="menu-btn">
+            <i class="iconfont iconqq" /> 登录
+          </a>
 
-          <!-- <template> -->
-          <img
-            class="user-avatar"
-            :src="require('../../assets/images/1.jpg')"
-            height="30"
-            width="30"
-          />
-          <ul class="menus-submenu">
-            <li>
-              <router-link to="/user">
-                <i class="iconfont icongerenzhongxin" /> 个人中心
-              </router-link>
-            </li>
-            <li>
-              <a><i class="iconfont icontuichu" /> 退出</a>
-            </li>
-          </ul>
-          <!-- </template> -->
+          <template v-else>
+            <img
+              class="user-avatar"
+              :src="require('../../assets/images/1.jpg')"
+              height="30"
+              width="30"
+            />
+            <ul class="menus-submenu">
+              <li>
+                <router-link to="/user">
+                  <i class="iconfont icongerenzhongxin" /> 个人中心
+                </router-link>
+              </li>
+              <li>
+                <a @click="handleLoginOut"
+                  ><i class="iconfont icontuichu" /> 退出</a
+                >
+              </li>
+            </ul>
+          </template>
         </div>
       </div>
     </div>
@@ -142,6 +146,7 @@ const navClass = ref<string>("nav");
 const store = useDrawerSettingStore();
 const { drawer } = storeToRefs(store);
 const isShow = ref(false);
+const isLogin = ref(false);
 //控制头部菜单栏显示隐藏
 const top = ref(0);
 watch(scrollTop, (n, o) => {
@@ -158,6 +163,13 @@ const scroll = (): void => {
 };
 const searchModelHandel = () => {
   isShow.value = true;
+};
+
+const handleLogin = () => {
+  isLogin.value = true;
+};
+const handleLoginOut = () => {
+  isLogin.value = false;
 };
 onMounted(() => {
   window.addEventListener("scroll", scroll);
