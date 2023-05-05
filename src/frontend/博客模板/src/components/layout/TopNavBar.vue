@@ -1,10 +1,9 @@
 <template>
   <v-app-bar
-    app
-    :class="navClass"
+    :class="vm.navClass"
     flat
-    height="60"
-    :style="{ transform: `translateY(${top}px)` }"
+    :height="60"
+    :style="{ transform: `translateY(${vm.top}px)` }"
   >
     <!-- 手机端导航栏 -->
     <div class="d-md-none nav-mobile-container">
@@ -77,21 +76,8 @@
         </div>
         <div class="menus-item">
           <router-link class="menu-btn" to="/links">
-            <i class="iconfont iconlianjie" /> 朋友圈
-            <i class="iconfont iconxiangxia2 expand" />
+            <i class="iconfont iconlianjie" /> 友链
           </router-link>
-          <ul class="menus-submenu">
-            <li>
-              <router-link to="/albums">
-                <i class="iconfont iconxiangce1" /> 友链
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/talks">
-                <i class="iconfont iconpinglun" /> 申请
-              </router-link>
-            </li>
-          </ul>
         </div>
         <div class="menus-item">
           <router-link class="menu-btn" to="/about">
@@ -105,7 +91,7 @@
         </div>
         <div class="menus-item">
           <!-- <a class="menu-btn"> <i class="iconfont icondenglu" /> 登录 </a> -->
-          <a v-if="!isLogin" @click="handleLogin" class="menu-btn">
+          <a v-if="!vm.isLogin" @click="handleLogin" class="menu-btn">
             <i class="iconfont iconqq" /> 登录
           </a>
 
@@ -133,43 +119,46 @@
       </div>
     </div>
   </v-app-bar>
-  <search-model v-model:isShow="isShow"></search-model>
+  <search-model v-model:isShow="vm.isShow"></search-model>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, reactive } from "vue";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import SearchModel from "../SearchModel.vue";
-const scrollTop = ref<number>(0);
-const navClass = ref<string>("nav");
+const vm = reactive({
+  scrollTop: 0,
+  navClass: "nav",
+  isShow: false,
+  isLogin: false,
+  top: 0, //控制头部菜单栏显示隐藏
+});
 const store = useDrawerSettingStore();
 const { drawer } = storeToRefs(store);
-const isShow = ref(false);
-const isLogin = ref(false);
-//控制头部菜单栏显示隐藏
-const top = ref(0);
-watch(scrollTop, (n, o) => {
-  top.value = n > o && scrollTop.value > 60 ? -60 : 0;
-});
+watch(
+  () => vm.scrollTop,
+  (n, o) => {
+    vm.top = n > o && vm.scrollTop > 60 ? -60 : 0;
+  }
+);
 
 const scroll = (): void => {
-  let st: number =
+  vm.scrollTop =
     window.pageYOffset ||
     document.documentElement.scrollTop ||
     document.body.scrollTop;
-  scrollTop.value = st;
-  navClass.value = top.value > 60 ? "nav-fixed" : "nav";
+  vm.navClass = vm.scrollTop > 60 ? "nav-fixed" : "nav";
 };
 const searchModelHandel = () => {
-  isShow.value = true;
+  vm.isShow = true;
 };
 
 const handleLogin = () => {
-  isLogin.value = true;
+  vm.isLogin = true;
 };
 const handleLoginOut = () => {
-  isLogin.value = false;
+  vm.isLogin = false;
 };
 onMounted(() => {
   window.addEventListener("scroll", scroll);
@@ -212,9 +201,12 @@ ul {
 .v-theme--light.nav-fixed a {
   color: #4c4948 !important;
 }
-.nav-fixed .menus-item a,
-.nav-fixed .blog-title a {
-  text-shadow: none;
+.nav-fixed {
+  overflow: inherit;
+  .menus-item a,
+  .blog-title a {
+    text-shadow: none;
+  }
 }
 .nav-container {
   font-size: 14px;

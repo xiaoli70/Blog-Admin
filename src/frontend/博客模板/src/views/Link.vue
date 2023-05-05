@@ -31,9 +31,6 @@
       <span
         ><v-icon color="blue">mdi-dots-horizontal-circle</v-icon> 添加友链</span
       >
-      <span style="float: right"
-        ><v-icon color="blue">mdi-dots-horizontal-circle</v-icon>申请入口</span
-      >
     </div>
     <blockquote>
       <div>名称：可乐不加冰的个人博客</div>

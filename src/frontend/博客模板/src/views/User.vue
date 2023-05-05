@@ -4,11 +4,11 @@
       <h1 class="banner-title">个人中心</h1>
     </div>
     <v-card class="blog-container">
-      <div>
-        <span class="info-title">基本信息 | 友情链接</span>
+      <div class="info">
+        <span class="info-title">基本信息 | 申请友链</span>
       </div>
       <v-row class="info-wrapper">
-        <v-col md="3" cols="12">
+        <v-col md="3" cols="12" class="avatar">
           <button id="pick-avatar">
             <v-avatar size="140" class="author-avatar" :image="img" />
           </button>
@@ -24,7 +24,7 @@
           <v-text-field
             class="mt-7"
             label="个人网站"
-            placeholder="http[s]://你的网址"
+            placeholder="http[s]://你的博客网址"
             variant="outlined"
             hint="您的博客网址"
             color="primary"
@@ -63,7 +63,9 @@
             color="primary"
             density="compact"
           />
-          <v-btn variant="outlined" class="mt-5">提交</v-btn>
+          <v-col md="3" cols="12" style="margin: auto; text-align: center">
+            <v-btn variant="outlined" class="mt-5">提交</v-btn>
+          </v-col>
         </v-col>
       </v-row>
     </v-card>
@@ -79,7 +81,7 @@ const cover = ref(
 import img from "../assets/images/1.jpg";
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .info-title {
   font-size: 1.25rem;
   font-weight: bold;
@@ -96,5 +98,15 @@ import img from "../assets/images/1.jpg";
 .binding {
   display: flex;
   align-items: center;
+}
+@media (max-width: 759px) {
+  .info {
+    text-align: center;
+  }
+  .info-wrapper {
+    .avatar {
+      text-align: center;
+    }
+  }
 }
 </style>
