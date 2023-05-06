@@ -15,37 +15,49 @@
         </v-col>
         <v-col md="7" cols="12">
           <v-text-field
+            class="mt-3"
             label="昵称"
             placeholder="请输入您的昵称"
             variant="outlined"
             color="primary"
             density="compact"
+            hint="您的昵称"
           />
           <v-text-field
-            class="mt-7"
+            class="mt-3"
+            label="网站名称"
+            placeholder="请输入您的网站名称"
+            variant="outlined"
+            color="primary"
+            density="compact"
+            hint="您的网站名称"
+          />
+          <v-text-field
+            class="mt-3"
             label="个人网站"
-            placeholder="http[s]://你的博客网址"
+            placeholder="http[s]://您的博客网址"
             variant="outlined"
             hint="您的博客网址"
             color="primary"
             density="compact"
           />
           <v-text-field
-            class="mt-7"
+            class="mt-3"
             label="网站图标"
-            placeholder="http[s]://你的网站图标"
+            placeholder="http[s]://您的网站图标"
             variant="outlined"
             hint="您的博客网址"
             color="primary"
             density="compact"
           />
-          <div class="mt-7 binding">
+          <div class="mt-3 binding">
             <v-text-field
-              label="邮箱号"
+              label="邮箱"
               placeholder="请绑定邮箱"
               variant="outlined"
               color="primary"
               density="compact"
+              hint="您的邮箱"
             />
             <!-- <v-btn v-if="email" text small @click="openEmailModel">
                   修改绑定
@@ -55,9 +67,9 @@
                 </v-btn> -->
           </div>
           <v-textarea
-            class="mt-7"
+            class="mt-3"
             label="简介"
-            placeholder="介绍下自己吧"
+            placeholder="介绍您的博客吧"
             variant="outlined"
             hint="您的博客网站介绍"
             color="primary"

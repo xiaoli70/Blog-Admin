@@ -13,7 +13,7 @@
         style="flex-basis: auto"
       >
         <div class="album-item">
-          <v-img class="album-cover" :src="item.albumCover" />
+          <v-img class="album-cover" :src="item.albumCover" cover />
           <router-link :to="'/albums/' + item.id" class="album-wrapper">
             <div class="album-name">{{ item.albumName }}</div>
             <div class="album-desc">{{ item.albumDesc }}</div>

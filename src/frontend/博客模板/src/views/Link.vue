@@ -112,6 +112,8 @@ blockquote {
   font-size: 13px;
   color: #1f2d3d;
   width: 100%;
+  line-height: 16px;
+  overflow: hidden;
 }
 .link-wrapper:hover a {
   color: #fff;
