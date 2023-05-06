@@ -39,60 +39,96 @@
     <div class="menu-container">
       <div class="menus-item">
         <router-link to="/">
-          <i class="iconfont iconzhuye" /> 首页
+          <!-- <i class="iconfont iconzhuye" />  -->
+          <v-icon size="small">mdi mdi-home</v-icon>
+          首页
         </router-link>
       </div>
       <div class="menus-item">
         <router-link to="/archives">
-          <i class="iconfont iconguidang" /> 归档
+          <!-- <i class="iconfont iconguidang" />  -->
+          <v-icon size="small">mdi mdi-text-box</v-icon>
+          归档
         </router-link>
       </div>
       <div class="menus-item">
         <router-link to="/albums">
-          <i class="iconfont iconxiangce1" /> 相册
+          <!-- <i class="iconfont iconxiangce1" />  -->
+          <v-icon size="small">mdi mdi-image-size-select-actual</v-icon>
+          相册
         </router-link>
       </div>
       <div class="menus-item">
         <router-link to="/talks">
-          <i class="iconfont iconpinglun" /> 说说
+          <!-- <i class="iconfont iconpinglun" />  -->
+          <v-icon size="small">mdi mdi-message-processing</v-icon>
+          说说
         </router-link>
       </div>
       <div class="menus-item">
         <router-link to="/category">
-          <i class="iconfont iconfenlei" /> 分类
+          <!-- <i class="iconfont iconfenlei" />  -->
+          <v-icon size="small">mdi mdi-view-grid</v-icon>
+          分类
         </router-link>
       </div>
       <div class="menus-item">
         <router-link to="/tags">
-          <i class="iconfont iconbiaoqian" /> 标签
+          <!-- <i class="iconfont iconbiaoqian" />  -->
+          <v-icon size="small">mdi mdi-tag-multiple</v-icon>
+          标签
         </router-link>
       </div>
       <div class="menus-item">
         <router-link to="/links">
-          <i class="iconfont iconlianjie" /> 友链
+          <!-- <i class="iconfont iconlianjie" />  -->
+          <v-icon size="small">mdi mdi-camera-iris</v-icon>
+          友链
         </router-link>
       </div>
       <div class="menus-item">
         <router-link to="/about">
-          <i class="iconfont iconzhifeiji" /> 关于
+          <!-- <i class="iconfont iconzhifeiji" />  -->
+          <v-icon
+              size="small"
+              style="
+                transform: rotate(-45deg);
+                margin-bottom: 3px;
+                margin-right: 0px;
+              "
+              >mdi mdi-send-variant</v-icon
+            >
+          关于
         </router-link>
       </div>
       <div class="menus-item">
         <router-link to="/message">
-          <i class="iconfont iconpinglunzu" /> 留言
+          <!-- <i class="iconfont iconpinglunzu" />  -->
+          <v-icon size="small">mdi mdi-message-bulleted</v-icon>
+          留言
         </router-link>
       </div>
       <div v-if="!isLogin" class="menus-item">
         <!-- <a><i class="iconfont icondenglu" /> 登录 </a> -->
-        <a @click="handleLogin"><i class="iconfont iconqq" /> 登录 </a>
+        <a @click="handleLogin">
+          <!-- <i class="iconfont iconqq" />  -->
+          <v-icon size="small">mdi mdi-qqchat</v-icon>
+          登录
+        </a>
       </div>
       <div v-else class="menus-item">
         <router-link to="/user">
-          <i class="iconfont icongerenzhongxin" /> 个人中心
+          <!-- <i class="iconfont icongerenzhongxin" />  -->
+          <v-icon size="small">mdi mdi-account-circle</v-icon>
+          个人中心
         </router-link>
       </div>
       <div class="menus-item">
-        <a @click="handleLoginOut"><i class="iconfont icontuichu" /> 退出</a>
+        <a @click="handleLoginOut">
+          <!-- <i class="iconfont icontuichu" />  -->
+          <v-icon size="small">mdi mdi-logout</v-icon>
+          退出</a
+        >
       </div>
     </div>
   </v-navigation-drawer>
