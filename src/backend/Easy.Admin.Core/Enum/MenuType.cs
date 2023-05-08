@@ -1,6 +1,6 @@
 ﻿namespace Easy.Admin.Core.Enum;
 
-public enum MenuButtonType
+public enum MenuType
 {
     /// <summary>
     /// 目录

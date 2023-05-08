@@ -4,7 +4,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<NoWarn>1701;1702;1591</NoWarn>
+		<NoWarn>1701;1702;1591;8632</NoWarn>
 		<DocumentationFile>Easy.Admin.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
