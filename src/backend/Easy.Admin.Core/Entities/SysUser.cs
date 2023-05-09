@@ -5,7 +5,7 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 系统用户表
 /// </summary>
-public class SysUser : Entity<long>, IUpdatedTime,ISoftDelete, ICreatedTime
+public class SysUser : Entity<long>, IUpdatedTime,ICreatedUserId,ISoftDelete, ICreatedTime
 {
     /// <summary>
     /// 用户名
@@ -86,6 +86,11 @@ public class SysUser : Entity<long>, IUpdatedTime,ISoftDelete, ICreatedTime
     public string? Remark { get; set; }
 
     /// <summary>
+    /// 创建人
+    /// </summary>
+    public long CreatedUserId { get; set; }
+
+    /// <summary>
     /// 更新时间
     /// </summary>
     public DateTime? UpdatedTime { get; set; }
@@ -99,5 +104,4 @@ public class SysUser : Entity<long>, IUpdatedTime,ISoftDelete, ICreatedTime
     /// 创建时间
     /// </summary>
     public DateTime CreatedTime { get; set; }
-
 }

@@ -1,8 +1,10 @@
 ﻿using Easy.Admin.Core.Enum;
 
 namespace Easy.Admin.Core.Entities;
-
-public class Article : Entity<long>, IAvailability, ISortable, ISoftDelete, IUpdatedTime, ICreatedTime
+/// <summary>
+/// 文章表
+/// </summary>
+public class Article : Entity<long>, IAvailability, ISortable, ISoftDelete, IUpdatedTime, ICreatedUserId, ICreatedTime
 {
     /// <summary>
     /// 标题
@@ -21,6 +23,11 @@ public class Article : Entity<long>, IAvailability, ISortable, ISoftDelete, IUpd
     /// </summary>
     [SugarColumn(Length = 256)]
     public string Cover { get; set; }
+
+    /// <summary>
+    /// 是否置顶
+    /// </summary>
+    public bool IsTop { get; set; }
 
     /// <summary>
     /// 浏览量
@@ -43,6 +50,17 @@ public class Article : Entity<long>, IAvailability, ISortable, ISoftDelete, IUpd
     /// 创作类型
     /// </summary>
     public CreationType CreationType { get; set; }
+
+    /// <summary>
+    /// 文章正文（Html或markdown）
+    /// </summary>
+    [SugarColumn(Length = int.MaxValue)]
+    public string Content { get; set; }
+
+    /// <summary>
+    /// 文章正文是否为html代码
+    /// </summary>
+    public bool IsHtml { get; set; }
 
     /// <summary>
     /// 发布时间
@@ -78,6 +96,11 @@ public class Article : Entity<long>, IAvailability, ISortable, ISoftDelete, IUpd
     /// 更新时间
     /// </summary>
     public DateTime? UpdatedTime { get; set; }
+
+    /// <summary>
+    /// 创建人
+    /// </summary>
+    public long CreatedUserId { get; set; }
 
     /// <summary>
     /// 创建时间

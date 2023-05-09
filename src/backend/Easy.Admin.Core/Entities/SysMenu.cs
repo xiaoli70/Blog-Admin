@@ -5,7 +5,7 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 系统菜单表
 /// </summary>
-public class SysMenu : IAvailability, ISortable, ISoftDelete, ICreatedTime
+public class SysMenu : IAvailability, ISortable,ICreatedUserId, ISoftDelete, ICreatedTime
 {
     /// <summary>
     /// 菜单名称
@@ -97,6 +97,11 @@ public class SysMenu : IAvailability, ISortable, ISoftDelete, ICreatedTime
     /// </summary>
     [SugarColumn(Length = 256)]
     public string? Remark { get; set; }
+
+    /// <summary>
+    /// 创建人
+    /// </summary>
+    public long CreatedUserId { get; set; }
 
     /// <summary>
     /// 标记删除
