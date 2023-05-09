@@ -5,7 +5,7 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 系统用户表
 /// </summary>
-public class SysUser : Entity<long>, IUpdatedTime,ICreatedUserId,ISoftDelete, ICreatedTime
+public class SysUser : Entity<long>, IUpdatedTime,IAvailability, ICreatedUserId, ISoftDelete, ICreatedTime
 {
     /// <summary>
     /// 用户名
@@ -65,6 +65,11 @@ public class SysUser : Entity<long>, IUpdatedTime,ICreatedUserId,ISoftDelete, IC
     public string? Email { get; set; }
 
     /// <summary>
+    /// 可用状态
+    /// </summary>
+    public AvailabilityStatus Status { get; set; }
+
+    /// <summary>
     /// 最后一次登录IP地址
     /// </summary>
     [SugarColumn(Length = 32)]
@@ -83,6 +88,7 @@ public class SysUser : Entity<long>, IUpdatedTime,ICreatedUserId,ISoftDelete, IC
     /// <summary>
     /// 备注
     /// </summary>
+    [SugarColumn(Length = 256)]
     public string? Remark { get; set; }
 
     /// <summary>

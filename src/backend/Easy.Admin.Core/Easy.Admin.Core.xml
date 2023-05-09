@@ -15,6 +15,326 @@
             主键
             </summary>
         </member>
+        <member name="T:Easy.Admin.Core.Entities.Albums">
+            <summary>
+            相册表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.Name">
+            <summary>
+            相册名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.Type">
+            <summary>
+            相册类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.IsVisible">
+            <summary>
+            是否可见
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Albums.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.Article">
+            <summary>
+            文章表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Summary">
+            <summary>
+            概要
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Views">
+            <summary>
+            浏览量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Link">
+            <summary>
+            原文地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.CreationType">
+            <summary>
+            创作类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Content">
+            <summary>
+            文章正文（Html或markdown）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.IsHtml">
+            <summary>
+            文章正文是否为html代码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.PublishTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.IsAllowComments">
+            <summary>
+            是否允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.ExpiredTime">
+            <summary>
+            过期时间（过期后文章不显示）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Article.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.ArticleCategory">
+            <summary>
+            文章所属栏目表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.ArticleCategory.ArticleId">
+            <summary>
+            文章Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.ArticleCategory.CategoryId">
+            <summary>
+            栏目Id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.ArticleTag">
+            <summary>
+            文章标签表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.ArticleTag.ArticleId">
+            <summary>
+            文章Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.ArticleTag.TagId">
+            <summary>
+            标签Id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.Categories">
+            <summary>
+            文章栏目表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.Name">
+            <summary>
+            栏目名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.ParentId">
+            <summary>
+            父级id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Categories.Children">
+            <summary>
+            子栏目
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.FriendLink">
+            <summary>
+            友情链接
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.AppUserId">
+            <summary>
+            博客用户Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.SiteName">
+            <summary>
+            网站名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.Link">
+            <summary>
+            网站链接
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.Logo">
+            <summary>
+            网站logo
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.Url">
+            <summary>
+            对方博客友链的地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.IAvailability">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.IAvailability.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.ICreatedTime">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.ICreatedTime.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.ICreatedUserId.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Core.Entities.IEntity">
             <summary>
             所有实体类继承
@@ -39,6 +359,586 @@
         <member name="P:Easy.Admin.Core.Entities.ISoftDelete.DeleteMark">
             <summary>
             标记删除
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.ISortable">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.ISortable.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.IUpdatedTime.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.Pictures">
+            <summary>
+            相册图片表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Pictures.AlbumId">
+            <summary>
+            相册Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Pictures.Url">
+            <summary>
+            图片地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Pictures.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Pictures.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.SysMenu">
+            <summary>
+            系统菜单表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Name">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Type">
+            <summary>
+            菜单类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Code">
+            <summary>
+            权限编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.ParentId">
+            <summary>
+            父级菜单
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.RouteName">
+            <summary>
+            路由名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Path">
+            <summary>
+            路由地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Component">
+            <summary>
+            组件路径
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Redirect">
+            <summary>
+            重定向地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Icon">
+            <summary>
+            菜单图标
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.IsIframe">
+            <summary>
+            是否内嵌页面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Link">
+            <summary>
+            外链地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.IsVisible">
+            <summary>
+            是否可见
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.IsKeepAlive">
+            <summary>
+            是否缓存
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.IsFixed">
+            <summary>
+            是否固定
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysMenu.Children">
+            <summary>
+            子菜单
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.SysOrganization">
+            <summary>
+            组织机构信息表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.ParentId">
+            <summary>
+            父级Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.Name">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.Code">
+            <summary>
+            部门编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOrganization.Children">
+            <summary>
+            子部门
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.SysRole">
+            <summary>
+            角色表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRole.Name">
+            <summary>
+            角色名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRole.Code">
+            <summary>
+            角色编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRole.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRole.Sort">
+            <summary>
+            排序值
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRole.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRole.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRole.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.SysRoleMenu">
+            <summary>
+            角色权限表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRoleMenu.RoleId">
+            <summary>
+            角色id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysRoleMenu.MenuId">
+            <summary>
+            菜单按钮id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.SysUser">
+            <summary>
+            系统用户表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Account">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.OrgId">
+            <summary>
+            组织机构id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Birthday">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Mobile">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.LastLoginIp">
+            <summary>
+            最后一次登录IP地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.LastLoginAddress">
+            <summary>
+            最后一次登录位置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.LastLoginTime">
+            <summary>
+            最后登录时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUserRole.UserId">
+            <summary>
+            用户id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUserRole.RoleId">
+            <summary>
+            角色id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.Tags">
+            <summary>
+            标签信息表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Tags.Name">
+            <summary>
+            标签名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Tags.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Tags.Color">
+            <summary>
+            标签颜色
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Tags.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Tags.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Tags.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Tags.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Talks.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Talks.Content">
+            <summary>
+            说说正文
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Talks.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Talks.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Enum.AvailabilityStatus">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.AvailabilityStatus.Enable">
+            <summary>
+            启用
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.AvailabilityStatus.Disable">
+            <summary>
+            禁用
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Enum.CoverType">
+            <summary>
+            博客封面类型
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Home">
+            <summary>
+            首页封面
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Archives">
+            <summary>
+            归档封面
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Category">
+            <summary>
+            分类封面
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Tag">
+            <summary>
+            标签封面
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Album">
+            <summary>
+            相册封面图
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Talk">
+            <summary>
+            说说封面图
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.About">
+            <summary>
+            关于封面图
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Message">
+            <summary>
+            留言封面图
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.User">
+            <summary>
+            个人中心封面图
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CreationType.Original">
+            <summary>
+            原创
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CreationType.Reprinted">
+            <summary>
+            转载
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.EventType.SignIn">
+            <summary>
+            登录事件
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.EventType.Operation">
+            <summary>
+            操作事件
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.EventType.Exception">
+            <summary>
+            异常事件
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Enum.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.Gender.Male">
+            <summary>
+            男
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.Gender.Female">
+            <summary>
+            女
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.Gender.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.MenuType.Catalog">
+            <summary>
+            目录
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.MenuType.Menu">
+            <summary>
+            菜单
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.MenuType.Button">
+            <summary>
+            按钮
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Options.DbConnectionOptions">
+            <summary>
+            数据库选项配置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Options.DbConnectionOptions.Connections">
+            <summary>
+            数据库配置
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Options.SnowIdOptions">
+            <summary>
+            雪花id配置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Shared.AvailabilityDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Shared.KeyDto.Id">
+            <summary>
+            主键
             </summary>
         </member>
         <member name="F:Easy.Core.YitIdHelperExtension.Salt">
@@ -91,11 +991,72 @@
             <param name="salt">盐值</param>
             <returns></returns>
         </member>
+        <member name="P:SqlSugar.IPagination.PageNo">
+            <summary>
+            当前页码
+            </summary>
+        </member>
+        <member name="P:SqlSugar.IPagination.PageSize">
+            <summary>
+            页码容量
+            </summary>
+        </member>
+        <member name="P:SqlSugar.PageResult`1.PageNo">
+            <summary>
+            当前页
+            </summary>
+        </member>
+        <member name="P:SqlSugar.PageResult`1.PageSize">
+            <summary>
+            页容量
+            </summary>
+        </member>
+        <member name="P:SqlSugar.PageResult`1.Pages">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:SqlSugar.PageResult`1.Total">
+            <summary>
+            总条数
+            </summary>
+        </member>
+        <member name="P:SqlSugar.PageResult`1.Rows">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="T:SqlSugar.Pagination">
+            <summary>
+            分页查询基类
+            </summary>
+        </member>
+        <member name="P:SqlSugar.Pagination.PageNo">
+            <summary>
+            当前页码
+            </summary>
+        </member>
+        <member name="P:SqlSugar.Pagination.PageSize">
+            <summary>
+            页码容量
+            </summary>
+        </member>
         <member name="T:SqlSugar.ISqlSugarRepository`1">
             <summary>
             泛型仓储
             </summary>
             <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:SqlSugar.SqlSugarRepository`1">
+            <summary>
+            泛型仓储
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:SqlSugar.SqlSugarCache">
+            <summary>
+            SqlSugar ORM框架所需缓存配置
+            </summary>
         </member>
         <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,SqlSugar.ConnectionConfig,System.Action{SqlSugar.ISqlSugarClient})">
             <summary>
@@ -106,7 +1067,7 @@
             <param name="buildAction"></param>
             <returns></returns>
         </member>
-        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,SqlSugar.ConnectionConfig[],System.Action{SqlSugar.ISqlSugarClient})">
+        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Collections.Generic.List{SqlSugar.ConnectionConfig},System.Action{SqlSugar.SqlSugarClient})">
             <summary>
             添加 SqlSugar 拓展（适用于多数据库）
             </summary>
@@ -115,11 +1076,71 @@
             <param name="buildAction"></param>
             <returns></returns>
         </member>
-        <member name="T:SqlSugar.SqlSugarRepository`1">
+        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            泛型仓储
+            添加 SqlSugar 服务
             </summary>
-            <typeparam name="T"></typeparam>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="F:SqlSugar.SqlSugarExtensions.Aop">
+            <summary>
+            拦截器
+            </summary>
+        </member>
+        <member name="T:SqlSugar.SqlSugarUnitOfWork">
+            <summary>
+            数据库事务（工作单元保证数据的一致性）
+            </summary>
+        </member>
+        <member name="M:SqlSugar.SqlSugarUnitOfWork.BeginTransaction(Microsoft.AspNetCore.Mvc.Filters.FilterContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
+            <summary>
+            开启事务
+            </summary>
+            <param name="context"></param>
+            <param name="unitOfWork"></param>
+        </member>
+        <member name="M:SqlSugar.SqlSugarUnitOfWork.CommitTransaction(Microsoft.AspNetCore.Mvc.Filters.FilterContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
+            <summary>
+            提交事务
+            </summary>
+            <param name="resultContext"></param>
+            <param name="unitOfWork"></param>
+        </member>
+        <member name="M:SqlSugar.SqlSugarUnitOfWork.RollbackTransaction(Microsoft.AspNetCore.Mvc.Filters.FilterContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
+            <summary>
+            回滚
+            </summary>
+            <param name="resultContext"></param>
+            <param name="unitOfWork"></param>
+        </member>
+        <member name="M:SqlSugar.SqlSugarUnitOfWork.OnCompleted(Microsoft.AspNetCore.Mvc.Filters.FilterContext,Microsoft.AspNetCore.Mvc.Filters.FilterContext)">
+            <summary>
+            释放连接对象
+            </summary>
+            <param name="context"></param>
+            <param name="resultContext"></param>
+        </member>
+        <member name="T:SqlSugar.SugarQueryableExtensions">
+            <summary>
+            扩展SqlSugar SugarQueryable进行分页
+            </summary>
+        </member>
+        <member name="M:SqlSugar.SugarQueryableExtensions.ToPagedList``1(SqlSugar.ISugarQueryable{``0},SqlSugar.IPagination)">
+            <summary>
+            分页拓展
+            </summary>
+            <param name="queryable"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlSugar.SugarQueryableExtensions.ToPagedListAsync``1(SqlSugar.ISugarQueryable{``0},SqlSugar.IPagination)">
+            <summary>
+            分页拓展
+            </summary>
+            <param name="queryable"></param>
+            <param name="input"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

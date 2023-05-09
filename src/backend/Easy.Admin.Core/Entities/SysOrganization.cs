@@ -5,7 +5,7 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 组织机构信息表
 /// </summary>
-public class SysOrganization : IAvailability, ISortable,ICreatedUserId, ISoftDelete, ICreatedTime
+public class SysOrganization : Entity<long>, IAvailability, ISortable, ICreatedUserId, ISoftDelete, ICreatedTime
 {
     /// <summary>
     /// 父级Id
