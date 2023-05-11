@@ -5,7 +5,7 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 系统用户表
 /// </summary>
-public class SysUser : Entity<long>, IUpdatedTime,IAvailability, ICreatedUserId, ISoftDelete, ICreatedTime
+public class SysUser : Entity<long>, IUpdatedTime, IAvailability, ICreatedUserId, ISoftDelete, ICreatedTime
 {
     /// <summary>
     /// 用户名
@@ -105,6 +105,11 @@ public class SysUser : Entity<long>, IUpdatedTime,IAvailability, ICreatedUserId,
     /// 标记删除
     /// </summary>
     public bool DeleteMark { get; set; }
+
+    /// <summary>
+    /// 账号锁定过期时间
+    /// </summary>
+    public DateTime? LockExpired { get; set; }
 
     /// <summary>
     /// 创建时间

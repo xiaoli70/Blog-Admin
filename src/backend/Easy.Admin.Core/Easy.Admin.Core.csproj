@@ -29,6 +29,7 @@
 	<ItemGroup>
 	  <Folder Include="Options\" />
 	  <Folder Include="Shared\" />
+	  <Folder Include="Const\" />
 	</ItemGroup>
 
 </Project>

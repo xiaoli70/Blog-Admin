@@ -21,3 +21,6 @@ global using System.Linq;
 global using Furion.DatabaseAccessor;
 global using System.ComponentModel;
 global using Easy.Admin.Core.Shared;
+global using EasyCaching.Core;
+global using Easy.Admin.Core.Const;
+global using Lazy.Captcha.Core;
