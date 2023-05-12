@@ -27,7 +27,7 @@
 
 	<ItemGroup>
 		<Folder Include="Auth\Dtos\" />
-		<Folder Include="System\Services\" />
+		<Folder Include="Role\Dtos\" />
 		<Folder Include="User\Dtos\" />
 	</ItemGroup>
 
