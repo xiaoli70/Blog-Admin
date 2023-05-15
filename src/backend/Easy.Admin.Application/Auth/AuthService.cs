@@ -26,11 +26,12 @@ public class AuthService : IDynamicApiController
     }
 
     /// <summary>
-    /// 
+    /// 系统用户登录
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPost]
+    [AllowAnonymous]
     public async Task SignIn(AdminLoginInput dto)
     {
         bool validate = _captcha.Validate(dto.Id, dto.Code);

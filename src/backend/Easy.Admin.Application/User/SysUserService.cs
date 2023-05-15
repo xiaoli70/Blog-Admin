@@ -1,25 +1,32 @@
-﻿using Easy.Admin.Application.User.Dtos;
+﻿using Easy.Admin.Application.Auth;
+using Easy.Admin.Application.User.Dtos;
 
 namespace Easy.Admin.Application.User;
 
 /// <summary>
 /// 系统用户管理
 /// </summary>
-public class SysUserService : BaseService<SysUser>
+public class SysUserService : BaseService<SysUser>, ITransient
 {
     private readonly ISqlSugarRepository<SysUser> _repository;
     private readonly ISqlSugarRepository<SysUserRole> _userRoleRepository;
     private readonly ISqlSugarRepository<SysOrganization> _orgRepository;
+    private readonly AuthManager _authManager;
+    private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IIdGenerator _idGenerator;
 
     public SysUserService(ISqlSugarRepository<SysUser> repository,
         ISqlSugarRepository<SysUserRole> userRoleRepository,
         ISqlSugarRepository<SysOrganization> orgRepository,
+        AuthManager authManager,
+        IEasyCachingProvider easyCachingProvider,
         IIdGenerator idGenerator) : base(repository)
     {
         _repository = repository;
         _userRoleRepository = userRoleRepository;
         _orgRepository = orgRepository;
+        _authManager = authManager;
+        _easyCachingProvider = easyCachingProvider;
         _idGenerator = idGenerator;
     }
 

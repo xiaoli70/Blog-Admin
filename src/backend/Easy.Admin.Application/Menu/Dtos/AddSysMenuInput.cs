@@ -1,16 +1,12 @@
-﻿using Easy.Admin.Core.Enum;
+﻿namespace Easy.Admin.Application.Menu.Dtos;
 
-namespace Easy.Admin.Core.Entities;
-
-/// <summary>
-/// 系统菜单表
-/// </summary>
-public class SysMenu : Entity<long>, IAvailability, ISortable, ICreatedUserId, ISoftDelete, ICreatedTime
+public class AddSysMenuInput
 {
     /// <summary>
     /// 菜单名称
     /// </summary>
-    [SugarColumn(Length = 32)]
+    [MaxLength(32, ErrorMessage = "名称限制32个字符内")]
+    [Required(ErrorMessage = "名称为必填项")]
     public string Name { get; set; }
 
     /// <summary>
@@ -21,8 +17,8 @@ public class SysMenu : Entity<long>, IAvailability, ISortable, ICreatedUserId, I
     /// <summary>
     /// 权限编码
     /// </summary>
-    [SugarColumn(Length = 128)]
-    public string? Code { get; set; }
+    [MaxLength(128, ErrorMessage = "权限编码限制128字符内")]
+    public string Code { get; set; }
 
     /// <summary>
     /// 父级菜单
@@ -32,32 +28,32 @@ public class SysMenu : Entity<long>, IAvailability, ISortable, ICreatedUserId, I
     /// <summary>
     /// 路由名
     /// </summary>
-    [SugarColumn(Length = 32)]
-    public string? RouteName { get; set; }
+    [MaxLength(32, ErrorMessage = "路由名称制32个字符内")]
+    public string RouteName { get; set; }
 
     /// <summary>
     /// 路由地址
     /// </summary>
-    [SugarColumn(Length = 128)]
-    public string? Path { get; set; }
+    [MaxLength(256, ErrorMessage = "路由地址限制256个字符内")]
+    public string Path { get; set; }
 
     /// <summary>
     /// 组件路径
     /// </summary>
-    [SugarColumn(Length = 128)]
-    public string? Component { get; set; }
+    [MaxLength(128, ErrorMessage = "组件路径限制128个字符内")]
+    public string Component { get; set; }
 
     /// <summary>
     /// 重定向地址
     /// </summary>
-    [SugarColumn(Length = 128)]
-    public string? Redirect { get; set; }
+    [MaxLength(128, ErrorMessage = "重定向地址限制256个字符")]
+    public string Redirect { get; set; }
 
     /// <summary>
     /// 菜单图标
     /// </summary>
-    [SugarColumn(Length = 64)]
-    public string? Icon { get; set; }
+    [MaxLength(64, ErrorMessage = "菜单图标显示64个字符内")]
+    public string Icon { get; set; }
 
     /// <summary>
     /// 是否内嵌页面
@@ -67,8 +63,8 @@ public class SysMenu : Entity<long>, IAvailability, ISortable, ICreatedUserId, I
     /// <summary>
     /// 外链地址
     /// </summary>
-    [SugarColumn(Length = 256)]
-    public string? Link { get; set; }
+    [MaxLength(256, ErrorMessage = "外链地址限制256个字符内")]
+    public string Link { get; set; }
 
     /// <summary>
     /// 是否可见
@@ -98,27 +94,6 @@ public class SysMenu : Entity<long>, IAvailability, ISortable, ICreatedUserId, I
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(Length = 256)]
-    public string? Remark { get; set; }
-
-    /// <summary>
-    /// 创建人
-    /// </summary>
-    public long CreatedUserId { get; set; }
-
-    /// <summary>
-    /// 标记删除
-    /// </summary>
-    public bool DeleteMark { get; set; }
-
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public DateTime CreatedTime { get; set; }
-
-    /// <summary>
-    /// 子菜单
-    /// </summary>
-    [SugarColumn(IsIgnore = true)]
-    public List<SysMenu> Children { get; set; } = new();
+    [MaxLength(256, ErrorMessage = "备注限制200个字符内")]
+    public string Remark { get; set; }
 }
