@@ -1,6 +1,4 @@
-﻿using Easy.Admin.Core.Entities;
-
-namespace Easy.Admin.Core.Entities;
+﻿namespace Easy.Admin.Core.Entities;
 
 /// <summary>
 /// 表实体继承
@@ -11,6 +9,6 @@ public abstract class Entity<TKey> : IEntity<TKey>
     /// <summary>
     /// 主键
     /// </summary>
-    [SugarColumn(IsPrimaryKey = true)]
+    [SugarColumn(IsPrimaryKey = true, ColumnDescription = "主键")]
     public virtual TKey Id { get; set; }
 }
