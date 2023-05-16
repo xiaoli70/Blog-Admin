@@ -2,6 +2,7 @@
 using System.Reflection;
 using Easy.Admin.Core.Entities;
 using Easy.Admin.Core.Options;
+using Mapster;
 using Yitter.IdGenerator;
 
 namespace SqlSugar;
@@ -15,9 +16,9 @@ public static class SqlSugarExtensions
     /// <param name="config">数据库连接对象</param>
     /// <param name="buildAction"></param>
     /// <returns></returns>
-    public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfig config, Action<ISqlSugarClient> buildAction = default)
+    public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfigExt config, Action<ISqlSugarClient> buildAction = default)
     {
-        return services.AddSqlSugar(new List<ConnectionConfig>()
+        return services.AddSqlSugar(new List<ConnectionConfigExt>()
         {
             config
         }, buildAction);
@@ -30,15 +31,37 @@ public static class SqlSugarExtensions
     /// <param name="configs">数据库连接对象集合</param>
     /// <param name="buildAction"></param>
     /// <returns></returns>
-    public static IServiceCollection AddSqlSugar(this IServiceCollection services, List<ConnectionConfig> configs, Action<SqlSugarClient> buildAction = default)
+    public static IServiceCollection AddSqlSugar(this IServiceCollection services, List<ConnectionConfigExt> configs, Action<SqlSugarClient> buildAction = default)
     {
-        SqlSugarScope sqlSugarScope = new SqlSugarScope(configs.ToList(), buildAction ?? Aop);
+        SqlSugarScope sqlSugarScope = new SqlSugarScope(configs.Adapt<List<ConnectionConfig>>(), buildAction ?? Aop);
+        configs.ForEach(x =>
+        {
+            Init(sqlSugarScope, x);
+        });
         services.AddSingleton<ISqlSugarClient>(sqlSugarScope);//使用单例注入
         services.AddSingleton<ITenant>(sqlSugarScope);
         services.AddUnitOfWork<SqlSugarUnitOfWork>();//事务
         services.AddScoped(typeof(ISqlSugarRepository<>), typeof(SqlSugarRepository<>));//注入泛型仓储
 
         return services;
+    }
+
+    /// <summary>
+    /// 初始化数据库
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="config"></param>
+    static void Init(SqlSugarScope client, ConnectionConfigExt config)
+    {
+        if (!config.EnableInitDb)
+        {
+            return;
+        }
+        SqlSugarScopeProvider provider = client.GetConnectionScope(config.ConfigId);
+        //创建数据库
+        provider.DbMaintenance.CreateDatabase();
+        IEnumerable<Type> types = App.EffectiveTypes.Where(x => !x.IsInterface && x.IsClass && !x.IsAbstract && typeof(IEntity).IsAssignableFrom(x));
+        provider.CodeFirst.InitTables(types.ToArray());
     }
 
     /// <summary>
