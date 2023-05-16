@@ -4,6 +4,41 @@
         <name>Easy.Admin.Core</name>
     </assembly>
     <members>
+        <member name="F:Easy.Admin.Core.Const.AuthClaimsConst.AuthIdKey">
+            <summary>
+            用户唯一ID
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Const.AuthClaimsConst.AccountKey">
+            <summary>
+            授权账户名键
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Const.AuthClaimsConst.UuidKey">
+            <summary>
+            登录唯一ID
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionMenuButtonIdKey">
+            <summary>
+            用户菜单按钮权限缓存键(菜单按钮Id集合)
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionMenuKey">
+            <summary>
+            用户菜单信息权限缓存键（构建ui左侧菜单）
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionButtonCodeKey">
+            <summary>
+            用户可访问的按钮权限编码缓存键（权限编码集合）
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Const.CacheConst.SysUserRoleIdListKey">
+            <summary>
+            系统用户角色Id缓存键
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Core.Entities.Entity`1">
             <summary>
             表实体继承
@@ -716,6 +751,11 @@
             标记删除
             </summary>
         </member>
+        <member name="P:Easy.Admin.Core.Entities.SysUser.LockExpired">
+            <summary>
+            账号锁定过期时间
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Core.Entities.SysUser.CreatedTime">
             <summary>
             创建时间
@@ -926,6 +966,21 @@
             数据库配置
             </summary>
         </member>
+        <member name="T:Easy.Admin.Core.Options.ConnectionConfigExt">
+            <summary>
+            数据库连接扩展
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Options.ConnectionConfigExt.EnableInitDb">
+            <summary>
+            是否初始化数据库
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Options.ConnectionConfigExt.EnableSeed">
+            <summary>
+            启用表数据初始化
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Core.Options.SnowIdOptions">
             <summary>
             雪花id配置
@@ -1058,7 +1113,7 @@
             SqlSugar ORM框架所需缓存配置
             </summary>
         </member>
-        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,SqlSugar.ConnectionConfig,System.Action{SqlSugar.ISqlSugarClient})">
+        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,Easy.Admin.Core.Options.ConnectionConfigExt,System.Action{SqlSugar.ISqlSugarClient})">
             <summary>
             添加 SqlSugar 拓展（适用于单个数据库）
             </summary>
@@ -1067,7 +1122,7 @@
             <param name="buildAction"></param>
             <returns></returns>
         </member>
-        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Collections.Generic.List{SqlSugar.ConnectionConfig},System.Action{SqlSugar.SqlSugarClient})">
+        <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Collections.Generic.List{Easy.Admin.Core.Options.ConnectionConfigExt},System.Action{SqlSugar.SqlSugarClient})">
             <summary>
             添加 SqlSugar 拓展（适用于多数据库）
             </summary>
@@ -1075,6 +1130,13 @@
             <param name="configs">数据库连接对象集合</param>
             <param name="buildAction"></param>
             <returns></returns>
+        </member>
+        <member name="M:SqlSugar.SqlSugarExtensions.Init(SqlSugar.SqlSugarScope,Easy.Admin.Core.Options.ConnectionConfigExt)">
+            <summary>
+            初始化数据库
+            </summary>
+            <param name="client"></param>
+            <param name="config"></param>
         </member>
         <member name="M:SqlSugar.SqlSugarExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>

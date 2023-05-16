@@ -4,6 +4,70 @@
         <name>Easy.Admin.Application</name>
     </assembly>
     <members>
+        <member name="T:Easy.Admin.Application.Auth.AuthManager">
+            <summary>
+            用户授权信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.AuthManager.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.AuthManager.IsSuperAdmin">
+            <summary>
+            是否是超级管理员
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.AuthManager.Account">
+            <summary>
+            登录名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.AuthManager.UniqueId">
+            <summary>
+            登录唯一Id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Auth.AuthService">
+            <summary>
+            用户授权
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Auth.AuthService.SignIn(Easy.Admin.Application.Auth.Dtos.AdminLoginInput)">
+            <summary>
+            系统用户登录
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Auth.AuthService.Captcha(System.String)">
+            <summary>
+            获取验证码
+            </summary>
+            <param name="id">验证码唯一id</param>
+            <returns></returns>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInput.Account">
+            <summary>
+            登录名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInput.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInput.Id">
+            <summary>
+            验证码唯一ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInput.Code">
+            <summary>
+            验证码
+            </summary>
+        </member>
         <member name="M:Easy.Admin.Application.BaseService`1.Delete(Easy.Admin.Core.Shared.KeyDto)">
             <summary>
             删除信息
@@ -18,15 +82,365 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="T:Easy.Admin.Application.SystemAppService">
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Name">
             <summary>
-            系统服务接口
+            菜单名称
             </summary>
         </member>
-        <member name="M:Easy.Admin.Application.SystemAppService.GetDescription">
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Type">
             <summary>
-            获取系统描述
+            菜单类型
             </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Code">
+            <summary>
+            权限编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.ParentId">
+            <summary>
+            父级菜单
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.RouteName">
+            <summary>
+            路由名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Path">
+            <summary>
+            路由地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Component">
+            <summary>
+            组件路径
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Redirect">
+            <summary>
+            重定向地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Icon">
+            <summary>
+            菜单图标
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.IsIframe">
+            <summary>
+            是否内嵌页面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Link">
+            <summary>
+            外链地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.IsVisible">
+            <summary>
+            是否可见
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.IsKeepAlive">
+            <summary>
+            是否缓存
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.IsFixed">
+            <summary>
+            是否固定
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Id">
+            <summary>
+             菜单Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Name">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Code">
+            <summary>
+            权限标识
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Type">
+            <summary>
+            菜单类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Path">
+            <summary>
+            路由地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Component">
+            <summary>
+            组件路径
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Children">
+            <summary>
+            子菜单
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.UpdateSysMenuInput.Id">
+            <summary>
+            菜单/按钮Id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Menu.SysMenuService">
+            <summary>
+            系统菜单管理
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.Page(System.String)">
+            <summary>
+            菜单列表查询
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.AddMenu(Easy.Admin.Application.Menu.Dtos.AddSysMenuInput)">
+            <summary>
+            添加菜单/按钮
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.UpdateMenu(Easy.Admin.Application.Menu.Dtos.UpdateSysMenuInput)">
+            <summary>
+            修改菜单/按钮
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.AddOrgInput.ParentId">
+            <summary>
+            父级Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.AddOrgInput.Name">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.AddOrgInput.Code">
+            <summary>
+            部门编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.AddOrgInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.AddOrgInput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.AddOrgInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.SysOrgPageOutput.Id">
+            <summary>
+            组织机构Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.SysOrgPageOutput.ParentId">
+            <summary>
+            父级Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.SysOrgPageOutput.Name">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.SysOrgPageOutput.Code">
+            <summary>
+            部门编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.SysOrgPageOutput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.SysOrgPageOutput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.SysOrgPageOutput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.UpdateOrgInput.Id">
+            <summary>
+            部门Id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Organization.SysOrganizationService">
+            <summary>
+            组织机构管理
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Organization.SysOrganizationService.Page(System.String)">
+            <summary>
+            组织机构列表查询
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Organization.SysOrganizationService.AddOrg(Easy.Admin.Application.Organization.Dtos.AddOrgInput)">
+            <summary>
+            添加组织机构
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Organization.SysOrganizationService.UpdateOrg(Easy.Admin.Application.Organization.Dtos.UpdateOrgInput)">
+            <summary>
+            更新组织机构
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.AddSysRoleInput.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.AddSysRoleInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.AddSysRoleInput.Code">
+            <summary>
+            角色编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.AddSysRoleInput.Sort">
+            <summary>
+            排序值
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.AddSysRoleInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.AddSysRoleInput.Menus">
+            <summary>
+            授权按钮菜单Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Code">
+            <summary>
+            角色编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Sort">
+            <summary>
+            排序值
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRoleQueryInput.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Role.Dtos.UpdateSysRoleInput.Id">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Role.SysRoleService">
+            <summary>
+            角色管理
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Role.SysRoleService.Page(Easy.Admin.Application.Role.Dtos.SysRoleQueryInput)">
+            <summary>
+            角色分页查询
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Role.SysRoleService.AddRole(Easy.Admin.Application.Role.Dtos.AddSysRoleInput)">
+            <summary>
+            添加角色
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Role.SysRoleService.UpdateRole(Easy.Admin.Application.Role.Dtos.UpdateSysRoleInput)">
+            <summary>
+            更新角色
+            </summary>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Account">
