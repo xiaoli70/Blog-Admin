@@ -1,18 +1,26 @@
 <template>
-	<el-form size="large" class="login-content-form">
-		<el-form-item class="login-animation1">
-			<el-input text :placeholder="$t('message.account.accountPlaceholder1')" v-model="state.ruleForm.userName" clearable autocomplete="off">
+	<el-form ref="formRef" size="large" class="login-content-form" :rules="rules" :model="state.ruleForm">
+		<el-form-item class="login-animation1" prop="account">
+			<el-input
+				text
+				maxlength="32"
+				:placeholder="$t('message.account.accountPlaceholder1')"
+				v-model="state.ruleForm.account"
+				clearable
+				autocomplete="off"
+			>
 				<template #prefix>
 					<el-icon class="el-input__icon"><ele-User /></el-icon>
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation2">
+		<el-form-item class="login-animation2" prop="password">
 			<el-input
 				:type="state.isShowPassword ? 'text' : 'password'"
 				:placeholder="$t('message.account.accountPlaceholder2')"
 				v-model="state.ruleForm.password"
 				autocomplete="off"
+				maxlength="18"
 			>
 				<template #prefix>
 					<el-icon class="el-input__icon"><ele-Unlock /></el-icon>
@@ -27,7 +35,7 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation3">
+		<el-form-item class="login-animation3" prop="code">
 			<el-col :span="15">
 				<el-input
 					text
@@ -44,7 +52,9 @@
 			</el-col>
 			<el-col :span="1"></el-col>
 			<el-col :span="8">
-				<el-button class="login-content-code" v-waves>1234</el-button>
+				<el-button class="login-content-code" v-waves @click="onCaptchaChange">
+					<img :src="captchaUrl" alt="看不清？点击换一张！" />
+				</el-button>
 			</el-col>
 		</el-form-item>
 		<el-form-item class="login-animation4">
@@ -56,9 +66,10 @@
 </template>
 
 <script setup lang="ts" name="loginAccount">
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
+import { ElMessage, dayjs } from 'element-plus';
+import type { FormInstance, FormRules } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import Cookies from 'js-cookie';
 import { storeToRefs } from 'pinia';
@@ -68,6 +79,8 @@ import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
+import { login } from '/@/api/AuthApi';
+import type { AdminLoginInput } from '/@/api/models';
 
 // 定义变量内容
 const { t } = useI18n();
@@ -75,13 +88,41 @@ const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
 const route = useRoute();
 const router = useRouter();
+const formRef = ref<FormInstance>();
+const rules = reactive<FormRules>({
+	account: [
+		{ required: true, message: '请输入用户名', trigger: 'blur' },
+		{ min: 3, max: 32, message: '用户名限制3-32个字符' },
+	],
+	password: [
+		{
+			required: true,
+			message: '请输入密码',
+			trigger: 'blur',
+		},
+		{
+			min: 6,
+			max: 18,
+			message: '密码限制6-18个字符',
+		},
+	],
+	code: [
+		{
+			required: true,
+			message: '请输入验证码',
+			trigger: 'blur',
+		},
+	],
+});
 const state = reactive({
 	isShowPassword: false,
+	random: new Date().getTime(),
 	ruleForm: {
-		userName: 'admin',
+		account: 'admin',
 		password: '123456',
-		code: '1234',
-	},
+		code: '',
+		id: dayjs().valueOf().toString(),
+	} as AdminLoginInput,
 	loading: {
 		signIn: false,
 	},
@@ -91,24 +132,60 @@ const state = reactive({
 const currentTime = computed(() => {
 	return formatAxis(new Date());
 });
+
+/**
+ * 验证码
+ */
+const captchaUrl = computed(() => {
+	return `/api/auth/captcha?id=${state.ruleForm.id}&r=${state.random}`;
+});
+
+const onCaptchaChange = () => {
+	state.random = new Date().getTime();
+};
+
 // 登录
 const onSignIn = async () => {
-	state.loading.signIn = true;
-	// 存储 token 到浏览器缓存
-	Session.set('token', Math.random().toString(36).substr(0));
-	// 模拟数据，对接接口时，记得删除多余代码及对应依赖的引入。用于 `/src/stores/userInfo.ts` 中不同用户登录判断（模拟数据）
-	Cookies.set('userName', state.ruleForm.userName);
-	if (!themeConfig.value.isRequestRoutes) {
-		// 前端控制路由，2、请注意执行顺序
-		const isNoPower = await initFrontEndControlRoutes();
-		signInSuccess(isNoPower);
-	} else {
-		// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-		// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-		const isNoPower = await initBackEndControlRoutes();
-		// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-		signInSuccess(isNoPower);
-	}
+	formRef.value!.validate(async (valid) => {
+		if (valid) {
+			state.loading.signIn = true;
+			const { statusCode } = await login(state.ruleForm);
+			if (statusCode === 200) {
+				Cookies.set('userName', state.ruleForm.account);
+				if (!themeConfig.value.isRequestRoutes) {
+					// 前端控制路由，2、请注意执行顺序
+					const isNoPower = await initFrontEndControlRoutes();
+					signInSuccess(isNoPower);
+				} else {
+					// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+					// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+					const isNoPower = await initBackEndControlRoutes();
+					// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+					signInSuccess(isNoPower);
+				}
+			} else {
+				onCaptchaChange();
+			}
+			state.loading.signIn = false;
+		}
+	});
+	return;
+	// state.loading.signIn = true;
+	// // 存储 token 到浏览器缓存
+	// Session.set('token', Math.random().toString(36).substr(0));
+	// // 模拟数据，对接接口时，记得删除多余代码及对应依赖的引入。用于 `/src/stores/userInfo.ts` 中不同用户登录判断（模拟数据）
+	// Cookies.set('userName', state.ruleForm.account);
+	// if (!themeConfig.value.isRequestRoutes) {
+	// 	// 前端控制路由，2、请注意执行顺序
+	// 	const isNoPower = await initFrontEndControlRoutes();
+	// 	signInSuccess(isNoPower);
+	// } else {
+	// 	// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+	// 	// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+	// 	const isNoPower = await initBackEndControlRoutes();
+	// 	// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+	// 	signInSuccess(isNoPower);
+	// }
 };
 // 登录成功后的跳转
 const signInSuccess = (isNoPower: boolean | undefined) => {
@@ -134,7 +211,6 @@ const signInSuccess = (isNoPower: boolean | undefined) => {
 		// 添加 loading，防止第一次进入界面时出现短暂空白
 		NextLoading.start();
 	}
-	state.loading.signIn = false;
 };
 </script>
 

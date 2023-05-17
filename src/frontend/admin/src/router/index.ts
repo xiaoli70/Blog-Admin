@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import pinia from '/@/stores/index';
@@ -10,6 +10,7 @@ import { Session } from '/@/utils/storage';
 import { staticRoutes, notFoundAndNoPower } from '/@/router/route';
 import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
+import { accessTokenKey } from '../utils/request';
 
 /**
  * 1、前端控制路由时：isRequestRoutes 为 false，需要写 roles，需要走 setFilterRoute 方法。
@@ -31,7 +32,7 @@ const { isRequestRoutes } = themeConfig.value;
  * @link 参考：https://next.router.vuejs.org/zh/api/#createrouter
  */
 export const router = createRouter({
-	history: createWebHashHistory(),
+	history: createWebHistory(),
 	/**
 	 * 说明：
 	 * 1、notFoundAndNoPower 默认添加 404、401 界面，防止一直提示 No match found for location with path 'xxx'
@@ -94,7 +95,7 @@ export function formatTwoStageRoutes(arr: any) {
 router.beforeEach(async (to, from, next) => {
 	NProgress.configure({ showSpinner: false });
 	if (to.meta.title) NProgress.start();
-	const token = Session.get('token');
+	const token = Session.get(accessTokenKey);
 	if (to.path === '/login' && !token) {
 		next();
 		NProgress.done();

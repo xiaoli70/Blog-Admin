@@ -41,24 +41,25 @@ export const Local = {
  */
 export const Session = {
 	// 设置临时缓存
-	set<T>(key: string, val: T) {
-		if (key === 'token') return Cookies.set(key, val);
-		window.sessionStorage.setItem(Local.setKey(key), JSON.stringify(val));
+	set(key: string, val: any) {
+		return Cookies.set(key, JSON.stringify(val));
 	},
 	// 获取临时缓存
-	get(key: string) {
-		if (key === 'token') return Cookies.get(key);
-		let json = <string>window.sessionStorage.getItem(Local.setKey(key));
-		return JSON.parse(json);
+	get<T = any>(key: string) {
+		const v = Cookies.get(key);
+		if (v !== undefined) {
+			return JSON.parse(v) as T;
+		}
+		return v;
 	},
 	// 移除临时缓存
 	remove(key: string) {
-		if (key === 'token') return Cookies.remove(key);
-		window.sessionStorage.removeItem(Local.setKey(key));
+		return Cookies.remove(key);
 	},
 	// 移除全部临时缓存
 	clear() {
-		Cookies.remove('token');
-		window.sessionStorage.clear();
+		Object.keys(Cookies.get()).forEach(function (cookieName) {
+			Cookies.remove(cookieName);
+		});
 	},
 };

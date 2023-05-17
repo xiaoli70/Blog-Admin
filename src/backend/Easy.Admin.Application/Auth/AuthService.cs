@@ -4,6 +4,7 @@ namespace Easy.Admin.Application.Auth;
 /// <summary>
 /// 用户授权
 /// </summary>
+[AllowAnonymous]
 public class AuthService : IDynamicApiController
 {
     private readonly ISqlSugarRepository<SysUser> _sysUseRepository;
@@ -31,7 +32,6 @@ public class AuthService : IDynamicApiController
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPost]
-    [AllowAnonymous]
     public async Task SignIn(AdminLoginInput dto)
     {
         bool validate = _captcha.Validate(dto.Id, dto.Code);

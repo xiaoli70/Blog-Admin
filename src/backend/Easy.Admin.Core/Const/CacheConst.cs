@@ -3,6 +3,11 @@
 public class CacheConst
 {
     /// <summary>
+    /// 权限缓存键
+    /// </summary>
+    public const string PermissionKey = "permission.";
+
+    /// <summary>
     /// 用户菜单按钮权限缓存键(菜单按钮Id集合)
     /// </summary>
     public const string PermissionMenuButtonIdKey = "permission.user.menubtnid.";

@@ -1,6 +1,17 @@
 <template>
 	<div class="system-menu-container layout-pd">
+		<Search :search="vm.search" />
+
 		<el-card shadow="hover">
+			<Table
+				v-bind="vm"
+				:load="
+					() => {
+						return { data: [] };
+					}
+				"
+			>
+			</Table>
 			<div class="system-menu-search mb15">
 				<el-input size="default" placeholder="请输入菜单名称" style="max-width: 180px"> </el-input>
 				<el-button size="default" type="primary" class="ml10">
@@ -69,10 +80,27 @@ import { RouteRecordRaw } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { useRoutesList } from '/@/stores/routesList';
+import { page } from '/@/api/SysMenuApi';
 // import { setBackEndControlRefreshRoutes } from "/@/router/backEnd";
+
+import Search from '/@/components/table/search.vue';
+import Table from '/@/components/table/index.vue';
 
 // 引入组件
 const MenuDialog = defineAsyncComponent(() => import('/@/views/system/menu/dialog.vue'));
+
+const vm = reactive<CustomTable>({
+	columns: [
+		{ prop: 'name', label: '菜单名称', align: 'center' },
+		{ prop: 'type', label: '类型', align: 'center' },
+		{ prop: 'path', label: '路由地址', align: 'center' },
+		{ prop: 'component', label: '组件路径', align: 'center' },
+		{ prop: 'status', label: '状态', align: 'center' },
+		{ prop: 'sort', label: '排序', align: 'center' },
+		{ prop: 'createdTime', label: '创建时间', align: 'center' },
+	],
+	search: [{ label: '名称', prop: 'name', placeholder: '菜单按钮名称', type: 'input' }],
+});
 
 // 定义变量内容
 const stores = useRoutesList();
@@ -116,7 +144,9 @@ const onTabelRowDel = (row: RouteRecordRaw) => {
 		.catch(() => {});
 };
 // 页面加载时
-onMounted(() => {
+onMounted(async () => {
+	const { data } = await page();
+	console.log(data);
 	getTableData();
 });
 </script>

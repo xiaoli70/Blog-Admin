@@ -71,7 +71,7 @@ const onUpgrade = () => {
 // 延迟显示，防止刷新时界面显示太快
 const delayShow = () => {
 	setTimeout(() => {
-		state.isUpgrade = true;
+		// state.isUpgrade = true;
 	}, 2000);
 };
 // 页面加载时

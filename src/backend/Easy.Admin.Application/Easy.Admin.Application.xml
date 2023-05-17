@@ -167,6 +167,66 @@
             备注
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterMetaOutput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterMetaOutput.IsLink">
+            <summary>
+            外链
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterMetaOutput.IsHide">
+            <summary>
+            是否隐藏
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterMetaOutput.IsKeepAlive">
+            <summary>
+            是否缓存
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterMetaOutput.IsAffix">
+            <summary>
+            是否固定
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterMetaOutput.Icon">
+            <summary>
+            菜单
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterMetaOutput.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterOutput.Name">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterOutput.Path">
+            <summary>
+            路由地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterOutput.Component">
+            <summary>
+            组件
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterOutput.Meta">
+            <summary>
+            路由扩展信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.RouterOutput.Children">
+            <summary>
+            子菜单
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Id">
             <summary>
              菜单Id
@@ -246,6 +306,34 @@
             </summary>
             <param name="dto"></param>
             <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.Delete(Easy.Admin.Core.Shared.KeyDto)">
+            <summary>
+            删除菜单/按钮
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.SetStatus(Easy.Admin.Core.Shared.AvailabilityDto)">
+            <summary>
+            修改菜单/按钮状态
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.PermissionMenus">
+            <summary>
+            获取当前登录用户可用菜单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.MapTree(System.Collections.Generic.List{Easy.Admin.Core.Entities.SysMenu},System.Nullable{System.Int64},System.Collections.Generic.List{Easy.Admin.Application.Menu.Dtos.RouterOutput})">
+            <summary>
+            菜单按钮转换为树形结构
+            </summary>
+            <param name="menus"></param>
+            <param name="parentId"></param>
+            <param name="router"></param>
         </member>
         <member name="P:Easy.Admin.Application.Organization.Dtos.AddOrgInput.ParentId">
             <summary>
@@ -443,6 +531,20 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:Easy.Admin.Application.Role.SysRoleService.SetStatus(Easy.Admin.Core.Shared.AvailabilityDto)">
+            <summary>
+            修改角色状态
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Role.SysRoleService.Delete(Easy.Admin.Core.Shared.KeyDto)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Account">
             <summary>
             用户名
@@ -596,7 +698,7 @@
         </member>
         <member name="M:Easy.Admin.Application.User.SysUserService.Reset(Easy.Admin.Application.User.Dtos.ResetPasswordInput)">
             <summary>
-            重置密码
+            重置系统用户密码
             </summary>
             <returns></returns>
         </member>

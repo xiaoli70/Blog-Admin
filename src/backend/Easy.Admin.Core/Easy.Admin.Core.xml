@@ -19,6 +19,11 @@
             登录唯一ID
             </summary>
         </member>
+        <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionKey">
+            <summary>
+            权限缓存键
+            </summary>
+        </member>
         <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionMenuButtonIdKey">
             <summary>
             用户菜单按钮权限缓存键(菜单按钮Id集合)

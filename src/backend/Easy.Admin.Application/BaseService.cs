@@ -20,7 +20,7 @@ public abstract class BaseService<TEntity> : IDynamicApiController where TEntity
         {
             DeleteMark = true
         }, x => x.Id == dto.Id);
-        if (success)
+        if (!success)
         {
             throw Oops.Bah("删除失败");
         }
@@ -38,7 +38,7 @@ public abstract class BaseService<TEntity> : IDynamicApiController where TEntity
         {
             Status = dto.Status
         }, x => x.Id == dto.Id);
-        if (success)
+        if (!success)
         {
             throw Oops.Bah("修改失败");
         }

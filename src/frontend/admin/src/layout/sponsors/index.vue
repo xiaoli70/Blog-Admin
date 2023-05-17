@@ -50,7 +50,7 @@ const onSponsorsClick = () => {
 // 延迟显示，防止影响其它界面加载
 const delayShow = () => {
 	setTimeout(() => {
-		state.sponsors.isShow = true;
+		// state.sponsors.isShow = true;
 	}, 3000);
 };
 // 页面加载时

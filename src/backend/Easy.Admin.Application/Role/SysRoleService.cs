@@ -9,14 +9,17 @@ public class SysRoleService : BaseService<SysRole>
 {
     private readonly ISqlSugarRepository<SysRole> _sysRoleRepository;
     private readonly ISqlSugarRepository<SysRoleMenu> _sysRoleMenuRepository;
+    private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IIdGenerator _idGenerator;
 
     public SysRoleService(ISqlSugarRepository<SysRole> sysRoleRepository,
         ISqlSugarRepository<SysRoleMenu> sysRoleMenuRepository,
+        IEasyCachingProvider easyCachingProvider,
         IIdGenerator idGenerator) : base(sysRoleRepository)
     {
         _sysRoleRepository = sysRoleRepository;
         _sysRoleMenuRepository = sysRoleMenuRepository;
+        _easyCachingProvider = easyCachingProvider;
         _idGenerator = idGenerator;
     }
 
@@ -99,5 +102,31 @@ public class SysRoleService : BaseService<SysRole>
         await _sysRoleRepository.UpdateAsync(sysRole);
         await _sysRoleMenuRepository.DeleteAsync(x => x.RoleId == sysRole.Id);
         await _sysRoleMenuRepository.InsertRangeAsync(roleMenus);
+        await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
+    }
+
+
+    /// <summary>
+    /// 修改角色状态
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [Description("修改角色状态"), HttpPut("setStatus")]
+    public override async Task SetStatus(AvailabilityDto dto)
+    {
+        await base.SetStatus(dto);
+        await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
+    }
+
+    /// <summary>
+    /// 删除角色
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [Description("删除角色"), HttpDelete("delete")]
+    public override async Task Delete(KeyDto dto)
+    {
+        await base.Delete(dto);
+        await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
 }

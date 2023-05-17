@@ -9,11 +9,15 @@ namespace Easy.Admin.Application.Menu;
 public class SysMenuService : BaseService<SysMenu>
 {
     private readonly ISqlSugarRepository<SysMenu> _sysMenuRepository;
+    private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly AuthManager _authManager;
 
-    public SysMenuService(ISqlSugarRepository<SysMenu> sysMenuRepository, AuthManager authManager) : base(sysMenuRepository)
+    public SysMenuService(ISqlSugarRepository<SysMenu> sysMenuRepository,
+        IEasyCachingProvider easyCachingProvider,
+        AuthManager authManager) : base(sysMenuRepository)
     {
         _sysMenuRepository = sysMenuRepository;
+        _easyCachingProvider = easyCachingProvider;
         _authManager = authManager;
     }
 
@@ -61,6 +65,7 @@ public class SysMenuService : BaseService<SysMenu>
             sysMenu.Code = null;
         }
         await _sysMenuRepository.InsertAsync(sysMenu);
+        await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
 
     /// <summary>
@@ -99,5 +104,95 @@ public class SysMenuService : BaseService<SysMenu>
         }
 
         await _sysMenuRepository.UpdateAsync(sysMenu);
+        await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
+    }
+
+    /// <summary>
+    /// 删除菜单/按钮
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [Description("删除菜单/按钮"), HttpDelete("delete")]
+    public override async Task Delete(KeyDto dto)
+    {
+        await base.Delete(dto);
+        await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
+    }
+
+    /// <summary>
+    /// 修改菜单/按钮状态
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [Description("修改菜单/按钮状态"), HttpPut("setStatus")]
+    public override async Task SetStatus(AvailabilityDto dto)
+    {
+        await base.SetStatus(dto);
+        await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
+    }
+
+    /// <summary>
+    /// 获取当前登录用户可用菜单
+    /// </summary>
+    /// <returns></returns>
+    [Description("获取当前登录用户可用菜单")]
+    [HttpGet]
+    public async Task<List<RouterOutput>> PermissionMenus()
+    {
+        long userId = _authManager.UserId;
+        var value = await _easyCachingProvider.GetAsync($"{CacheConst.PermissionMenuKey}{userId}", async () =>
+        {
+            var tree = new List<RouterOutput>();
+            List<SysMenu> list;
+            if (_authManager.IsSuperAdmin)
+            {
+                list = await _sysMenuRepository.AsQueryable().Where(x => x.Status == AvailabilityStatus.Enable && x.Type != MenuType.Button).ToListAsync();
+            }
+            else
+            {
+                list = await _sysMenuRepository.AsQueryable().InnerJoin<SysRoleMenu>((menu, roleMenu) => menu.Id == roleMenu.MenuId)
+                    .InnerJoin<SysRole>((menu, roleMenu, role) => roleMenu.RoleId == role.Id)
+                    .InnerJoin<SysUserRole>((menu, roleMenu, role, userRole) => role.Id == userRole.RoleId)
+                    .Where((menu, roleMenu, role, userRole) => menu.Status == AvailabilityStatus.Enable && menu.Type != MenuType.Button && role.Status == AvailabilityStatus.Enable && userRole.UserId == userId)
+                    .Select(menu => menu)
+                    .ToListAsync();
+
+            }
+            MapTree(list, null, tree);
+            return tree;
+        }, TimeSpan.FromDays(1));
+        return value.Value ?? new List<RouterOutput>();
+    }
+
+    /// <summary>
+    /// 菜单按钮转换为树形结构
+    /// </summary>
+    /// <param name="menus"></param>
+    /// <param name="parentId"></param>
+    /// <param name="router"></param>
+    void MapTree(List<SysMenu> menus, long? parentId, List<RouterOutput> router)
+    {
+        var items = menus.Where(x => x.ParentId == parentId && x.Status == AvailabilityStatus.Enable).OrderBy(x => x.Sort).ThenBy(x => x.Id);
+        foreach (var item in items)
+        {
+            var route = new RouterOutput()
+            {
+                Component = item.Component,
+                Name = item.RouteName,
+                Path = item.Path,
+                Meta = new RouterMetaOutput()
+                {
+                    Icon = item.Icon,
+                    IsAffix = item.IsFixed,
+                    IsHide = !item.IsVisible,
+                    IsKeepAlive = item.IsKeepAlive,
+                    Title = item.Name,
+                    IsLink = item.Link,
+                    Type = item.Type
+                }
+            };
+            MapTree(menus, item.Id, route.Children);
+            router.Add(route);
+        }
     }
 }

@@ -11,7 +11,6 @@ public class SysUserService : BaseService<SysUser>, ITransient
     private readonly ISqlSugarRepository<SysUser> _repository;
     private readonly ISqlSugarRepository<SysUserRole> _userRoleRepository;
     private readonly ISqlSugarRepository<SysOrganization> _orgRepository;
-    private readonly AuthManager _authManager;
     private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IIdGenerator _idGenerator;
 
@@ -25,7 +24,6 @@ public class SysUserService : BaseService<SysUser>, ITransient
         _repository = repository;
         _userRoleRepository = userRoleRepository;
         _orgRepository = orgRepository;
-        _authManager = authManager;
         _easyCachingProvider = easyCachingProvider;
         _idGenerator = idGenerator;
     }
@@ -35,6 +33,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
+    [Description("系统用户分页查询")]
     [HttpGet]
     public async Task<PageResult<SysUserPageOutput>> Page([FromQuery] QueryUserInput dto)
     {
@@ -107,12 +106,14 @@ public class SysUserService : BaseService<SysUser>, ITransient
         }).ToList();
         await _repository.UpdateAsync(user);
         await _userRoleRepository.InsertRangeAsync(roles);
+        await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
     /// <summary>
-    /// 重置密码
+    /// 重置系统用户密码
     /// </summary>
     /// <returns></returns>
-    [Description("重置密码")]
+    [Description("重置系统用户密码")]
+    [HttpPut]
     public async Task Reset(ResetPasswordInput dto)
     {
         string encrypt = MD5Encryption.Encrypt(_idGenerator.Encode(dto.Id) + dto.Password);

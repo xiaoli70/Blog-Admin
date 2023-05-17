@@ -305,26 +305,70 @@ declare type TableHeaderType = {
 declare type TableSearchType = {
 	label: string;
 	prop: string;
-	placeholder: string;
-	required: boolean;
+	placeholder?: string;
+	required?: boolean = false;
 	type: string;
 	options?: SelectOptionType[];
+	cascaderData?: object[];
+	cascaderProps?: object;
+	comProps?: object;
 };
 
-declare type TableDemoState = {
-	tableData: {
-		data: EmptyObjectType[];
-		header: TableHeaderType[];
-		config: {
-			total: number;
-			loading: boolean;
-			isBorder: boolean;
-			isSelection: boolean;
-			isSerialNo: boolean;
-			isOperate: boolean;
-		};
-		search: TableSearchType[];
-		param: EmptyObjectType;
-		printName: string;
+declare type TableColumns = Record<string, any> & {
+	/**
+	 *是否默认勾选展示
+	 */
+	isCheck?: boolean = true;
+	/**
+	 *是否隐藏该列的可勾选和拖拽
+	 */
+	hideCheck?: boolean = true;
+};
+
+declare type CustomTable = {
+	columns: TableColumns[]; //列设置，同ELTable-Column属性
+	config?: {
+		/***
+		 * 是否显示斑马纹
+		 */
+		isStripe?: boolean = false;
+		/**
+		 * 是否显示边框
+		 */
+		isBorder?: boolean = true;
+		/***
+		 * 是否勾选表格多选
+		 */
+		isSelection?: boolean = false;
+		/**
+		 * 是否显示表格多选
+		 */
+		showSelection?: boolean = false;
+		/**
+		 * 是否显示序号
+		 */
+		isSerialNo?: boolean = true;
+
+		/**
+		 * 表格每页显示条数
+		 */
+		pageSize?: number = 10;
+		/**
+		 * 是否隐藏导出按钮
+		 */
+		hideExport?: boolean = true;
+
+		/**
+		 * 导出的文件名
+		 */
+		exportFileName?: string;
+
+		/**
+		 * 工具栏是否显示设置
+		 */
+		showSetting?: false;
 	};
+	search?: TableSearchType[] = [];
+	param?: EmptyObjectType = {};
+	defaultSort?: EmptyObjectType;
 };
