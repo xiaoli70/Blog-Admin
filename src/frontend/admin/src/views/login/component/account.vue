@@ -151,7 +151,6 @@ const onSignIn = async () => {
 			state.loading.signIn = true;
 			const { statusCode } = await login(state.ruleForm);
 			if (statusCode === 200) {
-				Cookies.set('userName', state.ruleForm.account);
 				if (!themeConfig.value.isRequestRoutes) {
 					// 前端控制路由，2、请注意执行顺序
 					const isNoPower = await initFrontEndControlRoutes();

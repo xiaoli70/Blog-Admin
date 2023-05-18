@@ -1001,6 +1001,31 @@
             主键
             </summary>
         </member>
+        <member name="T:Easy.Admin.Core.Shared.SelectOutput">
+            <summary>
+            下拉框
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Shared.SelectOutput.Label">
+            <summary>
+            文本
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Shared.SelectOutput.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Shared.TreeSelectOutput">
+            <summary>
+            树形下拉框
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Shared.TreeSelectOutput.Children">
+            <summary>
+            子选项
+            </summary>
+        </member>
         <member name="F:Easy.Core.YitIdHelperExtension.Salt">
             <summary>
             盐值

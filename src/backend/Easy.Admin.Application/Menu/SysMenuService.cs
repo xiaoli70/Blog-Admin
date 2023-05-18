@@ -32,17 +32,17 @@ public class SysMenuService : BaseService<SysMenu>
     {
         var q1 = _sysMenuRepository.AsQueryable()
             .OrderBy(x => x.Sort)
-            .OrderByDescending(x => x.Id);
+            .OrderBy(x => x.Id);
         var q2 = _sysMenuRepository.AsQueryable().InnerJoin<SysRoleMenu>((menu, roleMenu) => menu.Id == roleMenu.MenuId)
             .InnerJoin<SysRole>((menu, roleMenu, role) => roleMenu.RoleId == role.Id)
             .InnerJoin<SysUserRole>((menu, roleMenu, role, userRole) => role.Id == userRole.RoleId)
             .Where((menu, roleMenu, role) => role.Status == AvailabilityStatus.Enable);
         if (!string.IsNullOrWhiteSpace(name))
         {
-            var list = _authManager.IsSuperAdmin ? await q1.Where(x => x.Name.Contains(name)).ToListAsync() : await q2.Where(menu => menu.Name.Contains(name)).Distinct().ToListAsync();
+            var list = _authManager.IsSuperAdmin ? await q1.Where(x => x.Name.Contains(name)).ToListAsync() : await q2.Where(menu => menu.Name.Contains(name)).Distinct().OrderBy(menu => menu.Sort).OrderBy(menu => menu.Id).ToListAsync();
             return list.Adapt<List<SysMenuPageOutput>>();
         }
-        var menus = _authManager.IsSuperAdmin ? await q1.Distinct().ToTreeAsync(x => x.Children, x => x.ParentId, null) : await q2.ToTreeAsync(
+        var menus = _authManager.IsSuperAdmin ? await q1.ToTreeAsync(x => x.Children, x => x.ParentId, null) : await q2.Distinct().OrderBy(menu => menu.Sort).OrderBy(menu => menu.Id).ToTreeAsync(
                menu => menu.Children, menu => menu.ParentId, null);
         return menus.Adapt<List<SysMenuPageOutput>>();
     }

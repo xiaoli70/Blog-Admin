@@ -118,7 +118,7 @@ import { exportExcel } from '/@/utils/exportExcel';
 // 定义父组件传过来的值
 const props = defineProps({
 	//获取数据的方法，由父组件传递
-	load: {
+	onLoad: {
 		type: Function,
 		required: true,
 	},
@@ -252,7 +252,7 @@ const onImportTableAll = async () => {
 	if (setHeader.value.length <= 0) return ElMessage.error('没有勾选要导出的列');
 	state.importLoading = true;
 	const param = Object.assign({}, props.param, { page: 1, pageSize: 99999 });
-	const res = await props.load(param);
+	const res = await props.onLoad(param);
 	state.importLoading = false;
 	const data = res.data?.rows ?? res.data ?? [];
 	importData(data);
@@ -304,7 +304,7 @@ const handleList = async () => {
 	state.loading = true;
 	let param = Object.assign({}, props.param, { ...state.page });
 	Object.keys(param).forEach((key) => !param[key] && delete param[key]);
-	const res = await props.load(param);
+	const res = await props.onLoad(param);
 	state.loading = false;
 	if (res.data.rows) {
 		state.showPagination = true;

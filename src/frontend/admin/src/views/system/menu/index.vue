@@ -1,16 +1,21 @@
 <template>
 	<div class="system-menu-container layout-padding">
 		<Search :search="vm.search" />
-		<Table
-			v-bind="vm"
-			:load="
-				() => {
-					return { data: [] };
-				}
-			"
-		>
+		<Table v-bind="vm" :on-load="page" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
 			<template #tools>
 				<el-button type="primary" icon="ele-Plus" @click="onOpenMenu"> 新增 </el-button>
+			</template>
+			<template #name="scope">
+				<SvgIcon :name="scope.row.icon" />
+				<span class="ml10">{{ $t(scope.row.name) }}</span>
+			</template>
+			<template #type="scope">
+				<el-tag :type="scope.row.type === 0 ? '' : scope.row.type === 1 ? 'success' : 'danger'">
+					{{ scope.row.type === 0 ? '目录' : scope.row.type === 1 ? '菜单' : '按钮' }}</el-tag
+				>
+			</template>
+			<template #status="scope">
+				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
 			</template>
 		</Table>
 		<!-- <div class="system-menu-search mb15">
@@ -70,7 +75,7 @@
 					</template>
 				</el-table-column>
 			</el-table> -->
-		<MenuDialog ref="menuDialogRef" @refresh="getTableData()" />
+		<MenuDialog ref="menuDialogRef" @refresh="() => {}" />
 	</div>
 </template>
 
@@ -78,8 +83,6 @@
 import { defineAsyncComponent, ref, onMounted, reactive } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import { storeToRefs } from 'pinia';
-import { useRoutesList } from '/@/stores/routesList';
 import { page } from '/@/api/SysMenuApi';
 // import { setBackEndControlRefreshRoutes } from "/@/router/backEnd";
 
@@ -91,7 +94,7 @@ const MenuDialog = defineAsyncComponent(() => import('/@/views/system/menu/dialo
 
 const vm = reactive<CustomTable>({
 	columns: [
-		{ prop: 'name', label: '菜单名称', align: 'center' },
+		{ prop: 'name', label: '菜单名称', align: 'left' },
 		{ prop: 'type', label: '类型', align: 'center' },
 		{ prop: 'path', label: '路由地址', align: 'center' },
 		{ prop: 'component', label: '组件路径', align: 'center' },
@@ -100,30 +103,29 @@ const vm = reactive<CustomTable>({
 		{ prop: 'createdTime', label: '创建时间', align: 'center' },
 	],
 	search: [{ label: '名称', prop: 'name', placeholder: '菜单按钮名称', type: 'input' }],
-});
-
-// 定义变量内容
-const stores = useRoutesList();
-const { routesList } = storeToRefs(stores);
-const menuDialogRef = ref();
-const state = reactive({
-	tableData: {
-		data: [] as RouteRecordRaw[],
-		loading: true,
+	config: {
+		isSerialNo: false,
 	},
 });
 
+// 定义变量内容
+const menuDialogRef = ref<InstanceType<typeof MenuDialog>>();
+// const state = reactive({
+// 	tableData: {
+// 		data: [] as RouteRecordRaw[],
+// 		loading: true,
+// 	},
+// });
+
 // 获取路由数据，真实请从接口获取
-const getTableData = () => {
-	state.tableData.loading = true;
-	state.tableData.data = routesList.value;
-	setTimeout(() => {
-		state.tableData.loading = false;
-	}, 500);
-};
+// const onLoadData = async () => {
+// 	state.tableData.loading = true;
+
+// 	state.tableData.loading = false;
+// };
 // 打开编辑菜单弹窗
-const onOpenMenu = (id?: number) => {
-	menuDialogRef.value.openDialog(id);
+const onOpenMenu = async (id?: number) => {
+	await menuDialogRef.value!.openDialog(id);
 };
 // 删除当前行
 const onTabelRowDel = (row: RouteRecordRaw) => {
@@ -134,7 +136,7 @@ const onTabelRowDel = (row: RouteRecordRaw) => {
 	})
 		.then(() => {
 			ElMessage.success('删除成功');
-			getTableData();
+			// getTableData();
 			//await setBackEndControlRefreshRoutes() // 刷新菜单，未进行后端接口测试
 		})
 		.catch(() => {});
@@ -143,6 +145,6 @@ const onTabelRowDel = (row: RouteRecordRaw) => {
 onMounted(async () => {
 	const { data } = await page();
 	console.log(data);
-	getTableData();
+	// getTableData();
 });
 </script>

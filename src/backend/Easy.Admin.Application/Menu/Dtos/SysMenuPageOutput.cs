@@ -18,6 +18,11 @@ public class SysMenuPageOutput
     public string Code { get; set; }
 
     /// <summary>
+    /// 菜单图标
+    /// </summary>
+    public string Icon { get; set; }
+
+    /// <summary>
     /// 菜单类型
     /// </summary>
     public MenuType Type { get; set; }

@@ -38,6 +38,12 @@ export interface SysMenuPageOutput {
      */
     code?: string | null;
     /**
+     * 菜单图标
+     * @type {string}
+     * @memberof SysMenuPageOutput
+     */
+    icon?: string | null;
+    /**
      * 
      * @type {MenuType}
      * @memberof SysMenuPageOutput

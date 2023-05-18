@@ -72,7 +72,7 @@ export interface UpdateSysMenuInput {
      * @type {string}
      * @memberof UpdateSysMenuInput
      */
-    icon?: string | null;
+    icon?: string | undefined;
     /**
      * 是否内嵌页面
      * @type {boolean}

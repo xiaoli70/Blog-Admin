@@ -227,6 +227,96 @@
             子菜单
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Id">
+            <summary>
+            菜单Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Name">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.ParentId">
+            <summary>
+            父级id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Code">
+            <summary>
+            权限标识
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Component">
+            <summary>
+            组件路径
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.IsFixed">
+            <summary>
+            是否固定
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.IsIframe">
+            <summary>
+            是否内嵌
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.IsKeepAlive">
+            <summary>
+            是否缓存
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.IsVisible">
+            <summary>
+            是否可见
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Link">
+            <summary>
+            外链
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Path">
+            <summary>
+            路由地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Redirect">
+            <summary>
+            重定向地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.RouteName">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuDetailOutput.Type">
+            <summary>
+            菜单类型
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Id">
             <summary>
              菜单Id
@@ -240,6 +330,11 @@
         <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Code">
             <summary>
             权限标识
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Icon">
+            <summary>
+            菜单图标
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Menu.Dtos.SysMenuPageOutput.Type">
@@ -305,6 +400,19 @@
             修改菜单/按钮
             </summary>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.Detail(System.Int64)">
+            <summary>
+            根据菜单Id获取系统菜单详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.TreeSelect">
+            <summary>
+            菜单下拉树
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Easy.Admin.Application.Menu.SysMenuService.Delete(Easy.Admin.Core.Shared.KeyDto)">
