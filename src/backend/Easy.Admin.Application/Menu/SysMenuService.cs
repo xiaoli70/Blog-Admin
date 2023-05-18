@@ -108,6 +108,55 @@ public class SysMenuService : BaseService<SysMenu>
     }
 
     /// <summary>
+    /// 根据菜单Id获取系统菜单详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [Description("系统菜单详情")]
+    [HttpGet]
+    public async Task<SysMenuDetailOutput> Detail([FromQuery] long id)
+    {
+        return await _sysMenuRepository.AsQueryable().Where(x => x.Id == id)
+            .Select(x => new SysMenuDetailOutput
+            {
+                Id = x.Id,
+                Name = x.Name,
+                ParentId = x.ParentId,
+                Status = x.Status,
+                Code = x.Code,
+                Sort = x.Sort,
+                Component = x.Component,
+                Icon = x.Icon,
+                IsFixed = x.IsFixed,
+                IsIframe = x.IsIframe,
+                IsKeepAlive = x.IsKeepAlive,
+                IsVisible = x.IsVisible,
+                Link = x.Link,
+                Remark = x.Remark,
+                Path = x.Path,
+                Redirect = x.Redirect,
+                RouteName = x.RouteName,
+                Type = x.Type
+            }).FirstAsync();
+    }
+
+    /// <summary>
+    /// 菜单下拉树
+    /// </summary>
+    /// <returns></returns>
+    [Description("菜单下拉树")]
+    [HttpGet]
+    public async Task<List<TreeSelectOutput>> TreeSelect()
+    {
+        var list = await _sysMenuRepository.AsQueryable()
+            .OrderBy(x => x.Sort)
+            .OrderBy(x => x.Id)
+            .WithCache()
+            .ToTreeAsync(x => x.Children, x => x.ParentId, null);
+        return list.Adapt<List<TreeSelectOutput>>();
+    }
+
+    /// <summary>
     /// 删除菜单/按钮
     /// </summary>
     /// <param name="dto"></param>
@@ -195,4 +244,26 @@ public class SysMenuService : BaseService<SysMenu>
             router.Add(route);
         }
     }
+}
+
+public class SysMenuDetailOutput
+{
+    public long Id { get; set; }
+    public string Name { get; set; }
+    public long? ParentId { get; set; }
+    public AvailabilityStatus Status { get; set; }
+    public string Code { get; set; }
+    public int Sort { get; set; }
+    public string Component { get; set; }
+    public string Icon { get; set; }
+    public bool IsFixed { get; set; }
+    public bool IsIframe { get; set; }
+    public bool IsKeepAlive { get; set; }
+    public bool IsVisible { get; set; }
+    public string Link { get; set; }
+    public string Remark { get; set; }
+    public string Path { get; set; }
+    public string Redirect { get; set; }
+    public string RouteName { get; set; }
+    public MenuType Type { get; set; }
 }

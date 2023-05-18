@@ -1,106 +1,108 @@
 <template>
 	<div class="table-container">
-		<div class="table-header mb15">
-			<slot name="tools"></slot>
-			<div v-loading="state.importLoading" class="table-footer-tool" v-if="config.showSetting">
-				<SvgIcon name="iconfont icon-shuaxin" :size="22" title="刷新" @click="onRefreshTable" />
-				<el-dropdown v-if="!config.hideExport" trigger="click">
-					<SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" />
-					<template #dropdown>
-						<el-dropdown-menu>
-							<el-dropdown-item @click="onImportTable">导出本页数据</el-dropdown-item>
-							<el-dropdown-item @click="onImportTableAll">导出全部数据</el-dropdown-item>
-						</el-dropdown-menu>
-					</template>
-				</el-dropdown>
-				<el-popover
-					placement="top-end"
-					trigger="click"
-					transition="el-zoom-in-top"
-					popper-class="table-tool-popper"
-					:width="300"
-					:persistent="false"
-					@show="onSetTable"
-				>
-					<template #reference>
-						<SvgIcon name="iconfont icon-quanjushezhi_o" :size="22" title="设置" />
-					</template>
-					<template #default>
-						<div class="tool-box">
-							<el-tooltip content="拖动进行排序" placement="top-start">
-								<SvgIcon name="fa fa-question-circle-o" :size="17" class="ml11" color="#909399" />
-							</el-tooltip>
-							<el-checkbox
-								v-model="state.checkListAll"
-								:indeterminate="state.checkListIndeterminate"
-								class="ml10 mr1"
-								label="列显示"
-								@change="onCheckAllChange"
-							/>
-							<el-checkbox v-model="getConfig.isSerialNo" class="ml12 mr1" label="序号" />
-							<el-checkbox v-if="getConfig.showSelection" v-model="getConfig.isSelection" class="ml12 mr1" label="多选" />
-						</div>
-						<el-scrollbar>
-							<div ref="toolSetRef" class="tool-sortable">
-								<div class="tool-sortable-item" v-for="v in columns" :key="v.prop" v-show="!v.hideCheck && !v.fixed" :data-key="v.prop">
-									<i class="fa fa-arrows-alt handle cursor-pointer"></i>
-									<el-checkbox v-model="v.isCheck" size="default" class="ml12 mr8" :label="v.label" @change="onCheckChange" />
-								</div>
+		<el-card shadow="hover" style="height: 100%">
+			<div class="table-header mb15">
+				<slot name="tools"></slot>
+				<div v-loading="state.importLoading" class="table-footer-tool" v-if="config.showSetting">
+					<SvgIcon name="iconfont icon-shuaxin" :size="22" title="刷新" @click="onRefreshTable" />
+					<el-dropdown v-if="!config.hideExport" trigger="click">
+						<SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" />
+						<template #dropdown>
+							<el-dropdown-menu>
+								<el-dropdown-item @click="onImportTable">导出本页数据</el-dropdown-item>
+								<el-dropdown-item @click="onImportTableAll">导出全部数据</el-dropdown-item>
+							</el-dropdown-menu>
+						</template>
+					</el-dropdown>
+					<el-popover
+						placement="top-end"
+						trigger="click"
+						transition="el-zoom-in-top"
+						popper-class="table-tool-popper"
+						:width="300"
+						:persistent="false"
+						@show="onSetTable"
+					>
+						<template #reference>
+							<SvgIcon name="iconfont icon-quanjushezhi_o" :size="22" title="设置" />
+						</template>
+						<template #default>
+							<div class="tool-box">
+								<el-tooltip content="拖动进行排序" placement="top-start">
+									<SvgIcon name="fa fa-question-circle-o" :size="17" class="ml11" color="#909399" />
+								</el-tooltip>
+								<el-checkbox
+									v-model="state.checkListAll"
+									:indeterminate="state.checkListIndeterminate"
+									class="ml10 mr1"
+									label="列显示"
+									@change="onCheckAllChange"
+								/>
+								<el-checkbox v-model="getConfig.isSerialNo" class="ml12 mr1" label="序号" />
+								<el-checkbox v-if="getConfig.showSelection" v-model="getConfig.isSelection" class="ml12 mr1" label="多选" />
 							</div>
-						</el-scrollbar>
-					</template>
-				</el-popover>
+							<el-scrollbar>
+								<div ref="toolSetRef" class="tool-sortable">
+									<div class="tool-sortable-item" v-for="v in columns" :key="v.prop" v-show="!v.hideCheck && !v.fixed" :data-key="v.prop">
+										<i class="fa fa-arrows-alt handle cursor-pointer"></i>
+										<el-checkbox v-model="v.isCheck" size="default" class="ml12 mr8" :label="v.label" @change="onCheckChange" />
+									</div>
+								</div>
+							</el-scrollbar>
+						</template>
+					</el-popover>
+				</div>
 			</div>
-		</div>
-		<el-table
-			ref="tableRef"
-			:data="state.data"
-			:border="setBorder"
-			:stripe="setStripe"
-			v-bind="$attrs"
-			row-key="id"
-			default-expand-all
-			style="width: 100%"
-			v-loading="state.loading"
-			:default-sort="defaultSort"
-			@selection-change="onSelectionChange"
-			@sort-change="sortChange"
-		>
-			<el-table-column type="selection" :reserve-selection="true" :width="30" v-if="config.isSelection && config.showSelection" />
-			<el-table-column type="index" label="序号" align="center" :width="60" v-if="config.isSerialNo" />
-			<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
-				<!-- 自定义列插槽，插槽名为columns属性的prop -->
-				<template #default="scope" v-if="$slots[item.prop]">
-					<slot :name="item.prop" v-bind="scope"></slot>
-				</template>
-				<template v-else v-slot="scope">
-					<template v-if="item.type === 'image'">
-						<img :src="scope.row[item.prop]" class="w100" />
-					</template>
-					<template v-else>
-						{{ scope.row[item.prop] }}
-					</template>
-				</template>
-			</el-table-column>
-			<template #empty>
-				<el-empty description="暂无数据" />
-			</template>
-		</el-table>
-		<div v-if="state.showPagination" class="table-footer mt15">
-			<el-pagination
-				v-model:current-page="state.page.page"
-				v-model:page-size="state.page.pageSize"
-				:pager-count="5"
-				:page-sizes="[10, 30, 50, 100]"
-				:total="state.total"
-				small
-				layout="total, sizes, prev, pager, next, jumper"
-				background
-				@size-change="onHandleSizeChange"
-				@current-change="onHandleCurrentChange"
+			<el-table
+				ref="tableRef"
+				:data="state.data"
+				:border="setBorder"
+				:stripe="setStripe"
+				v-bind="$attrs"
+				row-key="id"
+				default-expand-all
+				style="width: 100%"
+				v-loading="state.loading"
+				:default-sort="defaultSort"
+				@selection-change="onSelectionChange"
+				@sort-change="sortChange"
 			>
-			</el-pagination>
-		</div>
+				<el-table-column type="selection" :reserve-selection="true" :width="30" v-if="config.isSelection && config.showSelection" />
+				<el-table-column type="index" label="序号" align="center" :width="60" v-if="config.isSerialNo" />
+				<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
+					<!-- 自定义列插槽，插槽名为columns属性的prop -->
+					<template #default="scope" v-if="$slots[item.prop]">
+						<slot :name="item.prop" v-bind="scope"></slot>
+					</template>
+					<template v-else v-slot="scope">
+						<template v-if="item.type === 'image'">
+							<img :src="scope.row[item.prop]" class="w100" />
+						</template>
+						<template v-else>
+							{{ scope.row[item.prop] }}
+						</template>
+					</template>
+				</el-table-column>
+				<template #empty>
+					<el-empty description="暂无数据" />
+				</template>
+			</el-table>
+			<div v-if="state.showPagination" class="table-footer mt15">
+				<el-pagination
+					v-model:current-page="state.page.page"
+					v-model:page-size="state.page.pageSize"
+					:pager-count="5"
+					:page-sizes="[10, 30, 50, 100]"
+					:total="state.total"
+					small
+					layout="total, sizes, prev, pager, next, jumper"
+					background
+					@size-change="onHandleSizeChange"
+					@current-change="onHandleCurrentChange"
+				>
+				</el-pagination>
+			</div>
+		</el-card>
 	</div>
 </template>
 
@@ -345,10 +347,19 @@ defineExpose({
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-
-	.el-table {
+	:deep(.el-card__body) {
+		display: flex;
+		flex-direction: column;
 		flex: 1;
+		overflow: auto;
+		.el-table {
+			flex: 1;
+		}
 	}
+
+	// .el-table {
+	// 	flex: 1;
+	// }
 
 	.table-footer {
 		display: flex;

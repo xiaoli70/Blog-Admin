@@ -206,12 +206,12 @@ const getMenuData = (routes: RouteItems) => {
 	return arr;
 };
 // 打开弹窗
-const openDialog = (type: string, row?: any) => {
-	if (type === 'edit') {
+const openDialog = (id?: number) => {
+	if (id ?? false) {
 		// 模拟数据，实际请走接口
-		row.menuType = 'menu';
-		row.menuSort = Math.floor(Math.random() * 100);
-		state.ruleForm = JSON.parse(JSON.stringify(row));
+		// row.menuType = 'menu';
+		// row.menuSort = Math.floor(Math.random() * 100);
+		// state.ruleForm = JSON.parse(JSON.stringify(row));
 		state.dialog.title = '修改菜单';
 		state.dialog.submitTxt = '修 改';
 	} else {
@@ -222,7 +222,7 @@ const openDialog = (type: string, row?: any) => {
 		// 	menuDialogFormRef.value.resetFields();
 		// });
 	}
-	state.dialog.type = type;
+	// state.dialog.type = type;
 	state.dialog.isShowDialog = true;
 };
 // 关闭弹窗

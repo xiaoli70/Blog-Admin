@@ -62,7 +62,6 @@ service.interceptors.response.use(
 		checkAndStoreAuthentication(response);
 		const res = response.data;
 		if (response.status === 401 || res.statusCode === 401) {
-			debugger;
 			clearAccessTokens();
 			window.location.href = '/'; // 去登录页
 			ElMessageBox.alert('您已被登出，请重新登录', '提示', {})

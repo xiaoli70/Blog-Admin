@@ -1,18 +1,19 @@
 <template>
-	<div class="system-menu-container layout-pd">
+	<div class="system-menu-container layout-padding">
 		<Search :search="vm.search" />
-
-		<el-card shadow="hover">
-			<Table
-				v-bind="vm"
-				:load="
-					() => {
-						return { data: [] };
-					}
-				"
-			>
-			</Table>
-			<div class="system-menu-search mb15">
+		<Table
+			v-bind="vm"
+			:load="
+				() => {
+					return { data: [] };
+				}
+			"
+		>
+			<template #tools>
+				<el-button type="primary" icon="ele-Plus" @click="onOpenMenu"> 新增 </el-button>
+			</template>
+		</Table>
+		<!-- <div class="system-menu-search mb15">
 				<el-input size="default" placeholder="请输入菜单名称" style="max-width: 180px"> </el-input>
 				<el-button size="default" type="primary" class="ml10">
 					<el-icon>
@@ -26,8 +27,8 @@
 					</el-icon>
 					新增菜单
 				</el-button>
-			</div>
-			<el-table
+			</div> -->
+		<!-- <el-table
 				:data="state.tableData.data"
 				v-loading="state.tableData.loading"
 				style="width: 100%"
@@ -68,8 +69,7 @@
 						<el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
-			</el-table>
-		</el-card>
+			</el-table> -->
 		<MenuDialog ref="menuDialogRef" @refresh="getTableData()" />
 	</div>
 </template>
@@ -121,13 +121,9 @@ const getTableData = () => {
 		state.tableData.loading = false;
 	}, 500);
 };
-// 打开新增菜单弹窗
-const onOpenAddMenu = (type: string) => {
-	menuDialogRef.value.openDialog(type);
-};
 // 打开编辑菜单弹窗
-const onOpenEditMenu = (type: string, row: RouteRecordRaw) => {
-	menuDialogRef.value.openDialog(type, row);
+const onOpenMenu = (id?: number) => {
+	menuDialogRef.value.openDialog(id);
 };
 // 删除当前行
 const onTabelRowDel = (row: RouteRecordRaw) => {
