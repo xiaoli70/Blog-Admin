@@ -245,25 +245,3 @@ public class SysMenuService : BaseService<SysMenu>
         }
     }
 }
-
-public class SysMenuDetailOutput
-{
-    public long Id { get; set; }
-    public string Name { get; set; }
-    public long? ParentId { get; set; }
-    public AvailabilityStatus Status { get; set; }
-    public string Code { get; set; }
-    public int Sort { get; set; }
-    public string Component { get; set; }
-    public string Icon { get; set; }
-    public bool IsFixed { get; set; }
-    public bool IsIframe { get; set; }
-    public bool IsKeepAlive { get; set; }
-    public bool IsVisible { get; set; }
-    public string Link { get; set; }
-    public string Remark { get; set; }
-    public string Path { get; set; }
-    public string Redirect { get; set; }
-    public string RouteName { get; set; }
-    public MenuType Type { get; set; }
-}
