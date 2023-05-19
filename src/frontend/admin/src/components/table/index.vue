@@ -58,6 +58,7 @@
 				:data="state.data"
 				:border="setBorder"
 				:stripe="setStripe"
+				:header-cell-style="{ background: '#F5F7FA' }"
 				v-bind="$attrs"
 				row-key="id"
 				default-expand-all
@@ -92,7 +93,7 @@
 					v-model:current-page="state.page.pageNo"
 					v-model:page-size="state.page.pageSize"
 					:pager-count="5"
-					:page-sizes="[10, 30, 50, 100]"
+					:page-sizes="config.pageSizes"
 					:total="state.total"
 					small
 					layout="total, sizes, prev, pager, next, jumper"
@@ -141,6 +142,7 @@ const props = defineProps({
 				hideExport: false, //是否隐藏导出按钮
 				exportFileName: new Date().getTime().toString(), //导出报表的文件名，不填写取应用名称
 				showSetting: false, //工具栏是否显示表设置
+				pageSizes: [10, 20, 30, 50], //分页大小数组
 			};
 		},
 	},

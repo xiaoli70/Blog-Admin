@@ -367,6 +367,10 @@ declare type CustomTable = {
 		 * 工具栏是否显示设置
 		 */
 		showSetting?: false;
+		/**
+		 * 分页大小（下拉选项）
+		 */
+		pageSizes?: number[];
 	};
 	search?: TableSearchType[] = [];
 	param?: EmptyObjectType = {};
