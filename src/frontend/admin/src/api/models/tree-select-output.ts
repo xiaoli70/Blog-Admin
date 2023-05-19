@@ -11,29 +11,28 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { TreeSelectOutput } from './tree-select-output';
 /**
  * 树形下拉框
  * @export
  * @interface TreeSelectOutput
  */
 export interface TreeSelectOutput {
-    /**
-     * 文本
-     * @type {string}
-     * @memberof TreeSelectOutput
-     */
-    label?: string | null;
-    /**
-     * 值
-     * @type {string}
-     * @memberof TreeSelectOutput
-     */
-    value?: string | null;
-    /**
-     * 子选项
-     * @type {Array<TreeSelectOutput>}
-     * @memberof TreeSelectOutput
-     */
-    children?: Array<TreeSelectOutput> | null;
+	/**
+	 * 文本
+	 * @type {string}
+	 * @memberof TreeSelectOutput
+	 */
+	label?: string | null;
+	/**
+	 * 值
+	 * @type {string}
+	 * @memberof TreeSelectOutput
+	 */
+	value?: number | null;
+	/**
+	 * 子选项
+	 * @type {Array<TreeSelectOutput>}
+	 * @memberof TreeSelectOutput
+	 */
+	children?: Array<TreeSelectOutput> | null;
 }

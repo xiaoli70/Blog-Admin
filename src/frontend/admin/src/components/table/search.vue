@@ -1,10 +1,10 @@
 <template>
 	<el-card shadow="hover" class="mb15" :body-style="{ paddingBottom: '0' }">
-		<div class="table-search-container" v-if="props.search.length > 0">
+		<div class="table-search-container" v-if="props.items.length > 0">
 			<el-form ref="tableSearchRef" :model="state.form" size="default" label-width="100px" class="table-form">
 				<el-row :gutter="20">
 					<!-- <el-col :xs="12" :sm="8" :md="8" :lg="6" :xl="4" class="mb20"></el-col> -->
-					<el-col :xs="12" :sm="5" :md="5" :lg="6" :xl="4" class="mb20" v-for="(val, key) in search" :key="key" v-show="key < 3 || state.isToggle">
+					<el-col :xs="12" :sm="5" :md="5" :lg="6" :xl="4" class="mb20" v-for="(val, key) in items" :key="key" v-show="key < 3 || state.isToggle">
 						<template v-if="val.type !== ''">
 							<el-form-item
 								label-width="auto"
@@ -58,7 +58,7 @@
 					<el-col :xs="12" :sm="9" :md="9" :lg="6" :xl="4" class="mb20">
 						<el-form-item class="table-form-btn" label-width="auto">
 							<template #label>
-								<div v-if="search.length > 3">
+								<div v-if="items.length > 3">
 									<div class="table-form-btn-toggle" @click="state.isToggle = !state.isToggle">
 										<span>{{ state.isToggle ? '收起' : '展开' }}</span>
 										<SvgIcon :name="state.isToggle ? 'ele-ArrowUp' : 'ele-ArrowDown'" />
@@ -85,7 +85,7 @@ import type { FormInstance } from 'element-plus';
 const props = defineProps({
 	// 搜索表单,type-控件类型（input,select,cascader,date）,options-type为selct时需传值，cascaderData,cascaderProps-type为cascader时需传值，属性同elementUI,cascaderProps不传则使用state默认。
 	// 可带入comProps属性，和使用的控件属性对应
-	search: {
+	items: {
 		type: Array<TableSearchType>,
 		default: () => [],
 	},
@@ -141,8 +141,8 @@ const onReset = (formEl: FormInstance | undefined) => {
 };
 // 初始化 form 字段，取自父组件 search.prop
 const initFormField = () => {
-	if (props.search.length <= 0) return false;
-	props.search.forEach((v) => (state.form[v.prop] = ''));
+	if (props.items.length <= 0) return false;
+	props.items.forEach((v) => (state.form[v.prop] = ''));
 };
 // 页面加载时
 onMounted(() => {

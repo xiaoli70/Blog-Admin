@@ -23,14 +23,15 @@ public class SysOrganizationService : BaseService<SysOrganization>
     [HttpGet]
     public async Task<List<SysOrgPageOutput>> Page([FromQuery] string name)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        if (!string.IsNullOrWhiteSpace(name))
         {
             var list = await _orgSqlSugarRepository.AsQueryable().Where(x => x.Name.Contains(name)).ToListAsync();
             return list.Adapt<List<SysOrgPageOutput>>();
         }
 
         var tree = await _orgSqlSugarRepository.AsQueryable().OrderBy(x => x.Sort)
-            .OrderByDescending(x => x.Id)
+            .OrderBy(x => x.Id)
+            .WithCache()
             .ToTreeAsync(x => x.Children, x => x.ParentId, null);
         return tree.Adapt<List<SysOrgPageOutput>>();
     }
@@ -64,5 +65,17 @@ public class SysOrganizationService : BaseService<SysOrganization>
 
         dto.Adapt(organization);
         await _orgSqlSugarRepository.UpdateAsync(organization);
+    }
+
+    /// <summary>
+    /// 获取机构下拉选项
+    /// </summary>
+    /// <returns></returns>
+    [Description("获取机构下拉选项")]
+    [HttpGet]
+    public async Task<List<TreeSelectOutput>> TreeSelect()
+    {
+        var list = await _orgSqlSugarRepository.AsQueryable().WithCache().ToTreeAsync(x => x.Children, x => x.ParentId, null);
+        return list.Adapt<List<TreeSelectOutput>>();
     }
 }

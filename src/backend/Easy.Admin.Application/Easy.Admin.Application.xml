@@ -508,6 +508,11 @@
             备注
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Organization.Dtos.SysOrgPageOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Organization.Dtos.UpdateOrgInput.Id">
             <summary>
             部门Id
@@ -536,6 +541,12 @@
             更新组织机构
             </summary>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Organization.SysOrganizationService.TreeSelect">
+            <summary>
+            获取机构下拉选项
+            </summary>
             <returns></returns>
         </member>
         <member name="P:Easy.Admin.Application.Role.Dtos.AddSysRoleInput.Name">

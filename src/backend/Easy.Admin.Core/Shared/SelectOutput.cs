@@ -12,5 +12,5 @@ public class SelectOutput
     /// <summary>
     /// 值
     /// </summary>
-    public string Value { get; set; }
+    public long Value { get; set; }
 }

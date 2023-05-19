@@ -1,7 +1,7 @@
 <template>
 	<div class="system-menu-dialog-container">
 		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
-			<el-form ref="menuDialogFormRef" :rules="rules" :model="state.ruleForm" size="default" label-width="80px">
+			<el-form ref="menuDialogFormRef" v-loading="state.dialog.loading" :rules="rules" :model="state.ruleForm" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="上级菜单" prop="parentId">
@@ -18,7 +18,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="菜单类型" prop="type">
-							<el-radio-group v-model="state.ruleForm.type">
+							<el-radio-group v-model="state.ruleForm.type" @change="onChangeType">
 								<el-radio-button :label="0">目录</el-radio-button>
 								<el-radio-button :label="1">菜单</el-radio-button>
 								<el-radio-button :label="2">按钮</el-radio-button>
@@ -50,8 +50,14 @@
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-							<el-form-item label="重定向" prop="redirect">
-								<el-input v-model="state.ruleForm.redirect" placeholder="请输入路由重定向" clearable maxlength="256"></el-input>
+							<el-form-item label="组件路径" prop="component">
+								<el-input
+									v-model="state.ruleForm.component"
+									placeholder="组件路径"
+									clearable
+									maxlength="128"
+									:disabled="state.ruleForm.type === MenuType.NUMBER_0"
+								></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -60,8 +66,8 @@
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-							<el-form-item label="组件路径" prop="component">
-								<el-input v-model="state.ruleForm.component" placeholder="组件路径" clearable maxlength="128"></el-input>
+							<el-form-item label="重定向" prop="redirect">
+								<el-input v-model="state.ruleForm.redirect" placeholder="请输入路由重定向" clearable maxlength="256"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -136,7 +142,7 @@
 <script setup lang="ts" name="systemMenuDialog">
 import { defineAsyncComponent, reactive, ref, nextTick } from 'vue';
 import { AvailabilityStatus, MenuType, TreeSelectOutput, UpdateSysMenuInput } from '/@/api/models';
-import { add, edit, detail, treeSelect } from '/@/api/SysMenuApi';
+import { addMenu, editMenu, getMenuDetail, getTreeSelect } from '/@/api/SysMenuApi';
 import type { FormInstance, FormRules } from 'element-plus';
 
 // 定义子组件向父组件传值/事件
@@ -191,6 +197,7 @@ const rules = reactive<FormRules>({
 const state = reactive({
 	// 参数请参考 `/src/router/route.ts` 中的 `dynamicRoutes` 路由菜单格式
 	ruleForm: {
+		id: 0,
 		type: MenuType.NUMBER_0,
 		status: AvailabilityStatus.NUMBER_0,
 		isFixed: false,
@@ -205,19 +212,23 @@ const state = reactive({
 		type: '',
 		title: '',
 		submitTxt: '',
+		loading: true,
 	},
 });
 
 // 打开弹窗
-const openDialog = async (id?: number) => {
-	const { data } = await treeSelect();
+const openDialog = async (id: number) => {
+	state.dialog.isShowDialog = true;
+	state.dialog.loading = true;
+	const { data } = await getTreeSelect();
 	state.menuData = data ?? ([] as TreeSelectOutput);
-	if ((id ?? 0) > 0) {
+	if (id > 0) {
 		state.dialog.title = '修改菜单';
 		state.dialog.submitTxt = '修 改';
-		const { data } = await detail(id!);
+		const { data } = await getMenuDetail(id!);
 		state.ruleForm = data! as UpdateSysMenuInput;
 	} else {
+		state.ruleForm.id = 0;
 		state.dialog.title = '新增菜单';
 		state.dialog.submitTxt = '新 增';
 		// 清空表单，此项需加表单验证才能使用
@@ -225,7 +236,7 @@ const openDialog = async (id?: number) => {
 			menuDialogFormRef.value?.resetFields();
 		});
 	}
-	state.dialog.isShowDialog = true;
+	state.dialog.loading = false;
 };
 // 关闭弹窗
 const closeDialog = () => {
@@ -239,7 +250,7 @@ const onCancel = () => {
 const onSubmit = async () => {
 	menuDialogFormRef.value?.validate(async (v) => {
 		if (v) {
-			const { succeeded } = (state.ruleForm.id ?? 0) > 0 ? await edit(state.ruleForm) : await add(state.ruleForm);
+			const { succeeded } = state.ruleForm.id! > 0 ? await editMenu(state.ruleForm) : await addMenu(state.ruleForm);
 			if (succeeded) {
 				closeDialog(); // 关闭弹窗
 				emit('refresh'); //父级组件刷新列表
@@ -247,6 +258,12 @@ const onSubmit = async () => {
 		}
 	});
 	return;
+};
+
+const onChangeType = (value: number) => {
+	if (value === 0) {
+		state.ruleForm.component = '';
+	}
 };
 
 // 暴露变量

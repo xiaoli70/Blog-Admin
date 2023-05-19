@@ -1,7 +1,7 @@
 <template>
 	<div class="system-menu-container layout-padding">
-		<Search :search="vm.search" />
-		<Table v-bind="vm" :on-load="page" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+		<Search :items="vm.search" @search="onSearch" />
+		<Table ref="tableRef" v-bind="vm" :on-load="getMenuPage" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
 			<template #tools>
 				<el-button type="primary" icon="ele-Plus" @click="onOpenMenu"> 新增 </el-button>
 			</template>
@@ -17,73 +17,23 @@
 			<template #status="scope">
 				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
 			</template>
+			<template #action="scope">
+				<el-button icon="ele-Edit" size="small" text type="primary" @click="onOpenMenu(scope.row.id)"> 编辑 </el-button>
+				<el-popconfirm title="确认删除吗？" @confirm="onDeleteMenu(scope.row.id)">
+					<template #reference>
+						<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
+					</template>
+				</el-popconfirm>
+			</template>
 		</Table>
-		<!-- <div class="system-menu-search mb15">
-				<el-input size="default" placeholder="请输入菜单名称" style="max-width: 180px"> </el-input>
-				<el-button size="default" type="primary" class="ml10">
-					<el-icon>
-						<ele-Search />
-					</el-icon>
-					查询
-				</el-button>
-				<el-button size="default" type="success" class="ml10" @click="onOpenAddMenu">
-					<el-icon>
-						<ele-FolderAdd />
-					</el-icon>
-					新增菜单
-				</el-button>
-			</div> -->
-		<!-- <el-table
-				:data="state.tableData.data"
-				v-loading="state.tableData.loading"
-				style="width: 100%"
-				row-key="path"
-				:tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-			>
-				<el-table-column label="菜单名称" show-overflow-tooltip>
-					<template #default="scope">
-						<SvgIcon :name="scope.row.meta.icon" />
-						<span class="ml10">{{ $t(scope.row.meta.title) }}</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="path" label="路由路径" show-overflow-tooltip></el-table-column>
-				<el-table-column label="组件路径" show-overflow-tooltip>
-					<template #default="scope">
-						<span>{{ scope.row.component }}</span>
-					</template>
-				</el-table-column>
-				<el-table-column label="权限标识" show-overflow-tooltip>
-					<template #default="scope">
-						<span>{{ scope.row.meta.roles }}</span>
-					</template>
-				</el-table-column>
-				<el-table-column label="排序" show-overflow-tooltip width="80">
-					<template #default="scope">
-						{{ scope.$index }}
-					</template>
-				</el-table-column>
-				<el-table-column label="类型" show-overflow-tooltip width="80">
-					<template #default="scope">
-						<el-tag type="success" size="small">{{ scope.row.xx }}菜单</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column label="操作" show-overflow-tooltip width="140">
-					<template #default="scope">
-						<el-button size="small" text type="primary" @click="onOpenAddMenu('add')">新增</el-button>
-						<el-button size="small" text type="primary" @click="onOpenEditMenu('edit', scope.row)">修改</el-button>
-						<el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)">删除</el-button>
-					</template>
-				</el-table-column>
-			</el-table> -->
-		<MenuDialog ref="menuDialogRef" @refresh="() => {}" />
+		<MenuDialog ref="menuDialogRef" @refresh="tableRef?.refresh()" />
 	</div>
 </template>
 
 <script setup lang="ts" name="systemMenu">
-import { defineAsyncComponent, ref, onMounted, reactive } from 'vue';
-import { RouteRecordRaw } from 'vue-router';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import { page } from '/@/api/SysMenuApi';
+import { defineAsyncComponent, ref, reactive } from 'vue';
+import { ElMessage } from 'element-plus';
+import { getMenuPage, deleteMenu } from '/@/api/SysMenuApi';
 // import { setBackEndControlRefreshRoutes } from "/@/router/backEnd";
 
 import Search from '/@/components/table/search.vue';
@@ -91,7 +41,8 @@ import Table from '/@/components/table/index.vue';
 
 // 引入组件
 const MenuDialog = defineAsyncComponent(() => import('/@/views/system/menu/dialog.vue'));
-
+//table组件实例
+const tableRef = ref<InstanceType<typeof Table>>();
 const vm = reactive<CustomTable>({
 	columns: [
 		{ prop: 'name', label: '菜单名称', align: 'left' },
@@ -101,6 +52,7 @@ const vm = reactive<CustomTable>({
 		{ prop: 'status', label: '状态', align: 'center' },
 		{ prop: 'sort', label: '排序', align: 'center' },
 		{ prop: 'createdTime', label: '创建时间', align: 'center' },
+		{ prop: 'action', label: '操作', align: 'center', width: 150 },
 	],
 	search: [{ label: '名称', prop: 'name', placeholder: '菜单按钮名称', type: 'input' }],
 	config: {
@@ -110,41 +62,26 @@ const vm = reactive<CustomTable>({
 
 // 定义变量内容
 const menuDialogRef = ref<InstanceType<typeof MenuDialog>>();
-// const state = reactive({
-// 	tableData: {
-// 		data: [] as RouteRecordRaw[],
-// 		loading: true,
-// 	},
-// });
 
-// 获取路由数据，真实请从接口获取
-// const onLoadData = async () => {
-// 	state.tableData.loading = true;
+//查询
+const onSearch = (data: EmptyObjectType) => {
+	vm.param = data;
+	tableRef.value?.pageReset();
+};
 
-// 	state.tableData.loading = false;
-// };
-// 打开编辑菜单弹窗
-const onOpenMenu = async (id?: number) => {
+// 打开添加编辑菜单弹窗
+const onOpenMenu = async (id: number = 0) => {
 	await menuDialogRef.value!.openDialog(id);
 };
-// 删除当前行
-const onTabelRowDel = (row: RouteRecordRaw) => {
-	ElMessageBox.confirm(`此操作将永久删除路由：${row.path}, 是否继续?`, '提示', {
-		confirmButtonText: '删除',
-		cancelButtonText: '取消',
-		type: 'warning',
-	})
-		.then(() => {
-			ElMessage.success('删除成功');
-			// getTableData();
-			//await setBackEndControlRefreshRoutes() // 刷新菜单，未进行后端接口测试
-		})
-		.catch(() => {});
+
+//删除菜单
+const onDeleteMenu = async (id: number) => {
+	const { succeeded, errors } = await deleteMenu(id);
+	if (succeeded) {
+		ElMessage.success('删除成功');
+		tableRef.value?.refresh();
+	} else {
+		ElMessage.error(errors);
+	}
 };
-// 页面加载时
-onMounted(async () => {
-	const { data } = await page();
-	console.log(data);
-	// getTableData();
-});
 </script>

@@ -89,7 +89,7 @@
 			</el-table>
 			<div v-if="state.showPagination" class="table-footer mt15">
 				<el-pagination
-					v-model:current-page="state.page.page"
+					v-model:current-page="state.page.pageNo"
 					v-model:page-size="state.page.pageSize"
 					:pager-count="5"
 					:page-sizes="[10, 30, 50, 100]"
@@ -174,7 +174,7 @@ const state = reactive({
 	importLoading: false,
 	total: 0,
 	page: {
-		page: 1,
+		pageNo: 1,
 		pageSize: 10,
 		field: '',
 		order: '',
@@ -221,26 +221,26 @@ const onSelectionChange = (val: EmptyObjectType[]) => {
 // 分页改变
 const onHandleSizeChange = (val: number) => {
 	state.page.pageSize = val;
-	handleList();
+	refresh();
 	emit('pageChange', state.page);
 };
 // 改变当前页
 const onHandleCurrentChange = (val: number) => {
-	state.page.page = val;
-	handleList();
+	state.page.pageNo = val;
+	refresh();
 	emit('pageChange', state.page);
 };
 // 列排序
 const sortChange = (column: any) => {
 	state.page.field = column.prop;
 	state.page.order = column.order;
-	handleList();
+	refresh();
 };
 // 重置列表
 const pageReset = () => {
 	tableRef.value.clearSelection();
-	state.page.page = 1;
-	handleList();
+	state.page.pageNo = 1;
+	refresh();
 };
 // 导出当前页
 const onImportTable = () => {
@@ -277,7 +277,7 @@ const importData = (data: Array<EmptyObjectType>) => {
 };
 // 刷新
 const onRefreshTable = () => {
-	handleList();
+	refresh();
 	// emit('pageChange', state.page);
 };
 // 拖拽设置
@@ -300,7 +300,7 @@ const onSetTable = () => {
 	});
 };
 
-const handleList = async () => {
+const refresh = async () => {
 	state.loading = true;
 	let param = Object.assign({}, props.param, { ...state.page });
 	Object.keys(param).forEach((key) => !param[key] && delete param[key]);
@@ -331,13 +331,13 @@ onMounted(() => {
 		}
 	});
 	state.page.pageSize = props.config.pageSize;
-	handleList();
+	refresh();
 });
 
 // 暴露变量
 defineExpose({
 	pageReset,
-	handleList,
+	refresh,
 	toggleSelection,
 });
 </script>

@@ -62,6 +62,10 @@ public class SysMenuService : BaseService<SysMenu>
         }
         else
         {
+            if (await _sysMenuRepository.IsAnyAsync(x => x.RouteName.ToLower() == dto.RouteName.ToLower()))
+            {
+                throw Oops.Bah("路由名称已存在");
+            }
             sysMenu.Code = null;
         }
         await _sysMenuRepository.InsertAsync(sysMenu);
@@ -83,6 +87,10 @@ public class SysMenuService : BaseService<SysMenu>
             throw Oops.Bah("无线参数");
         }
 
+        if (dto.Type != MenuType.Button && await _sysMenuRepository.IsAnyAsync(x => x.RouteName.ToLower() == dto.RouteName.ToLower() && x.Id != dto.Id))
+        {
+            throw Oops.Bah("路由名称已存在");
+        }
         //检查菜单父子关系是否存在循环引用
         if (dto.ParentId.HasValue && dto.ParentId != sysMenu.ParentId)
         {

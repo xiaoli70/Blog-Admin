@@ -37,5 +37,10 @@ public class SysOrgPageOutput
     /// </summary>
     public string Remark { get; set; }
 
+    /// <summary>
+    /// 创建时间
+    /// </summary>
+    public DateTime CreatedTime { get; set; }
+
     public List<SysOrgPageOutput> Children { get; set; } = new();
 }
