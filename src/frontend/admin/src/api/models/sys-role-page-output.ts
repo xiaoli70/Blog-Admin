@@ -15,9 +15,9 @@ import { AvailabilityStatus } from './availability-status';
 /**
  * 
  * @export
- * @interface SysRolePageInput
+ * @interface SysRolePageOutput
  */
-export interface SysRolePageInput {
+export interface SysRolePageOutput {
     /**
      * 主键
      * @type {number}
