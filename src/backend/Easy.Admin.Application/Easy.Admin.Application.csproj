@@ -29,7 +29,6 @@
 		<Folder Include="Auth\Dtos\" />
 		<Folder Include="Menu\Dtos\" />
 		<Folder Include="Organization\Dtos\" />
-		<Folder Include="Role\Dtos\" />
 		<Folder Include="User\Dtos\" />
 	</ItemGroup>
 

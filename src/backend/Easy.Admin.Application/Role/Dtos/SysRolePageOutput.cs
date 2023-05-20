@@ -1,6 +1,6 @@
 ﻿namespace Easy.Admin.Application.Role.Dtos;
 
-public class SysRolePageInput
+public class SysRolePageOutput
 {
     /// <summary>
     /// 主键

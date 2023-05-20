@@ -25,7 +25,7 @@ export * from './router-output';
 export * from './sys-menu-detail-output';
 export * from './sys-menu-page-output';
 export * from './sys-org-page-output';
-export * from './sys-role-page-input';
+export * from './sys-role-page-output';
 export * from './sys-user-page-output';
 export * from './tree-select-output';
 export * from './update-org-input';

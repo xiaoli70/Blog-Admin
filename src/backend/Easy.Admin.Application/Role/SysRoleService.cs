@@ -29,13 +29,13 @@ public class SysRoleService : BaseService<SysRole>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<PageResult<SysRolePageInput>> Page([FromQuery] SysRoleQueryInput dto)
+    public async Task<PageResult<SysRolePageOutput>> Page([FromQuery] SysRoleQueryInput dto)
     {
         return await _sysRoleRepository.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
             .OrderBy(x => x.Sort)
             .OrderByDescending(x => x.Id)
-            .Select(x => new SysRolePageInput
+            .Select(x => new SysRolePageOutput
             {
                 Id = x.Id,
                 Name = x.Name,

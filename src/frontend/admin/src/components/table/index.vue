@@ -69,7 +69,7 @@
 				@sort-change="sortChange"
 			>
 				<el-table-column type="selection" :reserve-selection="true" :width="30" v-if="config.isSelection && config.showSelection" />
-				<el-table-column type="index" label="序号" align="center" :width="60" v-if="config.isSerialNo" />
+				<el-table-column type="index" label="序号" align="center" :width="70" v-if="config.isSerialNo" />
 				<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
 					<!-- 自定义列插槽，插槽名为columns属性的prop -->
 					<template #default="scope" v-if="$slots[item.prop]">
@@ -142,7 +142,7 @@ const props = defineProps({
 				hideExport: false, //是否隐藏导出按钮
 				exportFileName: new Date().getTime().toString(), //导出报表的文件名，不填写取应用名称
 				showSetting: false, //工具栏是否显示表设置
-				pageSizes: [10, 20, 30, 50], //分页大小数组
+				pageSizes: [], //分页大小数组
 			};
 		},
 	},

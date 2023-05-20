@@ -11,41 +11,41 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SysRolePageInput } from './sys-role-page-input';
+import { SysRolePageOutput } from './sys-role-page-output';
 /**
- * 
+ *
  * @export
  * @interface PageResultSysRolePageInput
  */
 export interface PageResultSysRolePageInput {
-    /**
-     * 当前页
-     * @type {number}
-     * @memberof PageResultSysRolePageInput
-     */
-    pageNo?: number;
-    /**
-     * 页容量
-     * @type {number}
-     * @memberof PageResultSysRolePageInput
-     */
-    pageSize?: number;
-    /**
-     * 总页数
-     * @type {number}
-     * @memberof PageResultSysRolePageInput
-     */
-    pages?: number;
-    /**
-     * 总条数
-     * @type {number}
-     * @memberof PageResultSysRolePageInput
-     */
-    total?: number;
-    /**
-     * 数据
-     * @type {Array<SysRolePageInput>}
-     * @memberof PageResultSysRolePageInput
-     */
-    rows?: Array<SysRolePageInput> | null;
+	/**
+	 * 当前页
+	 * @type {number}
+	 * @memberof PageResultSysRolePageInput
+	 */
+	pageNo?: number;
+	/**
+	 * 页容量
+	 * @type {number}
+	 * @memberof PageResultSysRolePageInput
+	 */
+	pageSize?: number;
+	/**
+	 * 总页数
+	 * @type {number}
+	 * @memberof PageResultSysRolePageInput
+	 */
+	pages?: number;
+	/**
+	 * 总条数
+	 * @type {number}
+	 * @memberof PageResultSysRolePageInput
+	 */
+	total?: number;
+	/**
+	 * 数据
+	 * @type {Array<SysRolePageOutput>}
+	 * @memberof PageResultSysRolePageInput
+	 */
+	rows?: Array<SysRolePageOutput> | null;
 }

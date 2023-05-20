@@ -579,37 +579,37 @@
             授权按钮菜单Id
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Id">
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageOutput.Id">
             <summary>
             主键
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Name">
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageOutput.Name">
             <summary>
             角色名称
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.CreatedTime">
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageOutput.CreatedTime">
             <summary>
             创建时间
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Status">
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageOutput.Status">
             <summary>
             状态
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Code">
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageOutput.Code">
             <summary>
             角色编码
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Sort">
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageOutput.Sort">
             <summary>
             排序值
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageInput.Remark">
+        <member name="P:Easy.Admin.Application.Role.Dtos.SysRolePageOutput.Remark">
             <summary>
             备注
             </summary>

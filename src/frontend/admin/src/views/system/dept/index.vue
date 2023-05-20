@@ -17,7 +17,7 @@
 				</el-popconfirm>
 			</template>
 		</Table>
-		<DeptDialog ref="deptDialogRef" @refresh="tableRef?.refresh()" />
+		<DeptDialog ref="deptDialogRef" @refresh="tableRef?.refresh" />
 	</div>
 </template>
 
