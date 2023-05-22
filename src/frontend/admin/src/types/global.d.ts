@@ -95,6 +95,7 @@ declare type EmptyObjectType<T = any> = {
 declare type SelectOptionType = {
 	value: string | number;
 	label: string | number;
+	children?: SelectOptionType[];
 };
 
 // 鼠标滚轮滚动类型

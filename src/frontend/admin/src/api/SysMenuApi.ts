@@ -68,3 +68,11 @@ export const deleteMenu = (id: number) => {
 export const getMenus = () => {
 	return http.get<RouterOutput[]>('/sysmenu/permissionmenus');
 };
+
+/**
+ * 菜单按钮树
+ * @returns 
+ */
+export const getTreeMenuButton = () => {
+	return http.get<TreeSelectOutput[]>('/sysmenu/treemenubutton')
+};

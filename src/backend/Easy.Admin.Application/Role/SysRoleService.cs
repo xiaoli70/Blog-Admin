@@ -105,6 +105,20 @@ public class SysRoleService : BaseService<SysRole>
         await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
 
+    /// <summary>
+    /// 获取角色可访问的菜单和按钮id
+    /// </summary>
+    /// <param name="id">角色id</param>
+    /// <returns></returns>
+    [Description("获取角色可访问的菜单和按钮id")]
+    [HttpGet("getRuleMenu")]
+    public async Task<List<long>> GetRuleMenu([FromQuery] long id)
+    {
+        return await _sysRoleRepository.AsQueryable().InnerJoin<SysRoleMenu>((role, roleMenu) => role.Id == roleMenu.RoleId)
+             .InnerJoin<SysMenu>((role, roleMenu, menu) => roleMenu.MenuId == menu.Id)
+             .Where((role, roleMenu, menu) => role.Id == id && menu.Status == AvailabilityStatus.Enable)
+             .Select((role, roleMenu) => roleMenu.MenuId).ToListAsync();
+    }
 
     /// <summary>
     /// 修改角色状态

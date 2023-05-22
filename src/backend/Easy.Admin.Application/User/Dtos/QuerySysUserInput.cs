@@ -1,6 +1,6 @@
 ﻿namespace Easy.Admin.Application.User.Dtos;
 
-public class QueryUserInput : Pagination
+public class QuerySysUserInput : Pagination
 {
     /// <summary>
     /// 账号

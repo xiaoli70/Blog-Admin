@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts" name="systemMenu">
-import { defineAsyncComponent, ref, reactive } from 'vue';
+import { defineAsyncComponent, ref, reactive, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
 import { getMenuPage, deleteMenu } from '/@/api/SysMenuApi';
 // import { setBackEndControlRefreshRoutes } from "/@/router/backEnd";
@@ -66,7 +66,9 @@ const menuDialogRef = ref<InstanceType<typeof MenuDialog>>();
 //查询
 const onSearch = (data: EmptyObjectType) => {
 	vm.param = data;
-	tableRef.value?.pageReset();
+	nextTick(() => {
+		tableRef.value?.refresh();
+	});
 };
 
 // 打开添加编辑菜单弹窗

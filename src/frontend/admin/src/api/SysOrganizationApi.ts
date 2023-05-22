@@ -1,5 +1,5 @@
 import { http } from '../utils/request';
-import { AddOrgInput, SysOrgPageOutput, UpdateOrgInput } from './models';
+import { AddOrgInput, SysOrgPageOutput, TreeSelectOutput, UpdateOrgInput } from './models';
 
 /**
  * 机构列表查询
@@ -39,8 +39,8 @@ export const deleteOrg = (id: number) => {
 
 /**
  * 机构下拉选项
- * @returns 
+ * @returns
  */
 export const getTreeSelect = () => {
-	return http.get('/sysorganization/treeselect');
+	return http.get<TreeSelectOutput[]>('/sysorganization/treeselect');
 };

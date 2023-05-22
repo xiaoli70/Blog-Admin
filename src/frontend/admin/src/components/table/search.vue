@@ -1,10 +1,10 @@
 <template>
-	<el-card shadow="hover" class="mb15" :body-style="{ paddingBottom: '0' }">
+	<el-card shadow="hover" class="mb15" style="min-height: 70px">
 		<div class="table-search-container" v-if="props.items.length > 0">
-			<el-form ref="tableSearchRef" :model="state.form" size="default" label-width="100px" class="table-form">
+			<el-form ref="tableSearchRef" :model="state.form" size="default" :inline="true" label-width="100px" class="table-form">
 				<el-row :gutter="20">
 					<!-- <el-col :xs="12" :sm="8" :md="8" :lg="6" :xl="4" class="mb20"></el-col> -->
-					<el-col :xs="12" :sm="5" :md="5" :lg="6" :xl="4" class="mb20" v-for="(val, key) in items" :key="key" v-show="key < 3 || state.isToggle">
+					<el-col :xs="12" :sm="5" :md="5" :lg="6" :xl="4" v-for="(val, key) in items" :key="key" v-show="key < 3 || state.isToggle">
 						<template v-if="val.type !== ''">
 							<el-form-item
 								label-width="auto"
@@ -15,7 +15,7 @@
 								<el-input
 									v-model="state.form[val.prop]"
 									v-bind="val.comProps"
-									:placeholder="val.placeholder"
+									:placeholder="val.placeholder ?? val.label"
 									:clearable="!val.required"
 									v-if="val.type === 'input'"
 									@keyup.enter="onSearch(tableSearchRef)"
@@ -25,7 +25,7 @@
 									v-model="state.form[val.prop]"
 									v-bind="val.comProps"
 									type="date"
-									:placeholder="val.placeholder"
+									:placeholder="val.placeholder ?? val.label"
 									:clearable="!val.required"
 									v-else-if="val.type === 'date'"
 									class="w100"
@@ -34,19 +34,31 @@
 									v-model="state.form[val.prop]"
 									v-bind="val.comProps"
 									:clearable="!val.required"
-									:placeholder="val.placeholder"
+									:placeholder="val.placeholder ?? val.label"
 									v-else-if="val.type === 'select'"
 									class="w100"
 								>
 									<el-option v-for="item in val.options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
 								</el-select>
+								<el-tree-select
+									v-model="state.form[val.prop]"
+									v-bind="val.comProps"
+									check-strictly
+									:clearable="!val.required"
+									:placeholder="val.placeholder ?? val.label"
+									:data="val.options"
+									:render-after-expand="false"
+									:default-expand-all="true"
+									class="w100"
+									v-else-if="val.type === 'treeSelect'"
+								/>
 								<el-cascader
 									v-else-if="val.type === 'cascader' && val.cascaderData"
 									:options="val.cascaderData"
 									:clearable="!val.required"
 									filterable
 									:props="val.cascaderProps ? val.cascaderProps : state.cascaderProps"
-									:placeholder="val.placeholder"
+									:placeholder="val.placeholder ?? val.label"
 									class="w100"
 									v-bind="val.comProps"
 									v-model="state.form[val.prop]"
@@ -55,7 +67,7 @@
 							</el-form-item>
 						</template>
 					</el-col>
-					<el-col :xs="12" :sm="9" :md="9" :lg="6" :xl="4" class="mb20">
+					<el-col :xs="state.isToggle ? 6 : 6" :sm="6" :md="9" :lg="state.isToggle ? 2 : 6" :xl="1">
 						<el-form-item class="table-form-btn" label-width="auto">
 							<template #label>
 								<div v-if="items.length > 3">
@@ -65,10 +77,12 @@
 									</div>
 								</div>
 							</template>
-							<div>
-								<el-button type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)"> 查询 </el-button>
-								<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)"> 重置 </el-button>
-							</div>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="12" :sm="9" :md="9" :lg="6" :xl="4">
+						<el-form-item label-width="auto">
+							<el-button type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)"> 查询 </el-button>
+							<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)"> 重置 </el-button>
 						</el-form-item>
 					</el-col>
 				</el-row>

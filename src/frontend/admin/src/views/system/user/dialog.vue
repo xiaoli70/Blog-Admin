@@ -90,6 +90,7 @@
 
 <script setup lang="ts" name="systemUserDialog">
 import { reactive, ref } from 'vue';
+import { UpdateSysUserInput } from '/@/api/models';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
@@ -97,19 +98,7 @@ const emit = defineEmits(['refresh']);
 // 定义变量内容
 const userDialogFormRef = ref();
 const state = reactive({
-	ruleForm: {
-		userName: '', // 账户名称
-		userNickname: '', // 用户昵称
-		roleSign: '', // 关联角色
-		department: [] as string[], // 部门
-		phone: '', // 手机号
-		email: '', // 邮箱
-		sex: '', // 性别
-		password: '', // 账户密码
-		overdueTime: '', // 账户过期
-		status: true, // 用户状态
-		describe: '', // 用户描述
-	},
+	ruleForm: {} as UpdateSysUserInput,
 	deptData: [] as DeptTreeType[], // 部门数据
 	dialog: {
 		isShowDialog: false,
@@ -120,12 +109,13 @@ const state = reactive({
 });
 
 // 打开弹窗
-const openDialog = (type: string, row: RowUserType) => {
-	if (type === 'edit') {
-		state.ruleForm = row;
+const openDialog = (id: number) => {
+	if (id > 0) {
+		//state.ruleForm = row;
 		state.dialog.title = '修改用户';
 		state.dialog.submitTxt = '修 改';
 	} else {
+		state.ruleForm.id = 0;
 		state.dialog.title = '新增用户';
 		state.dialog.submitTxt = '新 增';
 		// 清空表单，此项需加表单验证才能使用

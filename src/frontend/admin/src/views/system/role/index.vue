@@ -20,15 +20,15 @@
 </template>
 
 <script setup lang="ts" name="systemRole">
-import { defineAsyncComponent, reactive, ref } from 'vue';
+import { defineAsyncComponent, reactive, ref, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
 import { getRolePage, deleteRole } from '/@/api/SysRoleApi';
+import type { UpdateSysRoleInput } from '/@/api/models';
 
 // 引入组件
 const RoleDialog = defineAsyncComponent(() => import('/@/views/system/role/dialog.vue'));
 import Table from '/@/components/table/index.vue';
 import Search from '/@/components/table/search.vue';
-import { UpdateSysRoleInput } from '/@/api/models';
 //  table实例
 const tableRef = ref<InstanceType<typeof Table>>();
 // 表单实例
@@ -57,6 +57,11 @@ const state = reactive<CustomTable>({
 			width: 150,
 		},
 		{
+			prop: 'createdTime',
+			label: '创建时间',
+			align: 'center',
+		},
+		{
 			prop: 'action',
 			label: '操作',
 			align: 'center',
@@ -79,9 +84,11 @@ const onOpenRole = (row: UpdateSysRoleInput | null) => {
 	roleDialogRef.value?.openDialog(row);
 };
 
-const onSearch = (data: TableSearchType) => {
+const onSearch = (data: EmptyObjectType) => {
 	state.param = data;
-	tableRef.value?.refresh();
+	nextTick(() => {
+		tableRef.value?.refresh();
+	});
 };
 
 // 删除角色

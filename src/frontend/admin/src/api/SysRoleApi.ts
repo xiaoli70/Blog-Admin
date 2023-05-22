@@ -15,7 +15,7 @@ export const getRolePage = (params: any) => {
  * @param data 角色信息
  */
 export const addRole = (data: AddSysRoleInput) => {
-	http.post('/sysrole/add', data);
+	return http.post('/sysrole/add', data);
 };
 
 /**
@@ -38,4 +38,13 @@ export const deleteRole = (id: number) => {
 			id,
 		},
 	});
+};
+
+/**
+ * 获取角色菜单和按钮权限id
+ * @param id 角色id
+ * @returns 菜单按钮id数组
+ */
+export const getRuleMenu = (id: number) => {
+	return http.get<number[]>('/sysrole/getrulemenu', { params: { id } });
 };

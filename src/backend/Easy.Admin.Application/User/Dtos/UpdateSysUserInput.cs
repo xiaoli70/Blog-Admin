@@ -1,6 +1,6 @@
 ﻿namespace Easy.Admin.Application.User.Dtos;
 
-public class UpdateUserInput : AddUserInput
+public class UpdateSysUserInput : AddSysUserInput
 {
     /// <summary>
     /// 用户Id

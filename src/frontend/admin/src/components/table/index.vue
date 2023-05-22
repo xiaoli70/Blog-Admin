@@ -332,7 +332,7 @@ onMounted(() => {
 			item.isCheck = true;
 		}
 	});
-	state.page.pageSize = props.config.pageSize;
+	state.page.pageSize = props.config.pageSize ?? 10;
 	refresh();
 });
 
@@ -354,6 +354,7 @@ defineExpose({
 		flex-direction: column;
 		flex: 1;
 		overflow: auto;
+		height: 100%;
 		.el-table {
 			flex: 1;
 		}

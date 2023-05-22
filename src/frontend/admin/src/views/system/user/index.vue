@@ -1,158 +1,138 @@
 <template>
 	<div class="system-user-container layout-padding">
-		<el-card shadow="hover" class="layout-padding-auto">
-			<div class="system-user-search mb15">
-				<el-input size="default" placeholder="请输入用户名称" style="max-width: 180px"> </el-input>
-				<el-button size="default" type="primary" class="ml10">
-					<el-icon>
-						<ele-Search />
-					</el-icon>
-					查询
-				</el-button>
-				<el-button size="default" type="success" class="ml10" @click="onOpenAddUser('add')">
-					<el-icon>
-						<ele-FolderAdd />
-					</el-icon>
-					新增用户
-				</el-button>
-			</div>
-			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%">
-				<el-table-column type="index" label="序号" width="60" />
-				<el-table-column prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="roleSign" label="关联角色" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="department" label="部门" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="phone" label="手机号" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="email" label="邮箱" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="status" label="用户状态" show-overflow-tooltip>
-					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.status">启用</el-tag>
-						<el-tag type="info" v-else>禁用</el-tag>
+		<Search :items="state.search" @search="onSearch" />
+		<Table ref="tableRef" v-bind="state" :on-load="getSysUserPage">
+			<template #tools> <el-button type="primary" icon="ele-Plus" @click="onOpenUser(0)"> 新增 </el-button></template>
+			<template #status="scope">
+				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
+			</template>
+			<template #gender="scope">
+				<el-tag :type="scope.row.gender === 0 ? '' : scope.row.gender === 1 ? 'success' : 'danger'">
+					{{ scope.row.gender === 0 ? '男' : scope.row.gender === 1 ? '女' : '保密' }}</el-tag
+				>
+			</template>
+			<template #action="scope">
+				<el-button icon="ele-Edit" size="small" text type="primary" @click="onOpenUser(scope.row.id)"> 编辑 </el-button>
+				<el-popconfirm title="确认删除吗？" @confirm="onDeleteUser(scope.row.id)">
+					<template #reference>
+						<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
 					</template>
-				</el-table-column>
-				<el-table-column prop="describe" label="用户描述" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" width="100">
-					<template #default="scope">
-						<el-button :disabled="scope.row.userName === 'admin'" size="small" text type="primary" @click="onOpenEditUser('edit', scope.row)"
-							>修改</el-button
-						>
-						<el-button :disabled="scope.row.userName === 'admin'" size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<el-pagination
-				@size-change="onHandleSizeChange"
-				@current-change="onHandleCurrentChange"
-				class="mt15"
-				:pager-count="5"
-				:page-sizes="[10, 20, 30]"
-				v-model:current-page="state.tableData.param.pageNum"
-				background
-				v-model:page-size="state.tableData.param.pageSize"
-				layout="total, sizes, prev, pager, next, jumper"
-				:total="state.tableData.total"
-			>
-			</el-pagination>
-		</el-card>
-		<UserDialog ref="userDialogRef" @refresh="getTableData()" />
+				</el-popconfirm>
+			</template>
+		</Table>
+		<UserDialog ref="userDialogRef" @refresh="tableRef?.refresh" />
 	</div>
 </template>
 
 <script setup lang="ts" name="systemUser">
-import { defineAsyncComponent, reactive, onMounted, ref } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { defineAsyncComponent, reactive, ref, onMounted, nextTick } from 'vue';
+import { ElMessage } from 'element-plus';
+import Table from '/@/components/table/index.vue';
+import Search from '/@/components/table/search.vue';
+import { getSysUserPage, deleteSysUser } from '/@/api/SysUserApi';
+import { getTreeSelect } from '/@/api/SysOrganizationApi';
+import { TreeSelectOutput } from '/@/api/models';
 
 // 引入组件
 const UserDialog = defineAsyncComponent(() => import('/@/views/system/user/dialog.vue'));
 
-// 定义变量内容
-const userDialogRef = ref();
-const state = reactive<SysUserState>({
-	tableData: {
-		data: [],
-		total: 0,
-		loading: false,
-		param: {
-			pageNum: 1,
-			pageSize: 10,
+// 表单实例
+const userDialogRef = ref<InstanceType<typeof UserDialog>>();
+const select = reactive({
+	items: [] as TreeSelectOutput[],
+});
+//table实例
+const tableRef = ref<InstanceType<typeof Table>>();
+const state = reactive<CustomTable>({
+	columns: [
+		{
+			prop: 'account',
+			label: '用户名',
+			align: 'center',
 		},
+		{
+			prop: 'name',
+			label: '姓名',
+			align: 'center',
+		},
+		{
+			prop: 'nickName',
+			label: '昵称',
+			align: 'center',
+		},
+		{
+			prop: 'gender',
+			label: '性别',
+			align: 'center',
+		},
+		{
+			prop: 'birthday',
+			label: '出生日期',
+			align: 'center',
+		},
+		{
+			prop: 'mobile',
+			label: '手机号码',
+			align: 'center',
+		},
+		{
+			prop: 'status',
+			label: '状态',
+			align: 'center',
+		},
+		{
+			prop: 'createdTime',
+			label: '创建时间',
+			align: 'center',
+		},
+		{
+			prop: 'action',
+			label: '操作',
+			align: 'center',
+		},
+	],
+	config: {
+		isSerialNo: true,
 	},
+	search: [
+		{ prop: 'account', label: '用户名', type: 'input' },
+		{ prop: 'name', label: '姓名', type: 'input' },
+		{ prop: 'mobile', label: '手机号', type: 'input' },
+	],
 });
 
-// 初始化表格数据
-const getTableData = () => {
-	state.tableData.loading = true;
-	const data = [];
-	for (let i = 0; i < 2; i++) {
-		data.push({
-			userName: i === 0 ? 'admin' : 'test',
-			userNickname: i === 0 ? '我是管理员' : '我是普通用户',
-			roleSign: i === 0 ? 'admin' : 'common',
-			department: i === 0 ? ['vueNextAdmin', 'IT外包服务'] : ['vueNextAdmin', '资本控股'],
-			phone: '12345678910',
-			email: 'vueNextAdmin@123.com',
-			sex: '女',
-			password: '123456',
-			overdueTime: new Date(),
-			status: true,
-			describe: i === 0 ? '不可删除' : '测试用户',
-			createTime: new Date().toLocaleString(),
-		});
-	}
-	state.tableData.data = data;
-	state.tableData.total = state.tableData.data.length;
-	setTimeout(() => {
-		state.tableData.loading = false;
-	}, 500);
+const onSearch = (params: EmptyObjectType) => {
+	state.param = params;
+	nextTick(() => {
+		tableRef.value?.refresh();
+	});
 };
+
 // 打开新增用户弹窗
-const onOpenAddUser = (type: string) => {
-	userDialogRef.value.openDialog(type);
-};
-// 打开修改用户弹窗
-const onOpenEditUser = (type: string, row: RowUserType) => {
-	userDialogRef.value.openDialog(type, row);
+const onOpenUser = (id: number) => {
+	userDialogRef.value?.openDialog(id);
 };
 // 删除用户
-const onRowDel = (row: RowUserType) => {
-	ElMessageBox.confirm(`此操作将永久删除账户名称：“${row.userName}”，是否继续?`, '提示', {
-		confirmButtonText: '确认',
-		cancelButtonText: '取消',
-		type: 'warning',
-	})
-		.then(() => {
-			getTableData();
-			ElMessage.success('删除成功');
-		})
-		.catch(() => {});
+const onDeleteUser = async (id: number) => {
+	const { succeeded } = await deleteSysUser(id);
+	if (succeeded) {
+		ElMessage.success('删除成功');
+		tableRef.value?.refresh();
+	}
 };
-// 分页改变
-const onHandleSizeChange = (val: number) => {
-	state.tableData.param.pageSize = val;
-	getTableData();
-};
-// 分页改变
-const onHandleCurrentChange = (val: number) => {
-	state.tableData.param.pageNum = val;
-	getTableData();
-};
-// 页面加载时
-onMounted(() => {
-	getTableData();
+
+onMounted(async () => {
+	const item = { prop: 'orgId', label: '机构', type: 'treeSelect', options: [] as SelectOptionType[] } as TableSearchType;
+	const { data } = await getTreeSelect();
+	select.items = data ?? [];
+	if ((data ?? []).length > 0) {
+		item.options = data! as SelectOptionType[];
+		// for (const i of data!) {
+		// 	item.options.push(i);
+		// }
+		state.search?.push(item);
+	}
 });
 </script>
 
-<style scoped lang="scss">
-.system-user-container {
-	:deep(.el-card__body) {
-		display: flex;
-		flex-direction: column;
-		flex: 1;
-		overflow: auto;
-		.el-table {
-			flex: 1;
-		}
-	}
-}
-</style>
+<style scoped lang="scss"></style>

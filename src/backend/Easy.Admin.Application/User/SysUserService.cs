@@ -35,7 +35,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// <returns></returns>
     [Description("系统用户分页查询")]
     [HttpGet]
-    public async Task<PageResult<SysUserPageOutput>> Page([FromQuery] QueryUserInput dto)
+    public async Task<PageResult<SysUserPageOutput>> Page([FromQuery] QuerySysUserInput dto)
     {
         List<long> orgIdList = new List<long>();
         if (dto.OrgId.HasValue)
@@ -71,7 +71,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// <returns></returns>
     [UnitOfWork, HttpPost("add")]
     [Description("添加系统用户")]
-    public async Task AddUser(AddUserInput dto)
+    public async Task AddUser(AddSysUserInput dto)
     {
         var user = dto.Adapt<SysUser>();
         user.Id = _idGenerator.NextId();
@@ -93,7 +93,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// <returns></returns>
     [Description("更新系统用户信息")]
     [UnitOfWork, HttpPut("edit")]
-    public async Task UpdateUser(UpdateUserInput dto)
+    public async Task UpdateUser(UpdateSysUserInput dto)
     {
         var user = await _repository.GetByIdAsync(dto.Id);
         if (user == null) throw Oops.Bah("无效参数");

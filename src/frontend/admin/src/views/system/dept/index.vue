@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts" name="systemDept">
-import { defineAsyncComponent, ref, reactive } from 'vue';
+import { defineAsyncComponent, ref, reactive, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
 
 // 引入组件
@@ -74,9 +74,11 @@ const state = reactive<CustomTable>({
 	},
 });
 
-const onSearch = (data: TableSearchType) => {
+const onSearch = (data: EmptyObjectType) => {
 	state.param = data;
-	tableRef.value?.refresh();
+	nextTick(() => {
+		tableRef.value?.refresh();
+	});
 };
 
 // 打开新增菜单弹窗

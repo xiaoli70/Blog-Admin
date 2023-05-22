@@ -1,6 +1,6 @@
 ﻿namespace Easy.Admin.Application.User.Dtos;
 
-public class AddUserInput
+public class AddSysUserInput
 {
     /// <summary>
     /// 用户名
@@ -45,9 +45,13 @@ public class AddUserInput
     public string Mobile { get; set; }
 
     /// <summary>
+    /// 可用状态
+    /// </summary>
+    public AvailabilityStatus Status { get; set; }
+
+    /// <summary>
     /// 邮箱
     /// </summary>
-    [SugarColumn(Length = 64)]
     [DataValidation(ValidationTypes.EmailAddress, ErrorMessage = "邮箱地址不合法", AllowNullValue = true)]
     public string Email { get; set; }
 

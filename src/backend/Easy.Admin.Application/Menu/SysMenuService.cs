@@ -222,6 +222,36 @@ public class SysMenuService : BaseService<SysMenu>
     }
 
     /// <summary>
+    /// 菜单按钮树
+    /// </summary>
+    /// <returns></returns>
+    [Description("菜单按钮树")]
+    [HttpGet]
+    public async Task<List<TreeSelectOutput>> TreeMenuButton()
+    {
+        long userId = _authManager.UserId;
+        List<SysMenu> menus;
+        if (_authManager.IsSuperAdmin)//超级管理员
+        {
+            menus = await _sysMenuRepository.AsQueryable().ToTreeAsync(x => x.Children, x => x.ParentId, null);
+        }
+        else
+        {
+            menus = await _sysMenuRepository.AsQueryable()
+                .InnerJoin<SysRoleMenu>((menu, roleMenu) => menu.Id == roleMenu.MenuId)
+                .InnerJoin<SysRole>((menu, roleMenu, role) => roleMenu.RoleId == role.Id)
+                .InnerJoin<SysUserRole>((menu, roleMenu, role, userRole) => role.Id == userRole.RoleId)
+                .Where((menu, roleMenu, role, userRole) => menu.Status == AvailabilityStatus.Enable &&
+                                                           role.Status == AvailabilityStatus.Enable &&
+                                                           userRole.UserId == userId)
+                .Select(menu => menu)
+                .ToTreeAsync(x => x.Children, x => x.ParentId, null);
+        }
+
+        return menus.Adapt<List<TreeSelectOutput>>();
+    }
+
+    /// <summary>
     /// 菜单按钮转换为树形结构
     /// </summary>
     /// <param name="menus"></param>

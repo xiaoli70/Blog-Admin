@@ -435,6 +435,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Easy.Admin.Application.Menu.SysMenuService.TreeMenuButton">
+            <summary>
+            菜单按钮树
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Easy.Admin.Application.Menu.SysMenuService.MapTree(System.Collections.Generic.List{Easy.Admin.Core.Entities.SysMenu},System.Nullable{System.Int64},System.Collections.Generic.List{Easy.Admin.Application.Menu.Dtos.RouterOutput})">
             <summary>
             菜单按钮转换为树形结构
@@ -650,6 +656,13 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:Easy.Admin.Application.Role.SysRoleService.GetRuleMenu(System.Int64)">
+            <summary>
+            获取角色可访问的菜单和按钮id
+            </summary>
+            <param name="id">角色id</param>
+            <returns></returns>
+        </member>
         <member name="M:Easy.Admin.Application.Role.SysRoleService.SetStatus(Easy.Admin.Core.Shared.AvailabilityDto)">
             <summary>
             修改角色状态
@@ -664,72 +677,77 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Account">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Account">
             <summary>
             用户名
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Name">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Name">
             <summary>
             姓名
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Gender">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Gender">
             <summary>
             性别
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.OrgId">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.OrgId">
             <summary>
             组织机构id
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.NickName">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.NickName">
             <summary>
             昵称
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Birthday">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Birthday">
             <summary>
             生日
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Mobile">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Mobile">
             <summary>
             手机号码
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Email">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Email">
             <summary>
             邮箱
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Remark">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Remark">
             <summary>
             备注
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.AddUserInput.Roles">
+        <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Roles">
             <summary>
             角色
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.QueryUserInput.Account">
+        <member name="P:Easy.Admin.Application.User.Dtos.QuerySysUserInput.Account">
             <summary>
             账号
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.QueryUserInput.OrgId">
+        <member name="P:Easy.Admin.Application.User.Dtos.QuerySysUserInput.OrgId">
             <summary>
             组织机构Id
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.QueryUserInput.Mobile">
+        <member name="P:Easy.Admin.Application.User.Dtos.QuerySysUserInput.Mobile">
             <summary>
             手机号
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.QueryUserInput.Name">
+        <member name="P:Easy.Admin.Application.User.Dtos.QuerySysUserInput.Name">
             <summary>
             姓名
             </summary>
@@ -784,7 +802,7 @@
             邮箱
             </summary>
         </member>
-        <member name="P:Easy.Admin.Application.User.Dtos.UpdateUserInput.Id">
+        <member name="P:Easy.Admin.Application.User.Dtos.UpdateSysUserInput.Id">
             <summary>
             用户Id
             </summary>
@@ -794,21 +812,21 @@
             系统用户管理
             </summary>
         </member>
-        <member name="M:Easy.Admin.Application.User.SysUserService.Page(Easy.Admin.Application.User.Dtos.QueryUserInput)">
+        <member name="M:Easy.Admin.Application.User.SysUserService.Page(Easy.Admin.Application.User.Dtos.QuerySysUserInput)">
             <summary>
             系统用户分页查询
             </summary>
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:Easy.Admin.Application.User.SysUserService.AddUser(Easy.Admin.Application.User.Dtos.AddUserInput)">
+        <member name="M:Easy.Admin.Application.User.SysUserService.AddUser(Easy.Admin.Application.User.Dtos.AddSysUserInput)">
             <summary>
             添加系统用户
             </summary>
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:Easy.Admin.Application.User.SysUserService.UpdateUser(Easy.Admin.Application.User.Dtos.UpdateUserInput)">
+        <member name="M:Easy.Admin.Application.User.SysUserService.UpdateUser(Easy.Admin.Application.User.Dtos.UpdateSysUserInput)">
             <summary>
             更新系统用户信息
             </summary>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using Easy.Admin.Core.Const;
 using Easy.Admin.Core.Entities;
 using Easy.Admin.Core.Options;
 using Mapster;
@@ -116,7 +117,6 @@ public static class SqlSugarExtensions
                         entityInfo.EntityValue is Entity<long> { Id: 0 } entity)
                     {
                         entity.Id = YitIdHelper.NextId();
-                        break;
                     }
                     //如果当前实体继承ICreatedTime就设置创建时间
                     if (entityInfo.EntityValue is ICreatedTime createdTime && createdTime.CreatedTime == DateTime.MinValue)
@@ -129,6 +129,13 @@ public static class SqlSugarExtensions
                     {
                         updatedTime.UpdatedTime = DateTime.Now;
                     }
+
+                    if (entityInfo.EntityValue is ICreatedUserId createdUserId)
+                    {
+                        createdUserId.CreatedUserId = App.User.FindFirst(AuthClaimsConst.AuthIdKey)!.Value.Adapt<long>();
+                    }
+                    break;
+                case DataFilterType.DeleteByObject:
                     break;
             }
         };

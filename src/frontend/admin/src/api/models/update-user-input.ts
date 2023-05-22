@@ -11,13 +11,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { AvailabilityStatus } from './availability-status';
 import { Gender } from './gender';
 /**
  * 
  * @export
  * @interface UpdateUserInput
  */
-export interface UpdateUserInput {
+export interface UpdateSysUserInput {
     /**
      * 用户名
      * @type {string}
@@ -66,6 +67,12 @@ export interface UpdateUserInput {
      * @memberof UpdateUserInput
      */
     email?: string | null;
+     /**
+     * 状态
+     * @type {AvailabilityStatus}
+     * @memberof UpdateOrgInput
+     */
+     status?: AvailabilityStatus;
     /**
      * 备注
      * @type {string}
