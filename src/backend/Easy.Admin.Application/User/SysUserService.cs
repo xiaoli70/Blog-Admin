@@ -108,6 +108,13 @@ public class SysUserService : BaseService<SysUser>, ITransient
         await _userRoleRepository.InsertRangeAsync(roles);
         await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
+
+    //public async Task<> Detail([FromQuery] long id)
+    //{
+    //    _repository.AsQueryable().Where(x=>x.Id==id)
+    //        .Select<UpdateSysUserInput>()
+    //}
+
     /// <summary>
     /// 重置系统用户密码
     /// </summary>

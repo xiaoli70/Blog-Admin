@@ -38,9 +38,7 @@ const UserDialog = defineAsyncComponent(() => import('/@/views/system/user/dialo
 
 // 表单实例
 const userDialogRef = ref<InstanceType<typeof UserDialog>>();
-const select = reactive({
-	items: [] as TreeSelectOutput[],
-});
+let orgs = [] as TreeSelectOutput[];
 //table实例
 const tableRef = ref<InstanceType<typeof Table>>();
 const state = reactive<CustomTable>({
@@ -101,6 +99,7 @@ const state = reactive<CustomTable>({
 	],
 });
 
+// 搜索
 const onSearch = (params: EmptyObjectType) => {
 	state.param = params;
 	nextTick(() => {
@@ -110,7 +109,7 @@ const onSearch = (params: EmptyObjectType) => {
 
 // 打开新增用户弹窗
 const onOpenUser = (id: number) => {
-	userDialogRef.value?.openDialog(id);
+	userDialogRef.value?.openDialog(id, orgs);
 };
 // 删除用户
 const onDeleteUser = async (id: number) => {
@@ -124,12 +123,9 @@ const onDeleteUser = async (id: number) => {
 onMounted(async () => {
 	const item = { prop: 'orgId', label: '机构', type: 'treeSelect', options: [] as SelectOptionType[] } as TableSearchType;
 	const { data } = await getTreeSelect();
-	select.items = data ?? [];
 	if ((data ?? []).length > 0) {
+		orgs = data!;
 		item.options = data! as SelectOptionType[];
-		// for (const i of data!) {
-		// 	item.options.push(i);
-		// }
 		state.search?.push(item);
 	}
 });

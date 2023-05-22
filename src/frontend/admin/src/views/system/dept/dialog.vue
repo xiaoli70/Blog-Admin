@@ -7,7 +7,7 @@
 						<el-form-item label="上级机构" prop="parentId">
 							<el-tree-select
 								v-model="state.ruleForm.parentId"
-								aria-placeholder="请选择机构"
+								placeholder="请选择机构"
 								:data="state.deptData"
 								check-strictly
 								:render-after-expand="false"

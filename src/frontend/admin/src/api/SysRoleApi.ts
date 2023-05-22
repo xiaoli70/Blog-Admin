@@ -1,5 +1,5 @@
 import { http } from './../utils/request';
-import { AddSysRoleInput, PageResultSysRolePageInput, UpdateSysRoleInput } from './models';
+import { AddSysRoleInput, PageResultSysRolePageInput, TreeSelectOutput, UpdateSysRoleInput } from './models';
 
 /**
  * 角色分页查询
@@ -47,4 +47,12 @@ export const deleteRole = (id: number) => {
  */
 export const getRuleMenu = (id: number) => {
 	return http.get<number[]>('/sysrole/getrulemenu', { params: { id } });
+};
+
+/**
+ * 角色下拉选项
+ * @returns
+ */
+export const getRoleSelect = () => {
+	return http.get<TreeSelectOutput[]>('/sysrole/roleselect');
 };

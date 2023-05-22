@@ -143,4 +143,22 @@ public class SysRoleService : BaseService<SysRole>
         await base.Delete(dto);
         await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
+
+    /// <summary>
+    /// 角色下拉选项
+    /// </summary>
+    /// <returns></returns>
+    [Description("角色下拉选项")]
+    [HttpGet]
+    public async Task<List<SelectOutput>> RoleSelect()
+    {
+        return await _sysRoleRepository.AsQueryable().Where(x => x.Status == AvailabilityStatus.Enable)
+            .OrderBy(x => x.Sort)
+            .OrderBy(x => x.Id)
+            .Select(x => new SelectOutput()
+            {
+                Value = x.Id,
+                Label = x.Name
+            }).ToListAsync();
+    }
 }
