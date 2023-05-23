@@ -1,5 +1,6 @@
 ﻿using Easy.Admin.Application.Auth;
 using Easy.Admin.Application.User.Dtos;
+using System.Data;
 
 namespace Easy.Admin.Application.User;
 
@@ -11,6 +12,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     private readonly ISqlSugarRepository<SysUser> _repository;
     private readonly ISqlSugarRepository<SysUserRole> _userRoleRepository;
     private readonly ISqlSugarRepository<SysOrganization> _orgRepository;
+    private readonly AuthManager _authManager;
     private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IIdGenerator _idGenerator;
 
@@ -24,6 +26,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
         _repository = repository;
         _userRoleRepository = userRoleRepository;
         _orgRepository = orgRepository;
+        _authManager = authManager;
         _easyCachingProvider = easyCachingProvider;
         _idGenerator = idGenerator;
     }
@@ -46,6 +49,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
         }
 
         return await _repository.AsQueryable()
+            .Where(x => x.Id > 1)
             .WhereIF(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
             .WhereIF(!string.IsNullOrWhiteSpace(dto.Account), x => x.Account.Contains(dto.Account))
             .WhereIF(!string.IsNullOrWhiteSpace(dto.Mobile), x => x.Mobile.Contains(dto.Mobile))
@@ -60,7 +64,8 @@ public class SysUserService : BaseService<SysUser>, ITransient
                 Gender = x.Gender,
                 NickName = x.NickName,
                 CreatedTime = x.CreatedTime,
-                Email = x.Email
+                Email = x.Email,
+                Id = x.Id
             }).ToPagedListAsync(dto);
     }
 
@@ -105,15 +110,36 @@ public class SysUserService : BaseService<SysUser>, ITransient
             UserId = user.Id
         }).ToList();
         await _repository.UpdateAsync(user);
+        await _userRoleRepository.DeleteAsync(x => x.UserId == user.Id);
         await _userRoleRepository.InsertRangeAsync(roles);
         await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
 
-    //public async Task<> Detail([FromQuery] long id)
-    //{
-    //    _repository.AsQueryable().Where(x=>x.Id==id)
-    //        .Select<UpdateSysUserInput>()
-    //}
+    /// <summary>
+    /// 系统用户详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<UpdateSysUserInput> Detail([FromQuery] long id)
+    {
+        return await _repository.AsQueryable().Where(x => x.Id == id)
+              .Select(x => new UpdateSysUserInput()
+              {
+                  Id = x.Id,
+                  Name = x.Name,
+                  Status = x.Status,
+                  OrgId = x.OrgId,
+                  Account = x.Account,
+                  Mobile = x.Mobile,
+                  Remark = x.Remark,
+                  Birthday = x.Birthday,
+                  Email = x.Email,
+                  Gender = x.Gender,
+                  NickName = x.NickName,
+                  Roles = SqlFunc.Subqueryable<SysUserRole>().Where(s => s.UserId == x.Id).ToList(s => s.RoleId)
+              }).FirstAsync();
+    }
 
     /// <summary>
     /// 重置系统用户密码
@@ -128,5 +154,67 @@ public class SysUserService : BaseService<SysUser>, ITransient
         {
             Password = encrypt
         }, x => x.Id == dto.Id);
+    }
+
+    /// <summary>
+    /// 获取当前登录用户的信息
+    /// </summary>
+    /// <returns></returns>
+    [Description("获取登录用户的信息")]
+    [HttpGet]
+    public async Task<SysUserInfoOutput> CurrentUserInfo()
+    {
+        var userId = _authManager.UserId;
+        return await _repository.AsQueryable().Where(x => x.Id == userId)
+              .Select(x => new SysUserInfoOutput
+              {
+                  Name = x.Name,
+                  Account = x.Account,
+                  Avatar = x.Avatar,
+                  Birthday = x.Birthday,
+                  Email = x.Email,
+                  Gender = x.Gender,
+                  NickName = x.NickName,
+                  Remark = x.Remark,
+                  LastLoginIp = x.LastLoginIp,
+                  LastLoginAddress = x.LastLoginAddress,
+                  Mobile = x.Mobile,
+                  OrgId = x.OrgId,
+                  OrgName = SqlFunc.Subqueryable<SysOrganization>().Where(o => o.Id == x.OrgId).Select(o => o.Name),
+                  AuthBtnList = SqlFunc.Subqueryable<SysUserRole>()
+                      .InnerJoin<SysRole>((userRole, role) => userRole.RoleId == role.Id)
+                      .InnerJoin<SysRoleMenu>((userRole, role, roleMenu) => role.Id == roleMenu.RoleId)
+                      .InnerJoin<SysMenu>((userRole, role, roleMenu, menu) => roleMenu.MenuId == menu.Id)
+                      .Where((userRole, role, roleMenu, menu) => role.Status == AvailabilityStatus.Enable &&
+                                                                 menu.Type == MenuType.Button &&
+                                                                 userRole.UserId == userId)
+                      .ToList((userRole, role, roleMenu, menu) => menu.Code)
+              }).FirstAsync();
+    }
+
+    /// <summary>
+    /// 用户修改账户密码
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [Description("用户修改账户密码")]
+    [HttpPut]
+    public async Task ChangePassword(ChangePasswordOutput dto)
+    {
+        var userId = _authManager.UserId;
+        string encode = _idGenerator.Encode(userId);
+        string pwd = MD5Encryption.Encrypt($"{encode}{dto.OriginalPwd}");
+        if (!await _repository.IsAnyAsync(x => x.Id == userId && x.Password == pwd))
+        {
+            throw Oops.Bah("原密码错误");
+        }
+        pwd = MD5Encryption.Encrypt($"{encode}{dto.Password}");
+        await _repository.AsSugarClient().Updateable<SysUser>()
+            .SetColumns(x => new SysUser()
+            {
+                Password = pwd
+            })
+            .Where(x => x.Id == userId)
+            .ExecuteCommandHasChangeAsync();
     }
 }

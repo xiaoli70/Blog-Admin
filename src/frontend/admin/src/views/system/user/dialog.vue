@@ -29,7 +29,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="出生日期" prop="birthday">
-							<el-date-picker v-model="state.ruleForm.birthday" type="date" class="w100" placeholder="请选择出生日期" clearable />
+							<el-date-picker v-model="state.ruleForm.birthday" type="date" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="w100" placeholder="请选择出生日期" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -103,7 +103,7 @@
 <script setup lang="ts" name="systemUserDialog">
 import { reactive, ref, nextTick } from 'vue';
 import { UpdateSysUserInput, TreeSelectOutput } from '/@/api/models';
-import { addSysUser, editSysUser } from '/@/api/SysUserApi';
+import { addSysUser, editSysUser, getSysUserDetail } from '/@/api/SysUserApi';
 import { getRoleSelect } from '/@/api/SysRoleApi';
 import { FormInstance, FormRules } from 'element-plus';
 
@@ -166,6 +166,8 @@ const openDialog = async (id: number, orgs: TreeSelectOutput[]) => {
 	const { data } = await getRoleSelect();
 	state.roleData = data ?? [];
 	if (id > 0) {
+		const { data: user } = await getSysUserDetail(id);
+		state.ruleForm = user;
 		state.dialog.title = '修改用户';
 		state.dialog.submitTxt = '修 改';
 	} else {

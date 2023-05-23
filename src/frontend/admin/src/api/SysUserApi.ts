@@ -1,5 +1,5 @@
 import { http } from '../utils/request';
-import { PageResultSysUserPageOutput, AddSysUserInput, UpdateSysUserInput } from './models';
+import { PageResultSysUserPageOutput, AddSysUserInput, UpdateSysUserInput, ResetPasswordInput } from './models';
 
 /**
  * 系统用户分页查询
@@ -34,4 +34,26 @@ export const editSysUser = (data: UpdateSysUserInput) => {
  */
 export const deleteSysUser = (id: number) => {
 	return http.delete('/sysuser/delete', { data: { id } });
+};
+
+/**
+ * 获取系统用户详情
+ * @param id 系统用户id
+ * @returns
+ */
+export const getSysUserDetail = (id: number) => {
+	return http.get('/sysuser/detail', { params: { id } });
+};
+
+/**
+ * 重置系统用户密码
+ * @param data 密码
+ * @returns
+ */
+export const resetPassword = (data: ResetPasswordInput) => {
+	return http.put('/sysuser/reset', data);
+};
+
+export const getCurrentUserInfo = () => {
+	return http.get('/sysuser/currentuserinfo');
 };

@@ -13,20 +13,36 @@
 			</template>
 			<template #action="scope">
 				<el-button icon="ele-Edit" size="small" text type="primary" @click="onOpenUser(scope.row.id)"> 编辑 </el-button>
-				<el-popconfirm title="确认删除吗？" @confirm="onDeleteUser(scope.row.id)">
-					<template #reference>
-						<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
+				<el-dropdown>
+					<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px" />
+					<template #dropdown>
+						<el-dropdown-menu>
+							<el-dropdown-item
+								icon="ele-RefreshLeft"
+								@click="
+									() => {
+										resetDialogRef?.openDialog(scope.row.id);
+									}
+								"
+							>
+								重置密码
+							</el-dropdown-item>
+							<el-dropdown-item icon="ele-Delete" divided @click="onDeleteUser(scope.row)"> 删除账号 </el-dropdown-item>
+						</el-dropdown-menu>
 					</template>
-				</el-popconfirm>
+				</el-dropdown>
 			</template>
 		</Table>
+		<!-- 用新增编辑 -->
 		<UserDialog ref="userDialogRef" @refresh="tableRef?.refresh" />
+		<!-- 密码重置 -->
+		<ResetDialog ref="resetDialogRef" />
 	</div>
 </template>
 
 <script setup lang="ts" name="systemUser">
 import { defineAsyncComponent, reactive, ref, onMounted, nextTick } from 'vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import Table from '/@/components/table/index.vue';
 import Search from '/@/components/table/search.vue';
 import { getSysUserPage, deleteSysUser } from '/@/api/SysUserApi';
@@ -35,9 +51,11 @@ import { TreeSelectOutput } from '/@/api/models';
 
 // 引入组件
 const UserDialog = defineAsyncComponent(() => import('/@/views/system/user/dialog.vue'));
+const ResetDialog = defineAsyncComponent(() => import('/@/views/system/user/reset.vue'));
 
 // 表单实例
 const userDialogRef = ref<InstanceType<typeof UserDialog>>();
+const resetDialogRef = ref<InstanceType<typeof ResetDialog>>();
 let orgs = [] as TreeSelectOutput[];
 //table实例
 const tableRef = ref<InstanceType<typeof Table>>();
@@ -87,6 +105,8 @@ const state = reactive<CustomTable>({
 			prop: 'action',
 			label: '操作',
 			align: 'center',
+			width: 120,
+			fixed: 'right',
 		},
 	],
 	config: {
@@ -112,12 +132,20 @@ const onOpenUser = (id: number) => {
 	userDialogRef.value?.openDialog(id, orgs);
 };
 // 删除用户
-const onDeleteUser = async (id: number) => {
-	const { succeeded } = await deleteSysUser(id);
-	if (succeeded) {
-		ElMessage.success('删除成功');
-		tableRef.value?.refresh();
-	}
+const onDeleteUser = async (row: any) => {
+	ElMessageBox.confirm(`确定删除账号：【${row.account}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			const { succeeded } = await deleteSysUser(row.id);
+			if (succeeded) {
+				ElMessage.success('删除成功');
+				tableRef.value?.refresh();
+			}
+		})
+		.catch(() => {});
 };
 
 onMounted(async () => {
