@@ -11,41 +11,41 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SysRolePageInput } from './sys-role-page-input';
+import { SysRolePageOutput } from './sys-role-page-output';
 /**
  * 
  * @export
- * @interface PageResultSysRolePageInput
+ * @interface PageResultSysRolePageOutput
  */
-export interface PageResultSysRolePageInput {
+export interface PageResultSysRolePageOutput {
     /**
      * 当前页
      * @type {number}
-     * @memberof PageResultSysRolePageInput
+     * @memberof PageResultSysRolePageOutput
      */
     pageNo?: number;
     /**
      * 页容量
      * @type {number}
-     * @memberof PageResultSysRolePageInput
+     * @memberof PageResultSysRolePageOutput
      */
     pageSize?: number;
     /**
      * 总页数
      * @type {number}
-     * @memberof PageResultSysRolePageInput
+     * @memberof PageResultSysRolePageOutput
      */
     pages?: number;
     /**
      * 总条数
      * @type {number}
-     * @memberof PageResultSysRolePageInput
+     * @memberof PageResultSysRolePageOutput
      */
     total?: number;
     /**
      * 数据
-     * @type {Array<SysRolePageInput>}
-     * @memberof PageResultSysRolePageInput
+     * @type {Array<SysRolePageOutput>}
+     * @memberof PageResultSysRolePageOutput
      */
-    rows?: Array<SysRolePageInput> | null;
+    rows?: Array<SysRolePageOutput> | null;
 }

@@ -61,7 +61,6 @@
 				:header-cell-style="{ background: '#F5F7FA' }"
 				v-bind="$attrs"
 				row-key="id"
-				default-expand-all
 				style="width: 100%"
 				v-loading="state.loading"
 				:default-sort="defaultSort"
@@ -349,6 +348,7 @@ defineExpose({
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+	overflow: scroll;
 	:deep(.el-card__body) {
 		display: flex;
 		flex-direction: column;

@@ -18,8 +18,8 @@
 				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
 			</template>
 			<template #action="scope">
-				<el-button icon="ele-Edit" size="small" text type="primary" @click="onOpenMenu(scope.row.id)"> 编辑 </el-button>
-				<el-popconfirm title="确认删除吗？" @confirm="onDeleteMenu(scope.row.id)">
+				<el-button v-auth="'sysmenu:edit'" icon="ele-Edit" size="small" text type="primary" @click="onOpenMenu(scope.row.id)"> 编辑 </el-button>
+				<el-popconfirm v-auth="'sysmenu:delete'" title="确认删除吗？" @confirm="onDeleteMenu(scope.row.id)">
 					<template #reference>
 						<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
 					</template>
@@ -34,10 +34,10 @@
 import { defineAsyncComponent, ref, reactive, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
 import { getMenuPage, deleteMenu } from '/@/api/SysMenuApi';
-// import { setBackEndControlRefreshRoutes } from "/@/router/backEnd";
-
+import { auths } from '/@/utils/authFunction';
 import Search from '/@/components/table/search.vue';
 import Table from '/@/components/table/index.vue';
+import { onMounted } from 'vue';
 
 // 引入组件
 const MenuDialog = defineAsyncComponent(() => import('/@/views/system/menu/dialog.vue'));
@@ -49,10 +49,11 @@ const vm = reactive<CustomTable>({
 		{ prop: 'type', label: '类型', align: 'center' },
 		{ prop: 'path', label: '路由地址', align: 'center' },
 		{ prop: 'component', label: '组件路径', align: 'center' },
+		{ prop: 'code', label: '权限标识', align: 'center' },
 		{ prop: 'status', label: '状态', align: 'center' },
 		{ prop: 'sort', label: '排序', align: 'center' },
 		{ prop: 'createdTime', label: '创建时间', align: 'center' },
-		{ prop: 'action', label: '操作', align: 'center', width: 150 },
+		{ prop: 'action', label: '操作', align: 'center', width: 150, fixed: 'right' },
 	],
 	search: [{ label: '名称', prop: 'name', placeholder: '菜单按钮名称', type: 'input' }],
 	config: {
@@ -86,4 +87,10 @@ const onDeleteMenu = async (id: number) => {
 		ElMessage.error(errors);
 	}
 };
+
+onMounted(() => {
+	if (!auths(['sysmenu:edit', 'sysmenu:delete'])) {
+		vm.columns = vm.columns.filter((item) => item.prop !== 'action');
+	}
+});
 </script>

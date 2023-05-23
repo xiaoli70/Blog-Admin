@@ -738,6 +738,16 @@
             角色
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.ChangePasswordOutput.OriginalPwd">
+            <summary>
+            原密码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.ChangePasswordOutput.Password">
+            <summary>
+            新密码
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.User.Dtos.QuerySysUserInput.Account">
             <summary>
             账号
@@ -926,6 +936,13 @@
             <summary>
             获取当前登录用户的信息
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.User.SysUserService.ChangePassword(Easy.Admin.Application.User.Dtos.ChangePasswordOutput)">
+            <summary>
+            用户修改账户密码
+            </summary>
+            <param name="dto"></param>
             <returns></returns>
         </member>
     </members>

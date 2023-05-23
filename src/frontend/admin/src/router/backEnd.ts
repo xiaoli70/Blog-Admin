@@ -1,6 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
 import { useUserInfo } from '/@/stores/userInfo';
-// import { useRequestOldRoutes } from '/@/stores/requestOldRoutes';
 import pinia from '/@/stores/index';
 import { Session } from '/@/utils/storage';
 import { NextLoading } from '/@/utils/loading';
@@ -37,7 +36,7 @@ export async function initBackEndControlRoutes() {
 	if (!Session.get(accessTokenKey)) return false;
 	// 触发初始化用户信息 pinia
 	// https://gitee.com/lyt-top/vue-next-admin/issues/I5F1HP
-	await useUserInfo().setUserInfos();
+	await useUserInfo().getUserInfo();
 	// 获取路由菜单数据
 	const { data } = await getBackEndControlRoutes();
 	// 无登录权限时，添加判断
@@ -82,7 +81,21 @@ export function setFilterRouteEnd() {
 	let filterRouteEnd: any = formatTwoStageRoutes(formatFlatteningRoutes(dynamicRoutes));
 	// notFoundAndNoPower 防止 404、401 不在 layout 布局中，不设置的话，404、401 界面将全屏显示
 	// 关联问题 No match found for location with path 'xxx'
-	filterRouteEnd[0].children = [...filterRouteEnd[0].children, ...notFoundAndNoPower];
+	filterRouteEnd[0].children = [
+		...filterRouteEnd[0].children,
+		...notFoundAndNoPower,
+		...[
+			{
+				path: '/personal',
+				name: 'personal',
+				component: () => import('/@/views/personal/index.vue'),
+				meta: {
+					title: '个人中心',
+					isHide: true,
+				},
+			},
+		],
+	];
 	return filterRouteEnd;
 }
 

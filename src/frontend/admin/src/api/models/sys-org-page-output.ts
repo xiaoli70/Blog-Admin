@@ -62,6 +62,12 @@ export interface SysOrgPageOutput {
      */
     remark?: string | null;
     /**
+     * 创建时间
+     * @type {Date}
+     * @memberof SysOrgPageOutput
+     */
+    createdTime?: Date;
+    /**
      * 
      * @type {Array<SysOrgPageOutput>}
      * @memberof SysOrgPageOutput

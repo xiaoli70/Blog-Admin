@@ -1,5 +1,5 @@
 import { http } from '../utils/request';
-import { PageResultSysUserPageOutput, AddSysUserInput, UpdateSysUserInput, ResetPasswordInput } from './models';
+import { PageResultSysUserPageOutput, AddSysUserInput, UpdateSysUserInput, ResetPasswordInput, SysUserInfoOutput } from './models';
 
 /**
  * 系统用户分页查询
@@ -54,6 +54,10 @@ export const resetPassword = (data: ResetPasswordInput) => {
 	return http.put('/sysuser/reset', data);
 };
 
+/**
+ * 获取当前登录用户的信息
+ * @returns
+ */
 export const getCurrentUserInfo = () => {
-	return http.get('/sysuser/currentuserinfo');
+	return http.get<SysUserInfoOutput>('/sysuser/currentuserinfo');
 };

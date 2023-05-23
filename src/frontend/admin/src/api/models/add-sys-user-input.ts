@@ -11,77 +11,78 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { AvailabilityStatus } from './availability-status';
 import { Gender } from './gender';
 /**
  * 
  * @export
- * @interface UpdateUserInput
+ * @interface AddSysUserInput
  */
-export interface UpdateUserInput {
+export interface AddSysUserInput {
     /**
      * 用户名
      * @type {string}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     account: string;
     /**
      * 姓名
      * @type {string}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     name: string;
     /**
      * 
      * @type {Gender}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     gender?: Gender;
     /**
      * 组织机构id
      * @type {number}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     orgId?: number;
     /**
      * 昵称
      * @type {string}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     nickName?: string | null;
     /**
      * 生日
      * @type {string}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     birthday?: string | null;
     /**
      * 手机号码
      * @type {string}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     mobile?: string | null;
     /**
+     * 
+     * @type {AvailabilityStatus}
+     * @memberof AddSysUserInput
+     */
+    status?: AvailabilityStatus;
+    /**
      * 邮箱
      * @type {string}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     email?: string | null;
     /**
      * 备注
      * @type {string}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     remark?: string | null;
     /**
      * 角色
      * @type {Array<number>}
-     * @memberof UpdateUserInput
+     * @memberof AddSysUserInput
      */
     roles?: Array<number> | null;
-    /**
-     * 用户Id
-     * @type {number}
-     * @memberof UpdateUserInput
-     */
-    id?: number;
 }

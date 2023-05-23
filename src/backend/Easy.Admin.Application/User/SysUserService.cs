@@ -180,16 +180,29 @@ public class SysUserService : BaseService<SysUser>, ITransient
                   LastLoginAddress = x.LastLoginAddress,
                   Mobile = x.Mobile,
                   OrgId = x.OrgId,
-                  OrgName = SqlFunc.Subqueryable<SysOrganization>().Where(o => o.Id == x.OrgId).Select(o => o.Name),
-                  AuthBtnList = SqlFunc.Subqueryable<SysUserRole>()
-                      .InnerJoin<SysRole>((userRole, role) => userRole.RoleId == role.Id)
-                      .InnerJoin<SysRoleMenu>((userRole, role, roleMenu) => role.Id == roleMenu.RoleId)
-                      .InnerJoin<SysMenu>((userRole, role, roleMenu, menu) => roleMenu.MenuId == menu.Id)
-                      .Where((userRole, role, roleMenu, menu) => role.Status == AvailabilityStatus.Enable &&
-                                                                 menu.Type == MenuType.Button &&
-                                                                 userRole.UserId == userId)
-                      .ToList((userRole, role, roleMenu, menu) => menu.Code)
-              }).FirstAsync();
+                  OrgName = SqlFunc.Subqueryable<SysOrganization>().Where(o => o.Id == x.OrgId).Select(o => o.Name)
+              })
+              .Mapper(dto =>
+              {
+                  if (_authManager.IsSuperAdmin)
+                  {
+                      dto.AuthBtnList = _repository.AsSugarClient().Queryable<SysMenu>().Where(x => x.Type == MenuType.Button)
+                            .Select(x => x.Code).ToList();
+                  }
+                  else
+                  {
+                      dto.AuthBtnList = _repository.AsSugarClient().Queryable<SysUserRole>()
+                          .InnerJoin<SysRole>((userRole, role) => userRole.RoleId == role.Id)
+                          .InnerJoin<SysRoleMenu>((userRole, role, roleMenu) => role.Id == roleMenu.RoleId)
+                          .InnerJoin<SysMenu>((userRole, role, roleMenu, menu) => roleMenu.MenuId == menu.Id)
+                          .Where((userRole, role, roleMenu, menu) => role.Status == AvailabilityStatus.Enable &&
+                                                                     menu.Type == MenuType.Button &&
+                                                                     userRole.UserId == userId)
+                          .Select((userRole, role, roleMenu, menu) => menu.Code)
+                          .ToList();
+                  }
+              })
+              .FirstAsync();
     }
 
     /// <summary>

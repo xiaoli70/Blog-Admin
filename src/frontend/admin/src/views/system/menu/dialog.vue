@@ -191,6 +191,17 @@ const rules = reactive<FormRules>({
 			message: '请输入排序',
 		},
 	],
+	code: [
+		{
+			validator: (rule: any, value?: string, callback: any) => {
+				if (state.ruleForm.type === 2 && (value ?? '').trim().length === 0) {
+					callback(new Error('请输入权限标识'));
+					return;
+				}
+				callback();
+			},
+		},
+	],
 });
 
 //表单数据

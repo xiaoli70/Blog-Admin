@@ -15,49 +15,49 @@ import { AvailabilityStatus } from './availability-status';
 /**
  * 
  * @export
- * @interface SysRolePageOutput
+ * @interface SysRolePageInput
  */
-export interface SysRolePageOutput {
+export interface SysRolePageInput {
     /**
      * 主键
      * @type {number}
-     * @memberof SysRolePageOutput
+     * @memberof SysRolePageInput
      */
     id?: number;
     /**
      * 角色名称
      * @type {string}
-     * @memberof SysRolePageOutput
+     * @memberof SysRolePageInput
      */
     name?: string | null;
     /**
      * 创建时间
      * @type {Date}
-     * @memberof SysRolePageOutput
+     * @memberof SysRolePageInput
      */
     createdTime?: Date;
     /**
      * 
      * @type {AvailabilityStatus}
-     * @memberof SysRolePageOutput
+     * @memberof SysRolePageInput
      */
     status?: AvailabilityStatus;
     /**
      * 角色编码
      * @type {string}
-     * @memberof SysRolePageOutput
+     * @memberof SysRolePageInput
      */
     code?: string | null;
     /**
      * 排序值
      * @type {number}
-     * @memberof SysRolePageOutput
+     * @memberof SysRolePageInput
      */
     sort?: number;
     /**
      * 备注
      * @type {string}
-     * @memberof SysRolePageOutput
+     * @memberof SysRolePageInput
      */
     remark?: string | null;
 }

@@ -13,6 +13,7 @@
  */
 import { AvailabilityStatus } from './availability-status';
 import { MenuType } from './menu-type';
+import { SysMenuPageOutput } from './sys-menu-page-output';
 /**
  * 
  * @export
