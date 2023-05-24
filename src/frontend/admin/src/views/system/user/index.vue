@@ -2,7 +2,7 @@
 	<div class="system-user-container layout-padding">
 		<Search :items="state.search" @search="onSearch" />
 		<Table ref="tableRef" v-bind="state" :on-load="getSysUserPage">
-			<template #tools> <el-button type="primary" icon="ele-Plus" @click="onOpenUser(0)"> 新增 </el-button></template>
+			<template #tools> <el-button v-auth="'sysuser:add'" type="primary" icon="ele-Plus" @click="onOpenUser(0)"> 新增 </el-button></template>
 			<template #status="scope">
 				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
 			</template>
@@ -12,8 +12,8 @@
 				>
 			</template>
 			<template #action="scope">
-				<el-button icon="ele-Edit" size="small" text type="primary" @click="onOpenUser(scope.row.id)"> 编辑 </el-button>
-				<el-dropdown>
+				<el-button icon="ele-Edit" v-auth="'sysuser:edit'" size="small" text type="primary" @click="onOpenUser(scope.row.id)"> 编辑 </el-button>
+				<el-dropdown v-auths="['sysuser:delete', 'sysuser:reset']">
 					<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px" />
 					<template #dropdown>
 						<el-dropdown-menu>
@@ -48,6 +48,7 @@ import Search from '/@/components/table/search.vue';
 import { getSysUserPage, deleteSysUser } from '/@/api/SysUserApi';
 import { getTreeSelect } from '/@/api/SysOrganizationApi';
 import { TreeSelectOutput } from '/@/api/models';
+import { auths } from '/@/utils/authFunction';
 
 // 引入组件
 const UserDialog = defineAsyncComponent(() => import('/@/views/system/user/dialog.vue'));
@@ -107,6 +108,7 @@ const state = reactive<CustomTable>({
 			align: 'center',
 			width: 120,
 			fixed: 'right',
+			visible: auths(['sysuser:edit', 'sysuser:delete']),
 		},
 	],
 	config: {

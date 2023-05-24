@@ -24,11 +24,6 @@
             权限缓存键
             </summary>
         </member>
-        <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionMenuButtonIdKey">
-            <summary>
-            用户菜单按钮权限缓存键(菜单按钮Id集合)
-            </summary>
-        </member>
         <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionMenuKey">
             <summary>
             用户菜单信息权限缓存键（构建ui左侧菜单）
@@ -37,11 +32,6 @@
         <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionButtonCodeKey">
             <summary>
             用户可访问的按钮权限编码缓存键（权限编码集合）
-            </summary>
-        </member>
-        <member name="F:Easy.Admin.Core.Const.CacheConst.SysUserRoleIdListKey">
-            <summary>
-            系统用户角色Id缓存键
             </summary>
         </member>
         <member name="T:Easy.Admin.Core.Entities.Entity`1">
@@ -293,6 +283,96 @@
         <member name="P:Easy.Admin.Core.Entities.Categories.Children">
             <summary>
             子栏目
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.CustomConfig">
+            <summary>
+            自定义配置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.Name">
+            <summary>
+            配置名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.Code">
+            <summary>
+            配置位唯一编码（类名）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.IsMultiple">
+            <summary>
+            是否是多项（集合）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.Json">
+            <summary>
+            配置界面设计（json）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.IsGenerate">
+            <summary>
+            是否已生成实体
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.CustomConfigItem">
+            <summary>
+            自定义配置子项
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfigItem.ConfigId">
+            <summary>
+            自定义配置Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfigItem.Json">
+            <summary>
+            配置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfigItem.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfigItem.CreatedUserId">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfigItem.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfigItem.CreatedTime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="T:Easy.Admin.Core.Entities.FriendLink">

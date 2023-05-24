@@ -3,7 +3,7 @@
 		<Search :items="vm.search" @search="onSearch" />
 		<Table ref="tableRef" v-bind="vm" :on-load="getMenuPage" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
 			<template #tools>
-				<el-button type="primary" icon="ele-Plus" @click="onOpenMenu"> 新增 </el-button>
+				<el-button v-auth="'sysmenu:add'" type="primary" icon="ele-Plus" @click="onOpenMenu"> 新增 </el-button>
 			</template>
 			<template #name="scope">
 				<SvgIcon :name="scope.row.icon" />
@@ -19,9 +19,9 @@
 			</template>
 			<template #action="scope">
 				<el-button v-auth="'sysmenu:edit'" icon="ele-Edit" size="small" text type="primary" @click="onOpenMenu(scope.row.id)"> 编辑 </el-button>
-				<el-popconfirm v-auth="'sysmenu:delete'" title="确认删除吗？" @confirm="onDeleteMenu(scope.row.id)">
+				<el-popconfirm title="确认删除吗？" @confirm="onDeleteMenu(scope.row.id)">
 					<template #reference>
-						<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
+						<el-button v-auth="'sysmenu:delete'" icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
 					</template>
 				</el-popconfirm>
 			</template>
@@ -37,7 +37,6 @@ import { getMenuPage, deleteMenu } from '/@/api/SysMenuApi';
 import { auths } from '/@/utils/authFunction';
 import Search from '/@/components/table/search.vue';
 import Table from '/@/components/table/index.vue';
-import { onMounted } from 'vue';
 
 // 引入组件
 const MenuDialog = defineAsyncComponent(() => import('/@/views/system/menu/dialog.vue'));
@@ -53,7 +52,7 @@ const vm = reactive<CustomTable>({
 		{ prop: 'status', label: '状态', align: 'center' },
 		{ prop: 'sort', label: '排序', align: 'center' },
 		{ prop: 'createdTime', label: '创建时间', align: 'center' },
-		{ prop: 'action', label: '操作', align: 'center', width: 150, fixed: 'right' },
+		{ prop: 'action', label: '操作', align: 'center', width: 150, fixed: 'right', visible: auths(['sysmenu:edit', 'sysmenu:delete']) },
 	],
 	search: [{ label: '名称', prop: 'name', placeholder: '菜单按钮名称', type: 'input' }],
 	config: {
@@ -87,10 +86,4 @@ const onDeleteMenu = async (id: number) => {
 		ElMessage.error(errors);
 	}
 };
-
-onMounted(() => {
-	if (!auths(['sysmenu:edit', 'sysmenu:delete'])) {
-		vm.columns = vm.columns.filter((item) => item.prop !== 'action');
-	}
-});
 </script>

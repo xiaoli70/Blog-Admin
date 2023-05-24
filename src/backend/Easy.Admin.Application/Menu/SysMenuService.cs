@@ -1,12 +1,13 @@
 ﻿using Easy.Admin.Application.Auth;
 using Easy.Admin.Application.Menu.Dtos;
 using Microsoft.OpenApi.Extensions;
+using System.Data;
 
 namespace Easy.Admin.Application.Menu;
 /// <summary>
 /// 系统菜单管理
 /// </summary>
-public class SysMenuService : BaseService<SysMenu>
+public class SysMenuService : BaseService<SysMenu>, ITransient
 {
     private readonly ISqlSugarRepository<SysMenu> _sysMenuRepository;
     private readonly IEasyCachingProvider _easyCachingProvider;
@@ -199,24 +200,29 @@ public class SysMenuService : BaseService<SysMenu>
         long userId = _authManager.UserId;
         var value = await _easyCachingProvider.GetAsync($"{CacheConst.PermissionMenuKey}{userId}", async () =>
         {
-            var tree = new List<RouterOutput>();
+            var queryable = _sysMenuRepository.AsQueryable()
+                .Where(x => x.Status == AvailabilityStatus.Enable)
+                .OrderBy(x => x.Sort)
+                .OrderBy(x => x.Id);
             List<SysMenu> list;
             if (_authManager.IsSuperAdmin)
             {
-                list = await _sysMenuRepository.AsQueryable().Where(x => x.Status == AvailabilityStatus.Enable && x.Type != MenuType.Button).ToListAsync();
+                list = await queryable
+                    .Where(x => x.Type != MenuType.Button)
+                    .ToTreeAsync(x => x.Children, x => x.ParentId, null);
             }
             else
             {
-                list = await _sysMenuRepository.AsQueryable().InnerJoin<SysRoleMenu>((menu, roleMenu) => menu.Id == roleMenu.MenuId)
-                    .InnerJoin<SysRole>((menu, roleMenu, role) => roleMenu.RoleId == role.Id)
-                    .InnerJoin<SysUserRole>((menu, roleMenu, role, userRole) => role.Id == userRole.RoleId)
-                    .Where((menu, roleMenu, role, userRole) => menu.Status == AvailabilityStatus.Enable && menu.Type != MenuType.Button && role.Status == AvailabilityStatus.Enable && userRole.UserId == userId)
-                    .Select(menu => menu)
-                    .ToListAsync();
+                List<long> menuIdList = await _sysMenuRepository.AsSugarClient().Queryable<SysRole>().InnerJoin<SysUserRole>((role, userRole) => userRole.RoleId == role.Id)
+                    .InnerJoin<SysRoleMenu>((role, userRole, roleMenu) => role.Id == roleMenu.RoleId)
+                    .Where((role, userRole, roleMenu) => role.Status == AvailabilityStatus.Enable)
+                    .Select((role, userRole, roleMenu) => roleMenu.MenuId).ToListAsync();
+                list = await queryable
+                    .ToTreeAsync(x => x.Children, x => x.ParentId, null, menuIdList.Select(x => x as object).ToArray());
 
+                RemoveButton(list);
             }
-            MapTree(list, null, tree);
-            return tree;
+            return list.Adapt<List<RouterOutput>>();
         }, TimeSpan.FromDays(1));
         return value.Value ?? new List<RouterOutput>();
     }
@@ -252,34 +258,63 @@ public class SysMenuService : BaseService<SysMenu>
     }
 
     /// <summary>
-    /// 菜单按钮转换为树形结构
+    /// 校验权限
+    /// </summary>
+    /// <param name="code">权限标识</param>
+    /// <returns></returns>
+    [NonAction]
+    public async Task<bool> CheckPermission(string code)
+    {
+        if (_authManager.IsSuperAdmin) return true;
+        var cache = await GetAuthButtonCodeList(_authManager.UserId);
+        var output = cache.FirstOrDefault(x => x.Code.Equals(code, StringComparison.CurrentCultureIgnoreCase));
+        return output?.Access ?? true;
+    }
+
+    /// <summary>
+    /// 获取指定用户的访问权限集合
+    /// </summary>
+    /// <param name="userId">系统用户id</param>
+    /// <returns></returns>
+    [NonAction]
+    public async Task<List<CheckPermissionOutput>> GetAuthButtonCodeList(long userId)
+    {
+        var cache = await _easyCachingProvider.GetAsync($"{CacheConst.PermissionButtonCodeKey}{userId}", async () =>
+        {
+            var queryable = _sysMenuRepository.AsSugarClient().Queryable<SysRole>()
+                .InnerJoin<SysUserRole>((role, userRole) => role.Id == userRole.RoleId)
+                .InnerJoin<SysRoleMenu>((role, userRole, roleMenu) => role.Id == roleMenu.RoleId)
+                .Where(role => role.Status == AvailabilityStatus.Enable)
+                .Select((role, userRole, roleMenu) => roleMenu);
+            var list = await _sysMenuRepository.AsQueryable().LeftJoin(queryable, (menu, roleMenu) => menu.Id == roleMenu.MenuId)
+                   .Where(menu => menu.Type == MenuType.Button)
+                   .Select((menu, roleMenu) => new CheckPermissionOutput
+                   {
+                       Code = menu.Code,
+                       Access = SqlFunc.IIF(SqlFunc.IsNull(roleMenu.Id, 0) > 0 || menu.Status == AvailabilityStatus.Disable, true, false)
+                   }).ToListAsync();
+            return list.Distinct().ToList();
+        }, TimeSpan.FromDays(1));
+        return cache.Value;
+    }
+
+    /// <summary>
+    /// 移除菜单中的按钮
     /// </summary>
     /// <param name="menus"></param>
-    /// <param name="parentId"></param>
-    /// <param name="router"></param>
-    void MapTree(List<SysMenu> menus, long? parentId, List<RouterOutput> router)
+    void RemoveButton(List<SysMenu> menus)
     {
-        var items = menus.Where(x => x.ParentId == parentId && x.Status == AvailabilityStatus.Enable).OrderBy(x => x.Sort).ThenBy(x => x.Id);
-        foreach (var item in items)
+        for (int i = menus.Count - 1; i >= 0; i--)
         {
-            var route = new RouterOutput()
+            if (menus[i].Type == MenuType.Button)
             {
-                Component = item.Component,
-                Name = item.RouteName,
-                Path = item.Path,
-                Meta = new RouterMetaOutput()
-                {
-                    Icon = item.Icon,
-                    IsAffix = item.IsFixed,
-                    IsHide = !item.IsVisible,
-                    IsKeepAlive = item.IsKeepAlive,
-                    Title = item.Name,
-                    IsLink = item.Link,
-                    Type = item.Type
-                }
-            };
-            MapTree(menus, item.Id, route.Children);
-            router.Add(route);
+                menus.Remove(menus[i]);
+                continue;
+            }
+            if (menus[i].Children.Any())
+            {
+                RemoveButton(menus[i].Children);
+            }
         }
     }
 }

@@ -64,7 +64,7 @@
 import { reactive, ref, nextTick } from 'vue';
 import type { UpdateOrgInput, TreeSelectOutput } from '/@/api/models';
 import { addOrg, editOrg, getTreeSelect } from '/@/api/SysOrganizationApi';
-import { ElMessage, FormInstance, FormRules } from 'element-plus';
+import type { FormInstance, FormRules } from 'element-plus';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
@@ -138,12 +138,10 @@ const onCancel = () => {
 const onSubmit = () => {
 	deptDialogFormRef.value!.validate(async (v) => {
 		if (v) {
-			const { succeeded, errors } = state.ruleForm.id! > 0 ? await editOrg(state.ruleForm) : await addOrg(state.ruleForm);
+			const { succeeded } = state.ruleForm.id! > 0 ? await editOrg(state.ruleForm) : await addOrg(state.ruleForm);
 			if (succeeded) {
 				closeDialog();
 				emit('refresh');
-			} else {
-				ElMessage.error(errors);
 			}
 		}
 	});

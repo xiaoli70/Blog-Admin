@@ -69,7 +69,10 @@ service.interceptors.response.use(
 				.catch(() => {});
 			return response;
 		}
-
+		if (res.statusCode === 403) {
+			ElMessage.error('无权访问');
+			return response;
+		}
 		// 处理规范化结果错误
 		if (res.statusCode !== 200) {
 			var message = JSON.stringify(res.errors);

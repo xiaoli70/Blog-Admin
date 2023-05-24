@@ -323,6 +323,11 @@ declare type TableColumns = Record<string, any> & {
 	 *是否隐藏该列的可勾选和拖拽
 	 */
 	hideCheck?: boolean = true;
+
+	/**
+	 * 是否可见
+	 */
+	visible?: boolean = true;
 };
 
 declare type CustomTable = {

@@ -43,7 +43,13 @@
 							</div>
 							<el-scrollbar>
 								<div ref="toolSetRef" class="tool-sortable">
-									<div class="tool-sortable-item" v-for="v in columns" :key="v.prop" v-show="!v.hideCheck && !v.fixed" :data-key="v.prop">
+									<div
+										class="tool-sortable-item"
+										v-for="v in columns"
+										:key="v.prop"
+										v-show="!v.hideCheck && !v.fixed && v.visible"
+										:data-key="v.prop"
+									>
 										<i class="fa fa-arrows-alt handle cursor-pointer"></i>
 										<el-checkbox v-model="v.isCheck" size="default" class="ml12 mr8" :label="v.label" @change="onCheckChange" />
 									</div>
@@ -200,7 +206,7 @@ const getConfig = computed(() => {
 });
 // 设置 tool header 数据
 const setHeader = computed(() => {
-	return props.columns.filter((v) => v.isCheck);
+	return props.columns.filter((v) => v.isCheck && v.visible);
 });
 // tool 列显示全选改变时
 const onCheckAllChange = <T>(val: T) => {
@@ -327,10 +333,12 @@ onMounted(() => {
 		state.page.order = props.defaultSort.order;
 	}
 	props.columns.forEach((item) => {
-		if (item.isCheck === undefined) {
+		item.visible ??= true;
+		if (item.isCheck === undefined && item.visible) {
 			item.isCheck = true;
 		}
 	});
+	console.log(props.columns);
 	state.page.pageSize = props.config.pageSize ?? 10;
 	refresh();
 });
