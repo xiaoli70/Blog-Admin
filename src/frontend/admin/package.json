@@ -32,6 +32,7 @@
 		"screenfull": "^6.0.2",
 		"sortablejs": "^1.15.0",
 		"splitpanes": "^3.1.5",
+		"vform3-builds": "^3.0.10",
 		"vue": "^3.2.47",
 		"vue-clipboard3": "^2.0.0",
 		"vue-demi": "^0.13.11",

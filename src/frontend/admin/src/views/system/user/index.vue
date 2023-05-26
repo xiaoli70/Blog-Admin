@@ -18,6 +18,7 @@
 					<template #dropdown>
 						<el-dropdown-menu>
 							<el-dropdown-item
+								v-auth="'sysuser:reset'"
 								icon="ele-RefreshLeft"
 								@click="
 									() => {
@@ -27,7 +28,7 @@
 							>
 								重置密码
 							</el-dropdown-item>
-							<el-dropdown-item icon="ele-Delete" divided @click="onDeleteUser(scope.row)"> 删除账号 </el-dropdown-item>
+							<el-dropdown-item v-auth="'sysuser:delete'" icon="ele-Delete" divided @click="onDeleteUser(scope.row)"> 删除账号 </el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>

@@ -41,11 +41,46 @@ export async function initBackEndControlRoutes() {
 	const { data } = await getBackEndControlRoutes();
 	// 无登录权限时，添加判断
 	// https://gitee.com/lyt-top/vue-next-admin/issues/I64HVO
-	if ((data ?? []).length <= 0) return Promise.resolve(true);
+	const routeList = data ?? [];
+	if (routeList.length === 0) return Promise.resolve(true);
 	// 存储接口原始路由（未处理component），根据需求选择使用
 	// useRequestOldRoutes().setRequestOldRoutes(JSON.parse(JSON.stringify(data ?? [])));
 	// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
-	dynamicRoutes[0].children = await backEndComponent(data ?? []);
+
+	//静态路由
+	let staticRoute = [
+		{
+			path: '/personal',
+			name: 'personal',
+			component: '/personal/index',
+			meta: {
+				title: '个人中心',
+				isHide: true,
+				isKeepAlive: true,
+			},
+		},
+		{
+			path: '/system/config/design',
+			name: 'config-design',
+			component: '/system/config/design',
+			meta: {
+				title: '配置设计',
+				isKeepAlive: false,
+				isHide: true,
+			},
+		},
+		{
+			path: '/system/config/render',
+			name: 'config-render',
+			component: '/system/config/render',
+			meta: {
+				title: '编辑配置项',
+				isKeepAlive: false,
+				isHide: true,
+			},
+		},
+	];
+	dynamicRoutes[0].children = await backEndComponent([...routeList, ...staticRoute]);
 	// 添加动态路由
 	await setAddRoute();
 	// 设置路由到 pinia routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
@@ -81,21 +116,7 @@ export function setFilterRouteEnd() {
 	let filterRouteEnd: any = formatTwoStageRoutes(formatFlatteningRoutes(dynamicRoutes));
 	// notFoundAndNoPower 防止 404、401 不在 layout 布局中，不设置的话，404、401 界面将全屏显示
 	// 关联问题 No match found for location with path 'xxx'
-	filterRouteEnd[0].children = [
-		...filterRouteEnd[0].children,
-		...notFoundAndNoPower,
-		...[
-			{
-				path: '/personal',
-				name: 'personal',
-				component: () => import('/@/views/personal/index.vue'),
-				meta: {
-					title: '个人中心',
-					isHide: true,
-				},
-			},
-		],
-	];
+	filterRouteEnd[0].children = [...filterRouteEnd[0].children, ...notFoundAndNoPower];
 	return filterRouteEnd;
 }
 

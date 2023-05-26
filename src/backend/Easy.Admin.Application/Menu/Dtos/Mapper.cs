@@ -9,7 +9,7 @@ public class Mapper : IRegister
             .Map(dest => dest.Value, src => src.Id);
 
         config.ForType<SysMenu, RouterOutput>()
-            .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.Name, src => src.RouteName)
             .Map(dest => dest.Component, src => src.Component)
             .Map(dest => dest.Path, src => src.Path)
             .Map(dest => dest.Meta, src => new RouterMetaOutput()

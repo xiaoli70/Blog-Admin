@@ -1,5 +1,5 @@
 import { http } from './../utils/request';
-import { AddSysRoleInput, PageResultSysRolePageInput, TreeSelectOutput, UpdateSysRoleInput } from './models';
+import { AddSysRoleInput, PageResultSysRolePageOutput, TreeSelectOutput, UpdateSysRoleInput } from './models';
 
 /**
  * 角色分页查询
@@ -7,7 +7,7 @@ import { AddSysRoleInput, PageResultSysRolePageInput, TreeSelectOutput, UpdateSy
  * @returns
  */
 export const getRolePage = (params: any) => {
-	return http.get<PageResultSysRolePageInput>('/sysrole/page', { params });
+	return http.get<PageResultSysRolePageOutput>('/sysrole/page', { params });
 };
 
 /**

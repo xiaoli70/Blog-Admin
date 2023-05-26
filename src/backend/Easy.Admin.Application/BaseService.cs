@@ -31,7 +31,7 @@ public abstract class BaseService<TEntity> : IDynamicApiController where TEntity
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("修改状态"), HttpPut("setStatus")]
+    [Description("修改状态"), HttpPatch("setStatus")]
     public virtual async Task SetStatus(AvailabilityDto dto)
     {
         bool success = await _repository.UpdateAsync(x => new TEntity()

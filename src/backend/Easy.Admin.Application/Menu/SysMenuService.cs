@@ -1,7 +1,6 @@
 ﻿using Easy.Admin.Application.Auth;
 using Easy.Admin.Application.Menu.Dtos;
 using Microsoft.OpenApi.Extensions;
-using System.Data;
 
 namespace Easy.Admin.Application.Menu;
 /// <summary>

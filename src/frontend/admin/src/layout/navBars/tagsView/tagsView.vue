@@ -133,7 +133,7 @@ const getTagsViewRoutes = async () => {
 // pinia 中获取路由信息：如果是设置了固定的（isAffix），进行初始化显示
 const initTagsView = async () => {
 	if (Session.get('tagsViewList') && getThemeConfig.value.isCacheTagsView) {
-		state.tagsViewList = await Session.get('tagsViewList');
+		state.tagsViewList = (await Session.get('tagsViewList')) ?? [];
 	} else {
 		await state.tagsViewRoutesList.map((v: RouteItem) => {
 			if (v.meta?.isAffix && !v.meta.isHide) {

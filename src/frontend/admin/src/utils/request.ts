@@ -218,4 +218,22 @@ export const http = {
 				});
 		});
 	},
+	/**
+	 * patch请求
+	 * @param url 请求地址
+	 * @param config 请求配置
+	 * @returns
+	 */ patch: <T = any>(url: string, data: any, config?: AxiosRequestConfig): Promise<ApiResult<T>> => {
+		return new Promise((resolve, reject) => {
+			service
+				.patch(url, data, config)
+				.then((res) => {
+					resolve(res.data);
+				})
+				.catch((err) => {
+					reject(err);
+					return err;
+				});
+		});
+	},
 };

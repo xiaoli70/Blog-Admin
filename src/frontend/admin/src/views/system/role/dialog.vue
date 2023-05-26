@@ -145,7 +145,6 @@ const onCancel = () => {
 // 提交
 const onSubmit = async () => {
 	state.ruleForm.menus = treeRef.value!.getCheckedKeys() as number[];
-	console.log(state.ruleForm.menus);
 	roleDialogFormRef.value?.validate(async (v) => {
 		if (v) {
 			const { succeeded } = state.ruleForm.id === 0 ? await addRole(state.ruleForm) : await editRole(state.ruleForm);

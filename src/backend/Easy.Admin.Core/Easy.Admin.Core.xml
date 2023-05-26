@@ -297,7 +297,7 @@
         </member>
         <member name="P:Easy.Admin.Core.Entities.CustomConfig.Code">
             <summary>
-            配置位唯一编码（类名）
+            配置唯一编码（类名）
             </summary>
         </member>
         <member name="P:Easy.Admin.Core.Entities.CustomConfig.IsMultiple">

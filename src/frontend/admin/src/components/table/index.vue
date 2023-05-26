@@ -338,7 +338,6 @@ onMounted(() => {
 			item.isCheck = true;
 		}
 	});
-	console.log(props.columns);
 	state.page.pageSize = props.config.pageSize ?? 10;
 	refresh();
 });
