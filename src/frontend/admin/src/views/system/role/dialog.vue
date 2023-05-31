@@ -65,8 +65,8 @@
 import { FormInstance, FormRules, ElTree } from 'element-plus';
 import { reactive, ref, nextTick } from 'vue';
 import { TreeSelectOutput, UpdateSysRoleInput } from '/@/api/models';
-import { addRole, editRole, getRuleMenu } from '/@/api/SysRoleApi';
-import { getTreeMenuButton } from '/@/api/SysMenuApi';
+import SysRoleApi from '/@/api/SysRoleApi';
+import SysMenuApi from '/@/api/SysMenuApi';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
@@ -114,11 +114,11 @@ const state = reactive({
 const openDialog = async (row: UpdateSysRoleInput | null) => {
 	state.dialog.isShowDialog = true;
 	state.dialog.loading = true;
-	const { data: menus } = await getTreeMenuButton();
+	const { data: menus } = await SysMenuApi.getTreeMenuButton();
 	state.menuData = menus ?? [];
 	if (row != null) {
 		state.ruleForm = { ...row };
-		const { data } = await getRuleMenu(row.id!);
+		const { data } = await SysRoleApi.getRuleMenu(row.id!);
 		state.ruleForm.menus = data ?? [];
 		state.dialog.title = '修改角色';
 		state.dialog.submitTxt = '修 改';
@@ -147,7 +147,7 @@ const onSubmit = async () => {
 	state.ruleForm.menus = treeRef.value!.getCheckedKeys() as number[];
 	roleDialogFormRef.value?.validate(async (v) => {
 		if (v) {
-			const { succeeded } = state.ruleForm.id === 0 ? await addRole(state.ruleForm) : await editRole(state.ruleForm);
+			const { succeeded } = state.ruleForm.id === 0 ? await SysRoleApi.add(state.ruleForm) : await SysRoleApi.edit(state.ruleForm);
 			if (succeeded) {
 				closeDialog();
 				emit('refresh');

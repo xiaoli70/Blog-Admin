@@ -75,6 +75,17 @@
       }
     }
   },
+  //Mino对象存储配置
+  "Oss": {
+    "Provider": "Invalid", //OSS提供者；允许值：Minio/Aliyun/QCloud/Qiniu/HuaweiCloud/（Invalid）
+    "Endpoint": "", //节点
+    "AccessKey": "",
+    "SecretKey": "",
+    //"Region": "ap-chengdu",//地域
+    "IsEnableHttps": true, //是否启用HTTPS
+    "IsEnableCache": true, //是否启用缓存(启用后将缓存签名URL，以减少请求次数)
+    "Bucket": "test" //默认存储根目录
+  },
   // 雪花id 文档：https://github.com/yitter/IdGenerator
   "SnowId": {
     "Method": 1, //雪花计算方法（1-漂移算法|2-传统算法），默认1 

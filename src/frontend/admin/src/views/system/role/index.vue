@@ -1,105 +1,90 @@
 <template>
-	<div class="system-role-container layout-padding">
-		<Search :items="state.search" @search="onSearch" />
-		<Table v-bind="state" :on-load="getRolePage" ref="tableRef">
-			<template #tools> <el-button v-auth="'sysrole:add'" type="primary" icon="ele-Plus" @click="onOpenRole(null)"> 新增 </el-button></template>
-			<template #status="scope">
-				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
-			</template>
-			<template #action="scope">
-				<el-button v-auth="'sysrole:edit'" icon="ele-Edit" size="small" text type="primary" @click="onOpenRole(scope.row)"> 编辑 </el-button>
-				<el-popconfirm title="确认删除吗？" @confirm="onDeleteRole(scope.row.id)">
-					<template #reference>
-						<el-button v-auth="'sysrole:delete'" icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
-					</template>
-				</el-popconfirm>
-			</template>
-		</Table>
-		<RoleDialog ref="roleDialogRef" @refresh="tableRef?.refresh" />
+	<div class="system-role-container layout-padding main-box">
+		<div class="table-box">
+			<ProTable ref="tableRef" :request-api="SysRoleApi.page" :columns="columns">
+				<template #tools> <el-button type="primary" icon="ele-Plus" @click="onOpenRole(null)"> 新增 </el-button></template>
+				<template #status="scope">
+					<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
+				</template>
+				<template #action="scope">
+					<el-button icon="ele-Edit" size="small" text type="primary" @click="onOpenRole(scope.row)"> 编辑 </el-button>
+					<el-popconfirm title="确认删除吗？" @confirm="onDeleteRole(scope.row.id)">
+						<template #reference>
+							<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
+						</template>
+					</el-popconfirm>
+				</template>
+			</ProTable>
+		</div>
+		<RoleDialog ref="roleDialogRef" @refresh="tableRef?.reset" />
 	</div>
 </template>
 
 <script setup lang="ts" name="systemRole">
-import { defineAsyncComponent, reactive, ref, nextTick } from 'vue';
+import { defineAsyncComponent, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
-import { getRolePage, deleteRole } from '/@/api/SysRoleApi';
+import SysRoleApi from '/@/api/SysRoleApi';
 import type { UpdateSysRoleInput } from '/@/api/models';
 import { auths } from '/@/utils/authFunction';
 
 // 引入组件
 const RoleDialog = defineAsyncComponent(() => import('/@/views/system/role/dialog.vue'));
-import Table from '/@/components/table/index.vue';
-import Search from '/@/components/table/search.vue';
+import ProTable from '/@/components/ProTable/index.vue';
+import { ColumnProps } from '/@/components/ProTable/interface';
 
 //  table实例
-const tableRef = ref<InstanceType<typeof Table>>();
+const tableRef = ref<InstanceType<typeof ProTable>>();
 // 表单实例
 const roleDialogRef = ref<InstanceType<typeof RoleDialog>>();
-const state = reactive<CustomTable>({
-	columns: [
-		{
-			prop: 'name',
-			label: '角色名称',
-		},
-		{
-			prop: 'code',
-			label: '角色标识',
-			align: 'center',
-		},
-		{
-			prop: 'sort',
-			label: '排序',
-			align: 'center',
-			width: 150,
-		},
-		{
-			prop: 'status',
-			label: '状态',
-			align: 'center',
-			width: 150,
-		},
-		{
-			prop: 'createdTime',
-			label: '创建时间',
-			align: 'center',
-		},
-		{
-			prop: 'action',
-			label: '操作',
-			align: 'center',
-			width: 150,
-			visible: auths(['sysrole:edit', 'sysrole:delete']),
-		},
-	],
-	config: {
-		isSerialNo: true,
+const columns = reactive<ColumnProps[]>([
+	{
+		type: 'index',
+		label: '序号',
+		width: 60,
 	},
-	search: [
-		{
-			prop: 'name',
-			label: '角色名称',
-			type: 'input',
-		},
-	],
-});
+	{
+		prop: 'name',
+		label: '角色名称',
+		search: { el: 'input' },
+		width: 200,
+	},
+	{
+		prop: 'code',
+		label: '角色标识',
+	},
+	{
+		prop: 'sort',
+		label: '排序',
+	},
+	{
+		prop: 'status',
+		label: '状态',
+	},
+	{
+		prop: 'createdTime',
+		label: '创建时间',
+		align: 'center',
+	},
+	{
+		prop: 'action',
+		label: '操作',
+		align: 'center',
+		fixed: 'right',
+		width: 150,
+		isShow: auths(['sysrole:edit', 'sysrole:delete']),
+	},
+]);
 // 打开新增角色弹窗
 const onOpenRole = (row: UpdateSysRoleInput | null) => {
 	roleDialogRef.value?.openDialog(row);
 };
 
-const onSearch = (data: EmptyObjectType) => {
-	state.param = data;
-	nextTick(() => {
-		tableRef.value?.refresh();
-	});
-};
-
 // 删除角色
 const onDeleteRole = async (id: number) => {
-	const { succeeded } = await deleteRole(id);
+	const { succeeded } = await SysRoleApi.delete(id);
 	if (succeeded) {
 		ElMessage.success('删除成功');
-		tableRef.value?.refresh();
+		tableRef.value?.reset();
 	}
 };
 </script>

@@ -141,6 +141,26 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:Easy.Admin.Application.Config.CustomConfigService.Generate(Easy.Admin.Core.Shared.KeyDto)">
+            <summary>
+            生成自定配置类
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Config.CustomConfigService.ResolveJson(System.String)">
+            <summary>
+            解析表单设计
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Config.CustomConfigService.GenerateCode(System.String,System.Collections.Generic.List{Easy.Admin.Application.Config.Dtos.CustomControl})">
+            <summary>
+            生成类文件
+            </summary>
+            <param name="options"></param>
+        </member>
         <member name="P:Easy.Admin.Application.Config.CustomConfigSetJsonInput.Id">
             <summary>
             自定义配置ID
@@ -239,6 +259,66 @@
         <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigQueryInput.Code">
             <summary>
             配置唯一编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomControl.Type">
+            <summary>
+            控件类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomControl.Options">
+            <summary>
+            控件配置项
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.Name">
+            <summary>
+            控件唯一名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.Label">
+            <summary>
+            控件中文名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.DefaultValue">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.Placeholder">
+            <summary>
+            控件占位符
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.Required">
+            <summary>
+            是否必填
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.LabelToolTip">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.Precision">
+            <summary>
+            精度
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.Step">
+            <summary>
+            递增值
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.AllowHalf">
+            <summary>
+            允许半选
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.ControlOptions.Multiple">
+            <summary>
+            是否启用多选
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Config.Dtos.UpdateCustomConfigInput.Id">

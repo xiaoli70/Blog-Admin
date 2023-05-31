@@ -50,7 +50,6 @@ public class SysUserService : BaseService<SysUser>, ITransient
             var list = await _orgRepository.AsQueryable().ToChildListAsync(x => x.Children, dto.OrgId);
             orgIdList.AddRange(list.Select(x => x.Id));
         }
-
         return await _repository.AsQueryable()
             .Where(x => x.Id > 1)
             .WhereIF(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))

@@ -29,7 +29,15 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="出生日期" prop="birthday">
-							<el-date-picker v-model="state.ruleForm.birthday" type="date" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="w100" placeholder="请选择出生日期" clearable />
+							<el-date-picker
+								v-model="state.ruleForm.birthday"
+								type="date"
+								format="YYYY-MM-DD"
+								value-format="YYYY-MM-DD"
+								class="w100"
+								placeholder="请选择出生日期"
+								clearable
+							/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -103,8 +111,8 @@
 <script setup lang="ts" name="systemUserDialog">
 import { reactive, ref, nextTick } from 'vue';
 import { UpdateSysUserInput, TreeSelectOutput } from '/@/api/models';
-import { addSysUser, editSysUser, getSysUserDetail } from '/@/api/SysUserApi';
-import { getRoleSelect } from '/@/api/SysRoleApi';
+import SysUserApi from '/@/api/SysUserApi';
+import SysRoleApi from '/@/api/SysRoleApi';
 import { FormInstance, FormRules } from 'element-plus';
 
 // 定义子组件向父组件传值/事件
@@ -163,10 +171,10 @@ const openDialog = async (id: number, orgs: TreeSelectOutput[]) => {
 	state.dialog.loading = true;
 	state.dialog.isShowDialog = true;
 	state.deptData = orgs;
-	const { data } = await getRoleSelect();
+	const { data } = await SysRoleApi.getRoleSelect();
 	state.roleData = data ?? [];
 	if (id > 0) {
-		const { data: user } = await getSysUserDetail(id);
+		const { data: user } = await SysUserApi.getSysUserDetail(id);
 		state.ruleForm = user;
 		state.dialog.title = '修改用户';
 		state.dialog.submitTxt = '修 改';
@@ -193,7 +201,7 @@ const onCancel = () => {
 const onSubmit = () => {
 	userDialogFormRef.value?.validate(async (v) => {
 		if (!v) return;
-		const { succeeded } = state.ruleForm.id === 0 ? await addSysUser(state.ruleForm) : await editSysUser(state.ruleForm);
+		const { succeeded } = state.ruleForm.id === 0 ? await SysUserApi.add(state.ruleForm) : await SysUserApi.edit(state.ruleForm);
 		if (succeeded) {
 			closeDialog();
 			emit('refresh');

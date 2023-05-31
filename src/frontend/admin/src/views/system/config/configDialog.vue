@@ -51,10 +51,11 @@
 </template>
 
 <script setup lang="ts" name="systemRoleDialog">
-import { FormInstance, FormRules } from 'element-plus';
+import { ElMessage, FormInstance, FormRules } from 'element-plus';
 import { reactive, ref, nextTick } from 'vue';
 import { UpdateCustomConfigInput } from '/@/api/models';
 import CustomConfigApi from '/@/api/CustomConfigApi';
+
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
 
@@ -116,6 +117,7 @@ const onSubmit = async () => {
 		if (v) {
 			const { succeeded } = state.ruleForm.id === 0 ? await CustomConfigApi.add(state.ruleForm) : await CustomConfigApi.edit(state.ruleForm);
 			if (succeeded) {
+				ElMessage.success('保存成功');
 				closeDialog();
 				emit('refresh');
 			}

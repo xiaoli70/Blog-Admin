@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 // import Cookies from 'js-cookie';
 // import { Session } from '/@/utils/storage';
 import { computed, reactive } from 'vue';
-import { getCurrentUserInfo } from '../api/SysUserApi';
+import SysUserApi from '../api/SysUserApi';
 
 /**
  * 用户信息
@@ -21,7 +21,7 @@ export const useUserInfo = defineStore('userInfo', () => {
 	 * 获取当前用户基本信息
 	 */
 	const getUserInfo = async () => {
-		const { data } = await getCurrentUserInfo();
+		const { data } = await SysUserApi.getCurrentUserInfo();
 		userInfoState.userInfo = data!;
 	};
 	return { userInfoState, userInfo, getUserInfo };

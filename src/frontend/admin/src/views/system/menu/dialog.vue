@@ -142,7 +142,7 @@
 <script setup lang="ts" name="systemMenuDialog">
 import { defineAsyncComponent, reactive, ref, nextTick } from 'vue';
 import { AvailabilityStatus, MenuType, TreeSelectOutput, UpdateSysMenuInput } from '/@/api/models';
-import { addMenu, editMenu, getMenuDetail, getTreeSelect } from '/@/api/SysMenuApi';
+import SysMenuApi from '/@/api/SysMenuApi';
 import type { FormInstance, FormRules } from 'element-plus';
 
 // 定义子组件向父组件传值/事件
@@ -193,7 +193,7 @@ const rules = reactive<FormRules>({
 	],
 	code: [
 		{
-			validator: (rule: any, value?: string, callback: any) => {
+			validator: (rule: any, value?: string, callback?: any) => {
 				if (state.ruleForm.type === 2 && (value ?? '').trim().length === 0) {
 					callback(new Error('请输入权限标识'));
 					return;
@@ -231,12 +231,12 @@ const state = reactive({
 const openDialog = async (id: number) => {
 	state.dialog.isShowDialog = true;
 	state.dialog.loading = true;
-	const { data } = await getTreeSelect();
+	const { data } = await SysMenuApi.getTreeSelect();
 	state.menuData = data ?? ([] as TreeSelectOutput);
 	if (id > 0) {
 		state.dialog.title = '修改菜单';
 		state.dialog.submitTxt = '修 改';
-		const { data } = await getMenuDetail(id!);
+		const { data } = await SysMenuApi.getMenuDetail(id!);
 		state.ruleForm = data! as UpdateSysMenuInput;
 	} else {
 		state.ruleForm.id = 0;
@@ -261,7 +261,7 @@ const onCancel = () => {
 const onSubmit = async () => {
 	menuDialogFormRef.value?.validate(async (v) => {
 		if (v) {
-			const { succeeded } = state.ruleForm.id! > 0 ? await editMenu(state.ruleForm) : await addMenu(state.ruleForm);
+			const { succeeded } = state.ruleForm.id! > 0 ? await SysMenuApi.edit(state.ruleForm) : await SysMenuApi.add(state.ruleForm);
 			if (succeeded) {
 				closeDialog(); // 关闭弹窗
 				emit('refresh'); //父级组件刷新列表

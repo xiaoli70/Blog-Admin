@@ -7,7 +7,7 @@ import { dynamicRoutes, notFoundAndNoPower } from '/@/router/route';
 import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index';
 import { useRoutesList } from '/@/stores/routesList';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
-import { getMenus } from '/@/api/SysMenuApi';
+import SysMenuApi from '/@/api/SysMenuApi';
 import { accessTokenKey } from '/@/utils/request';
 
 // 后端控制路由
@@ -138,7 +138,7 @@ export async function setAddRoute() {
  * @returns 返回后端路由菜单数据
  */
 export function getBackEndControlRoutes() {
-	return getMenus();
+	return SysMenuApi.getMenus();
 }
 
 /**

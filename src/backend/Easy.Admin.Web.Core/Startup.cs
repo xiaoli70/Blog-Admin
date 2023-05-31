@@ -12,6 +12,8 @@ using Easy.Admin.Core.Options;
 using Easy.Core;
 using Lazy.Captcha.Core;
 using Lazy.Captcha.Core.Generator;
+using Mapster;
+using OnceMi.AspNetCore.OSS;
 
 namespace Easy.Admin.Web.Core;
 
@@ -58,6 +60,16 @@ public class Startup : AppStartup
 
         //注册事件总线 文档：https://furion.baiqian.ltd/docs/event-bus
         services.AddEventBus();
+
+        //模板引擎 文档：https://furion.baiqian.ltd/docs/view-engine
+        services.AddViewEngine();
+
+        // 文档：https://github.com/oncemi/OnceMi.AspNetCore.OSS
+        var ossOptions = App.GetOptions<OssOptions>();
+        services.AddOSSService(options =>
+        {
+            ossOptions.Adapt(options);
+        });
 
         #region 图形验证码
 

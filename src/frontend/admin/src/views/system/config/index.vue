@@ -17,7 +17,7 @@
 						<el-dropdown-menu>
 							<el-dropdown-item icon="ele-List" @click="onConfigItem(row)"> 配置项 </el-dropdown-item>
 							<el-dropdown-item icon="ele-BrushFilled" @click="onDesign(row.id)" divided> 配置设计 </el-dropdown-item
-							><el-dropdown-item icon="ele-Document" divided> 生成实体 </el-dropdown-item>
+							><el-dropdown-item icon="ele-Document" divided @click="onGenerate(row.id)"> 生成实体 </el-dropdown-item>
 							<el-dropdown-item icon="ele-Delete" v-auth="'customconfig:delete'" divided @click="onDeleteConfig(row)"> 删除 </el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
@@ -25,6 +25,7 @@
 			</template>
 		</Table>
 		<ConfigDialog ref="configDialogRef" @refresh="tableRef?.refresh" />
+		<RenderDialog ref="renderDialogRef" />
 	</div>
 </template>
 
@@ -36,6 +37,7 @@ import { auths } from '/@/utils/authFunction';
 
 // 引入组件
 const ConfigDialog = defineAsyncComponent(() => import('./configDialog.vue'));
+const RenderDialog = defineAsyncComponent(() => import('./renderDialog.vue'));
 import Table from '/@/components/table/index.vue';
 import Search from '/@/components/table/search.vue';
 import { useRouter } from 'vue-router';
@@ -45,6 +47,7 @@ const router = useRouter();
 const tableRef = ref<InstanceType<typeof Table>>();
 // 表单实例
 const configDialogRef = ref<InstanceType<typeof ConfigDialog>>();
+const renderDialogRef = ref<InstanceType<typeof RenderDialog>>();
 //表格列配置
 const state = reactive<CustomTable>({
 	columns: [
@@ -114,8 +117,14 @@ const onDesign = (id: number) => {
 };
 
 // 编辑配置项/配置项列表
-const onConfigItem = (row: CustomConfigPageOutput) => {
-	router.push({ path: '/system/config/render', query: { id: row.id } });
+const onConfigItem = async (row: CustomConfigPageOutput) => {
+	await renderDialogRef.value?.openDialog(row.id!);
+	//router.push({ path: '/system/config/render', query: { id: row.id } });
+};
+
+// 生成配置类
+const onGenerate = async (id: number) => {
+	await CustomConfigApi.generate(id);
 };
 
 // 列表搜索

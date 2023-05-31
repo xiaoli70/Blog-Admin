@@ -1066,6 +1066,11 @@
             启用表数据初始化
             </summary>
         </member>
+        <member name="P:Easy.Admin.Core.Options.OssOptions.Bucket">
+            <summary>
+            默认存目录
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Core.Options.SnowIdOptions">
             <summary>
             雪花id配置

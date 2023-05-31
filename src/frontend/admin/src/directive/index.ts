@@ -1,6 +1,7 @@
 import type { App } from 'vue';
 import { authDirective } from '/@/directive/authDirective';
 import { wavesDirective, dragDirective } from '/@/directive/customDirective';
+import { debounceDirective } from './debounceDirective';
 
 /**
  * 导出指令方法：v-xxx
@@ -15,4 +16,7 @@ export function directive(app: App) {
 	wavesDirective(app);
 	// 自定义拖动指令
 	dragDirective(app);
+
+	//防抖指令
+	debounceDirective(app);
 }

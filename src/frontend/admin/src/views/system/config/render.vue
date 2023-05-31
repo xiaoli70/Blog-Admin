@@ -12,6 +12,8 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import CustomConfigApi from '/@/api/CustomConfigApi';
 import { ElMessage } from 'element-plus';
+import miitBus from '/@/utils/mitt';
+//路由
 const route = useRoute();
 const vfRenderRef = ref();
 const vm = reactive({
@@ -21,7 +23,7 @@ const vm = reactive({
 const onSubmit = async () => {
 	try {
 		const formData = await vfRenderRef.value?.getFormData();
-		console.log(formData);
+		miitBus.emit('onCurrentContextmenuClick', Object.assign({}, { contextMenuClickId: 1, ...route }));
 	} catch (e: any) {
 		ElMessage.error(e);
 	}
@@ -31,13 +33,15 @@ onMounted(async () => {
 	const id = route.query.id as unknown;
 	if (id !== undefined) {
 		const { data } = await CustomConfigApi.getJson(id as number);
-		if (data !== null) {
+		if (data !== undefined) {
 			vm.formJson = JSON.parse(data!);
 			vfRenderRef.value?.setFormJson(vm.formJson);
 		} else {
-			ElMessage.error('缺少配置信息');
+			ElMessage.error('请先配置设计');
+			miitBus.emit('onCurrentContextmenuClick', Object.assign({}, { contextMenuClickId: 1, ...route }));
 		}
 	} else {
+		miitBus.emit('onCurrentContextmenuClick', Object.assign({}, { contextMenuClickId: 1, ...route }));
 		ElMessage.error('缺少参数');
 	}
 	vm.loading = false;

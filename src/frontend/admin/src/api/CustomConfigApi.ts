@@ -1,6 +1,6 @@
 import { http } from './../utils/request';
 import { BaseApi } from './BaseApi';
-import type { AddCustomConfigInput, UpdateCustomConfigInput, PageResultCustomConfigPageOutput } from './models';
+import type { AddCustomConfigInput, UpdateCustomConfigInput, PageResultCustomConfigPageOutput, KeyDto } from './models';
 
 /**
  * 配置管理
@@ -26,6 +26,15 @@ class CustomConfigApi extends BaseApi<AddCustomConfigInput, UpdateCustomConfigIn
 	 */
 	setJson = (json: any) => {
 		return http.patch(`${this.basePath}setjson`, json);
+	};
+
+	/**
+	 * 生成配置类
+	 * @param data 参数
+	 * @returns
+	 */
+	generate = (id: number) => {
+		return http.post(`${this.basePath}generate`, { id });
 	};
 }
 export default new CustomConfigApi();

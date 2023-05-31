@@ -63,7 +63,7 @@
 <script setup lang="ts" name="systemDeptDialog">
 import { reactive, ref, nextTick } from 'vue';
 import type { UpdateOrgInput, TreeSelectOutput } from '/@/api/models';
-import { addOrg, editOrg, getTreeSelect } from '/@/api/SysOrganizationApi';
+import SysOrganizationApi from '/@/api/SysOrganizationApi';
 import type { FormInstance, FormRules } from 'element-plus';
 
 // 定义子组件向父组件传值/事件
@@ -122,7 +122,7 @@ const openDialog = async (row: UpdateOrgInput | null = null) => {
 		});
 	}
 	state.dialog.isShowDialog = true;
-	const { data } = await getTreeSelect();
+	const { data } = await SysOrganizationApi.getTreeSelect();
 	state.deptData = data ?? [];
 	state.dialog.loading = false;
 };
@@ -138,7 +138,7 @@ const onCancel = () => {
 const onSubmit = () => {
 	deptDialogFormRef.value!.validate(async (v) => {
 		if (v) {
-			const { succeeded } = state.ruleForm.id! > 0 ? await editOrg(state.ruleForm) : await addOrg(state.ruleForm);
+			const { succeeded } = state.ruleForm.id! > 0 ? await SysOrganizationApi.edit(state.ruleForm) : await SysOrganizationApi.add(state.ruleForm);
 			if (succeeded) {
 				closeDialog();
 				emit('refresh');
