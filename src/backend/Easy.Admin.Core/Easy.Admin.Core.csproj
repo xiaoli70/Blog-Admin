@@ -28,7 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Options\" />
+	  <Folder Include="Config\" />
 	  <Folder Include="Shared\" />
 	  <Folder Include="Const\" />
 	</ItemGroup>

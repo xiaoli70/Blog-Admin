@@ -24,6 +24,7 @@ public abstract class BaseService<TEntity> : IDynamicApiController where TEntity
         {
             throw Oops.Bah("删除失败");
         }
+        await ClearCache();
     }
 
     /// <summary>
@@ -42,5 +43,15 @@ public abstract class BaseService<TEntity> : IDynamicApiController where TEntity
         {
             throw Oops.Bah("修改失败");
         }
+        await ClearCache();
+    }
+
+    /// <summary>
+    /// 清除缓存
+    /// </summary>
+    /// <returns></returns>
+    internal virtual Task ClearCache()
+    {
+        return Task.CompletedTask;
     }
 }

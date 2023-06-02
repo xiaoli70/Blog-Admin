@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 using Furion.ViewEngine;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Easy.Admin.Application.Config;
 
@@ -18,7 +19,7 @@ public class CustomConfigService : BaseService<CustomConfig>
 
     public CustomConfigService(ISqlSugarRepository<CustomConfig> customConfigRepository,
         IViewEngine viewEngine,
-        IWebHostEnvironment environment): base(customConfigRepository)
+        IWebHostEnvironment environment) : base(customConfigRepository)
     {
         _customConfigRepository = customConfigRepository;
         _viewEngine = viewEngine;
@@ -92,17 +93,33 @@ public class CustomConfigService : BaseService<CustomConfig>
     }
 
     /// <summary>
-    /// 获取配置表单设计
+    /// 获取配置表单设计和表单数据
     /// </summary>
     /// <param name="id"></param>
+    /// <param name="itemId"></param>
     /// <returns></returns>
-    [Description("获取配置表单设计")]
+    [Description("获取配置表单设计和表单数据")]
     [HttpGet("GetFormJson")]
-    public async Task<string> GetFormJson([FromQuery] long id)
+    public async Task<CustomConfigDetailOutput> GetFormJson([FromQuery] long id, [FromQuery] long? itemId)
     {
-        return await _customConfigRepository.AsQueryable()
-                .Where(x => x.Id == id)
-                .Select(x => x.Json).FirstAsync();
+        var output = new CustomConfigDetailOutput()
+        {
+            ItemId = itemId ?? 0
+        };
+        string json = await _customConfigRepository.AsQueryable()
+                 .Where(x => x.Id == id)
+                 .Select(x => x.Json).FirstAsync();
+        if (string.IsNullOrWhiteSpace(json)) throw Oops.Bah("请先设计配置");
+        output.FormJson = JObject.Parse(json);
+        var queryable = _customConfigRepository.AsSugarClient().Queryable<CustomConfigItem>();
+        var data = itemId.HasValue ? await queryable.Where(x => x.Id == itemId).Select(x => new { x.Id, x.Json }).FirstAsync()
+            : await queryable.Where(x => x.ConfigId == id).Select(x => new { x.Id, x.Json }).FirstAsync();
+        if (data != null)
+        {
+            output.DataJson = JObject.Parse(data.Json);
+            output.ItemId = data.Id;
+        }
+        return output;
     }
 
     /// <summary>
@@ -130,6 +147,10 @@ public class CustomConfigService : BaseService<CustomConfig>
     [HttpPost]
     public async Task Generate(KeyDto dto)
     {
+        if (!_environment.IsDevelopment())
+        {
+            throw Oops.Bah("生成配置类仅限开发环境使用");
+        }
         var config = await _customConfigRepository.GetByIdAsync(dto.Id);
         if (config == null) throw Oops.Bah("无效参数");
         if (string.IsNullOrWhiteSpace(config.Json)) throw Oops.Bah("请配置设计");
@@ -155,6 +176,7 @@ public class CustomConfigService : BaseService<CustomConfig>
     /// <summary>
     /// 生成类文件
     /// </summary>
+    /// <param name="className">类名</param>
     /// <param name="options"></param>
     [NonAction]
     public async Task GenerateCode(string className, List<CustomControl> options)
@@ -175,7 +197,7 @@ public class CustomConfigService : BaseService<CustomConfig>
                     }
                     break;
                 case "date":
-                    type = x.Options.Required ? nameof(DateTime) : "DateTime?";
+                    type = x.Options.Required ? "DateTime" : "DateTime?";
                     break;
                 case "switch":
                     type = x.Options.Required ? "bool" : "bool?";
@@ -185,17 +207,21 @@ public class CustomConfigService : BaseService<CustomConfig>
                     type += x.Options.Required ? string.Empty : "?";
                     break;
                 case "time":
-                    type = x.Options.Required ? nameof(TimeOnly) : "TimeOnly?";
+                    type = x.Options.Required ? "TimeOnly" : "TimeOnly?";
                     break;
                 case "time-range":
-                    type = nameof(List<TimeOnly>);
+                    type = "List<TimeOnly>";
                     break;
                 case "date-range":
-                    type = nameof(List<DateTime>);
+                    type = "List<DateTime>";
                     break;
                 case "rate":
                     type = x.Options.AllowHalf ? "double" : "int";
                     type += x.Options.Required ? string.Empty : "?";
+                    break;
+                case "file-upload":
+                case "picture-upload":
+                    type = x.Options.Limit > 1 ? "List<string>" : "string";
                     break;
                 default:
                     type = "string";
@@ -216,6 +242,7 @@ public class CustomConfigService : BaseService<CustomConfig>
         string template = @"
 using System;
 using System.Collections.Generic;
+namespace Easy.Admin.Core.Config;
 public class @Model.ClassName
 {@foreach(var item in Model.Items)
     {
@@ -225,8 +252,18 @@ public class @Model.ClassName
 }
 ";
         string content = await _viewEngine.RunCompileFromCachedAsync(template, new { ClassName = className, Items = fields });
-        string path = _environment.WebRootPath;
-        string directory = Directory.GetCurrentDirectory();
+        string path = Path.Combine(_environment.ContentRootPath.Replace(_environment.ApplicationName, ""), "Easy.Admin.Core/Config");
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        string fileName = Path.Combine(path, $"{className}.cs");
+        if (System.IO.File.Exists(fileName))
+        {
+            System.IO.File.Delete(fileName);
+        }
+        await System.IO.File.WriteAllTextAsync(fileName, content);
     }
 }
 
@@ -243,4 +280,22 @@ public class CustomConfigSetJsonInput
     /// </summary>
     [Required(ErrorMessage = "请设计表单")]
     public JObject Json { get; set; }
+}
+
+public class CustomConfigDetailOutput
+{
+    /// <summary>
+    /// 表单渲染Json
+    /// </summary>
+    public JObject FormJson { get; set; }
+
+    /// <summary>
+    /// 表单数据
+    /// </summary>
+    public JObject DataJson { get; set; }
+
+    /// <summary>
+    /// 配置项Id
+    /// </summary>
+    public long ItemId { get; set; }
 }

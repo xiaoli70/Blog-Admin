@@ -25,7 +25,7 @@ const route = useRoute();
 //表单设计实例
 const vfDesgemRef = ref();
 
-//表单状态
+//表单数据
 const vm = reactive({
 	formJson: {},
 	id: 0,
@@ -34,11 +34,15 @@ const vm = reactive({
 
 // 保存表单设计
 const saveFormJson = async () => {
-	const formJson = vfDesgemRef.value?.getFormJson();
+	let formJson = vfDesgemRef.value?.getFormJson();
 	if (formJson.widgetList.length === 0) {
 		ElMessage.error('请设计表单');
 		return;
 	}
+	let json = JSON.stringify(formJson);
+	//替换图片上传和附件上传的api接口地址
+	json = json.replace(/"uploadURL":""/, '"uploadURL":"/api/file/upload"').replace(/"withCredentials":false/, '"withCredentials":true');
+	formJson = JSON.parse(json);
 	vm.loading = true;
 	const { succeeded, errors } = await CustomConfigApi.setJson({ id: vm.id, json: formJson });
 	vm.loading = false;
@@ -56,9 +60,9 @@ onMounted(async () => {
 	vfDesgemRef.value?.clearDesigner();
 	if (id !== undefined) {
 		vm.id = id as number;
-		const { data } = await CustomConfigApi.getJson(vm.id);
-		if (data !== undefined) {
-			vm.formJson = JSON.parse(data!);
+		const { data, succeeded } = await CustomConfigApi.getJson(vm.id);
+		if (succeeded) {
+			vm.formJson = data!.formJson!;
 			vfDesgemRef.value?.setFormJson(vm.formJson);
 		}
 	}

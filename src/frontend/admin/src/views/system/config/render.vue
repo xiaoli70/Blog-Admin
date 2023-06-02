@@ -33,8 +33,8 @@ onMounted(async () => {
 	const id = route.query.id as unknown;
 	if (id !== undefined) {
 		const { data } = await CustomConfigApi.getJson(id as number);
-		if (data !== undefined) {
-			vm.formJson = JSON.parse(data!);
+		if (data) {
+			vm.formJson = data.formJson ?? {};
 			vfRenderRef.value?.setFormJson(vm.formJson);
 		} else {
 			ElMessage.error('请先配置设计');

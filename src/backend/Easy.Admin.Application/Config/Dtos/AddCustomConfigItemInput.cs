@@ -13,9 +13,4 @@ public class AddCustomConfigItemInput
     /// </summary>
     [Required(ErrorMessage = "配置内容不可为空")]
     public string Json { get; set; }
-
-    /// <summary>
-    /// 可用状态
-    /// </summary>
-    public AvailabilityStatus Status { get; set; }
 }

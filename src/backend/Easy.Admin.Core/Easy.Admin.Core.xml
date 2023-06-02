@@ -1066,9 +1066,24 @@
             启用表数据初始化
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Options.OssOptions.Bucket">
+        <member name="T:Easy.Admin.Core.Options.OssConnectionOptions">
+            <summary>
+            对象存储连接配置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Options.OssConnectionOptions.Bucket">
             <summary>
             默认存目录
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Options.OssConnectionOptions.Domain">
+            <summary>
+            外网访问域名或IP
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Options.OssConnectionOptions.Enable">
+            <summary>
+            是否启用对象存储（不启用将存储至站点目录）
             </summary>
         </member>
         <member name="T:Easy.Admin.Core.Options.SnowIdOptions">
@@ -1110,6 +1125,13 @@
             <summary>
             子选项
             </summary>
+        </member>
+        <member name="M:Easy.Core.ServiceCollectionExtension.AddCustomOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加自定义选项
+            </summary>
+            <param name="service"></param>
+            <returns></returns>
         </member>
         <member name="F:Easy.Core.YitIdHelperExtension.Salt">
             <summary>

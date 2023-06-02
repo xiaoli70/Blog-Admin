@@ -65,6 +65,11 @@ public class ControlOptions
     public OptionItem[] OptionItems { get; set; }
 
     /// <summary>
+    /// 附件最大上传数量
+    /// </summary>
+    public int Limit { get; set; }
+
+    /// <summary>
     /// 是否启用多选
     /// </summary>
     public bool Multiple { get; set; }

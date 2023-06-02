@@ -14,6 +14,11 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
         _repository = repository;
     }
 
+    //public async Task<> Page()
+    //{
+
+    //}
+
     /// <summary>
     /// 添加自定义配置子项
     /// </summary>
@@ -41,4 +46,9 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
         dto.Adapt(item);
         await _repository.UpdateAsync(item);
     }
+}
+
+public class CustomConfigItemQueryInput : Pagination
+{
+
 }

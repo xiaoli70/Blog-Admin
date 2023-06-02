@@ -1,6 +1,6 @@
 import { http } from './../utils/request';
 import { BaseApi } from './BaseApi';
-import type { AddCustomConfigInput, UpdateCustomConfigInput, PageResultCustomConfigPageOutput, KeyDto } from './models';
+import type { AddCustomConfigInput, UpdateCustomConfigInput, PageResultCustomConfigPageOutput, CustomConfigDetailOutput } from './models';
 
 /**
  * 配置管理
@@ -13,10 +13,11 @@ class CustomConfigApi extends BaseApi<AddCustomConfigInput, UpdateCustomConfigIn
 	/**
 	 * 获取表单设计
 	 * @param id 配置ID
+	 * @param itemId 配置ID
 	 * @returns
 	 */
-	getJson = (id: number) => {
-		return http.get<string>(`${this.basePath}getformjson`, { params: { id } });
+	getJson = (id: number, itemId?: number) => {
+		return http.get<CustomConfigDetailOutput>(`${this.basePath}getformjson`, { params: { id, itemId } });
 	};
 
 	/**
