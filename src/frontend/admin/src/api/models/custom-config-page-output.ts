@@ -60,6 +60,12 @@ export interface CustomConfigPageOutput {
      * @memberof CustomConfigPageOutput
      */
     isGenerate?: boolean;
+      /**
+     * 是否允许创建实体
+     * @type {boolean}
+     * @memberof CustomConfigPageOutput
+     */
+      allowCreationEntity?: boolean;
     /**
      * 创建时间
      * @type {Date}

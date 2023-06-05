@@ -36,6 +36,12 @@ export interface AddCustomConfigInput {
      * @memberof AddCustomConfigInput
      */
     isMultiple?: boolean;
+     /**
+     * 是否允许创建实体
+     * @type {boolean}
+     * @memberof AddCustomConfigInput
+     */
+     allowCreationEntity?: boolean;
     /**
      * 
      * @type {AvailabilityStatus}

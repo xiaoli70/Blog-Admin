@@ -30,6 +30,11 @@ public class CustomConfig : Entity<long>, IAvailability, ICreatedUserId, ISoftDe
     public string? Json { get; set; }
 
     /// <summary>
+    /// 是否允许创建实体
+    /// </summary>
+    public bool AllowCreationEntity { get; set; }
+
+    /// <summary>
     /// 是否已生成实体
     /// </summary>
     public bool IsGenerate { get; set; }

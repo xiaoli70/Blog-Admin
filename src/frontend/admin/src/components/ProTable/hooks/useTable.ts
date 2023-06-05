@@ -43,7 +43,7 @@ export const useTable = (
 	const pageParam = computed({
 		get: () => {
 			return {
-				pageNum: state.pageable.pageNo,
+				pageNo: state.pageable.pageNo,
 				pageSize: state.pageable.pageSize,
 			};
 		},

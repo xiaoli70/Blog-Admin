@@ -14,7 +14,6 @@ export * from './custom-config-set-json-input';
 export * from './file-upload-body';
 export * from './gender';
 export * from './iaction-result';
-export * from './jtoken';
 export * from './key-dto';
 export * from './menu-type';
 export * from './page-result-custom-config-page-output';

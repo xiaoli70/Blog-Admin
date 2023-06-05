@@ -47,6 +47,7 @@ public class CustomConfigService : BaseService<CustomConfig>
                 Name = x.Name,
                 Code = x.Code,
                 IsMultiple = x.IsMultiple,
+                AllowCreationEntity = x.AllowCreationEntity,
                 IsGenerate = x.IsGenerate,
                 CreatedTime = x.CreatedTime
             }).ToPagedListAsync(dto);
@@ -111,6 +112,7 @@ public class CustomConfigService : BaseService<CustomConfig>
                  .Select(x => x.Json).FirstAsync();
         if (string.IsNullOrWhiteSpace(json)) throw Oops.Bah("请先设计配置");
         output.FormJson = JObject.Parse(json);
+        if (itemId == 0) return output;
         var queryable = _customConfigRepository.AsSugarClient().Queryable<CustomConfigItem>();
         var data = itemId.HasValue ? await queryable.Where(x => x.Id == itemId).Select(x => new { x.Id, x.Json }).FirstAsync()
             : await queryable.Where(x => x.ConfigId == id).Select(x => new { x.Id, x.Json }).FirstAsync();
@@ -157,6 +159,10 @@ public class CustomConfigService : BaseService<CustomConfig>
         var controls = ResolveJson(config.Json);
         if (!controls.Any()) throw Oops.Bah("请配置设计");
         await GenerateCode(config.Code, controls);
+        await _customConfigRepository.UpdateAsync(x => new CustomConfig()
+        {
+            IsGenerate = true
+        }, x => x.Id == config.Id);
     }
 
     /// <summary>

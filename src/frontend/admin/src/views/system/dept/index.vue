@@ -1,27 +1,23 @@
 <template>
-	<div class="system-dept-container layout-padding main-box">
-		<div class="table-box">
-			<ProTable :request-api="SysOrganizationApi.page" :pagination="false" :columns="columns">
-				<template #tools>
-					<el-button v-auth="'sysorganization:add'" type="primary" icon="ele-Plus" @click="onOpenDept(null)"> 新增 </el-button>
-				</template>
-				<template #status="scope">
-					<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
-				</template>
-				<template #action="scope">
-					<el-button v-auth="'sysorganization:edit'" icon="ele-Edit" size="small" text type="primary" @click="onOpenDept(scope.row)">
-						编辑
-					</el-button>
-					<el-popconfirm title="确认删除吗？" @confirm="onDeleteOrg(scope.row.id)">
-						<template #reference>
-							<el-button v-auth="'sysorganization:delete'" icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
-						</template>
-					</el-popconfirm>
-				</template>
-			</ProTable>
-		</div>
-		<DeptDialog ref="deptDialogRef" @refresh="tableRef?.reset" />
+	<div class="system-dept-container layout-padding">
+		<ProTable :request-api="SysOrganizationApi.page" :pagination="false" :columns="columns" :tool-button="false">
+			<template #tools>
+				<el-button v-auth="'sysorganization:add'" type="primary" icon="ele-Plus" @click="onOpenDept(null)"> 新增 </el-button>
+			</template>
+			<template #status="scope">
+				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
+			</template>
+			<template #action="scope">
+				<el-button v-auth="'sysorganization:edit'" icon="ele-Edit" size="small" text type="primary" @click="onOpenDept(scope.row)"> 编辑 </el-button>
+				<el-popconfirm title="确认删除吗？" @confirm="onDeleteOrg(scope.row.id)">
+					<template #reference>
+						<el-button v-auth="'sysorganization:delete'" icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
+					</template>
+				</el-popconfirm>
+			</template>
+		</ProTable>
 	</div>
+	<DeptDialog ref="deptDialogRef" @refresh="tableRef?.reset" />
 </template>
 
 <script setup lang="ts" name="systemDept">

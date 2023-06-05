@@ -1,7 +1,6 @@
 <template>
 	<div class="system-config-container layout-padding">
-		<Search :items="state.search" @search="onSearch" />
-		<Table v-bind="state" :on-load="CustomConfigApi.page" ref="tableRef">
+		<ProTable :request-api="CustomConfigApi.page" :columns="columns" :tool-button="false">
 			<template #tools> <el-button v-auth="'customconfig:add'" type="primary" icon="ele-Plus" @click="onOpenRole(null)"> 新增 </el-button></template>
 			<template #status="scope">
 				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
@@ -17,14 +16,16 @@
 						<el-dropdown-menu>
 							<el-dropdown-item icon="ele-List" @click="onConfigItem(row)"> 配置项 </el-dropdown-item>
 							<el-dropdown-item icon="ele-BrushFilled" @click="onDesign(row.id)" divided> 配置设计 </el-dropdown-item
-							><el-dropdown-item icon="ele-Document" divided @click="onGenerate(row.id)"> 生成实体 </el-dropdown-item>
-							<el-dropdown-item icon="ele-Delete" v-auth="'customconfig:delete'" divided @click="onDeleteConfig(row)"> 删除 </el-dropdown-item>
+							><el-dropdown-item icon="ele-Document" divided @click="onGenerate(row.id)" v-if="isAllowGenerate(row.allowCreationEntity)">
+								生成实体
+							</el-dropdown-item>
+							<el-dropdown-item icon="ele-Delete" v-auth="'customconfig:delete'" divided @click="onDeleteConfig(row)"> 删除配置 </el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
 			</template>
-		</Table>
-		<ConfigDialog ref="configDialogRef" @refresh="tableRef?.refresh" />
+		</ProTable>
+		<ConfigDialog ref="configDialogRef" @refresh="tableRef?.reset" />
 		<RenderDialog ref="renderDialogRef" />
 	</div>
 </template>
@@ -38,16 +39,57 @@ import { auths } from '/@/utils/authFunction';
 // 引入组件
 const ConfigDialog = defineAsyncComponent(() => import('./configDialog.vue'));
 const RenderDialog = defineAsyncComponent(() => import('./renderDialog.vue'));
-import Table from '/@/components/table/index.vue';
-import Search from '/@/components/table/search.vue';
+import ProTable from '/@/components/ProTable/index.vue';
 import { useRouter } from 'vue-router';
 import { CustomConfigPageOutput } from '/@/api/models';
+import { ColumnProps } from '/@/components/ProTable/interface';
 const router = useRouter();
 //  table实例
-const tableRef = ref<InstanceType<typeof Table>>();
+const tableRef = ref<InstanceType<typeof ProTable>>();
 // 表单实例
 const configDialogRef = ref<InstanceType<typeof ConfigDialog>>();
 const renderDialogRef = ref<InstanceType<typeof RenderDialog>>();
+const columns = reactive<ColumnProps[]>([
+	{
+		label: '序号',
+		type: 'index',
+		width: 60,
+	},
+	{
+		prop: 'name',
+		label: '配置名称',
+		search: { el: 'input' },
+	},
+	{
+		prop: 'code',
+		label: '唯一编码',
+		search: { el: 'input' },
+	},
+	{
+		prop: 'status',
+		label: '状态',
+		width: 150,
+	},
+	{
+		prop: 'isMultiple',
+		label: '配置类别',
+		width: 150,
+	},
+	{
+		prop: 'note',
+		label: '备注',
+	},
+	{
+		prop: 'createdTime',
+		label: '创建时间',
+	},
+	{
+		prop: 'action',
+		label: '操作',
+		width: 150,
+		isShow: auths(['customconfig:edit', 'customconfig:delete']),
+	},
+]);
 //表格列配置
 const state = reactive<CustomTable>({
 	columns: [
@@ -118,20 +160,29 @@ const onDesign = (id: number) => {
 
 // 编辑配置项/配置项列表
 const onConfigItem = async (row: CustomConfigPageOutput) => {
-	await renderDialogRef.value?.openDialog(row.id!);
-	//router.push({ path: '/system/config/render', query: { id: row.id } });
+	if (row.isMultiple) {
+		router.push({ path: '/system/config/items', query: { id: row.id } });
+	} else {
+		await renderDialogRef.value?.openDialog(row.id!);
+	}
 };
 
 // 生成配置类
 const onGenerate = async (id: number) => {
-	await CustomConfigApi.generate(id);
+	const { succeeded, errors } = await CustomConfigApi.generate(id);
+	if (succeeded) {
+		ElMessage.success('生成成功');
+		tableRef.value?.reset();
+	} else {
+		ElMessage.error(errors);
+	}
 };
 
 // 列表搜索
 const onSearch = (data: EmptyObjectType) => {
 	state.param = data;
 	nextTick(() => {
-		tableRef.value?.refresh();
+		tableRef.value?.reset();
 	});
 };
 
@@ -146,9 +197,14 @@ const onDeleteConfig = async (row: CustomConfigPageOutput) => {
 			const { succeeded } = await CustomConfigApi.delete(row.id);
 			if (succeeded) {
 				ElMessage.success('删除成功');
-				tableRef.value?.refresh();
+				tableRef.value?.reset();
 			}
 		})
 		.catch(() => {});
+};
+
+// 是否显示生成实体按钮
+const isAllowGenerate = (allow: boolean) => {
+	return allow && import.meta.env.DEV;
 };
 </script>

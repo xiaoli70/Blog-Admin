@@ -34,6 +34,14 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="生成实体">
+							<el-radio-group v-model="state.ruleForm.allowCreationEntity">
+								<el-radio :label="true">允许</el-radio>
+								<el-radio :label="false">不允许</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注" prop="remark">
 							<el-input v-model="state.ruleForm.remark" type="textarea" placeholder="请输入备注" maxlength="200"></el-input>
 						</el-form-item>
@@ -64,8 +72,28 @@ const configDialogFormRef = ref<FormInstance>();
 
 //表单验证
 const rules = reactive<FormRules>({
-	name: [{ required: true, message: '请输入配置名称' }],
-	code: [{ required: true, message: '请输入唯一标识' }],
+	name: [
+		{
+			required: true,
+			message: '请输入配置名称',
+		},
+	],
+	code: [
+		{
+			required: true,
+			validator: (rule?: any, value?: any, callback?: any) => {
+				if (!value) {
+					callback(new Error('请输入唯一编码'));
+					return;
+				}
+				if (!/^[A-Z]([A-Za-z]|\d)+/g.test(value)) {
+					callback(new Error('请使用帕斯卡命名法'));
+					return;
+				}
+				callback();
+			},
+		},
+	],
 });
 
 //表单状态
@@ -73,6 +101,7 @@ const state = reactive({
 	ruleForm: {
 		status: 0,
 		isMultiple: false,
+		allowCreationEntity: true,
 	} as UpdateCustomConfigInput,
 	dialog: {
 		isShowDialog: false,

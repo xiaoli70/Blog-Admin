@@ -4,6 +4,91 @@
         <name>Easy.Admin.Core</name>
     </assembly>
     <members>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.Logo">
+            <summary>
+            网站Logo
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.Favicon">
+            <summary>
+            站点图标
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.SiteName">
+            <summary>
+            站点名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.Filing">
+            <summary>
+            备案
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.Copyright">
+            <summary>
+            站点版权
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.Keyword">
+            <summary>
+            关键词
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.Description">
+            <summary>
+            站点描述
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.IsAllowMessage">
+            <summary>
+            允许留言
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.IsAllowComments">
+            <summary>
+            允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.Announcement">
+            <summary>
+            公告
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.SysSecuritySetting.Password">
+            <summary>
+            用户默认密码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.SysSecuritySetting.Times">
+            <summary>
+            密码错误次数
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.SysSecuritySetting.PasswordRule">
+            <summary>
+            密码规则
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.SysSecuritySetting.RuleMessage">
+            <summary>
+            密码验证提示语
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.SysSecuritySetting.IsSso">
+            <summary>
+            单点登录
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.Photo">
+            <summary>
+            相册
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.Files">
+            <summary>
+            附件
+            </summary>
+        </member>
         <member name="F:Easy.Admin.Core.Const.AuthClaimsConst.AuthIdKey">
             <summary>
             用户唯一ID
@@ -308,6 +393,11 @@
         <member name="P:Easy.Admin.Core.Entities.CustomConfig.Json">
             <summary>
             配置界面设计（json）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.CustomConfig.AllowCreationEntity">
+            <summary>
+            是否允许创建实体
             </summary>
         </member>
         <member name="P:Easy.Admin.Core.Entities.CustomConfig.IsGenerate">

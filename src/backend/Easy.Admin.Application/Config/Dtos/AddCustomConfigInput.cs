@@ -22,6 +22,11 @@ public class AddCustomConfigInput
     public bool IsMultiple { get; set; }
 
     /// <summary>
+    /// 是否允许创建实体
+    /// </summary>
+    public bool AllowCreationEntity { get; set; }
+
+    /// <summary>
     /// 可用状态
     /// </summary>
     public AvailabilityStatus Status { get; set; }

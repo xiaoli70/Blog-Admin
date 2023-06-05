@@ -1,23 +1,21 @@
 <template>
-	<div class="system-role-container layout-padding main-box">
-		<div class="table-box">
-			<ProTable ref="tableRef" :request-api="SysRoleApi.page" :columns="columns">
-				<template #tools> <el-button type="primary" icon="ele-Plus" @click="onOpenRole(null)"> 新增 </el-button></template>
-				<template #status="scope">
-					<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
-				</template>
-				<template #action="scope">
-					<el-button icon="ele-Edit" size="small" text type="primary" @click="onOpenRole(scope.row)"> 编辑 </el-button>
-					<el-popconfirm title="确认删除吗？" @confirm="onDeleteRole(scope.row.id)">
-						<template #reference>
-							<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
-						</template>
-					</el-popconfirm>
-				</template>
-			</ProTable>
-		</div>
-		<RoleDialog ref="roleDialogRef" @refresh="tableRef?.reset" />
+	<div class="system-role-container layout-padding">
+		<ProTable ref="tableRef" :request-api="SysRoleApi.page" :columns="columns" :tool-button="false">
+			<template #tools> <el-button type="primary" icon="ele-Plus" @click="onOpenRole(null)"> 新增 </el-button></template>
+			<template #status="scope">
+				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
+			</template>
+			<template #action="scope">
+				<el-button icon="ele-Edit" size="small" text type="primary" @click="onOpenRole(scope.row)"> 编辑 </el-button>
+				<el-popconfirm title="确认删除吗？" @confirm="onDeleteRole(scope.row.id)">
+					<template #reference>
+						<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
+					</template>
+				</el-popconfirm>
+			</template>
+		</ProTable>
 	</div>
+	<RoleDialog ref="roleDialogRef" @refresh="tableRef?.reset" />
 </template>
 
 <script setup lang="ts" name="systemRole">

@@ -13,7 +13,6 @@ using Easy.Core;
 using Lazy.Captcha.Core;
 using Lazy.Captcha.Core.Generator;
 using Mapster;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using OnceMi.AspNetCore.OSS;
 namespace Easy.Admin.Web.Core;
 

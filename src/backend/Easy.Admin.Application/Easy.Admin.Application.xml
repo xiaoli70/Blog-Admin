@@ -209,6 +209,11 @@
             是否是多项（集合）
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.AddCustomConfigInput.AllowCreationEntity">
+            <summary>
+            是否允许创建实体
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Config.Dtos.AddCustomConfigInput.Status">
             <summary>
             可用状态
@@ -257,6 +262,11 @@
         <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigPageOutput.IsMultiple">
             <summary>
             是否是多项配置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigPageOutput.AllowCreationEntity">
+            <summary>
+            是否允许创建实体
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigPageOutput.IsGenerate">

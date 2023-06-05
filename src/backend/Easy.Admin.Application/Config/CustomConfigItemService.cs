@@ -1,4 +1,5 @@
 ﻿using Easy.Admin.Application.Config.Dtos;
+using Newtonsoft.Json.Linq;
 
 namespace Easy.Admin.Application.Config;
 
@@ -14,10 +15,27 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
         _repository = repository;
     }
 
-    //public async Task<> Page()
-    //{
-
-    //}
+    /// <summary>
+    /// 自定义配置项分页列表
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Description("自定义配置项分页列表")]
+    public async Task<PageResult<JObject>> Page([FromQuery]CustomConfigItemQueryInput dto)
+    {
+        var result = await _repository.AsQueryable().Where(x => x.ConfigId == dto.Id)
+            .Select(x => x.Json).ToPagedListAsync(dto);
+        var list = result.Rows.Select(JObject.Parse).ToList();
+        return new PageResult<JObject>()
+        {
+            Rows = list,
+            PageNo = result.PageNo,
+            PageSize = result.PageSize,
+            Pages = result.Pages,
+            Total = result.Total
+        };
+    }
 
     /// <summary>
     /// 添加自定义配置子项
@@ -50,5 +68,8 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
 
 public class CustomConfigItemQueryInput : Pagination
 {
-
+    /// <summary>
+    /// 配置ID
+    /// </summary>
+    public long Id { get; set; }
 }

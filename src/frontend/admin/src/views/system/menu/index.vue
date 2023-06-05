@@ -1,34 +1,32 @@
 <template>
-	<div class="system-menu-container layout-padding main-box">
-		<div class="table-box">
-			<ProTable ref="tableRef" :request-api="SysMenuApi.page" :columns="columns" :pagination="false">
-				<template #tools>
-					<el-button v-auth="'sysmenu:add'" type="primary" icon="ele-Plus" @click="onOpenMenu"> 新增 </el-button>
-				</template>
-				<template #name="scope">
-					<SvgIcon :name="scope.row.icon" />
-					<span class="ml10">{{ $t(scope.row.name) }}</span>
-				</template>
-				<template #type="scope">
-					<el-tag :type="scope.row.type === 0 ? '' : scope.row.type === 1 ? 'success' : 'danger'">
-						{{ scope.row.type === 0 ? '目录' : scope.row.type === 1 ? '菜单' : '按钮' }}</el-tag
-					>
-				</template>
-				<template #status="scope">
-					<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
-				</template>
-				<template #action="scope">
-					<el-button v-auth="'sysmenu:edit'" icon="ele-Edit" size="small" text type="primary" @click="onOpenMenu(scope.row.id)"> 编辑 </el-button>
-					<el-popconfirm title="确认删除吗？" @confirm="onDeleteMenu(scope.row.id)">
-						<template #reference>
-							<el-button v-auth="'sysmenu:delete'" icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
-						</template>
-					</el-popconfirm>
-				</template>
-			</ProTable>
-		</div>
-		<MenuDialog ref="menuDialogRef" @refresh="tableRef?.reset" />
+	<div class="system-menu-container layout-padding">
+		<ProTable ref="tableRef" :request-api="SysMenuApi.page" :columns="columns" :pagination="false" :tool-button="false">
+			<template #tools>
+				<el-button v-auth="'sysmenu:add'" type="primary" icon="ele-Plus" @click="onOpenMenu"> 新增 </el-button>
+			</template>
+			<template #name="scope">
+				<SvgIcon :name="scope.row.icon" />
+				<span class="ml10">{{ $t(scope.row.name) }}</span>
+			</template>
+			<template #type="scope">
+				<el-tag :type="scope.row.type === 0 ? '' : scope.row.type === 1 ? 'success' : 'danger'">
+					{{ scope.row.type === 0 ? '目录' : scope.row.type === 1 ? '菜单' : '按钮' }}</el-tag
+				>
+			</template>
+			<template #status="scope">
+				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
+			</template>
+			<template #action="scope">
+				<el-button v-auth="'sysmenu:edit'" icon="ele-Edit" size="small" text type="primary" @click="onOpenMenu(scope.row.id)"> 编辑 </el-button>
+				<el-popconfirm title="确认删除吗？" @confirm="onDeleteMenu(scope.row.id)">
+					<template #reference>
+						<el-button v-auth="'sysmenu:delete'" icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
+					</template>
+				</el-popconfirm>
+			</template>
+		</ProTable>
 	</div>
+	<MenuDialog ref="menuDialogRef" @refresh="tableRef?.reset" />
 </template>
 
 <script setup lang="ts" name="systemMenu">

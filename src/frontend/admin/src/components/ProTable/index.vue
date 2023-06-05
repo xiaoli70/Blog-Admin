@@ -1,85 +1,96 @@
 <!-- 📚📚📚 Pro-Table 文档: https://juejin.cn/post/7166068828202336263 -->
 
 <template>
-	<!-- 查询表单 card -->
-	<SearchForm :search="search" :reset="reset" :columns="searchColumns" :search-param="searchParam" :search-col="searchCol" v-show="isShowSearch" />
+	<div class="main-box">
+		<div class="table-box">
+			<!-- 查询表单 card -->
+			<SearchForm
+				:search="search"
+				:reset="reset"
+				:columns="searchColumns"
+				:search-param="searchParam"
+				:search-col="searchCol"
+				v-show="isShowSearch"
+			/>
 
-	<!-- 表格内容 card -->
-	<div class="card table-main">
-		<!-- 表格头部 操作按钮 -->
-		<div class="table-header">
-			<div class="header-button-lf">
-				<slot name="tools" :selectedListIds="selectedListIds" :selectedList="selectedList" :isSelected="isSelected" />
-			</div>
-			<div class="header-button-ri" v-if="toolButton">
-				<slot name="toolButton">
-					<el-button :icon="Refresh" circle @click="getTableList" />
-					<el-button :icon="Printer" circle v-if="columns.length" @click="print" />
-					<el-button :icon="Operation" circle v-if="columns.length" @click="openColSetting" />
-					<el-button :icon="Search" circle v-if="searchColumns.length" @click="isShowSearch = !isShowSearch" />
+			<!-- 表格内容 card -->
+			<div class="card table-main">
+				<!-- 表格头部 操作按钮 -->
+				<div class="table-header">
+					<div class="header-button-lf">
+						<slot name="tools" :selectedListIds="selectedListIds" :selectedList="selectedList" :isSelected="isSelected" />
+					</div>
+					<div class="header-button-ri" v-if="toolButton">
+						<slot name="toolButton">
+							<el-button :icon="Refresh" circle @click="getTableList" />
+							<el-button :icon="Printer" circle v-if="columns.length" @click="print" />
+							<el-button :icon="Operation" circle v-if="columns.length" @click="openColSetting" />
+							<el-button :icon="Search" circle v-if="searchColumns.length" @click="isShowSearch = !isShowSearch" />
+						</slot>
+					</div>
+				</div>
+				<!-- 表格主体 -->
+				<el-table
+					ref="tableRef"
+					v-loading="loading"
+					v-bind="$attrs"
+					:data="data ?? tableData"
+					:border="border"
+					:row-key="rowKey"
+					@selection-change="selectionChange"
+				>
+					<!-- 默认插槽 -->
+					<slot></slot>
+					<template v-for="item in tableColumns" :key="item">
+						<!-- selection || index || expand -->
+						<el-table-column
+							v-bind="item"
+							:align="item.align ?? 'center'"
+							:reserve-selection="item.type == 'selection'"
+							v-if="item.type && ['selection', 'index', 'expand'].includes(item.type)"
+						>
+							<template #default="scope" v-if="item.type == 'expand'">
+								<component :is="item.render" v-bind="scope" v-if="item.render"> </component>
+								<slot :name="item.type" v-bind="scope" v-else></slot>
+							</template>
+						</el-table-column>
+						<!-- other -->
+						<TableColumn v-if="!item.type && item.prop && item.isShow" :column="item">
+							<template v-for="slot in Object.keys($slots)" #[slot]="scope">
+								<slot :name="slot" v-bind="scope"></slot>
+							</template>
+						</TableColumn>
+					</template>
+					<!-- 插入表格最后一行之后的插槽 -->
+					<template #append>
+						<slot name="append"> </slot>
+					</template>
+					<!-- 无数据 -->
+					<template #empty>
+						<div class="table-empty">
+							<slot name="empty">
+								<el-empty description="暂无数据" />
+								<!-- <img src="@/assets/images/notData.png" alt="notData" />
+						<div>暂无数据</div> -->
+							</slot>
+						</div>
+					</template>
+				</el-table>
+				<!-- 分页组件 -->
+				<slot name="pagination">
+					<Pagination
+						v-if="pagination"
+						:pageable="pageable"
+						:page-sizes="pageSizes"
+						:handle-size-change="handleSizeChange"
+						:handle-current-change="handleCurrentChange"
+					/>
 				</slot>
 			</div>
+			<!-- 列设置 -->
+			<ColSetting v-if="toolButton" ref="colRef" v-model:col-setting="colSetting" />
 		</div>
-		<!-- 表格主体 -->
-		<el-table
-			ref="tableRef"
-			v-loading="loading"
-			v-bind="$attrs"
-			:data="data ?? tableData"
-			:border="border"
-			:row-key="rowKey"
-			@selection-change="selectionChange"
-		>
-			<!-- 默认插槽 -->
-			<slot></slot>
-			<template v-for="item in tableColumns" :key="item">
-				<!-- selection || index || expand -->
-				<el-table-column
-					v-bind="item"
-					:align="item.align ?? 'center'"
-					:reserve-selection="item.type == 'selection'"
-					v-if="item.type && ['selection', 'index', 'expand'].includes(item.type)"
-				>
-					<template #default="scope" v-if="item.type == 'expand'">
-						<component :is="item.render" v-bind="scope" v-if="item.render"> </component>
-						<slot :name="item.type" v-bind="scope" v-else></slot>
-					</template>
-				</el-table-column>
-				<!-- other -->
-				<TableColumn v-if="!item.type && item.prop && item.isShow" :column="item">
-					<template v-for="slot in Object.keys($slots)" #[slot]="scope">
-						<slot :name="slot" v-bind="scope"></slot>
-					</template>
-				</TableColumn>
-			</template>
-			<!-- 插入表格最后一行之后的插槽 -->
-			<template #append>
-				<slot name="append"> </slot>
-			</template>
-			<!-- 无数据 -->
-			<template #empty>
-				<div class="table-empty">
-					<slot name="empty">
-						<el-empty description="暂无数据" />
-						<!-- <img src="@/assets/images/notData.png" alt="notData" />
-						<div>暂无数据</div> -->
-					</slot>
-				</div>
-			</template>
-		</el-table>
-		<!-- 分页组件 -->
-		<slot name="pagination">
-			<Pagination
-				v-if="pagination"
-				:pageable="pageable"
-				:page-sizes="pageSizes"
-				:handle-size-change="handleSizeChange"
-				:handle-current-change="handleCurrentChange"
-			/>
-		</slot>
 	</div>
-	<!-- 列设置 -->
-	<ColSetting v-if="toolButton" ref="colRef" v-model:col-setting="colSetting" />
 </template>
 
 <script setup lang="ts" name="ProTable">

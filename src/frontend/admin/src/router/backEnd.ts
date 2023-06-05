@@ -79,6 +79,16 @@ export async function initBackEndControlRoutes() {
 				isHide: true,
 			},
 		},
+		{
+			path: '/system/config/items',
+			name: 'config-items',
+			component: '/system/config/itemList',
+			meta: {
+				title: '配置项列表',
+				isKeepAlive: false,
+				isHide: true,
+			},
+		},
 	];
 	dynamicRoutes[0].children = await backEndComponent([...routeList, ...staticRoute]);
 	// 添加动态路由
