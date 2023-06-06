@@ -81,11 +81,3 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
         return _easyCachingProvider.RemoveByPrefixAsync(CacheConst.ConfigCacheKey);
     }
 }
-
-public class CustomConfigItemQueryInput : Pagination
-{
-    /// <summary>
-    /// 配置ID
-    /// </summary>
-    public long Id { get; set; }
-}
