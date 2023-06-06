@@ -159,6 +159,11 @@
             用户可访问的按钮权限编码缓存键（权限编码集合）
             </summary>
         </member>
+        <member name="F:Easy.Admin.Core.Const.CacheConst.ConfigCacheKey">
+            <summary>
+            自定义配置缓存键
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Core.Entities.Entity`1">
             <summary>
             表实体继承

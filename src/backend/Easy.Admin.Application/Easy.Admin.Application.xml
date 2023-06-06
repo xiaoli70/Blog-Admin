@@ -93,7 +93,7 @@
             自定义配置项
             </summary>
         </member>
-        <member name="M:Easy.Admin.Application.Config.CustomConfigItemService.Page(Easy.Admin.Application.Config.CustomConfigItemQueryInput)">
+        <member name="M:Easy.Admin.Application.Config.CustomConfigItemService.Page(Easy.Admin.Application.Config.Dtos.CustomConfigItemQueryInput)">
             <summary>
             自定义配置项分页列表
             </summary>
@@ -109,24 +109,14 @@
         </member>
         <member name="M:Easy.Admin.Application.Config.CustomConfigItemService.UpdateItem(Easy.Admin.Application.Config.Dtos.UpdateCustomConfigItemInput)">
             <summary>
-            修改自定义配置项
+            修改自定义配置子项
             </summary>
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="P:Easy.Admin.Application.Config.CustomConfigItemQueryInput.Id">
-            <summary>
-            配置ID
-            </summary>
-        </member>
         <member name="T:Easy.Admin.Application.Config.CustomConfigService">
             <summary>
             自定义配置业务
-            </summary>
-        </member>
-        <member name="F:Easy.Admin.Application.Config.CustomConfigService.ConfigCacheKey">
-            <summary>
-            自定义配置缓存
             </summary>
         </member>
         <member name="M:Easy.Admin.Application.Config.CustomConfigService.Get``1">
@@ -260,6 +250,11 @@
         <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigDetailOutput.ItemId">
             <summary>
             配置项Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigItemQueryInput.Id">
+            <summary>
+            配置ID
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigPageOutput.Id">
