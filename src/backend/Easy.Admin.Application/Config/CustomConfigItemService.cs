@@ -1,5 +1,4 @@
 ﻿using Easy.Admin.Application.Config.Dtos;
-using Newtonsoft.Json.Linq;
 
 namespace Easy.Admin.Application.Config;
 
@@ -9,10 +8,13 @@ namespace Easy.Admin.Application.Config;
 public class CustomConfigItemService : BaseService<CustomConfigItem>
 {
     private readonly ISqlSugarRepository<CustomConfigItem> _repository;
+    private readonly IEasyCachingProvider _easyCachingProvider;
 
-    public CustomConfigItemService(ISqlSugarRepository<CustomConfigItem> repository) : base(repository)
+    public CustomConfigItemService(ISqlSugarRepository<CustomConfigItem> repository,
+        IEasyCachingProvider easyCachingProvider) : base(repository)
     {
         _repository = repository;
+        _easyCachingProvider = easyCachingProvider;
     }
 
     /// <summary>
@@ -55,14 +57,15 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
     {
         var item = dto.Adapt<CustomConfigItem>();
         await _repository.InsertAsync(item);
+        await ClearCache();
     }
 
     /// <summary>
-    /// 修改自定义配置项
+    /// 修改自定义配置子项
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("修改自定义配置项")]
+    [Description("修改自定义配子置项")]
     [HttpPut("edit")]
     public async Task UpdateItem(UpdateCustomConfigItemInput dto)
     {
@@ -70,6 +73,12 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
         if (item == null) throw Oops.Bah("无效参数");
         dto.Adapt(item);
         await _repository.UpdateAsync(item);
+        await ClearCache();
+    }
+
+    internal override Task ClearCache()
+    {
+        return _easyCachingProvider.RemoveByPrefixAsync(CacheConst.ConfigCacheKey);
     }
 }
 

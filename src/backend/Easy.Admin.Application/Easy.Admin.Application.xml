@@ -124,6 +124,25 @@
             自定义配置业务
             </summary>
         </member>
+        <member name="F:Easy.Admin.Application.Config.CustomConfigService.ConfigCacheKey">
+            <summary>
+            自定义配置缓存
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Config.CustomConfigService.Get``1">
+            <summary>
+            获取强类型配置
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Config.CustomConfigService.GetConfig(System.String)">
+            <summary>
+            获取自定义配置
+            </summary>
+            <param name="code">自定义配置唯一编码</param>
+            <returns></returns>
+        </member>
         <member name="M:Easy.Admin.Application.Config.CustomConfigService.Page(Easy.Admin.Application.Config.Dtos.CustomConfigQueryInput)">
             <summary>
             自定义配置分页查询

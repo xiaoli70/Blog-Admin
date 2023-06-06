@@ -79,6 +79,56 @@
             单点登录
             </summary>
         </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.Cover">
+            <summary>
+            封面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.Name">
+            <summary>
+            相册名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.Sort">
+            <summary>
+            排序值
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.Files">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.Images">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.date70494">
+            <summary>
+            出生日期
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.daterange47693">
+            <summary>
+            时间范围
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.checkbox5946">
+            <summary>
+            爱好1:逛街；2:听歌；3:玩游戏
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.TestConfig.switch68042">
+            <summary>
+            启用
+            </summary>
+        </member>
         <member name="F:Easy.Admin.Core.Const.AuthClaimsConst.AuthIdKey">
             <summary>
             用户唯一ID

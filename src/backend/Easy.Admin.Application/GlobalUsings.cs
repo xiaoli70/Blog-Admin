@@ -24,3 +24,8 @@ global using Easy.Admin.Core.Shared;
 global using EasyCaching.Core;
 global using Easy.Admin.Core.Const;
 global using Lazy.Captcha.Core;
+global using System.Collections;
+global using Newtonsoft.Json;
+global using Newtonsoft.Json.Linq;
+global using System.Text.RegularExpressions;
+global using Easy.Admin.Core.Config;

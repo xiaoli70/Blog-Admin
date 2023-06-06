@@ -1,7 +1,5 @@
 ﻿using Easy.Admin.Application.Config.Dtos;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
+using Furion.JsonSerialization;
 using Furion.ViewEngine;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -11,19 +9,87 @@ namespace Easy.Admin.Application.Config;
 /// <summary>
 /// 自定义配置业务
 /// </summary>
-public class CustomConfigService : BaseService<CustomConfig>
+public class CustomConfigService : BaseService<CustomConfig>, ITransient
 {
     private readonly ISqlSugarRepository<CustomConfig> _customConfigRepository;
+    private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IViewEngine _viewEngine;
     private readonly IWebHostEnvironment _environment;
 
     public CustomConfigService(ISqlSugarRepository<CustomConfig> customConfigRepository,
+        IEasyCachingProvider easyCachingProvider,
         IViewEngine viewEngine,
         IWebHostEnvironment environment) : base(customConfigRepository)
     {
         _customConfigRepository = customConfigRepository;
+        _easyCachingProvider = easyCachingProvider;
         _viewEngine = viewEngine;
         _environment = environment;
+    }
+
+    /// <summary>
+    /// 获取强类型配置
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    [NonAction]
+    public async Task<T> Get<T>()
+    {
+        var type = typeof(T);
+        bool isList = typeof(IEnumerable).IsAssignableFrom(type);
+        string code = type.IsGenericType && isList ? type.GenericTypeArguments[0].Name : type.Name;
+        var value = await _easyCachingProvider.GetAsync($"{CacheConst.ConfigCacheKey}{code}", async () =>
+        {
+
+            var queryable = _customConfigRepository.AsQueryable()
+                .InnerJoin<CustomConfigItem>((config, item) => config.Id == item.ConfigId)
+                .Where((config, item) => config.Code == code)
+                .Select((config, item) => item.Json);
+            string json;
+            if (isList)
+            {
+                List<string> list = await queryable.ToListAsync();
+                if (!list.Any()) return default(T);
+                json = $"[{string.Join(",", list)}]";
+            }
+            else
+            {
+                json = await queryable.FirstAsync();
+            }
+
+            return string.IsNullOrWhiteSpace(json) ? default(T) : JsonConvert.DeserializeObject<T>(json);
+        }, TimeSpan.FromDays(1));
+        return value.Value;
+    }
+
+    /// <summary>
+    /// 获取自定义配置
+    /// </summary>
+    /// <param name="code">自定义配置唯一编码</param>
+    /// <returns></returns>
+    [Description("获取自定义配置")]
+    [HttpGet("getConfig")]
+    public async Task<dynamic> GetConfig([FromQuery][Required(ErrorMessage = "缺少参数")] string code)
+    {
+        var value = await _easyCachingProvider.GetAsync<object>($"{CacheConst.ConfigCacheKey}{code}", async () =>
+        {
+            var c = await _customConfigRepository.GetFirstAsync(x => x.Code == code);
+            if (c == null) return null;
+            var queryable = _customConfigRepository.AsQueryable()
+                .InnerJoin<CustomConfigItem>((config, item) => config.Id == item.ConfigId)
+                .Where((config, item) => config.Code == code)
+                .Select((config, item) => item.Json);
+            if (c.IsMultiple)
+            {
+                List<string> list = await queryable.ToListAsync();
+                if (!list.Any()) return null;
+                return JArray.Parse($"[{string.Join(",", list)}]");
+            }
+
+            string s = await queryable.FirstAsync();
+            return string.IsNullOrWhiteSpace(s) ? null : JObject.Parse(s);
+        }, TimeSpan.FromDays(1));
+        return value.Value;
     }
 
     /// <summary>
@@ -91,6 +157,7 @@ public class CustomConfigService : BaseService<CustomConfig>
 
         dto.Adapt(config);
         await _customConfigRepository.UpdateAsync(config);
+        await ClearCache();
     }
 
     /// <summary>
@@ -141,6 +208,7 @@ public class CustomConfigService : BaseService<CustomConfig>
         {
             Json = json
         }, x => x.Id == dto.Id);
+        await ClearCache();
     }
 
     /// <summary>
@@ -166,6 +234,7 @@ public class CustomConfigService : BaseService<CustomConfig>
         {
             IsGenerate = true
         }, x => x.Id == config.Id);
+        await ClearCache();
     }
 
     /// <summary>
@@ -190,6 +259,12 @@ public class CustomConfigService : BaseService<CustomConfig>
             System.IO.File.Delete(path);
         }
         await _customConfigRepository.UpdateAsync(x => new CustomConfig() { IsGenerate = false }, x => x.Id == dto.Id);
+        await ClearCache();
+    }
+
+    internal override Task ClearCache()
+    {
+        return _easyCachingProvider.RemoveByPrefixAsync(CacheConst.ConfigCacheKey);
     }
 
     /// <summary>
