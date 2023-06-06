@@ -1,4 +1,5 @@
 ﻿using Easy.Admin.Application.Auth.Dtos;
+using Easy.Admin.Application.Config;
 
 namespace Easy.Admin.Application.Auth;
 /// <summary>
@@ -8,18 +9,21 @@ namespace Easy.Admin.Application.Auth;
 public class AuthService : IDynamicApiController
 {
     private readonly ISqlSugarRepository<SysUser> _sysUseRepository;
+    private readonly CustomConfigService _customConfigService;
     private readonly ICaptcha _captcha;
     private readonly IIdGenerator _idGenerator;
     private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public AuthService(ISqlSugarRepository<SysUser> sysUseRepository,
+        CustomConfigService customConfigService,
         ICaptcha captcha,
         IIdGenerator idGenerator,
         IEasyCachingProvider easyCachingProvider,
         IHttpContextAccessor httpContextAccessor)
     {
         _sysUseRepository = sysUseRepository;
+        _customConfigService = customConfigService;
         _captcha = captcha;
         _idGenerator = idGenerator;
         _easyCachingProvider = easyCachingProvider;
@@ -42,8 +46,9 @@ public class AuthService : IDynamicApiController
 
         string signInErrorCacheKey = $"login.error.{dto.Account}";
         CacheValue<int> value = await _easyCachingProvider.GetAsync<int>(signInErrorCacheKey);
+        var setting = await _customConfigService.Get<SysSecuritySetting>();
         //5分钟内连续验证密码失败超过4次将限制用户尝试
-        if (value.HasValue && value.Value > 4)
+        if (value.HasValue && value.Value > (setting?.Times ?? 4))
         {
             throw Oops.Bah("由于您多次登录失败，系统已限制账户登录");
         }

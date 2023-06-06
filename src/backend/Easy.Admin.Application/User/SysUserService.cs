@@ -1,4 +1,5 @@
 ﻿using Easy.Admin.Application.Auth;
+using Easy.Admin.Application.Config;
 using Easy.Admin.Application.Menu;
 using Easy.Admin.Application.User.Dtos;
 
@@ -13,6 +14,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     private readonly ISqlSugarRepository<SysUserRole> _userRoleRepository;
     private readonly ISqlSugarRepository<SysOrganization> _orgRepository;
     private readonly SysMenuService _sysMenuService;
+    private readonly CustomConfigService _customConfigService;
     private readonly AuthManager _authManager;
     private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IIdGenerator _idGenerator;
@@ -21,6 +23,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
         ISqlSugarRepository<SysUserRole> userRoleRepository,
         ISqlSugarRepository<SysOrganization> orgRepository,
         SysMenuService sysMenuService,
+        CustomConfigService customConfigService,
         AuthManager authManager,
         IEasyCachingProvider easyCachingProvider,
         IIdGenerator idGenerator) : base(repository)
@@ -29,6 +32,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
         _userRoleRepository = userRoleRepository;
         _orgRepository = orgRepository;
         _sysMenuService = sysMenuService;
+        _customConfigService = customConfigService;
         _authManager = authManager;
         _easyCachingProvider = easyCachingProvider;
         _idGenerator = idGenerator;
@@ -83,7 +87,8 @@ public class SysUserService : BaseService<SysUser>, ITransient
         var user = dto.Adapt<SysUser>();
         user.Id = _idGenerator.NextId();
         string encode = _idGenerator.Encode(user.Id);
-        user.Password = MD5Encryption.Encrypt(encode + "123456");
+        var setting = await _customConfigService.Get<SysSecuritySetting>();
+        user.Password = MD5Encryption.Encrypt(encode + (setting?.Password ?? "123456"));
         var roles = dto.Roles.Select(x => new SysUserRole()
         {
             RoleId = x,
@@ -195,16 +200,6 @@ public class SysUserService : BaseService<SysUser>, ITransient
                   {
                       var list = _sysMenuService.GetAuthButtonCodeList(userId).GetAwaiter().GetResult();
                       dto.AuthBtnList = list.Where(x => x.Access).Select(x => x.Code).ToList();
-
-                      //_repository.AsSugarClient().Queryable<SysUserRole>()
-                      //.InnerJoin<SysRole>((userRole, role) => userRole.RoleId == role.Id)
-                      //.InnerJoin<SysRoleMenu>((userRole, role, roleMenu) => role.Id == roleMenu.RoleId)
-                      //.InnerJoin<SysMenu>((userRole, role, roleMenu, menu) => roleMenu.MenuId == menu.Id)
-                      //.Where((userRole, role, roleMenu, menu) => role.Status == AvailabilityStatus.Enable &&
-                      //                                           menu.Type == MenuType.Button &&
-                      //                                           userRole.UserId == userId)
-                      //.Select((userRole, role, roleMenu, menu) => menu.Code)
-                      //.ToList();
                   }
               })
               .FirstAsync();
