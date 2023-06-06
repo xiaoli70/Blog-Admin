@@ -1,8 +1,7 @@
-﻿using Easy.Admin.Core.Options;
+﻿using Easy.Admin.Application.File.Dtos;
+using Easy.Admin.Core.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.JsonWebTokens;
 using OnceMi.AspNetCore.OSS;
 
 namespace Easy.Admin.Application.File;
@@ -33,23 +32,9 @@ public class FileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
-    [AllowAnonymous]
     [NonUnify]
     public async Task<List<UploadFileOutput>> Upload([Required] IFormFile file)
     {
-        var cookies = _httpContextAccessor.HttpContext!.Request.Cookies;
-        if (!cookies.Any() || !cookies.ContainsKey("access-token"))
-        {
-            throw Oops.Bah("未授权");
-        }
-
-        //读取cookie中的token，校验是否登录
-        string token = "Bearer " + cookies["access-token"]?.Trim('"');
-        _httpContextAccessor.HttpContext!.Request.Headers.Add(new KeyValuePair<string, StringValues>("Authorization", $"{token}"));
-        if (!JWTEncryption.ValidateJwtBearerToken(_httpContextAccessor.HttpContext as DefaultHttpContext, out JsonWebToken t))
-        {
-            throw Oops.Bah(401);
-        }
         if (file is null or { Length: 0 })
         {
             throw Oops.Oh("请上传文件");
@@ -99,17 +84,4 @@ public class FileService : IDynamicApiController, ITransient
             }
         };
     }
-}
-
-public class UploadFileOutput
-{
-    /// <summary>
-    /// 文件名
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// 附件链接
-    /// </summary>
-    public string Url { get; set; }
 }

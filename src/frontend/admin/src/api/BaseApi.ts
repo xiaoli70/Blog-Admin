@@ -124,8 +124,8 @@ export class BaseApi<A = any, E = any, P = any> {
 	 * @param data 参数
 	 * @returns
 	 */
-	delete = (data?: any) => {
-		return http.delete(`${this.basePath}${this.config.delete.url}`, { data: { ...{ data } } });
+	delete = (data?: Record<string, any>) => {
+		return http.delete(`${this.basePath}${this.config.delete.url}`, { data });
 	};
 
 	/**

@@ -110,7 +110,10 @@ public class CustomConfigService : BaseService<CustomConfig>
         string json = await _customConfigRepository.AsQueryable()
                  .Where(x => x.Id == id)
                  .Select(x => x.Json).FirstAsync();
-        if (string.IsNullOrWhiteSpace(json)) throw Oops.Bah("请先设计配置");
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return output;
+        };
         output.FormJson = JObject.Parse(json);
         if (itemId == 0) return output;
         var queryable = _customConfigRepository.AsSugarClient().Queryable<CustomConfigItem>();
@@ -166,6 +169,30 @@ public class CustomConfigService : BaseService<CustomConfig>
     }
 
     /// <summary>
+    /// 删除自定义配置类
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [Description("删除自定义配置类")]
+    [HttpPatch("deleteClass")]
+    public async Task DeleteClass(KeyDto dto)
+    {
+        if (!_environment.IsDevelopment())
+        {
+            throw Oops.Bah("删除配置类仅限开发环境使用");
+        }
+
+        string className = await _customConfigRepository.AsQueryable().Where(x => x.Id == dto.Id).Select(x => x.Code).FirstAsync();
+        if (className == null) throw Oops.Oh("无效参数");
+        string path = Path.Combine(_environment.ContentRootPath.Replace(_environment.ApplicationName, ""), "Easy.Admin.Core/Config", $"{className}.cs");
+        if (System.IO.File.Exists(path))
+        {
+            System.IO.File.Delete(path);
+        }
+        await _customConfigRepository.UpdateAsync(x => new CustomConfig() { IsGenerate = false }, x => x.Id == dto.Id);
+    }
+
+    /// <summary>
     /// 解析表单设计
     /// </summary>
     /// <param name="json"></param>
@@ -191,15 +218,15 @@ public class CustomConfigService : BaseService<CustomConfig>
         List<string> fields = new List<string>();
         options.ForEach(x =>
         {
-            string type = string.Empty;
+            string type = "string";
             switch (x.Type.ToLower())
             {
                 case "select":
                 case "checkbox":
                 case "cascader":
-                    if (x.Options.Multiple)
+                    if (x.Options.Multiple || "checkbox".Equals(x.Type, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        type = nameof(List<string>);
+                        type = "List<string>";
                     }
                     break;
                 case "date":
@@ -235,7 +262,7 @@ public class CustomConfigService : BaseService<CustomConfig>
             }
 
             string remark = x.Options.OptionItems?.Any() ?? false
-                ? string.Join("；", x.Options.OptionItems.Select(s => $"{s.Value}:{s.Value}"))
+                ? string.Join("；", x.Options.OptionItems.Select(s => $"{s.Value}:{s.Label}"))
                 : string.Empty;
             string template = @$"
     /// <summary>
@@ -271,37 +298,4 @@ public class @Model.ClassName
         }
         await System.IO.File.WriteAllTextAsync(fileName, content);
     }
-}
-
-public class CustomConfigSetJsonInput
-{
-    /// <summary>
-    /// 自定义配置ID
-    /// </summary>
-    [Required(ErrorMessage = "缺少必要参数")]
-    public long Id { get; set; }
-
-    /// <summary>
-    /// 表单设计
-    /// </summary>
-    [Required(ErrorMessage = "请设计表单")]
-    public JObject Json { get; set; }
-}
-
-public class CustomConfigDetailOutput
-{
-    /// <summary>
-    /// 表单渲染Json
-    /// </summary>
-    public JObject FormJson { get; set; }
-
-    /// <summary>
-    /// 表单数据
-    /// </summary>
-    public JObject DataJson { get; set; }
-
-    /// <summary>
-    /// 配置项Id
-    /// </summary>
-    public long ItemId { get; set; }
 }

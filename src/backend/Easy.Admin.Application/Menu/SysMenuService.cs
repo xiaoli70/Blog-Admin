@@ -266,7 +266,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     {
         if (_authManager.IsSuperAdmin) return true;
         var cache = await GetAuthButtonCodeList(_authManager.UserId);
-        var output = cache.FirstOrDefault(x => x.Code.Equals(code, StringComparison.CurrentCultureIgnoreCase));
+        var output = cache.FirstOrDefault(x => x.Code.Contains(code, StringComparison.CurrentCultureIgnoreCase));
         return output?.Access ?? true;
     }
 

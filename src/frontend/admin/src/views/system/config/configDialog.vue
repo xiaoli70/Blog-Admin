@@ -9,13 +9,19 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="唯一编码" prop="code" :disabled="state.isGenerate">
-							<el-input v-model="state.ruleForm.code" maxlength="32" placeholder="请输入配置唯一标识" clearable></el-input>
+						<el-form-item label="唯一编码" prop="code">
+							<el-input
+								v-model="state.ruleForm.code"
+								maxlength="32"
+								placeholder="请输入配置唯一标识"
+								:disabled="state.isGenerate"
+								clearable
+							></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="配置类别">
-							<el-radio-group v-model="state.ruleForm.isMultiple" :disabled="state.isGenerate">
+							<el-radio-group v-model="state.ruleForm.isMultiple">
 								<el-radio :label="false">单项</el-radio>
 								<el-radio :label="true">多项</el-radio>
 							</el-radio-group>
@@ -34,10 +40,10 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="生成实体">
+						<el-form-item label="生成类型">
 							<el-radio-group v-model="state.ruleForm.allowCreationEntity">
-								<el-radio :label="true">允许</el-radio>
-								<el-radio :label="false">不允许</el-radio>
+								<el-radio :label="true">实体</el-radio>
+								<el-radio :label="false">Json</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>

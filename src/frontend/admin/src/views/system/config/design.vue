@@ -41,7 +41,7 @@ const saveFormJson = async () => {
 	}
 	let json = JSON.stringify(formJson);
 	//替换图片上传和附件上传的api接口地址
-	json = json.replace(/"uploadURL":""/, '"uploadURL":"/api/file/upload"').replace(/"withCredentials":false/, '"withCredentials":true');
+	json = json.replace(/"uploadURL":""/g, '"uploadURL":"/api/file/upload"').replace(/"withCredentials":false/g, '"withCredentials":true');
 	formJson = JSON.parse(json);
 	vm.loading = true;
 	const { succeeded, errors } = await CustomConfigApi.setJson({ id: vm.id, json: formJson });
@@ -69,16 +69,15 @@ onMounted(async () => {
 	vm.loading = false;
 });
 </script>
-<style lang="scss">
-.el-overlay {
-	.el-form-item {
-		padding-bottom: 20px;
-	}
-}
-</style>
 <style lang="scss" scoped>
 body {
 	margin: 0;
+}
+:deep(.form-widget-container) {
+	form {
+		height: auto;
+		margin-bottom: 100px;
+	}
 }
 /* :deep(.el-header.main-header) {
 	display: none;

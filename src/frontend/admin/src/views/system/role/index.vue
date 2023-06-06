@@ -79,7 +79,7 @@ const onOpenRole = (row: UpdateSysRoleInput | null) => {
 
 // 删除角色
 const onDeleteRole = async (id: number) => {
-	const { succeeded } = await SysRoleApi.delete(id);
+	const { succeeded } = await SysRoleApi.delete({ id });
 	if (succeeded) {
 		ElMessage.success('删除成功');
 		tableRef.value?.reset();

@@ -28,9 +28,9 @@
 	<ItemGroup>
 		<Folder Include="Auth\Dtos\" />
 		<Folder Include="Config\Dtos\" />
+		<Folder Include="File\Dtos\" />
 		<Folder Include="Menu\Dtos\" />
 		<Folder Include="Organization\Dtos\" />
-		<Folder Include="File\" />
 	</ItemGroup>
 
 </Project>

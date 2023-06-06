@@ -74,7 +74,7 @@ const onOpenDept = async (row: UpdateOrgInput | null = null) => {
 
 //删除机构
 const onDeleteOrg = async (id: number) => {
-	const { succeeded } = await SysOrganizationApi.delete(id);
+	const { succeeded } = await SysOrganizationApi.delete({ id });
 	if (succeeded) {
 		ElMessage.success('删除成功');
 		tableRef.value?.reset();

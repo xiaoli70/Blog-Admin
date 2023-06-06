@@ -8,11 +8,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SqlSugar;
 using System.Text;
+using System.Threading.Tasks;
 using Easy.Admin.Core.Options;
 using Easy.Core;
 using Lazy.Captcha.Core;
 using Lazy.Captcha.Core.Generator;
 using Mapster;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using OnceMi.AspNetCore.OSS;
 namespace Easy.Admin.Web.Core;
 
@@ -25,7 +27,26 @@ public class Startup : AppStartup
 
         //添加自定义选项
         services.AddCustomOptions();
-        services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
+        services.AddJwt<JwtHandler>(enableGlobalAuthorize: true, jwtBearerConfigure: options =>
+        {
+            options.Events = new JwtBearerEvents()
+            {
+                OnMessageReceived = context =>
+                {
+                    if (!context.HttpContext.Request.Headers.ContainsKey("Authorization"))
+                    {
+                        //读取cookie中的token
+                        string token = context.HttpContext.Request.Cookies["access-token"]?.Trim('"');
+                        if (!string.IsNullOrWhiteSpace(token))
+                        {
+                            context.Token = token;
+                        }
+                    }
+
+                    return Task.CompletedTask;
+                }
+            };
+        });
         services.AddConsoleFormatter();
 
         //允许跨域

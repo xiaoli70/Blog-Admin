@@ -22,11 +22,18 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
     /// <returns></returns>
     [HttpGet]
     [Description("自定义配置项分页列表")]
-    public async Task<PageResult<JObject>> Page([FromQuery]CustomConfigItemQueryInput dto)
+    public async Task<PageResult<JObject>> Page([FromQuery] CustomConfigItemQueryInput dto)
     {
         var result = await _repository.AsQueryable().Where(x => x.ConfigId == dto.Id)
-            .Select(x => x.Json).ToPagedListAsync(dto);
-        var list = result.Rows.Select(JObject.Parse).ToList();
+            .Select(x => new { x.Id, x.Json, x.Status, x.CreatedTime }).ToPagedListAsync(dto);
+        var list = result.Rows.Select(x =>
+        {
+            var o = JObject.Parse(x.Json);
+            o["__Id"] = x.Id;
+            o["__Status"] = (int)x.Status;
+            o["__CreatedTime"] = x.CreatedTime;
+            return o;
+        }).ToList();
         return new PageResult<JObject>()
         {
             Rows = list,

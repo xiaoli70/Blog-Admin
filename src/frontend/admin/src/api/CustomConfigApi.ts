@@ -1,4 +1,3 @@
-import { http } from './../utils/request';
 import { BaseApi } from './BaseApi';
 import type { AddCustomConfigInput, UpdateCustomConfigInput, PageResultCustomConfigPageOutput, CustomConfigDetailOutput } from './models';
 
@@ -17,7 +16,7 @@ class CustomConfigApi extends BaseApi<AddCustomConfigInput, UpdateCustomConfigIn
 	 * @returns
 	 */
 	getJson = (id: number, itemId?: number) => {
-		return http.get<CustomConfigDetailOutput>(`${this.basePath}getformjson`, { params: { id, itemId } });
+		return this.get<CustomConfigDetailOutput>(`${this.basePath}getformjson`, { params: { id, itemId } });
 	};
 
 	/**
@@ -26,7 +25,7 @@ class CustomConfigApi extends BaseApi<AddCustomConfigInput, UpdateCustomConfigIn
 	 * @returns
 	 */
 	setJson = (json: any) => {
-		return http.patch(`${this.basePath}setjson`, json);
+		return this.patch(`${this.basePath}setjson`, json);
 	};
 
 	/**
@@ -35,7 +34,16 @@ class CustomConfigApi extends BaseApi<AddCustomConfigInput, UpdateCustomConfigIn
 	 * @returns
 	 */
 	generate = (id: number) => {
-		return http.post(`${this.basePath}generate`, { id });
+		return this.post(`${this.basePath}generate`, { id });
+	};
+
+	/**
+	 * 删除配置class
+	 * @param id 自定义配置ID
+	 * @returns 
+	 */
+	deleteClass = (id: number) => {
+		return this.patch(`${this.basePath}deleteclass`, { id });
 	};
 }
 export default new CustomConfigApi();

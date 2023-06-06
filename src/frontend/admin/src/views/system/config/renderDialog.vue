@@ -17,6 +17,8 @@ import { reactive, ref, nextTick } from 'vue';
 import CustomConfigApi from '/@/api/CustomConfigApi';
 import CustomConfigItemApi from '/@/api/CustomConfigItemApi';
 import { ElMessage } from 'element-plus';
+// 定义子组件向父组件传值/事件
+const emit = defineEmits(['refresh']);
 // 表单渲染控件实例
 const vfRenderRef = ref();
 const state = reactive({
@@ -60,6 +62,7 @@ const onSubmit = async () => {
 		if (succeeded) {
 			ElMessage.success('保存成功');
 			state.isShowDialog = false;
+			emit('refresh');
 			return;
 		}
 		ElMessage.error(errors);
@@ -70,10 +73,11 @@ const onSubmit = async () => {
 // 打开弹窗
 state.formJson = {};
 const openDialog = async (id: number, itemId?: number) => {
+	vfRenderRef.value?.resetForm();
 	state.id = id;
 	state.isShowDialog = true;
 	state.loading = true;
-	const { data, succeeded, errors } = await CustomConfigApi.getJson(id);
+	const { data, succeeded, errors } = await CustomConfigApi.getJson(id, itemId);
 	if (!succeeded) {
 		ElMessage.error(errors);
 		state.isShowDialog = false;
@@ -126,10 +130,4 @@ defineExpose({
 });
 </script>
 
-<style lang="scss" scoped>
-:deep(.el-form) {
-	.el-form-item {
-		padding-bottom: 20px;
-	}
-}
-</style>
+<style lang="scss" scoped></style>

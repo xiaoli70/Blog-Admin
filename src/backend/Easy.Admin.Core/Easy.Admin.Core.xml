@@ -79,16 +79,6 @@
             单点登录
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Config.TestConfig.Photo">
-            <summary>
-            相册
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Config.TestConfig.Files">
-            <summary>
-            附件
-            </summary>
-        </member>
         <member name="F:Easy.Admin.Core.Const.AuthClaimsConst.AuthIdKey">
             <summary>
             用户唯一ID

@@ -93,6 +93,13 @@
             自定义配置项
             </summary>
         </member>
+        <member name="M:Easy.Admin.Application.Config.CustomConfigItemService.Page(Easy.Admin.Application.Config.CustomConfigItemQueryInput)">
+            <summary>
+            自定义配置项分页列表
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Easy.Admin.Application.Config.CustomConfigItemService.AddItem(Easy.Admin.Application.Config.Dtos.AddCustomConfigItemInput)">
             <summary>
             添加自定义配置子项
@@ -106,6 +113,11 @@
             </summary>
             <param name="dto"></param>
             <returns></returns>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.CustomConfigItemQueryInput.Id">
+            <summary>
+            配置ID
+            </summary>
         </member>
         <member name="T:Easy.Admin.Application.Config.CustomConfigService">
             <summary>
@@ -141,7 +153,7 @@
             <param name="itemId"></param>
             <returns></returns>
         </member>
-        <member name="M:Easy.Admin.Application.Config.CustomConfigService.SetJson(Easy.Admin.Application.Config.CustomConfigSetJsonInput)">
+        <member name="M:Easy.Admin.Application.Config.CustomConfigService.SetJson(Easy.Admin.Application.Config.Dtos.CustomConfigSetJsonInput)">
             <summary>
             修改配置表单设计
             </summary>
@@ -151,6 +163,13 @@
         <member name="M:Easy.Admin.Application.Config.CustomConfigService.Generate(Easy.Admin.Core.Shared.KeyDto)">
             <summary>
             生成自定配置类
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Config.CustomConfigService.DeleteClass(Easy.Admin.Core.Shared.KeyDto)">
+            <summary>
+            删除自定义配置类
             </summary>
             <param name="dto"></param>
             <returns></returns>
@@ -168,31 +187,6 @@
             </summary>
             <param name="className">类名</param>
             <param name="options"></param>
-        </member>
-        <member name="P:Easy.Admin.Application.Config.CustomConfigSetJsonInput.Id">
-            <summary>
-            自定义配置ID
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Config.CustomConfigSetJsonInput.Json">
-            <summary>
-            表单设计
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Config.CustomConfigDetailOutput.FormJson">
-            <summary>
-            表单渲染Json
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Config.CustomConfigDetailOutput.DataJson">
-            <summary>
-            表单数据
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Config.CustomConfigDetailOutput.ItemId">
-            <summary>
-            配置项Id
-            </summary>
         </member>
         <member name="P:Easy.Admin.Application.Config.Dtos.AddCustomConfigInput.Name">
             <summary>
@@ -232,6 +226,21 @@
         <member name="P:Easy.Admin.Application.Config.Dtos.AddCustomConfigItemInput.Json">
             <summary>
             配置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigDetailOutput.FormJson">
+            <summary>
+            表单渲染Json
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigDetailOutput.DataJson">
+            <summary>
+            表单数据
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigDetailOutput.ItemId">
+            <summary>
+            配置项Id
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigPageOutput.Id">
@@ -287,6 +296,16 @@
         <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigQueryInput.Code">
             <summary>
             配置唯一编码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigSetJsonInput.Id">
+            <summary>
+            自定义配置ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Config.Dtos.CustomConfigSetJsonInput.Json">
+            <summary>
+            表单设计
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Config.Dtos.CustomControl.Type">
@@ -359,22 +378,22 @@
             配置id
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.File.Dtos.UploadFileOutput.Name">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.File.Dtos.UploadFileOutput.Url">
+            <summary>
+            附件链接
+            </summary>
+        </member>
         <member name="M:Easy.Admin.Application.File.FileService.Upload(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             上传附件
             </summary>
             <param name="file"></param>
             <returns></returns>
-        </member>
-        <member name="P:Easy.Admin.Application.File.UploadFileOutput.Name">
-            <summary>
-            文件名
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.File.UploadFileOutput.Url">
-            <summary>
-            附件链接
-            </summary>
         </member>
         <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Name">
             <summary>

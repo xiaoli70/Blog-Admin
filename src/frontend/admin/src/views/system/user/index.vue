@@ -142,7 +142,7 @@ const onDeleteUser = async (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			const { succeeded } = await SysUserApi.delete(row.id);
+			const { succeeded } = await SysUserApi.delete({ id: row.id });
 			if (succeeded) {
 				ElMessage.success('删除成功');
 				tableRef.value?.reset();

@@ -70,7 +70,7 @@ const onOpenMenu = async (id: number = 0) => {
 
 //删除菜单
 const onDeleteMenu = async (id: number) => {
-	const { succeeded, errors } = await SysMenuApi.delete(id);
+	const { succeeded, errors } = await SysMenuApi.delete({ id });
 	if (succeeded) {
 		ElMessage.success('删除成功');
 		tableRef.value?.reset();
