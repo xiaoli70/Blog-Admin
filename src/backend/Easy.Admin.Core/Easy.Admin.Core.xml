@@ -144,6 +144,11 @@
             登录唯一ID
             </summary>
         </member>
+        <member name="F:Easy.Admin.Core.Const.AuthClaimsConst.AuthPlatformTypeKey">
+            <summary>
+            授权平台类型
+            </summary>
+        </member>
         <member name="F:Easy.Admin.Core.Const.CacheConst.PermissionKey">
             <summary>
             权限缓存键
@@ -1054,6 +1059,21 @@
         <member name="P:Easy.Admin.Core.Entities.Talks.CreatedTime">
             <summary>
             创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Enum.AuthPlatformType">
+            <summary>
+            登录账户类型
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.AuthPlatformType.Manager">
+            <summary>
+            后台
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.AuthPlatformType.Blog">
+            <summary>
+            博客
             </summary>
         </member>
         <member name="T:Easy.Admin.Core.Enum.AvailabilityStatus">

@@ -29,6 +29,11 @@
             登录唯一Id
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Auth.AuthManager.AuthPlatformType">
+            <summary>
+            授权平台类型
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Application.Auth.AuthService">
             <summary>
             用户授权
@@ -88,6 +93,168 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Easy.Admin.Application.Blog.AlbumsService">
+            <summary>
+            相册管理
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.AlbumsService.Add(Easy.Admin.Application.Blog.AddAlbumsInput)">
+            <summary>
+            新增相册
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.AlbumsService.Update(Easy.Admin.Application.Blog.UpdateAlbumsInput)">
+            <summary>
+            更新相册
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Id">
+            <summary>
+            相册ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Type">
+            <summary>
+            相册类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.IsVisible">
+            <summary>
+            是否显示
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Cover">
+            <summary>
+            封面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageQueryInput.Name">
+            <summary>
+            相册名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AlbumsPageQueryInput.Type">
+            <summary>
+            相册类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Name">
+            <summary>
+            相册名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Type">
+            <summary>
+            相册类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.IsVisible">
+            <summary>
+            是否可见
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Blog.ArticleCategoryService">
+            <summary>
+            文章所属栏目管理
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.ArticleCategoryService.Add(System.Int64,System.Int64)">
+            <summary>
+            添加文章所属栏目
+            </summary>
+            <param name="articleId">文章ID</param>
+            <param name="categoryId">栏目ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.ArticleCategoryService.Update(System.Int64,System.Int64)">
+            <summary>
+            更新文章所属栏目
+            </summary>
+            <param name="articleId">文章ID</param>
+            <param name="categoryId">栏目ID</param>
+            <returns></returns>
+        </member>
+        <member name="T:Easy.Admin.Application.Blog.ArticleService">
+            <summary>
+            文章管理
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.ArticleService.Page(Easy.Admin.Application.Blog.Dtos.ArticlePageQueryInput)">
+            <summary>
+            文章列表分页查询
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.ArticleService.Add(Easy.Admin.Application.Blog.Dtos.AddArticleInput)">
+            <summary>
+            添加文章
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.ArticleService.Update(Easy.Admin.Application.Blog.Dtos.UpdateArticleInput)">
+            <summary>
+            更新文章
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.ArticleService.Detail(System.Int64)">
+            <summary>
+            文章详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Easy.Admin.Application.Blog.CategoryService">
             <summary>
             文章栏目管理
@@ -119,6 +286,86 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Summary">
+            <summary>
+            概要
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Link">
+            <summary>
+            原文地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.CreationType">
+            <summary>
+            创作类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Content">
+            <summary>
+            文章正文（Html或markdown）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.IsHtml">
+            <summary>
+            文章正文是否为html代码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.PublishTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.IsAllowComments">
+            <summary>
+            是否允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.ExpiredTime">
+            <summary>
+            过期时间（过期后文章不显示）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.CategoryId">
+            <summary>
+            栏目ID
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.AddCategoryInput.Name">
             <summary>
             栏目名称
@@ -147,6 +394,191 @@
         <member name="P:Easy.Admin.Application.Blog.Dtos.AddCategoryInput.Remark">
             <summary>
             备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddPictureInput.AlbumId">
+            <summary>
+            相册Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddPictureInput.Url">
+            <summary>
+            图片地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTagInput.Name">
+            <summary>
+            标签名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTagInput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTagInput.Color">
+            <summary>
+            标签颜色
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTagInput.Icon">
+            <summary>
+            标签图标
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTagInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTagInput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Id">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Summary">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Cover">
+            <summary>
+            封面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Link">
+            <summary>
+            原文地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Content">
+            <summary>
+            文章内容
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.IsAllowComments">
+            <summary>
+            是否允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.IsHtml">
+            <summary>
+            是个是HTML
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.CreationType">
+            <summary>
+            创作类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.ExpiredTime">
+            <summary>
+            过期时间（过期后文章不显示）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.CategoryId">
+            <summary>
+            栏目ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.Id">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.Cover">
+            <summary>
+            封面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.CreationType">
+            <summary>
+            创作类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.PublishTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.Views">
+            <summary>
+            浏览次数
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.CategoryName">
+            <summary>
+            栏目名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageQueryInput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageQueryInput.CategoryId">
+            <summary>
+            栏目ID
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.Id">
@@ -194,15 +626,128 @@
             子栏目
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.PicturesPageQueryInput.Id">
+            <summary>
+            相册ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageOutput.Id">
+            <summary>
+            标签ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageOutput.Name">
+            <summary>
+            标签名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageOutput.Cover">
+            <summary>
+            标签封面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageOutput.Icon">
+            <summary>
+            标签图标
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageOutput.Color">
+            <summary>
+            标签颜色 
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TagsPageQueryInput.Name">
+            <summary>
+            标签名称 
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateArticleInput.Id">
+            <summary>
+            文章ID
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateCategoryInput.Id">
             <summary>
             栏目ID
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateTagInput.Id">
+            <summary>
+            标签ID
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Blog.PicturesService">
+            <summary>
+            相册图片管理
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.PicturesService.Page(Easy.Admin.Application.Blog.Dtos.PicturesPageQueryInput)">
+            <summary>
+            相册图片分页
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.PicturesService.Add(Easy.Admin.Application.Blog.Dtos.BatchAddPictureInput)">
+            <summary>
+            上传图片到相册
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.PicturesService.Delete(Easy.Admin.Core.Shared.KeyDto)">
+            <summary>
+            删除上册图片
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="T:Easy.Admin.Application.Blog.TagsService">
             <summary>
             文章标签管理
             </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.TagsService.Page(Easy.Admin.Application.Blog.Dtos.TagsPageQueryInput)">
+            <summary>
+            文章标签列表非要查询
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.TagsService.Add(Easy.Admin.Application.Blog.Dtos.AddTagInput)">
+            <summary>
+            添加文章标签
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.TagsService.Update(Easy.Admin.Application.Blog.Dtos.UpdateTagInput)">
+            <summary>
+            更新文章标签
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.TagsService.Select">
+            <summary>
+            文章标签下拉选项
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Easy.Admin.Application.Config.CustomConfigItemService">
             <summary>
