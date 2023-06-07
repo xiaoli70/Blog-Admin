@@ -1,6 +1,6 @@
 <template>
 	<div class="system-dept-container layout-padding">
-		<ProTable :request-api="SysOrganizationApi.page" :pagination="false" :columns="columns" :tool-button="false">
+		<ProTable ref="tableRef" :request-api="SysOrganizationApi.page" :pagination="false" :columns="columns" :tool-button="false">
 			<template #tools>
 				<el-button v-auth="'sysorganization:add'" type="primary" icon="ele-Plus" @click="onOpenDept(null)"> 新增 </el-button>
 			</template>
