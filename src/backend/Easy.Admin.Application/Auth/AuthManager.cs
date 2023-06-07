@@ -30,4 +30,9 @@ public class AuthManager : ITransient
     /// 登录唯一Id
     /// </summary>
     public long UniqueId => _httpContextAccessor.HttpContext!.User.FindFirst(AuthClaimsConst.UuidKey)!.Value.Adapt<long>();
+
+    /// <summary>
+    /// 授权平台类型
+    /// </summary>
+    public AuthPlatformType? AuthPlatformType => _httpContextAccessor.HttpContext!.User.FindFirst(AuthClaimsConst.AuthPlatformTypeKey)?.Value.Adapt<AuthPlatformType>();
 }

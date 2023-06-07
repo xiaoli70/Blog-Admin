@@ -74,7 +74,8 @@ public class AuthService : IDynamicApiController
         {
             [AuthClaimsConst.AuthIdKey] = user.Id,
             [AuthClaimsConst.AccountKey] = user.Account,
-            [AuthClaimsConst.UuidKey] = uniqueId
+            [AuthClaimsConst.UuidKey] = uniqueId,
+            [AuthClaimsConst.AuthPlatformTypeKey] = AuthPlatformType.Manager
         });
         // 获取刷新 token
         var refreshToken = JWTEncryption.GenerateRefreshToken(token);

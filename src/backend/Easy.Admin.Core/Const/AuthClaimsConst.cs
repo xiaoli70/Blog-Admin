@@ -17,4 +17,9 @@ public sealed class AuthClaimsConst
     /// </summary>
 
     public const string UuidKey = "UniqueId";
+
+    /// <summary>
+    /// 授权平台类型
+    /// </summary>
+    public const string AuthPlatformTypeKey = "AuthPlatformType";
 }

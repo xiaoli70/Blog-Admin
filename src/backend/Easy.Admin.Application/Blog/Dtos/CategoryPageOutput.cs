@@ -1,16 +1,15 @@
-﻿using Easy.Admin.Core.Enum;
+﻿namespace Easy.Admin.Application.Blog.Dtos;
 
-namespace Easy.Admin.Core.Entities;
-
-/// <summary>
-/// 文章栏目表
-/// </summary>
-public class Categories : Entity<long>, IAvailability, ISortable, ICreatedUserId, ISoftDelete, ICreatedTime
+public class CategoryPageOutput
 {
+    /// <summary>
+    /// 栏目ID
+    /// </summary>
+    public long Id { get; set; }
+
     /// <summary>
     /// 栏目名称
     /// </summary>
-    [SugarColumn(Length = 32)]
     public string Name { get; set; }
 
     /// <summary>
@@ -21,7 +20,6 @@ public class Categories : Entity<long>, IAvailability, ISortable, ICreatedUserId
     /// <summary>
     /// 封面图
     /// </summary>
-    [SugarColumn(Length = 256)]
     public string Cover { get; set; }
 
     /// <summary>
@@ -37,18 +35,7 @@ public class Categories : Entity<long>, IAvailability, ISortable, ICreatedUserId
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(Length = 256)]
-    public string? Remark { get; set; }
-
-    /// <summary>
-    /// 创建人
-    /// </summary>
-    public long CreatedUserId { get; set; }
-
-    /// <summary>
-    /// 标记删除
-    /// </summary>
-    public bool DeleteMark { get; set; }
+    public string Remark { get; set; }
 
     /// <summary>
     /// 创建时间
@@ -58,6 +45,5 @@ public class Categories : Entity<long>, IAvailability, ISortable, ICreatedUserId
     /// <summary>
     /// 子栏目
     /// </summary>
-    [SugarColumn(IsIgnore = true)]
-    public List<Categories> Children { get; set; } = new();
+    public List<CategoryPageOutput> Children { get; set; } = new();
 }

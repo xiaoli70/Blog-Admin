@@ -88,6 +88,122 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Easy.Admin.Application.Blog.CategoryService">
+            <summary>
+            文章栏目管理
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.CategoryService.Page(System.String)">
+            <summary>
+            文章栏目列表
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.CategoryService.Add(Easy.Admin.Application.Blog.Dtos.AddCategoryInput)">
+            <summary>
+            添加文章栏目
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.CategoryService.Update(Easy.Admin.Application.Blog.Dtos.UpdateCategoryInput)">
+            <summary>
+            更新文章栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.CategoryService.TreeSelect">
+            <summary>
+            获取文章栏目下拉选项
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddCategoryInput.Name">
+            <summary>
+            栏目名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddCategoryInput.ParentId">
+            <summary>
+            父级id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddCategoryInput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddCategoryInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddCategoryInput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddCategoryInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.Id">
+            <summary>
+            栏目ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.Name">
+            <summary>
+            栏目名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.ParentId">
+            <summary>
+            父级id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.CategoryPageOutput.Children">
+            <summary>
+            子栏目
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateCategoryInput.Id">
+            <summary>
+            栏目ID
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Blog.TagsService">
+            <summary>
+            文章标签管理
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Application.Config.CustomConfigItemService">
             <summary>
             自定义配置项

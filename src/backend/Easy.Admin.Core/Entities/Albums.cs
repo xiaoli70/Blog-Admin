@@ -5,7 +5,7 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 相册表
 /// </summary>
-public class Albums : IAvailability, ISortable, ICreatedUserId, ISoftDelete, ICreatedTime
+public class Albums : Entity<long>, IAvailability, ISortable, ICreatedUserId, ISoftDelete, ICreatedTime
 {
     /// <summary>
     /// 相册名称

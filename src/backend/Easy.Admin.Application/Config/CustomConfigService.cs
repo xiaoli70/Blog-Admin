@@ -1,5 +1,4 @@
 ﻿using Easy.Admin.Application.Config.Dtos;
-using Furion.JsonSerialization;
 using Furion.ViewEngine;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -40,7 +39,6 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
         string code = type.IsGenericType && isList ? type.GenericTypeArguments[0].Name : type.Name;
         var value = await _easyCachingProvider.GetAsync($"{CacheConst.ConfigCacheKey}{code}", async () =>
         {
-
             var queryable = _customConfigRepository.AsQueryable()
                 .InnerJoin<CustomConfigItem>((config, item) => config.Id == item.ConfigId)
                 .Where((config, item) => config.Code == code)
@@ -134,6 +132,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
         }
         var config = dto.Adapt<CustomConfig>();
         await _customConfigRepository.InsertAsync(config);
+        await _easyCachingProvider.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{config.Code}");
     }
 
     /// <summary>
@@ -157,7 +156,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
 
         dto.Adapt(config);
         await _customConfigRepository.UpdateAsync(config);
-        await ClearCache();
+        await _easyCachingProvider.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{config.Code}");
     }
 
     /// <summary>
@@ -234,7 +233,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
         {
             IsGenerate = true
         }, x => x.Id == config.Id);
-        await ClearCache();
+        await _easyCachingProvider.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{config.Code}");
     }
 
     /// <summary>
@@ -259,7 +258,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
             System.IO.File.Delete(path);
         }
         await _customConfigRepository.UpdateAsync(x => new CustomConfig() { IsGenerate = false }, x => x.Id == dto.Id);
-        await ClearCache();
+        await _easyCachingProvider.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{className}");
     }
 
     internal override Task ClearCache()

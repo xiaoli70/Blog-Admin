@@ -5,12 +5,12 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 标签信息表
 /// </summary>
-public class Tags : Entity<long>, ISortable, IAvailability, ICreatedUserId, ICreatedTime
+public class Tags : Entity<long>, ISortable, IAvailability, ICreatedUserId,ISoftDelete, ICreatedTime
 {
     /// <summary>
     /// 标签名称
     /// </summary>
-    [SugarColumn(Length = 16)]
+    [SugarColumn(Length = 32)]
     public string Name { get; set; }
 
     /// <summary>
@@ -44,7 +44,13 @@ public class Tags : Entity<long>, ISortable, IAvailability, ICreatedUserId, ICre
     public long CreatedUserId { get; set; }
 
     /// <summary>
+    /// 标记删除
+    /// </summary>
+    public bool DeleteMark { get; set; }
+
+    /// <summary>
     /// 创建时间
     /// </summary>
     public DateTime CreatedTime { get; set; }
+
 }

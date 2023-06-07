@@ -27,6 +27,7 @@
 
 	<ItemGroup>
 		<Folder Include="Auth\Dtos\" />
+		<Folder Include="Blog\Dtos\" />
 		<Folder Include="Config\Dtos\" />
 		<Folder Include="File\Dtos\" />
 		<Folder Include="Menu\Dtos\" />

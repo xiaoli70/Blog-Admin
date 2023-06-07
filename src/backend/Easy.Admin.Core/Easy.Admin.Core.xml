@@ -1026,6 +1026,11 @@
             创建人
             </summary>
         </member>
+        <member name="P:Easy.Admin.Core.Entities.Tags.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Core.Entities.Tags.CreatedTime">
             <summary>
             创建时间
