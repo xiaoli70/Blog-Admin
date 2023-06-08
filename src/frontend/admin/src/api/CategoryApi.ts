@@ -1,5 +1,5 @@
 import { BaseApi } from './BaseApi';
-import type { AddCategoryInput, CategoryPageOutput, UpdateCategoryInput } from './models';
+import type { AddCategoryInput, CategoryPageOutput, TreeSelectOutput, UpdateCategoryInput } from './models';
 
 class CategoryApi extends BaseApi<AddCategoryInput, UpdateCategoryInput, CategoryPageOutput> {
 	constructor() {
@@ -10,7 +10,7 @@ class CategoryApi extends BaseApi<AddCategoryInput, UpdateCategoryInput, Categor
 	 * @returns
 	 */
 	treeSelect = () => {
-		return this.get(`${this.basePath}treeselect`);
+		return this.get<TreeSelectOutput[]>(`${this.basePath}treeselect`);
 	};
 }
 export default new CategoryApi();

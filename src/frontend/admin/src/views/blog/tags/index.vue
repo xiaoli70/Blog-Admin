@@ -1,39 +1,42 @@
 <template>
-	<div class="system-role-container layout-padding">
-		<ProTable ref="tableRef" :request-api="SysRoleApi.page" :columns="columns" :tool-button="false">
-			<template #tools> <el-button type="primary" v-auth="'sysrole:add'" icon="ele-Plus" @click="onOpenRole(null)"> 新增 </el-button></template>
+	<div class="system-tag-container layout-padding">
+		<ProTable ref="tableRef" :request-api="TagsApi.page" :columns="columns" :tool-button="false">
+			<template #tools> <el-button type="primary" v-auth="'tags:add'" icon="ele-Plus" @click="onOpen(null)"> 新增 </el-button></template>
 			<template #status="scope">
 				<el-tag :type="scope.row.status === 0 ? 'success' : 'danger'"> {{ scope.row.status === 0 ? '启用' : '禁用' }}</el-tag>
 			</template>
+			<template #cover="{ row }">
+				<el-image shape="square" :size="100" fit="cover" :src="row.cover" />
+			</template>
 			<template #action="scope">
-				<el-button icon="ele-Edit" size="small" text v-auth="'sysrole:edit'" type="primary" @click="onOpenRole(scope.row)"> 编辑 </el-button>
+				<el-button icon="ele-Edit" size="small" v-auth="'tags:edit'" text type="primary" @click="onOpen(scope.row)"> 编辑 </el-button>
 				<el-popconfirm title="确认删除吗？" @confirm="onDeleteRole(scope.row.id)">
 					<template #reference>
-						<el-button icon="ele-Delete" size="small" text v-auth="'sysrole:delete'" type="danger"> 删除 </el-button>
+						<el-button icon="ele-Delete" size="small" v-auth="'tags:delete'" text type="danger"> 删除 </el-button>
 					</template>
 				</el-popconfirm>
 			</template>
 		</ProTable>
 	</div>
-	<RoleDialog ref="roleDialogRef" @refresh="tableRef?.reset" />
+	<TagDialog ref="tagDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="systemRole">
+<script setup lang="ts" name="tags">
 import { defineAsyncComponent, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
-import SysRoleApi from '/@/api/SysRoleApi';
-import type { UpdateSysRoleInput } from '/@/api/models';
+import TagsApi from '/@/api/TagsApi';
+import type { UpdateTagInput } from '/@/api/models';
 import { auths } from '/@/utils/authFunction';
 
 // 引入组件
-const RoleDialog = defineAsyncComponent(() => import('/@/views/system/role/dialog.vue'));
+const TagDialog = defineAsyncComponent(() => import('./dialog.vue'));
 import ProTable from '/@/components/ProTable/index.vue';
 import { ColumnProps } from '/@/components/ProTable/interface';
 
 //  table实例
 const tableRef = ref<InstanceType<typeof ProTable>>();
-// 表单实例
-const roleDialogRef = ref<InstanceType<typeof RoleDialog>>();
+// 弹窗实例
+const tagDialogRef = ref<InstanceType<typeof TagDialog>>();
 const columns = reactive<ColumnProps[]>([
 	{
 		type: 'index',
@@ -42,13 +45,14 @@ const columns = reactive<ColumnProps[]>([
 	},
 	{
 		prop: 'name',
-		label: '角色名称',
+		label: '标签名称',
 		search: { el: 'input' },
 		width: 200,
 	},
 	{
-		prop: 'code',
-		label: '角色标识',
+		prop: 'cover',
+		label: '封面',
+		width: 180,
 	},
 	{
 		prop: 'sort',
@@ -65,20 +69,19 @@ const columns = reactive<ColumnProps[]>([
 	{
 		prop: 'action',
 		label: '操作',
-		align: 'center',
 		fixed: 'right',
 		width: 150,
-		isShow: auths(['sysrole:edit', 'sysrole:delete']),
+		isShow: auths(['tags:edit', 'tags:delete']),
 	},
 ]);
-// 打开新增角色弹窗
-const onOpenRole = (row: UpdateSysRoleInput | null) => {
-	roleDialogRef.value?.openDialog(row);
+// 打开新增标签弹窗
+const onOpen = (row: UpdateTagInput | null) => {
+	tagDialogRef.value?.openDialog(row);
 };
 
 // 删除角色
 const onDeleteRole = async (id: number) => {
-	const { succeeded } = await SysRoleApi.delete({ id });
+	const { succeeded } = await TagsApi.delete({ id });
 	if (succeeded) {
 		ElMessage.success('删除成功');
 		tableRef.value?.reset();

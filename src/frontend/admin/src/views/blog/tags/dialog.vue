@@ -1,7 +1,7 @@
 <template>
-	<div class="system-dept-dialog-container">
+	<div class="system-role-dialog-container">
 		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
-			<el-form :rules="rules" v-loading="state.dialog.loading" ref="categoryDialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
+			<el-form ref="tagDialogFormRef" :rules="rules" :model="state.ruleForm" v-loading="state.dialog.loading" size="default" label-width="90px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="封面" prop="cover">
@@ -11,22 +11,9 @@
 							</el-upload>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="上级栏目" prop="parentId">
-							<el-tree-select
-								v-model="state.ruleForm.parentId"
-								placeholder="请选择栏目"
-								:data="state.categoryData"
-								check-strictly
-								:render-after-expand="false"
-								class="w100"
-								clearable
-							/>
-						</el-form-item>
-					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="栏目名称" prop="name">
-							<el-input v-model="state.ruleForm.name" maxlength="23" placeholder="请输入栏目名称" clearable></el-input>
+						<el-form-item label="标签名称" prop="name">
+							<el-input v-model="state.ruleForm.name" maxlength="32" placeholder="请输入角色名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -35,7 +22,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="栏目状态" prop="status">
+						<el-form-item label="标签颜色" prop="color">
+							<el-color-picker v-model="state.ruleForm.color" show-alpha />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="标签状态" prop="status">
 							<el-switch
 								v-model="state.ruleForm.status"
 								inline-prompt
@@ -46,9 +38,9 @@
 							></el-switch>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-						<el-form-item label="备注" prop="remark">
-							<el-input v-model="state.ruleForm.remark" type="textarea" placeholder="请输入栏目描述" maxlength="200"></el-input>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="标签描述" prop="remark">
+							<el-input v-model="state.ruleForm.remark" type="textarea" placeholder="请输入角色描述" maxlength="200"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -63,80 +55,68 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="systemDeptDialog">
-import { reactive, ref, nextTick } from 'vue';
-import type { UpdateCategoryInput, TreeSelectOutput } from '/@/api/models';
-import CategoryApi from '/@/api/CategoryApi';
+<script setup lang="ts" name="tagDialog">
 import type { FormInstance, FormRules } from 'element-plus';
+import { reactive, ref, nextTick } from 'vue';
+import type { UpdateTagInput } from '/@/api/models';
+import TagsApi from '/@/api/TagsApi';
 
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
 
-// 定义变量内容
-const categoryDialogFormRef = ref<FormInstance>();
+// 表单实例
+const tagDialogFormRef = ref<FormInstance>();
+
+//表单验证
 const rules = reactive<FormRules>({
-	name: [
-		{
-			required: true,
-			message: '请输入栏目名称',
-		},
-	],
-	sort: [
-		{
-			required: true,
-			message: '请输入排序',
-		},
-	],
 	cover: [
 		{
-			validator: (rule: any, value?: string, callback?: any) => {
-				if (!value) {
-					callback(new Error('请上传封面'));
-					return;
-				}
-				callback();
-			},
+			required: true,
+			message: '请上传封面',
 		},
 	],
+	name: [{ required: true, message: '请输入标签名称' }],
+	color: [{ required: true, message: '请选择标签颜色' }],
+	sort: [{ required: true, message: '请输入排序' }],
 });
+
+//表单状态
 const state = reactive({
 	ruleForm: {
 		id: 0,
 		status: 0,
+		color: 'rgba(0, 0, 0, 1)',
 		sort: 100,
-	} as UpdateCategoryInput,
-	categoryData: [] as TreeSelectOutput[], // 栏目数据
+	} as UpdateTagInput,
 	dialog: {
 		isShowDialog: false,
-		type: '',
 		title: '',
 		submitTxt: '',
-		loading: true,
+		loading: false,
 	},
 });
 
 // 打开弹窗
-const openDialog = async (row: UpdateCategoryInput | null = null) => {
-	if (row !== null) {
+const openDialog = async (row: UpdateTagInput | null) => {
+	state.dialog.isShowDialog = true;
+	state.dialog.loading = true;
+	if (row != null) {
 		state.ruleForm = { ...row };
-		state.dialog.title = '修改栏目';
+		state.dialog.title = '修改标签';
 		state.dialog.submitTxt = '修 改';
 	} else {
-		state.ruleForm = {
-			id: 0,
-			status: 0,
-			sort: 100,
-		};
-		state.dialog.title = '新增栏目';
+		state.ruleForm.id = 0;
+		state.dialog.title = '新增标签';
 		state.dialog.submitTxt = '新 增';
+		// 重置表单
 		nextTick(() => {
-			categoryDialogFormRef.value?.resetFields();
+			tagDialogFormRef.value?.resetFields();
 		});
 	}
-	state.dialog.isShowDialog = true;
-	const { data } = await CategoryApi.treeSelect();
-	state.categoryData = data ?? [];
 	state.dialog.loading = false;
+};
+const onCoverSuccess = (response: any) => {
+	state.ruleForm.cover = response[0].url;
 };
 // 关闭弹窗
 const closeDialog = () => {
@@ -146,16 +126,11 @@ const closeDialog = () => {
 const onCancel = () => {
 	closeDialog();
 };
-
-// 上传图片成功
-const onCoverSuccess = (response: any) => {
-	state.ruleForm.cover = response[0].url;
-};
 // 提交
-const onSubmit = () => {
-	categoryDialogFormRef.value!.validate(async (v) => {
+const onSubmit = async () => {
+	tagDialogFormRef.value?.validate(async (v) => {
 		if (v) {
-			const { succeeded } = state.ruleForm.id! > 0 ? await CategoryApi.edit(state.ruleForm) : await CategoryApi.add(state.ruleForm);
+			const { succeeded } = state.ruleForm.id === 0 ? await TagsApi.add(state.ruleForm) : await TagsApi.edit(state.ruleForm);
 			if (succeeded) {
 				closeDialog();
 				emit('refresh');
@@ -169,6 +144,7 @@ defineExpose({
 	openDialog,
 });
 </script>
+
 <style scoped lang="scss">
 .avatar-uploader {
 	.avatar {

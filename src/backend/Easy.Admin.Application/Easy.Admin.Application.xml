@@ -436,6 +436,11 @@
             排序值（值越小越靠前）
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTagInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Id">
             <summary>
             文章ID

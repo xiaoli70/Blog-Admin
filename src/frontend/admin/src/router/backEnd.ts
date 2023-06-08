@@ -89,6 +89,16 @@ export async function initBackEndControlRoutes() {
 				isHide: true,
 			},
 		},
+		{
+			path: '/blog/article/operate',
+			name: 'article-opreate',
+			component: '/blog/article/operate',
+			meta: {
+				title: '新增文章',
+				isKeepAlive: false,
+				isHide: true,
+			},
+		},
 	];
 	dynamicRoutes[0].children = await backEndComponent([...routeList, ...staticRoute]);
 	// 添加动态路由

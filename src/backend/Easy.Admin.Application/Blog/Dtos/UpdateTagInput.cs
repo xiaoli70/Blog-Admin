@@ -1,6 +1,6 @@
 ﻿namespace Easy.Admin.Application.Blog.Dtos;
 
-public class UpdateTagInput
+public class UpdateTagInput : AddTagInput
 {
     /// <summary>
     /// 标签ID

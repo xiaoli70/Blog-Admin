@@ -144,3 +144,5 @@ declare interface ApiResult<T = any> {
 	 */
 	timestamp: number;
 }
+
+declare module 'mavon-editor'

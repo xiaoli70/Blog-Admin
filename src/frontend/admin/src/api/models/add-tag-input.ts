@@ -13,45 +13,51 @@
  */
 import { AvailabilityStatus } from './availability-status';
 /**
- * 
+ *
  * @export
  * @interface AddTagInput
  */
 export interface AddTagInput {
-    /**
-     * 标签名称
-     * @type {string}
-     * @memberof AddTagInput
-     */
-    name: string;
-    /**
-     * 封面图
-     * @type {string}
-     * @memberof AddTagInput
-     */
-    cover: string;
-    /**
-     * 标签颜色
-     * @type {string}
-     * @memberof AddTagInput
-     */
-    color?: string | null;
-    /**
-     * 标签图标
-     * @type {string}
-     * @memberof AddTagInput
-     */
-    icon?: string | null;
-    /**
-     * 
-     * @type {AvailabilityStatus}
-     * @memberof AddTagInput
-     */
-    status?: AvailabilityStatus;
-    /**
-     * 排序值（值越小越靠前）
-     * @type {number}
-     * @memberof AddTagInput
-     */
-    sort: number;
+	/**
+	 * 标签名称
+	 * @type {string}
+	 * @memberof AddTagInput
+	 */
+	name: string;
+	/**
+	 * 封面图
+	 * @type {string}
+	 * @memberof AddTagInput
+	 */
+	cover: string;
+	/**
+	 * 标签颜色
+	 * @type {string}
+	 * @memberof AddTagInput
+	 */
+	color?: string | null;
+	/**
+	 * 标签图标
+	 * @type {string}
+	 * @memberof AddTagInput
+	 */
+	icon?: string | null;
+	/**
+	 *
+	 * @type {AvailabilityStatus}
+	 * @memberof AddTagInput
+	 */
+	status?: AvailabilityStatus;
+	/**
+	 * 排序值（值越小越靠前）
+	 * @type {number}
+	 * @memberof AddTagInput
+	 */
+	sort: number;
+	/**
+	 * 备注
+	 * @type {string}
+	 * @memberof AddTagInput
+	 */
+	remark: number;
 }

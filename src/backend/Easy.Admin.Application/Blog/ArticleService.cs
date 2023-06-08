@@ -26,10 +26,19 @@ public class ArticleService : BaseService<Article>
     [HttpGet]
     public async Task<PageResult<ArticlePageOutput>> Page([FromQuery] ArticlePageQueryInput dto)
     {
+        List<long> categoryList = new();
+        if (dto.CategoryId.HasValue)
+        {
+            var list = await _repository.AsSugarClient().Queryable<Categories>()
+                .Where(x => x.Status == AvailabilityStatus.Enable)
+                .ToChildListAsync(x => x.ParentId, dto.CategoryId);
+            categoryList = list.Select(x => x.Id).ToList();
+            categoryList.Add(dto.CategoryId.Value);
+        }
         return await _repository.AsQueryable().LeftJoin<ArticleCategory>((article, ac) => article.Id == ac.ArticleId)
               .InnerJoin<Categories>((article, ac, c) => ac.CategoryId == c.Id && c.Status == AvailabilityStatus.Enable)
               .WhereIF(string.IsNullOrWhiteSpace(dto.Title), article => article.Title.Contains(dto.Title))
-              .WhereIF(dto.CategoryId.HasValue, (article, ac) => ac.CategoryId == dto.CategoryId)
+              .WhereIF(categoryList.Any(), (article, ac) => categoryList.Contains(ac.CategoryId))
               .OrderByDescending(article => article.IsTop)
               .OrderBy(article => article.Sort)
               .Select((article, ac, c) => new ArticlePageOutput

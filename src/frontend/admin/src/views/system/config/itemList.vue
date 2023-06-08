@@ -121,7 +121,7 @@ onMounted(async () => {
 						}
 						switch (item.type) {
 							case 'picture-upload':
-								return option.limit === 1 ? <img src={v} class="w100" /> : <img src={v[0]} class="w100" />;
+								return <el-image shape="square" size={100} fit="cover" src={option.limit == 1 ? v : v[0]} />;
 							case 'select':
 							case 'checkbox':
 							case 'radio':

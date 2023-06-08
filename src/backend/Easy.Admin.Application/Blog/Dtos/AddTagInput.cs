@@ -19,7 +19,7 @@ public class AddTagInput
     /// <summary>
     /// 标签颜色
     /// </summary>
-    [MaxLength(16)]
+    [MaxLength(64)]
     public string Color { get; set; }
 
     /// <summary>
@@ -38,4 +38,10 @@ public class AddTagInput
     /// </summary>
     [Required(ErrorMessage = "排序值为必填项")]
     public int Sort { get; set; }
+
+    /// <summary>
+    /// 备注
+    /// </summary>
+    [MaxLength(200, ErrorMessage = "备注限制200个字符内")]
+    public string Remark { get; set; }
 }

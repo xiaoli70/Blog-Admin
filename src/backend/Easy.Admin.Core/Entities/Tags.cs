@@ -5,7 +5,7 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 标签信息表
 /// </summary>
-public class Tags : Entity<long>, ISortable, IAvailability, ICreatedUserId,ISoftDelete, ICreatedTime
+public class Tags : Entity<long>, ISortable, IAvailability, ICreatedUserId, ISoftDelete, ICreatedTime
 {
     /// <summary>
     /// 标签名称
@@ -22,7 +22,7 @@ public class Tags : Entity<long>, ISortable, IAvailability, ICreatedUserId,ISoft
     /// <summary>
     /// 标签颜色
     /// </summary>
-    [SugarColumn(Length = 16)]
+    [SugarColumn(Length = 64)]
     public string? Color { get; set; }
 
     [SugarColumn(Length = 32)]
@@ -37,6 +37,11 @@ public class Tags : Entity<long>, ISortable, IAvailability, ICreatedUserId,ISoft
     /// 排序值（值越小越靠前）
     /// </summary>
     public int Sort { get; set; }
+
+    /// <summary>
+    /// 备注
+    /// </summary>
+    public string? Remark { get; set; }
 
     /// <summary>
     /// 创建人

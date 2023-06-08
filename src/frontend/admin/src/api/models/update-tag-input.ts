@@ -11,16 +11,19 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import { AddTagInput } from './add-tag-input';
+
 /**
- * 
+ *
  * @export
  * @interface UpdateTagInput
  */
-export interface UpdateTagInput {
-    /**
-     * 标签ID
-     * @type {number}
-     * @memberof UpdateTagInput
-     */
-    id: number;
+export interface UpdateTagInput extends AddTagInput {
+	/**
+	 * 标签ID
+	 * @type {number}
+	 * @memberof UpdateTagInput
+	 */
+	id: number;
 }
