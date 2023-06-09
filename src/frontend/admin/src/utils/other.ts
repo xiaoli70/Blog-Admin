@@ -19,8 +19,13 @@ const SvgIcon = defineAsyncComponent(() => import('/@/components/svgIcon/index.v
  */
 export function elSvg(app: App) {
 	const icons = svg as any;
+	// for (const [key, component] of Object.entries(svg)) {
+	// 	app.component(key, component);
+	// }
 	for (const i in icons) {
-		app.component(`ele-${icons[i].name}`, icons[i]);
+		const icon = icons[i];
+		app.component(`ele-${icon.name}`, icon);
+		app.component(icon.name, icon);
 	}
 	app.component('SvgIcon', SvgIcon);
 }

@@ -98,6 +98,10 @@ class Axios {
 				// 检查并存储授权信息
 				checkAndStoreAuthentication(res);
 				const data = res.data;
+				if (res.config.url?.toLocaleLowerCase() === '/file/upload'.toLowerCase()) {
+					return data;
+				}
+
 				// code为200 或 返回的是文件流 直接返回
 				if (data.statusCode === 200 || res.config.responseType === 'blob') {
 					return data;
