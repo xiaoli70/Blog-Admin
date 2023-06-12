@@ -39,7 +39,26 @@
 					</el-row>
 					<el-row class="content">
 						<el-col>
-							<mavon-editor style="height: 100%" />
+							<!-- <div style="border: 1px solid #ccc; height: 100%" v-if="state.form.isHtml">
+								<Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="state.editorConfig" :mode="state.mode" />
+								<Editor
+									style="height: 500px; overflow-y: hidden"
+									v-model="state.form.content"
+									:defaultConfig="state.editorConfig"
+									:mode="state.mode"
+									@onCreated="onCreated"
+								/>
+							</div> -->
+							<TinymceEditor v-model="state.form.content" v-if="state.form.isHtml" />
+							<mavon-editor v-else style="height: 100%">
+								<template #right-toolbar-before>
+									<el-link :underline="false" title="富文本编辑器" @click="onChangeEditor">
+										<template #icon>
+											<el-icon :size="14"><Switch /></el-icon>
+										</template>
+									</el-link>
+								</template>
+							</mavon-editor>
 						</el-col>
 					</el-row>
 				</div>
@@ -163,16 +182,10 @@
 							</el-col>
 						</el-row>
 					</div>
-					<div class="botton">
+					<div class="bottom">
 						<el-button size="default">取 消</el-button>
-						<el-button type="primary" size="default">保存</el-button>
+						<el-button type="primary" size="default" @click="onSave">保存</el-button>
 					</div>
-					<!-- <el-row>
-						<el-col>
-							<el-button size="default">取 消</el-button>
-							<el-button type="primary" size="default">保存</el-button>
-						</el-col>
-					</el-row> -->
 				</div>
 			</el-form>
 		</div>
@@ -180,28 +193,57 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, shallowRef, onBeforeUnmount } from 'vue';
 import { mavonEditor } from 'mavon-editor';
 import UploadImg from '/@/components/Upload/Img.vue';
 import 'mavon-editor/dist/css/index.css';
+import '@wangeditor/editor/dist/css/style.css';
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+import TinymceEditor from '/@/components/tinymce/index.vue';
+import type { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
 import type { SelectOutput, TreeSelectOutput, UpdateArticleInput } from '/@/api/models';
 import CategoryApi from '/@/api/CategoryApi';
 import TagsApi from '/@/api/TagsApi';
+const editorRef = shallowRef<IDomEditor>();
 const state = reactive({
 	form: {
 		status: 0,
 		isAllowComments: true,
 		sort: 100,
 		isTop: false,
+		isHtml: false,
+		content: '<p>hello <strong>world</strong></p>',
 	} as UpdateArticleInput,
 	categoryData: [] as TreeSelectOutput[],
 	tagsData: [] as SelectOutput[],
+	editorConfig: {
+		placeholder: '请输入内容...',
+	} as IEditorConfig, // 富文本编辑器配置
+	toolbarConfig: {} as IToolbarConfig, // 富文本编辑器工具栏配置
+	mode: 'default', // 富文本编辑器模式
 });
+
+const onChangeEditor = () => {
+	state.form.isHtml = !state.form.isHtml;
+};
+
+const onCreated = (editor: any) => {
+	editorRef.value = editor;
+};
+// 保存
+const onSave = () => {};
 
 onMounted(async () => {
 	const [c, t] = await Promise.all([CategoryApi.treeSelect(), TagsApi.select()]);
 	state.categoryData = c.data ?? [];
 	state.tagsData = t.data ?? [];
+});
+
+// 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() => {
+	const editor = editorRef.value;
+	if (editor == null) return;
+	editor.destroy();
 });
 </script>
 
@@ -240,7 +282,7 @@ onMounted(async () => {
 			flex-direction: column;
 			justify-content: space-between;
 			// }
-			.botton {
+			.bottom {
 				text-align: center;
 			}
 		}
