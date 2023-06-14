@@ -1,5 +1,5 @@
 <template>
-	<div class="system-role-dialog-container">
+	<div class="system-tags-dialog-container">
 		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
 			<el-form ref="tagDialogFormRef" :rules="rules" :model="state.ruleForm" v-loading="state.dialog.loading" size="default" label-width="90px">
 				<el-row :gutter="35">

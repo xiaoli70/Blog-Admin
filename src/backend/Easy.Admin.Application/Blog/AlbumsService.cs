@@ -1,4 +1,6 @@
-﻿namespace Easy.Admin.Application.Blog;
+﻿using Easy.Admin.Application.Blog.Dtos;
+
+namespace Easy.Admin.Application.Blog;
 /// <summary>
 /// 相册管理
 /// </summary>
@@ -17,6 +19,7 @@ public class AlbumsService : BaseService<Albums>
     {
         return await _repository.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
+            .WhereIF(dto.Type.HasValue, x => x.Type == dto.Type)
             .OrderBy(x => x.Sort)
             .Select(x => new AlbumsPageOutput
             {
@@ -61,106 +64,4 @@ public class AlbumsService : BaseService<Albums>
     }
 
 
-}
-
-public class AlbumsPageOutput
-{
-    /// <summary>
-    /// 相册ID
-    /// </summary>
-    public long Id { get; set; }
-    /// <summary>
-    /// 名称
-    /// </summary>
-    public string Name { get; set; }
-    /// <summary>
-    /// 相册类型
-    /// </summary>
-    public CoverType? Type { get; set; }
-    /// <summary>
-    /// 状态
-    /// </summary>
-    public AvailabilityStatus Status { get; set; }
-    /// <summary>
-    /// 是否显示
-    /// </summary>
-    public bool IsVisible { get; set; }
-    /// <summary>
-    /// 排序
-    /// </summary>
-    public int Sort { get; set; }
-    /// <summary>
-    /// 备注
-    /// </summary>
-    public string Remark { get; set; }
-    /// <summary>
-    /// 封面
-    /// </summary>
-    public string Cover { get; set; }
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public DateTime CreatedTime { get; set; }
-}
-
-public class AlbumsPageQueryInput : Pagination
-{
-    /// <summary>
-    /// 相册名称
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// 相册类型
-    /// </summary>
-    public CoverType? Type { get; set; }
-}
-
-public class UpdateAlbumsInput : AddAlbumsInput
-{
-    [Required(ErrorMessage = "缺少必要参数")]
-    public long Id { get; set; }
-}
-public class AddAlbumsInput
-{
-    /// <summary>
-    /// 相册名称
-    /// </summary>
-    [Required(ErrorMessage = "相册名称为必填项")]
-    [MaxLength(32, ErrorMessage = "相册名称限制32个字符")]
-    public string Name { get; set; }
-
-    /// <summary>
-    /// 封面图
-    /// </summary>
-    [Required(ErrorMessage = "请上传相册封面")]
-    [MaxLength(256)]
-    public string Cover { get; set; }
-
-    /// <summary>
-    /// 相册类型
-    /// </summary>
-    public CoverType? Type { get; set; }
-
-    /// <summary>
-    /// 可用状态
-    /// </summary>
-    public AvailabilityStatus Status { get; set; }
-
-    /// <summary>
-    /// 排序值（值越小越靠前）
-    /// </summary>
-    [Required(ErrorMessage = "排序值为必填项")]
-    public int Sort { get; set; }
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    [MaxLength(200, ErrorMessage = "备注限制200个字符内")]
-    public string Remark { get; set; }
-
-    /// <summary>
-    /// 是否可见
-    /// </summary>
-    public bool IsVisible { get; set; }
 }

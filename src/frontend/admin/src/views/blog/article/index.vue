@@ -23,6 +23,9 @@
 				<template #status="{ row }">
 					<el-tag :type="row.status === 0 ? 'success' : 'danger'"> {{ row.status === 0 ? '启用' : '禁用' }}</el-tag>
 				</template>
+				<template #creationType="{ row }">
+					<el-tag :type="row.creationType === 0 ? 'success' : 'danger'"> {{ row.creationType === 0 ? '原创' : '转载' }}</el-tag>
+				</template>
 				<template #action="{ row }">
 					<el-button
 						icon="ele-Edit"
@@ -32,13 +35,13 @@
 						type="primary"
 						@click="
 							() => {
-								router.push({ path: '/blog/article/operate', params: { id: row.id } });
+								router.push({ path: '/blog/article/operate', query: { tagsViewName: '编辑文章', id: row.id } });
 							}
 						"
 					>
 						编辑
 					</el-button>
-					<el-popconfirm title="确认删除吗？" @confirm="() => {}">
+					<el-popconfirm title="确认删除吗？" @confirm="onDelete(row.id)">
 						<template #reference>
 							<el-button icon="ele-Delete" size="small" text v-auth="'sysrole:delete'" type="danger"> 删除 </el-button>
 						</template>
@@ -58,6 +61,7 @@ import CategoryApi from '/@/api/CategoryApi';
 import type { ColumnProps } from '/@/components/ProTable/interface';
 import { auths } from '/@/utils/authFunction';
 import { useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
 
 const router = useRouter();
 // 表格实例
@@ -94,6 +98,15 @@ const columns = reactive<ColumnProps[]>([
 
 const onChangeTree = (val?: number | string) => {
 	initParam.categoryId = val;
+};
+
+// 删除
+const onDelete = async (id: number) => {
+	const { succeeded } = await ArticleApi.delete({ id });
+	if (succeeded) {
+		tableRef.value?.reset();
+		ElMessage.success('删除成功');
+	}
 };
 </script>
 

@@ -70,4 +70,9 @@ public class ArticleDetailOutput
     /// 栏目ID
     /// </summary>
     public long? CategoryId { get; set; }
+
+    /// <summary>
+    /// 发布时间
+    /// </summary>
+    public DateTime PublishTime { get; set; }
 }

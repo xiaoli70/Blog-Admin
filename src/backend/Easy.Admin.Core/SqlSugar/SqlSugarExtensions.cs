@@ -123,6 +123,10 @@ public static class SqlSugarExtensions
                     {
                         createdTime.CreatedTime = DateTime.Now;
                     }
+                    if (entityInfo.EntityValue is ICreatedUserId createdUserId)
+                    {
+                        createdUserId.CreatedUserId = App.User.FindFirst(AuthClaimsConst.AuthIdKey)!.Value.Adapt<long>();
+                    }
                     break;
                 case DataFilterType.UpdateByObject:
                     if (entityInfo.EntityValue is IUpdatedTime { UpdatedTime: null } updatedTime)
@@ -130,10 +134,6 @@ public static class SqlSugarExtensions
                         updatedTime.UpdatedTime = DateTime.Now;
                     }
 
-                    if (entityInfo.EntityValue is ICreatedUserId createdUserId)
-                    {
-                        createdUserId.CreatedUserId = App.User.FindFirst(AuthClaimsConst.AuthIdKey)!.Value.Adapt<long>();
-                    }
                     break;
                 case DataFilterType.DeleteByObject:
                     break;

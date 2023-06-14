@@ -17,32 +17,33 @@
 					<template #dropdown>
 						<el-dropdown-menu>
 							<el-dropdown-item
-								v-auth="'customconfigitem:add|customconfigitem:edit|customconfigitem:delete|customconfigitem:page'"
+								v-if="auth('customconfigitem:add|customconfigitem:edit|customconfigitem:delete|customconfigitem:page')"
 								icon="ele-List"
 								@click="onConfigItem(row)"
 							>
 								配置项
 							</el-dropdown-item>
-							<el-dropdown-item icon="ele-BrushFilled" v-auth="'customconfig:setjson'" @click="onDesign(row.id)" divided> 配置设计 </el-dropdown-item
+							<el-dropdown-item icon="ele-BrushFilled" v-if="auth('customconfig:setjson')" @click="onDesign(row.id)" divided>
+								配置设计 </el-dropdown-item
 							><el-dropdown-item
 								icon="ele-Document"
 								divided
 								@click="onGenerate(row.id)"
-								v-auth="'customconfig:generate'"
-								v-if="isAllowGenerateOrDelete(row.allowCreationEntity)"
+								v-if="isAllowGenerateOrDelete(row.allowCreationEntity) && auth('customconfig:generate')"
 							>
 								生成实体
 							</el-dropdown-item>
 							<el-dropdown-item
 								icon="ele-Delete"
-								v-auth="'customconfig:deleteClass'"
-								v-if="isAllowGenerateOrDelete(row.allowCreationEntity) && row.isGenerate"
+								v-if="isAllowGenerateOrDelete(row.allowCreationEntity) && row.isGenerate && auth('customconfig:deleteClass')"
 								divided
 								@click="onDeleteConfigClass(row)"
 							>
 								删除实体
 							</el-dropdown-item>
-							<el-dropdown-item icon="ele-Delete" v-auth="'customconfig:delete'" divided @click="onDeleteConfig(row)"> 删除配置 </el-dropdown-item>
+							<el-dropdown-item icon="ele-Delete" v-if="auth('customconfig:delete')" divided @click="onDeleteConfig(row)">
+								删除配置
+							</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
@@ -61,7 +62,7 @@ import ProTable from '/@/components/ProTable/index.vue';
 import CustomConfigApi from '/@/api/CustomConfigApi';
 import type { CustomConfigPageOutput } from '/@/api/models';
 import type { ColumnProps } from '/@/components/ProTable/interface';
-import { auths } from '/@/utils/authFunction';
+import { auths, auth } from '/@/utils/authFunction';
 
 // 引入组件
 const ConfigDialog = defineAsyncComponent(() => import('./configDialog.vue'));

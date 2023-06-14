@@ -37,7 +37,7 @@ public class ArticleService : BaseService<Article>
         }
         return await _repository.AsQueryable().LeftJoin<ArticleCategory>((article, ac) => article.Id == ac.ArticleId)
               .InnerJoin<Categories>((article, ac, c) => ac.CategoryId == c.Id && c.Status == AvailabilityStatus.Enable)
-              .WhereIF(string.IsNullOrWhiteSpace(dto.Title), article => article.Title.Contains(dto.Title))
+              .WhereIF(!string.IsNullOrWhiteSpace(dto.Title), article => article.Title.Contains(dto.Title))
               .WhereIF(categoryList.Any(), (article, ac) => categoryList.Contains(ac.CategoryId))
               .OrderByDescending(article => article.IsTop)
               .OrderBy(article => article.Sort)
@@ -95,6 +95,8 @@ public class ArticleService : BaseService<Article>
     {
         var article = await _repository.GetByIdAsync(dto.Id);
         if (article == null) throw Oops.Oh("无效参数");
+        dto.Adapt(article);
+        await _repository.UpdateAsync(article);
         await _repository.AsSugarClient().Deleteable<ArticleTag>()
             .Where(x => x.ArticleId == dto.Id)
             .ExecuteCommandHasChangeAsync();
@@ -142,6 +144,7 @@ public class ArticleService : BaseService<Article>
                  CreationType = article.CreationType,
                  CategoryId = c.Id,
                  ExpiredTime = article.ExpiredTime,
+                 PublishTime = article.PublishTime,
                  Tags = SqlFunc.Subqueryable<Tags>().InnerJoin<ArticleTag>((tags, at) => tags.Id == at.TagId)
                      .Where((tags, at) => at.ArticleId == article.Id && tags.Status == AvailabilityStatus.Enable)
                      .ToList(tags => tags.Id)

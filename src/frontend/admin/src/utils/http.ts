@@ -245,6 +245,16 @@ class Axios {
 	delete = <T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResult<T>> => {
 		return this.instance.delete(url, config);
 	};
+
+	/**
+	 * 上传文件
+	 * @param url 上传地址
+	 * @param data 文件
+	 * @returns
+	 */
+	upload = <T = any>(url: string, data?: any): Promise<T> => {
+		return this.instance.post(url, data, { headers: { 'Content-Type': 'multipart/form-data' } });
+	};
 }
 // 对于使用非此默认配置的，可传参 再暴露出多个配置axios
 export default new Axios();

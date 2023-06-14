@@ -21,7 +21,7 @@
 						<template #dropdown>
 							<el-dropdown-menu>
 								<el-dropdown-item
-									v-auth="'sysuser:reset'"
+									v-if="auth('sysuser:reset')"
 									icon="ele-RefreshLeft"
 									@click="
 										() => {
@@ -31,7 +31,9 @@
 								>
 									重置密码
 								</el-dropdown-item>
-								<el-dropdown-item v-auth="'sysuser:delete'" icon="ele-Delete" divided @click="onDeleteUser(scope.row)"> 删除账号 </el-dropdown-item>
+								<el-dropdown-item v-if="auth('sysuser:delete')" icon="ele-Delete" :divided="auth('sysuser:reset')" @click="onDeleteUser(scope.row)">
+									删除账号
+								</el-dropdown-item>
 							</el-dropdown-menu>
 						</template>
 					</el-dropdown>
@@ -52,7 +54,7 @@ import ProTable from '/@/components/ProTable/index.vue';
 import TreeFilter from '/@/components/TreeFilter/index.vue';
 import SysUserApi from '/@/api/SysUserApi';
 import SysOrganizationApi from '/@/api/SysOrganizationApi';
-import { auths } from '/@/utils/authFunction';
+import { auths, auth } from '/@/utils/authFunction';
 import type { ColumnProps } from '/@/components/ProTable/interface';
 import type { TreeSelectOutput } from '/@/api/models';
 

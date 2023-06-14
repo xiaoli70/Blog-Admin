@@ -11,6 +11,7 @@
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.1.0",
+		"@notable/html2markdown": "^2.0.2",
 		"@wangeditor/editor": "^5.1.23",
 		"@wangeditor/editor-for-vue": "^5.1.12",
 		"axios": "^1.3.5",
@@ -47,6 +48,7 @@
 		"@types/node": "^18.15.11",
 		"@types/nprogress": "^0.2.0",
 		"@types/sortablejs": "^1.15.1",
+		"@types/tinymce": "^4.6.5",
 		"@typescript-eslint/eslint-plugin": "^5.58.0",
 		"@typescript-eslint/parser": "^5.58.0",
 		"@vitejs/plugin-vue": "^4.1.0",

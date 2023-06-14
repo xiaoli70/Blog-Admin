@@ -98,109 +98,19 @@
             相册管理
             </summary>
         </member>
-        <member name="M:Easy.Admin.Application.Blog.AlbumsService.Add(Easy.Admin.Application.Blog.AddAlbumsInput)">
+        <member name="M:Easy.Admin.Application.Blog.AlbumsService.Add(Easy.Admin.Application.Blog.Dtos.AddAlbumsInput)">
             <summary>
             新增相册
             </summary>
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:Easy.Admin.Application.Blog.AlbumsService.Update(Easy.Admin.Application.Blog.UpdateAlbumsInput)">
+        <member name="M:Easy.Admin.Application.Blog.AlbumsService.Update(Easy.Admin.Application.Blog.Dtos.UpdateAlbumsInput)">
             <summary>
             更新相册
             </summary>
             <param name="dto"></param>
             <returns></returns>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Id">
-            <summary>
-            相册ID
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Type">
-            <summary>
-            相册类型
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.IsVisible">
-            <summary>
-            是否显示
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Sort">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.Cover">
-            <summary>
-            封面
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageOutput.CreatedTime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageQueryInput.Name">
-            <summary>
-            相册名称
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AlbumsPageQueryInput.Type">
-            <summary>
-            相册类型
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Name">
-            <summary>
-            相册名称
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Cover">
-            <summary>
-            封面图
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Type">
-            <summary>
-            相册类型
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Status">
-            <summary>
-            可用状态
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Sort">
-            <summary>
-            排序值（值越小越靠前）
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddAlbumsInput.IsVisible">
-            <summary>
-            是否可见
-            </summary>
         </member>
         <member name="T:Easy.Admin.Application.Blog.ArticleCategoryService">
             <summary>
@@ -285,6 +195,41 @@
             获取文章栏目下拉选项
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddAlbumsInput.Name">
+            <summary>
+            相册名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddAlbumsInput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddAlbumsInput.Type">
+            <summary>
+            相册类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddAlbumsInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddAlbumsInput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddAlbumsInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddAlbumsInput.IsVisible">
+            <summary>
+            是否可见
+            </summary>
         </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.AddArticleInput.Title">
             <summary>
@@ -441,6 +386,61 @@
             备注
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.Id">
+            <summary>
+            相册ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.Type">
+            <summary>
+            相册类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.IsVisible">
+            <summary>
+            是否显示
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.Cover">
+            <summary>
+            封面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageQueryInput.Name">
+            <summary>
+            相册名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageQueryInput.Type">
+            <summary>
+            相册类型
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.Id">
             <summary>
             文章ID
@@ -519,6 +519,11 @@
         <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.CategoryId">
             <summary>
             栏目ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.ArticleDetailOutput.PublishTime">
+            <summary>
+            发布时间
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.ArticlePageOutput.Id">

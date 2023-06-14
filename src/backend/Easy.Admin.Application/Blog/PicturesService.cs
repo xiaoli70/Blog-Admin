@@ -41,10 +41,10 @@ public class PicturesService : IDynamicApiController
     /// <returns></returns>
     [Description("上传图片到相册")]
     [HttpPost("add")]
-    public async Task Add(BatchAddPictureInput dto)
+    public async Task Add(AddPictureInput dto)
     {
-        var list = dto.Pictures.Adapt<List<Pictures>>();
-        await _repository.InsertRangeAsync(list);
+        var list = dto.Adapt<Pictures>();
+        await _repository.InsertAsync(list);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class PicturesService : IDynamicApiController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("删除上册图片")]
+    [Description("删除相册图片")]
     [HttpDelete("delete")]
     public async Task Delete(KeyDto dto)
     {
