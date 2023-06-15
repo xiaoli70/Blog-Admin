@@ -1,3 +1,4 @@
+import type { PageResultPicturesPageOutput } from './models/page-result-pictures-page-output';
 import type { AddPictureInput } from './models/add-picture-input';
 import http from '../utils/http';
 
@@ -8,7 +9,7 @@ class PicturesApi {
 	 * @returns
 	 */
 	page = (params: any) => {
-		return http.get('/pictures/page', { params });
+		return http.get<PageResultPicturesPageOutput>('/pictures/page', { params });
 	};
 
 	/**
@@ -25,7 +26,7 @@ class PicturesApi {
 	 * @returns
 	 */
 	delete = (id: number) => {
-		return http.delete('/pictures/delete', { data: id });
+		return http.delete('/pictures/delete', { data: { id } });
 	};
 }
 
