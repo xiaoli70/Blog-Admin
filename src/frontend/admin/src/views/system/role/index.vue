@@ -18,7 +18,7 @@
 	<RoleDialog ref="roleDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="systemRole">
+<script setup lang="ts" name="role">
 import { defineAsyncComponent, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import SysRoleApi from '/@/api/SysRoleApi';

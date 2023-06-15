@@ -20,7 +20,7 @@
 	<DeptDialog ref="deptDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="systemDept">
+<script setup lang="ts" name="organization">
 import { defineAsyncComponent, ref, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 

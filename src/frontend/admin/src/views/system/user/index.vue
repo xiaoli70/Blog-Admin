@@ -47,7 +47,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="systemUser">
+<script setup lang="ts" name="user">
 import { defineAsyncComponent, reactive, ref, computed } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import ProTable from '/@/components/ProTable/index.vue';

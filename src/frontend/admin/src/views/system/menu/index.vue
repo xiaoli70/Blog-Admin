@@ -29,7 +29,7 @@
 	<MenuDialog ref="menuDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="systemMenu">
+<script setup lang="ts" name="menu">
 import { defineAsyncComponent, ref, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 import SysMenuApi from '/@/api/SysMenuApi';

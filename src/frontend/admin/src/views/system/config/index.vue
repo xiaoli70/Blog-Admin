@@ -54,7 +54,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="customConfig">
+<script setup lang="ts" name="config">
 import { defineAsyncComponent, reactive, ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { useRouter } from 'vue-router';
