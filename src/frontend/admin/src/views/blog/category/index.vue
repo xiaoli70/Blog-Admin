@@ -1,5 +1,5 @@
 <template>
-	<div class="system-category-container layout-padding">
+	<div class="blog-category-container layout-padding">
 		<ProTable ref="tableRef" :request-api="CategoryApi.page" :pagination="false" :columns="columns" :tool-button="false">
 			<template #tools>
 				<el-button v-auth="'category:add'" type="primary" icon="ele-Plus" @click="onOpenDialog(null)"> 新增 </el-button>

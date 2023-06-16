@@ -1,5 +1,5 @@
 <template>
-	<div class="article-container layout-padding main-box">
+	<div class="blog-article-container layout-padding main-box">
 		<TreeFilter ref="categoryTreeRef" :request-api="CategoryApi.treeSelect" id="value" :default-value="initParam.categoryId" @change="onChangeTree" />
 		<div class="table-box">
 			<ProTable ref="tableRef" :request-api="ArticleApi.page" :columns="columns" :init-param="initParam" :tool-button="false">

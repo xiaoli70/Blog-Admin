@@ -1,5 +1,5 @@
 <template>
-	<div class="system-tag-container layout-padding">
+	<div class="blog-tag-container layout-padding">
 		<ProTable ref="tableRef" :request-api="TagsApi.page" :columns="columns" :tool-button="false">
 			<template #tools> <el-button type="primary" v-auth="'tags:add'" icon="ele-Plus" @click="onOpen(null)"> 新增 </el-button></template>
 			<template #status="scope">

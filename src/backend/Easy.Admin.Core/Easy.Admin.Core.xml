@@ -545,6 +545,11 @@
             对方博客友链的地址
             </summary>
         </member>
+        <member name="P:Easy.Admin.Core.Entities.FriendLink.IsIgnoreCheck">
+            <summary>
+            是否忽略对方站点是否存在本站链接
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Core.Entities.FriendLink.Remark">
             <summary>
             备注

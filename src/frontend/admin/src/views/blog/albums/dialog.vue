@@ -1,5 +1,5 @@
 <template>
-	<div class="system-album-dialog-container">
+	<div class="blog-album-dialog-container">
 		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
 			<el-form ref="albumDialogFormRef" :rules="rules" :model="state.ruleForm" v-loading="state.dialog.loading" size="default" label-width="90px">
 				<el-row :gutter="20">
@@ -12,7 +12,7 @@
 							</el-col>
 							<el-col class="mb20">
 								<el-form-item label="相册类型" prop="type">
-									<el-select v-model="state.ruleForm.type" placeholder="创作类型" clearable class="w100">
+									<el-select v-model="state.ruleForm.type" placeholder="相册类型" clearable class="w100">
 										<el-option v-for="(item, index) in state.albumType" :key="index" :label="item" :value="index" />
 									</el-select>
 								</el-form-item>
@@ -60,9 +60,9 @@
 							></el-switch>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 						<el-form-item label="相册描述" prop="remark">
-							<el-input v-model="state.ruleForm.remark" type="textarea" placeholder="请输入相册描述" maxlength="200"></el-input>
+							<el-input v-model="state.ruleForm.remark" type="textarea" placeholder="请输入相册描述" :rows="3" maxlength="200"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>

@@ -1,5 +1,5 @@
 <template>
-	<div class="picture-container layout-padding main-box w100">
+	<div class="blog-picture-container layout-padding main-box w100">
 		<el-card class="w100">
 			<el-row class="mb20">
 				<el-col :span="24">
@@ -132,10 +132,6 @@ onMounted(async () => {
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.03);
 		opacity: 1;
 		box-sizing: border-box;
-		.item-txt-title {
-			color: var(--el-color-primary) !important;
-			transition: all 0.3s ease;
-		}
 		:deep(img) {
 			transition: all 0.3s ease;
 			transform: translateZ(0) scale(1.05);

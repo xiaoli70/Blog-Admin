@@ -341,6 +341,46 @@
             备注
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput.SiteName">
+            <summary>
+            网站名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput.Link">
+            <summary>
+            网站链接
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput.Logo">
+            <summary>
+            网站logo
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput.Url">
+            <summary>
+            对方博客友链的地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput.IsIgnoreCheck">
+            <summary>
+            是否忽略对方站点是否存在本站链接
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput.Sort">
+            <summary>
+            排序值（值越小越靠前）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.AddPictureInput.AlbumId">
             <summary>
             相册Id
@@ -636,6 +676,61 @@
             子栏目
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.Id">
+            <summary>
+            友情链接主键
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.SiteName">
+            <summary>
+            站点名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.IsIgnoreCheck">
+            <summary>
+            忽略站点检查
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.Link">
+            <summary>
+            友链
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.Logo">
+            <summary>
+            Logo链接
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.Url">
+            <summary>
+            对方博客友情链接地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageOutput.Remark">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.FriendLinkPageQueryInput.SiteName">
+            <summary>
+            站点名称
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.PicturesPageQueryInput.Id">
             <summary>
             相册ID
@@ -696,10 +791,34 @@
             栏目ID
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateFriendLinkInput.Id">
+            <summary>
+            友链主键
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateTagInput.Id">
             <summary>
             标签ID
             </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Blog.FriendLinkService">
+            <summary>
+            友情链接
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.FriendLinkService.Page(Easy.Admin.Application.Blog.Dtos.FriendLinkPageQueryInput)">
+            <summary>
+            友情链接分页查询
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Blog.FriendLinkService.Add(Easy.Admin.Application.Blog.Dtos.AddFriendLinkInput)">
+            <summary>
+            添加友情链接
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
         </member>
         <member name="T:Easy.Admin.Application.Blog.PicturesService">
             <summary>

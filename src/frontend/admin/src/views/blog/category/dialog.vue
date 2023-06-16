@@ -1,5 +1,5 @@
 <template>
-	<div class="system-dept-dialog-container">
+	<div class="blog-category-dialog-container">
 		<el-dialog :title="state.dialog.title" v-model="state.dialog.isShowDialog" width="769px">
 			<el-form :rules="rules" v-loading="state.dialog.loading" ref="categoryDialogFormRef" :model="state.ruleForm" size="default" label-width="90px">
 				<el-row :gutter="35">
