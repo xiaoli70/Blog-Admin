@@ -81,3 +81,4 @@ const onDeleteOrg = async (id: number) => {
 	}
 };
 </script>
+<style scoped lang="scss"></style>

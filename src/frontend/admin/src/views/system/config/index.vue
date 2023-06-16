@@ -183,3 +183,4 @@ const isAllowGenerateOrDelete = (allow: boolean) => {
 	return allow && import.meta.env.DEV;
 };
 </script>
+<style scoped lang="scss"></style>

@@ -140,10 +140,6 @@ onMounted(async () => {
 			transition: all 0.3s ease;
 			transform: translateZ(0) scale(1.05);
 		}
-		// img {
-		// 	transition: all 0.3s ease;
-		// 	transform: translateZ(0) scale(1.05);
-		// }
 		.operate {
 			opacity: 1;
 		}
@@ -177,92 +173,6 @@ onMounted(async () => {
 			span {
 				font-size: 85%;
 				line-height: 85%;
-			}
-		}
-	}
-}
-.picture-container {
-	.flex-warp {
-		display: flex;
-		flex-wrap: wrap;
-		align-content: flex-start;
-		margin: 0 -5px;
-		.flex-warp-item {
-			padding: 5px;
-			width: 100%;
-			// height: 360px;
-			.flex-warp-item-box {
-				border: 1px solid var(--next-border-color-light);
-				width: 100%;
-				height: 100%;
-				border-radius: 2px;
-				display: flex;
-				flex-direction: column;
-				transition: all 0.3s ease;
-
-				position: relative;
-				&:hover {
-					cursor: pointer;
-					border: 1px solid var(--el-color-primary);
-					transition: all 0.3s ease;
-					box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.03);
-					opacity: 1;
-					.item-txt-title {
-						color: var(--el-color-primary) !important;
-						transition: all 0.3s ease;
-					}
-					.item-img {
-						img {
-							transition: all 0.3s ease;
-							transform: translateZ(0) scale(1.05);
-						}
-						.operate {
-							opacity: 1;
-						}
-					}
-				}
-				.item-img {
-					width: 100%;
-					height: 215px;
-					overflow: hidden;
-					img {
-						transition: all 0.3s ease;
-						width: 100%;
-						height: 100%;
-					}
-					.operate {
-						position: absolute;
-						top: 0;
-						right: 0;
-						box-sizing: border-box;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						width: 100%;
-						height: 100%;
-						cursor: pointer;
-						background: rgb(0 0 0 / 60%);
-						opacity: 0;
-						transition: var(--el-transition-duration-fast);
-						.handle-icon {
-							display: flex;
-							flex-direction: column;
-							align-items: center;
-							justify-content: center;
-							padding: 0 6%;
-							color: aliceblue;
-							.el-icon {
-								margin-bottom: 40%;
-								font-size: 130%;
-								line-height: 130%;
-							}
-							span {
-								font-size: 85%;
-								line-height: 85%;
-							}
-						}
-					}
-				}
 			}
 		}
 	}

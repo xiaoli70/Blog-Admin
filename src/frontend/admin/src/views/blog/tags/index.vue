@@ -88,3 +88,4 @@ const onDeleteRole = async (id: number) => {
 	}
 };
 </script>
+<style scoped></style>

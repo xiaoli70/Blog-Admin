@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { useUserInfo } from '/@/stores/userInfo';
+import { useRequestOldRoutes } from '/@/stores/requestOldRoutes';
 import pinia from '/@/stores/index';
 import { Session } from '/@/utils/storage';
 import { NextLoading } from '/@/utils/loading';
@@ -101,6 +102,7 @@ export async function initBackEndControlRoutes() {
 		},
 	];
 	dynamicRoutes[0].children = await backEndComponent([...routeList, ...staticRoute]);
+	// dynamicRoutes[0].children = await backEndComponent(routeList);
 	// 添加动态路由
 	await setAddRoute();
 	// 设置路由到 pinia routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
@@ -178,8 +180,11 @@ export async function setBackEndControlRefreshRoutes() {
 export function backEndComponent(routes: any) {
 	if (!routes) return;
 	return routes.map((item: any) => {
+		if (item.component === '') {
+			item.component = 'layout/routerView/parent';
+		}
 		if (item.component) item.component = dynamicImport(dynamicViewsModules, item.component as string);
-		item.children && backEndComponent(item.children);
+		item.children && item.children.length > 0 && backEndComponent(item.children);
 		return item;
 	});
 }
@@ -191,9 +196,6 @@ export function backEndComponent(routes: any) {
  * @returns 返回处理成函数后的 component
  */
 export function dynamicImport(dynamicViewsModules: Record<string, Function>, component: string) {
-	if (component === '') {
-		component = 'layout/routerView/parent';
-	}
 	const keys = Object.keys(dynamicViewsModules);
 	const matchKeys = keys.filter((key) => {
 		const k = key.replace(/..\/views|../, '');

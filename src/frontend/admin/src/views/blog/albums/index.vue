@@ -45,7 +45,7 @@
 	<AlbumDialog ref="albumDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="tags">
+<script setup lang="ts" name="albums">
 import { defineAsyncComponent, reactive, ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import AlbumsApi from '/@/api/AlbumsApi';
@@ -138,3 +138,4 @@ const onDeleteRole = async (row: any) => {
 		.catch(() => {});
 };
 </script>
+<style scoped lang="scss"></style>
