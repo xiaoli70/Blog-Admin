@@ -16,11 +16,11 @@
 				</el-popconfirm>
 			</template>
 		</ProTable>
+		<CategoryDialog ref="categoryDialogRef" @refresh="tableRef?.reset" />
 	</div>
-	<CategoryDialog ref="cagegroyDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="category">
+<script setup lang="ts" name="blogCategory">
 import { defineAsyncComponent, ref, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 
@@ -33,7 +33,7 @@ import { auths } from '/@/utils/authFunction';
 import type { ColumnProps } from '/@/components/ProTable/interface';
 
 // 定义变量内容
-const cagegroyDialogRef = ref<InstanceType<typeof CategoryDialog>>();
+const categoryDialogRef = ref<InstanceType<typeof CategoryDialog>>();
 const tableRef = ref<InstanceType<typeof ProTable>>();
 
 const columns = reactive<ColumnProps[]>([
@@ -65,7 +65,7 @@ const columns = reactive<ColumnProps[]>([
 
 // 打开新增栏目弹窗
 const onOpenDialog = async (row: UpdateCategoryInput | null = null) => {
-	await cagegroyDialogRef.value?.openDialog(row);
+	await categoryDialogRef.value?.openDialog(row);
 };
 
 //删除机构

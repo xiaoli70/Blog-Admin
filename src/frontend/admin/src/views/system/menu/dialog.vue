@@ -212,7 +212,7 @@ const state = reactive({
 		type: MenuType.NUMBER_0,
 		status: AvailabilityStatus.NUMBER_0,
 		isFixed: false,
-		isKeepAlive: false,
+		isKeepAlive: true,
 		isVisible: true,
 		isIframe: false,
 		sort: 100,

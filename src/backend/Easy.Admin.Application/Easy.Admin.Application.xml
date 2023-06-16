@@ -713,7 +713,7 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:Easy.Admin.Application.Blog.PicturesService.Add(Easy.Admin.Application.Blog.Dtos.BatchAddPictureInput)">
+        <member name="M:Easy.Admin.Application.Blog.PicturesService.Add(Easy.Admin.Application.Blog.Dtos.AddPictureInput)">
             <summary>
             上传图片到相册
             </summary>

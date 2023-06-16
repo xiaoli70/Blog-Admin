@@ -52,7 +52,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="article">
+<script setup lang="ts" name="blogArticle">
 import { ref, reactive } from 'vue';
 import ProTable from '/@/components/ProTable/index.vue';
 import TreeFilter from '/@/components/TreeFilter/index.vue';

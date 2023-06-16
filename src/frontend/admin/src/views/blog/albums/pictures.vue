@@ -59,7 +59,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="pictures">
+<script setup lang="ts" name="blogPictures">
 import { reactive, onMounted, ref, nextTick } from 'vue';
 import PicturesApi from '/@/api/PicturesApi';
 import { useRoute } from 'vue-router';

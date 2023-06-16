@@ -17,11 +17,11 @@
 				</el-popconfirm>
 			</template>
 		</ProTable>
+		<TagDialog ref="tagDialogRef" @refresh="tableRef?.reset" />
 	</div>
-	<TagDialog ref="tagDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="tags">
+<script setup lang="ts" name="blogTags">
 import { defineAsyncComponent, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import TagsApi from '/@/api/TagsApi';

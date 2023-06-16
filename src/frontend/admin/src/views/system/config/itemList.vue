@@ -2,8 +2,8 @@
 	<div class="custom-config-item layout-padding">
 		<ProTable
 			v-if="state.isShow"
-			ref="talbeRef"
-			:columns="state.cloumns"
+			ref="tableRef"
+			:columns="state.columns"
 			:tool-button="false"
 			:init-param="state.params"
 			:request-api="CustomConfigItemApi.page"
@@ -47,11 +47,11 @@
 				</el-popconfirm>
 			</template>
 		</ProTable>
-		<RenderDialog ref="renderDialogRef" @refresh="talbeRef?.reset" />
+		<RenderDialog ref="renderDialogRef" @refresh="tableRef?.reset" />
 	</div>
 </template>
 
-<script setup lang="tsx">
+<script setup lang="tsx" name="customItemList">
 import { ref, reactive, onMounted, nextTick, defineAsyncComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import ProTable from '/@/components/ProTable/index.vue';
@@ -64,14 +64,14 @@ const route = useRoute();
 const RenderDialog = defineAsyncComponent(() => import('./renderDialog.vue'));
 
 // 表格实例
-const talbeRef = ref<InstanceType<typeof ProTable>>();
+const tableRef = ref<InstanceType<typeof ProTable>>();
 
 // 数据编辑弹窗实例
 const renderDialogRef = ref<InstanceType<typeof RenderDialog>>();
 
 // 页面数据状态
 const state = reactive({
-	cloumns: [
+	columns: [
 		{
 			type: 'index',
 			label: '序号',
@@ -92,7 +92,7 @@ const onDeleteRole = async (id: number) => {
 	const { succeeded, errors } = await CustomConfigItemApi.delete({ id });
 	if (succeeded) {
 		ElMessage.success('删除成功');
-		talbeRef.value?.reset();
+		tableRef.value?.reset();
 	} else {
 		ElMessage.error(errors);
 	}
@@ -110,7 +110,7 @@ onMounted(async () => {
 			.filter((i) => i.type !== 'rich-editor' && i.type !== 'file-upload')
 			.forEach((item) => {
 				let option = item.options;
-				state.cloumns.push({
+				state.columns.push({
 					prop: option.name,
 					label: option.label,
 					render: (scope) => {
@@ -145,7 +145,7 @@ onMounted(async () => {
 				});
 			});
 	}
-	state.cloumns.push(
+	state.columns.push(
 		...[
 			{ label: '状态', prop: '__Status', width: 80 },
 			{

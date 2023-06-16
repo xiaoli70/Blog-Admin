@@ -16,11 +16,11 @@
 				</el-popconfirm>
 			</template>
 		</ProTable>
+		<DeptDialog ref="deptDialogRef" @refresh="tableRef?.reset" />
 	</div>
-	<DeptDialog ref="deptDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="organization">
+<script setup lang="ts" name="sysOrganization">
 import { defineAsyncComponent, ref, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 

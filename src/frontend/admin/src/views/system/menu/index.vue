@@ -25,11 +25,11 @@
 				</el-popconfirm>
 			</template>
 		</ProTable>
+		<MenuDialog ref="menuDialogRef" @refresh="tableRef?.reset" />
 	</div>
-	<MenuDialog ref="menuDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="menu">
+<script setup lang="ts" name="sysMenu">
 import { defineAsyncComponent, ref, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 import SysMenuApi from '/@/api/SysMenuApi';

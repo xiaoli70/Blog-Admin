@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { useUserInfo } from '/@/stores/userInfo';
-import { useRequestOldRoutes } from '/@/stores/requestOldRoutes';
+// import { useRequestOldRoutes } from '/@/stores/requestOldRoutes';
 import pinia from '/@/stores/index';
 import { Session } from '/@/utils/storage';
 import { NextLoading } from '/@/utils/loading';
@@ -53,7 +53,7 @@ export async function initBackEndControlRoutes() {
 		{
 			path: '/personal',
 			name: 'personal',
-			component: '/personal/index',
+			component: 'personal/index',
 			meta: {
 				title: '个人中心',
 				isHide: true,
@@ -62,8 +62,8 @@ export async function initBackEndControlRoutes() {
 		},
 		{
 			path: '/system/config/design',
-			name: 'config-design',
-			component: '/system/config/design',
+			name: 'configDesign',
+			component: 'system/config/design',
 			meta: {
 				title: '配置设计',
 				isKeepAlive: false,
@@ -72,8 +72,8 @@ export async function initBackEndControlRoutes() {
 		},
 		{
 			path: '/system/config/render',
-			name: 'config-render',
-			component: '/system/config/render',
+			name: 'configRender',
+			component: 'system/config/render',
 			meta: {
 				title: '编辑配置项',
 				isKeepAlive: false,
@@ -82,8 +82,8 @@ export async function initBackEndControlRoutes() {
 		},
 		{
 			path: '/system/config/items',
-			name: 'config-items',
-			component: '/system/config/itemList',
+			name: 'configItems',
+			component: 'system/config/itemList',
 			meta: {
 				title: '配置项列表',
 				isKeepAlive: false,
@@ -92,8 +92,8 @@ export async function initBackEndControlRoutes() {
 		},
 		{
 			path: '/blog/article/operate',
-			name: 'article-opreate',
-			component: '/blog/article/operate',
+			name: 'articleOperate',
+			component: 'blog/article/operate',
 			meta: {
 				title: '新增文章',
 				isKeepAlive: false,

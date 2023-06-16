@@ -14,11 +14,11 @@
 				</el-popconfirm>
 			</template>
 		</ProTable>
+		<RoleDialog ref="roleDialogRef" @refresh="tableRef?.reset" />
 	</div>
-	<RoleDialog ref="roleDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="role">
+<script setup lang="ts" name="sysRole">
 import { defineAsyncComponent, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import SysRoleApi from '/@/api/SysRoleApi';

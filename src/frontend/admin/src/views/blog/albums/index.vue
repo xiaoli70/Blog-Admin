@@ -41,11 +41,11 @@
 				</el-dropdown>
 			</template>
 		</ProTable>
+		<AlbumDialog ref="albumDialogRef" @refresh="tableRef?.reset" />
 	</div>
-	<AlbumDialog ref="albumDialogRef" @refresh="tableRef?.reset" />
 </template>
 
-<script setup lang="ts" name="albums">
+<script setup lang="ts" name="blogAlbums">
 import { defineAsyncComponent, reactive, ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import AlbumsApi from '/@/api/AlbumsApi';
