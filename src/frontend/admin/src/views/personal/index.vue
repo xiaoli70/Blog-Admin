@@ -12,16 +12,18 @@
 						</div>
 						<div class="personal-user-right">
 							<el-row>
-								<el-col :span="24" class="personal-title mb18">{{ currentTime }}，admin，生活变的再糟糕，也不妨碍我变得更好！ </el-col>
+								<el-col :span="24" class="personal-title mb18"
+									>{{ currentTime }}，{{ model.info.account }}，生活变的再糟糕，也不妨碍我变得更好！
+								</el-col>
 								<el-col :span="24">
 									<el-row>
 										<el-col :xs="24" :sm="8" class="personal-item mb6">
 											<div class="personal-item-label">昵称：</div>
-											<div class="personal-item-value">小柒</div>
+											<div class="personal-item-value">{{ model.info.nickName }}</div>
 										</el-col>
 										<el-col :xs="24" :sm="16" class="personal-item mb6">
-											<div class="personal-item-label">身份：</div>
-											<div class="personal-item-value">超级管理</div>
+											<div class="personal-item-label">部门：</div>
+											<div class="personal-item-value">{{ model.info.orgName ?? '无' }}</div>
 										</el-col>
 									</el-row>
 								</el-col>
@@ -29,11 +31,11 @@
 									<el-row>
 										<el-col :xs="24" :sm="8" class="personal-item mb6">
 											<div class="personal-item-label">登录IP：</div>
-											<div class="personal-item-value">192.168.1.1</div>
+											<div class="personal-item-value">{{ model.info.lastLoginIp }}</div>
 										</el-col>
 										<el-col :xs="24" :sm="16" class="personal-item mb6">
-											<div class="personal-item-label">登录时间：</div>
-											<div class="personal-item-value">2021-02-05 18:47:26</div>
+											<div class="personal-item-label">登录地址：</div>
+											<div class="personal-item-value">{{ model.info.lastLoginAddress ?? '无' }}</div>
 										</el-col>
 									</el-row>
 								</el-col>
@@ -47,15 +49,40 @@
 			<el-col :xs="24" :sm="8" class="pl15 personal-info">
 				<el-card shadow="hover">
 					<template #header>
-						<span>消息通知</span>
-						<span class="personal-info-more">更多</span>
+						<span>修改密码</span>
 					</template>
 					<div class="personal-info-box">
-						<ul class="personal-info-ul">
-							<li v-for="(v, k) in state.newsInfoList" :key="k" class="personal-info-li">
-								<a :href="v.link" target="_block" class="personal-info-li-title">{{ v.title }}</a>
-							</li>
-						</ul>
+						<el-form ref="pwdFormRef" :model="model.pwd" :rules="pwdRules" size="default">
+							<er-row>
+								<el-col class="mb15">
+									<el-form-item label="原密码" prop="originalPwd">
+										<el-input
+											v-model="model.pwd.originalPwd"
+											maxlength="16"
+											type="password"
+											placeholder="请输入原密码"
+											minlength="6"
+											show-password
+										></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col class="mb15">
+									<el-form-item label="新密码" prop="password">
+										<el-input
+											maxlength="16"
+											v-model="model.pwd.password"
+											type="password"
+											minlength="6"
+											placeholder="请输入新密码"
+											show-password
+										></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col style="display: flex; justify-content: flex-end">
+									<el-button type="primary" @click="onChangePwd">提交</el-button>
+								</el-col>
+							</er-row>
+						</el-form>
 					</div>
 				</el-card>
 			</el-col>
@@ -184,10 +211,17 @@
 </template>
 
 <script setup lang="ts" name="personal">
-import { reactive, computed } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { formatAxis } from '/@/utils/formatTime';
 import { newsInfoList, recommendList } from './mock';
-
+import SysUserApi from '/@/api/SysUserApi';
+import type { ChangePasswordOutput, SysUserInfoOutput } from '/@/api/models';
+import type { FormRules, FormInstance } from 'element-plus';
+const pwdRules = reactive<FormRules>({
+	originalPwd: [{ required: true, message: '请输入原密码' }],
+	password: [{ required: true, message: '请输入新密码' }],
+});
+const pwdFormRef = ref<FormInstance>();
 // 定义变量内容
 const state = reactive<PersonalState>({
 	newsInfoList,
@@ -200,6 +234,25 @@ const state = reactive<PersonalState>({
 		phone: '',
 		sex: '',
 	},
+});
+
+const model = reactive({
+	info: {} as SysUserInfoOutput, //当前用户信息
+	pwd: {} as ChangePasswordOutput,
+});
+const onChangePwd = () => {
+	// pwdFormRef.value.validate(async (valid) => {
+	// 	if (valid) {
+	// 		const { succeeded } = SysUserApi.changePassword(model.pwd);
+	// 		if (succeeded) {
+	// 			model.pwd = { originalPwd = '', password = '' };
+	// 		}
+	// 	}
+	// });
+};
+onMounted(async () => {
+	const { data } = await SysUserApi.getCurrentUserInfo();
+	model.info = data!;
 });
 
 // 当前时间提示语

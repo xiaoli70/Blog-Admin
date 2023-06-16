@@ -153,7 +153,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// </summary>
     /// <returns></returns>
     [Description("重置系统用户密码")]
-    [HttpPut]
+    [HttpPatch]
     public async Task Reset(ResetPasswordInput dto)
     {
         string encrypt = MD5Encryption.Encrypt(_idGenerator.Encode(dto.Id) + dto.Password);
@@ -211,7 +211,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// <param name="dto"></param>
     /// <returns></returns>
     [Description("用户修改账户密码")]
-    [HttpPut]
+    [HttpPatch]
     public async Task ChangePassword(ChangePasswordOutput dto)
     {
         var userId = _authManager.UserId;

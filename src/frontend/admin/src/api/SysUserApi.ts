@@ -1,5 +1,12 @@
 import { BaseApi } from './BaseApi';
-import { PageResultSysUserPageOutput, AddSysUserInput, UpdateSysUserInput, ResetPasswordInput, SysUserInfoOutput } from './models';
+import {
+	PageResultSysUserPageOutput,
+	AddSysUserInput,
+	UpdateSysUserInput,
+	ResetPasswordInput,
+	SysUserInfoOutput,
+	ChangePasswordOutput,
+} from './models';
 class SysUserApi extends BaseApi<AddSysUserInput, UpdateSysUserInput, PageResultSysUserPageOutput> {
 	constructor() {
 		super('/sysuser/');
@@ -20,7 +27,7 @@ class SysUserApi extends BaseApi<AddSysUserInput, UpdateSysUserInput, PageResult
 	 * @returns
 	 */
 	resetPassword = (data: ResetPasswordInput) => {
-		return this.put(`${this.basePath}reset`, data);
+		return this.patch(`${this.basePath}reset`, data);
 	};
 
 	/**
@@ -29,6 +36,15 @@ class SysUserApi extends BaseApi<AddSysUserInput, UpdateSysUserInput, PageResult
 	 */
 	getCurrentUserInfo = () => {
 		return this.get<SysUserInfoOutput>(`${this.basePath}currentuserinfo`);
+	};
+
+	/**
+	 * 用户修改自己的密码
+	 * @param data 密码信息
+	 * @returns
+	 */
+	changePassword = (data: ChangePasswordOutput) => {
+		return this.patch(`${this.basePath}changepassword`, data);
 	};
 }
 
