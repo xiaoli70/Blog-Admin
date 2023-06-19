@@ -1,3 +1,4 @@
+import { UpdateCurrentUserInput } from './models/update-current-user-input';
 import { BaseApi } from './BaseApi';
 import {
 	PageResultSysUserPageOutput,
@@ -45,6 +46,24 @@ class SysUserApi extends BaseApi<AddSysUserInput, UpdateSysUserInput, PageResult
 	 */
 	changePassword = (data: ChangePasswordOutput) => {
 		return this.patch(`${this.basePath}changepassword`, data);
+	};
+
+	/**
+	 * 修改个人头像
+	 * @param url 头像地址
+	 * @returns
+	 */
+	setAvatar = (url: string) => {
+		return this.patch(`${this.basePath}uploadavatar`, url);
+	};
+
+	/**
+	 * 修改个人信息
+	 * @param data 个人信息
+	 * @returns
+	 */
+	updateCurrentUser = (data: UpdateCurrentUserInput) => {
+		return this.patch(`${this.basePath}updatecurrentuser`, data);
 	};
 }
 

@@ -41,7 +41,7 @@
 						<el-col>
 							<el-form-item label="" prop="content" label-width="0" style="height: 100%; width: 100%">
 								<div style="border: 1px solid #ccc; height: 100%" v-if="state.form.isHtml">
-									<Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="state.editorConfig" :mode="state.mode" />
+									<Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="state.toolbarConfig" :mode="state.mode" />
 									<Editor
 										style="height: fit-content; min-height: 300px; overflow-y: scroll"
 										v-model="state.form.content"

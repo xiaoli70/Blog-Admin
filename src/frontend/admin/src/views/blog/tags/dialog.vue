@@ -13,7 +13,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="标签名称" prop="name">
-							<el-input v-model="state.ruleForm.name" maxlength="32" placeholder="请输入角色名称" clearable></el-input>
+							<el-input v-model="state.ruleForm.name" maxlength="32" placeholder="请输入标签名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -40,7 +40,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="标签描述" prop="remark">
-							<el-input v-model="state.ruleForm.remark" type="textarea" placeholder="请输入角色描述" maxlength="200"></el-input>
+							<el-input v-model="state.ruleForm.remark" type="textarea" placeholder="请输入标签描述" maxlength="200"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
