@@ -4,6 +4,36 @@
         <name>Easy.Admin.Core</name>
     </assembly>
     <members>
+        <member name="P:Easy.Admin.Core.Config.BloggerInfo.NikeName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BloggerInfo.QQ">
+            <summary>
+            QQ
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BloggerInfo.Github">
+            <summary>
+            Github
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BloggerInfo.Gitee">
+            <summary>
+            码云
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BloggerInfo.Motto">
+            <summary>
+            个性签名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BloggerInfo.About">
+            <summary>
+            关于我
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Core.Config.BlogSetting.Logo">
             <summary>
             网站Logo
@@ -1059,6 +1089,16 @@
         <member name="P:Easy.Admin.Core.Entities.Talks.Content">
             <summary>
             说说正文
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Talks.IsAllowComments">
+            <summary>
+            是否允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Talks.Status">
+            <summary>
+            可用状态
             </summary>
         </member>
         <member name="P:Easy.Admin.Core.Entities.Talks.DeleteMark">

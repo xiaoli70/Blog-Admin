@@ -1,14 +1,7 @@
 ﻿namespace Easy.Admin.Application.User.Dtos;
 
-public class AddSysUserInput
+public class UpdateCurrentUserInput
 {
-    /// <summary>
-    /// 用户名
-    /// </summary>
-    [Required(ErrorMessage = "用户名为必填项")]
-    [MaxLength(32, ErrorMessage = "用户名限制32个字符内")]
-    public string Account { get; set; }
-
     /// <summary>
     /// 姓名
     /// </summary>
@@ -20,11 +13,6 @@ public class AddSysUserInput
     /// 性别
     /// </summary>
     public Gender Gender { get; set; }
-
-    /// <summary>
-    /// 组织机构id
-    /// </summary>
-    public long OrgId { get; set; }
 
     /// <summary>
     /// 昵称
@@ -46,26 +34,9 @@ public class AddSysUserInput
     public string Mobile { get; set; }
 
     /// <summary>
-    /// 可用状态
-    /// </summary>
-    public AvailabilityStatus Status { get; set; }
-
-    /// <summary>
     /// 邮箱
     /// </summary>
     [MaxLength(64, ErrorMessage = "邮箱限制64个字符内")]
     [DataValidation(ValidationTypes.EmailAddress, ErrorMessage = "邮箱地址不合法", AllowNullValue = true)]
     public string Email { get; set; }
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    [MaxLength(200, ErrorMessage = "备注限制200字符内")]
-    [DataValidation(AllowNullValue = true)]
-    public string Remark { get; set; }
-
-    /// <summary>
-    /// 角色
-    /// </summary>
-    public List<long> Roles { get; set; }
 }

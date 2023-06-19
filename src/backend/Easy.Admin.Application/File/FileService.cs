@@ -73,14 +73,14 @@ public class FileService : IDynamicApiController, ITransient
                 }
             };
         }
-        string fileName = $"/{filePath}/{name}{extension}";
+        string fileName = $"/{filePath}{name}{extension}";
         await _ossService.PutObjectAsync(options.Bucket, fileName, file.OpenReadStream());
         return new List<UploadFileOutput>()
         {
             new()
             {
                 Name = $"{name}{extension}",
-                Url = $"{options.Domain.TrimEnd('/')}{options.Bucket}{fileName}"
+                Url = $"{options.Domain.TrimEnd('/')}/{options.Bucket}{fileName}"
             }
         };
     }

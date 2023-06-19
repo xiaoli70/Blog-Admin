@@ -230,4 +230,40 @@ public class SysUserService : BaseService<SysUser>, ITransient
             .Where(x => x.Id == userId)
             .ExecuteCommandHasChangeAsync();
     }
+
+    /// <summary>
+    /// 用户修改头像
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    [Description("用户修改头像")]
+    [HttpPatch]
+    public async Task UploadAvatar([FromBody]string url)
+    {
+        long userId = _authManager.UserId;
+        await _repository.UpdateAsync(x => new SysUser()
+        {
+            Avatar = url
+        }, x => x.Id == userId);
+    }
+
+    /// <summary>
+    /// 系统用户修改自己的信息
+    /// </summary>
+    /// <returns></returns>
+    [Description("系统用户修改个人信息")]
+    [HttpPatch("updateCurrentUser")]
+    public async Task UpdateCurrentUser(UpdateCurrentUserInput dto)
+    {
+        long userId = _authManager.UserId;
+        await _repository.UpdateAsync(x => new SysUser()
+        {
+            Name = dto.Name,
+            Birthday = dto.Birthday,
+            Email = dto.Email,
+            Gender = dto.Gender,
+            Mobile = dto.Mobile,
+            NickName = dto.NickName
+        }, x => x.Id == userId);
+    }
 }

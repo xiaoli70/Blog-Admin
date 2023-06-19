@@ -1,6 +1,8 @@
-﻿namespace Easy.Admin.Core.Entities;
+﻿using Easy.Admin.Core.Enum;
 
-public class Talks : Entity<long>, ISoftDelete, ICreatedTime
+namespace Easy.Admin.Core.Entities;
+
+public class Talks : Entity<long>, ISoftDelete, ICreatedTime, IAvailability
 {
     /// <summary>
     /// 是否置顶
@@ -12,6 +14,16 @@ public class Talks : Entity<long>, ISoftDelete, ICreatedTime
     /// </summary>
     [SugarColumn(Length = int.MaxValue)]
     public string Content { get; set; }
+
+    /// <summary>
+    /// 是否允许评论
+    /// </summary>
+    public bool IsAllowComments { get; set; }
+
+    /// <summary>
+    /// 可用状态
+    /// </summary>
+    public AvailabilityStatus Status { get; set; }
 
     /// <summary>
     /// 标记删除
