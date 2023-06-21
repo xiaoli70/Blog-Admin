@@ -17,7 +17,10 @@
           :key="index"
           :style="{ height: height + 'px' }"
         >
-          <span class="item" v-html="item.content" />
+          <span
+            class="item"
+            v-html="item.content?.replace(/<\s?img[^>]*>/gi, '')"
+          />
         </li>
         <li
           class="rollScreen_once"
