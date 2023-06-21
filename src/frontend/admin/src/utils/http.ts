@@ -20,8 +20,8 @@ export const clearAccessTokens = () => {
  */
 export function checkAndStoreAuthentication(res: any): void {
 	// 读取响应报文头 token 信息
-	var accessToken = res.headers[accessTokenKey];
-	var refreshAccessToken = res.headers[refreshAccessTokenKey];
+	const accessToken = res.headers[accessTokenKey];
+	const refreshAccessToken = res.headers[refreshAccessTokenKey];
 
 	// 判断是否是无效 token
 	if (accessToken === 'invalid_token') {
@@ -41,7 +41,7 @@ export function checkAndStoreAuthentication(res: any): void {
  */
 export function decryptJWT(token: string): any {
 	token = token.replace(/_/g, '/').replace(/-/g, '+');
-	var json = decodeURIComponent(escape(window.atob(token.split('.')[1])));
+	const json = decodeURIComponent(escape(window.atob(token.split('.')[1])));
 	return JSON.parse(json);
 }
 

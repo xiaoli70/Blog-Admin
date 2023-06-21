@@ -934,6 +934,321 @@
             可用状态
             </summary>
         </member>
+        <member name="T:Easy.Admin.Application.Client.AlbumsController">
+            <summary>
+            相册
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.AlbumsController.Get(SqlSugar.Pagination)">
+            <summary>
+            相册列表
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.AlbumsController.Pictures(Easy.Admin.Application.Client.Dtos.PicturesQueryInput)">
+            <summary>
+            相册下的图片
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Easy.Admin.Application.Client.AppController">
+            <summary>
+            博客基本信息
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.AppController.Info">
+            <summary>
+            博客基本信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.AppController.Links">
+            <summary>
+            友情链接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Easy.Admin.Application.Client.ArticleController">
+            <summary>
+            博客文章
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.ArticleController.Get(Easy.Admin.Application.Client.Dtos.ArticleListQueryInput)">
+            <summary>
+            文章表查询
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.ArticleController.Tags">
+            <summary>
+            标签列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.ArticleController.Categories">
+            <summary>
+            文章栏目分类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.ArticleController.Report">
+            <summary>
+            文章信息统计
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.AlbumsOutput.Id">
+            <summary>
+            相册ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.AlbumsOutput.Name">
+            <summary>
+            相册名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.AlbumsOutput.Cover">
+            <summary>
+            相册封面
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.AlbumsOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleListQueryInput.TagId">
+            <summary>
+            标签ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleListQueryInput.CategoryId">
+            <summary>
+            栏目ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.Id">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.CategoryId">
+            <summary>
+            栏目ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.CategoryName">
+            <summary>
+            栏目名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.CreationType">
+            <summary>
+            创作类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.Summary">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.PublishTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleReportOutput.ArticleCount">
+            <summary>
+            文章数量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleReportOutput.TagCount">
+            <summary>
+            标签数量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleReportOutput.CategoryCount">
+            <summary>
+            栏目数量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.BlogOutput.Site">
+            <summary>
+            博客基本设置信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.BlogOutput.Info">
+            <summary>
+            博主信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.BlogOutput.Covers">
+            <summary>
+            各个页面封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.CategoryOutput.Id">
+            <summary>
+            栏目ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.CategoryOutput.ParentId">
+            <summary>
+            父级ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.CategoryOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.CategoryOutput.Name">
+            <summary>
+            栏目名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.CategoryOutput.Total">
+            <summary>
+            文章条数
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.FriendLinkOutput.Id">
+            <summary>
+            友链ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.FriendLinkOutput.Link">
+            <summary>
+            友链
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.FriendLinkOutput.Logo">
+            <summary>
+            logo
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.FriendLinkOutput.SiteName">
+            <summary>
+            站点名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.FriendLinkOutput.Remark">
+            <summary>
+            网站描述
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.PictureOutput.Id">
+            <summary>
+            图片ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.PictureOutput.Url">
+            <summary>
+            图片地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.PicturesQueryInput.AlbumId">
+            <summary>
+            相册ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TagsOutput.Id">
+            <summary>
+            标签ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TagsOutput.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TagsOutput.Name">
+            <summary>
+            标签名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TagsOutput.Color">
+            <summary>
+            颜色
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TalkDetailOutput.IsAllowComments">
+            <summary>
+            是否允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.Upvote">
+            <summary>
+            点赞数量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.Comments">
+            <summary>
+            评论数量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.CreatedTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Client.TalksController">
+            <summary>
+            博客说说
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.TalksController.Get(SqlSugar.Pagination)">
+            <summary>
+            说说列表
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.TalksController.TalkDetail(System.Int64)">
+            <summary>
+            说说详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Easy.Admin.Application.Config.CustomConfigItemService">
             <summary>
             自定义配置项

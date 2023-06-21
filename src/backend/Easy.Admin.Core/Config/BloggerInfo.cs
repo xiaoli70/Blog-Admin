@@ -5,6 +5,10 @@ namespace Easy.Admin.Core.Config;
 public class BloggerInfo
 {
     /// <summary>
+    /// 头像
+    /// </summary>
+    public string Avatar { get; set; }
+    /// <summary>
     /// 昵称
     /// </summary>
     public string NikeName { get; set; }

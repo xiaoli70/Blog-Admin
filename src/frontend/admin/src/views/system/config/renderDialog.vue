@@ -41,16 +41,19 @@ const onSubmit = async () => {
 		const formData = await vfRenderRef.value?.getFormData();
 		//处理上传的附件和图片数据格式
 		state.fileOptions.forEach((item: any) => {
-			const field = formData[item.options.name] ?? [];
-			if (field.length > 0) {
+			const field = formData[item.options.name];
+			if (field && field.length > 0) {
 				const urlList = field.filter((f: any) => f.response && f.response.length > 0).map((m: any) => m.response[0]);
 				if (urlList.length > 0) {
 					formData[item.options.name] = item.options.limit > 1 ? urlList.map((m: any) => m.url) : urlList[0].url;
 				} else {
 					formData[item.options.name] = null;
 				}
+			} else {
+				formData[item.options.name] = null;
 			}
 		});
+		debugger;
 		const { succeeded, errors } =
 			state.itemId === 0
 				? await CustomConfigItemApi.add({ json: JSON.stringify(formData), configId: state.id })
