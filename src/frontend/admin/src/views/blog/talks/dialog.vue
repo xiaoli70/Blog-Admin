@@ -43,6 +43,16 @@
 						</el-form-item>
 					</el-col>
 					<el-col>
+						<el-form-item label="图片">
+							<UploadImgs v-model:file-list="state.images" width="250px">
+								<template #empty>
+									<el-icon><Picture /></el-icon>
+									<span>请上传照片</span>
+								</template>
+							</UploadImgs>
+						</el-form-item>
+					</el-col>
+					<el-col>
 						<el-form-item label="内容" prop="content">
 							<div style="border: 1px solid #ccc; height: 100%; width: 100%">
 								<Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="state.toolbarConfig" :mode="state.mode" />
@@ -72,6 +82,7 @@
 import '@wangeditor/editor/dist/css/style.css';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref, nextTick, shallowRef, onBeforeUnmount } from 'vue';
+import UploadImgs from '/@/components/Upload/Imgs.vue';
 import type { UpdateTalksInput } from '/@/api/models';
 import TalksApi from '/@/api/TalksApi';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
@@ -100,6 +111,7 @@ const state = reactive({
 		status: 0,
 		isAllowComments: true,
 	} as UpdateTalksInput,
+	images: [] as Array<any>,
 	dialog: {
 		isShowDialog: false,
 		title: '',
@@ -131,7 +143,7 @@ const state = reactive({
 		} as unknown,
 	} as IEditorConfig, // 富文本编辑器配置
 	toolbarConfig: {
-		toolbarKeys: ['emotion', 'uploadImage'],
+		toolbarKeys: ['emotion'],
 	} as IToolbarConfig, // 富文本编辑器工具栏配置
 	mode: 'default', // 富文本编辑器模式
 });
@@ -147,8 +159,14 @@ const onCreated = (editor: any) => {
 const openDialog = async (row: UpdateTalksInput | null) => {
 	state.dialog.isShowDialog = true;
 	state.dialog.loading = true;
+	state.images = [];
 	if (row != null) {
 		state.ruleForm = { ...row };
+		if (row.images) {
+			state.images = row.images.split(',').map((item) => {
+				return { name: '', url: item };
+			});
+		}
 		state.dialog.title = '修改动态';
 		state.dialog.submitTxt = '修 改';
 	} else {
@@ -174,8 +192,11 @@ const onCancel = () => {
 const onSubmit = async () => {
 	talksDialogFormRef.value?.validate(async (v) => {
 		if (v) {
+			if (state.images.length > 0) {
+				state.ruleForm.images = state.images.map((item) => (item as any).url).join(',');
+			}
 			//仅保留img标签
-			state.ruleForm.content = state.ruleForm.content?.replace(/<(?!img).*?>/g, '');
+			state.ruleForm.content = state.ruleForm.content?.replaceAll(/<[^>]+>/g, '');
 			const { succeeded } = state.ruleForm.id === 0 ? await TalksApi.add(state.ruleForm) : await TalksApi.edit(state.ruleForm);
 			if (succeeded) {
 				closeDialog();

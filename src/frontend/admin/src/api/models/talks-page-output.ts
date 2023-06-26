@@ -13,45 +13,51 @@
  */
 import { AvailabilityStatus } from './availability-status';
 /**
- * 
+ *
  * @export
  * @interface TalksPageOutput
  */
 export interface TalksPageOutput {
-    /**
-     * 
-     * @type {number}
-     * @memberof TalksPageOutput
-     */
-    id?: number;
-    /**
-     * 
-     * @type {AvailabilityStatus}
-     * @memberof TalksPageOutput
-     */
-    status?: AvailabilityStatus;
-    /**
-     * 
-     * @type {string}
-     * @memberof TalksPageOutput
-     */
-    content?: string | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof TalksPageOutput
-     */
-    isAllowComments?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof TalksPageOutput
-     */
-    isTop?: boolean;
-    /**
-     * 
-     * @type {Date}
-     * @memberof TalksPageOutput
-     */
-    createdTime?: Date;
+	/**
+	 * 主键
+	 * @type {number}
+	 * @memberof TalksPageOutput
+	 */
+	id?: number;
+	/**
+	 *  状态
+	 * @type {AvailabilityStatus}
+	 * @memberof TalksPageOutput
+	 */
+	status?: AvailabilityStatus;
+	/**
+	 *  内容
+	 * @type {string}
+	 * @memberof TalksPageOutput
+	 */
+	content?: string | null;
+	/**
+	 *  图片
+	 * @type {string}
+	 * @memberof TalksPageOutput
+	 */
+	images?: string | null;
+	/**
+	 *  是否允许评论
+	 * @type {boolean}
+	 * @memberof TalksPageOutput
+	 */
+	isAllowComments?: boolean;
+	/**
+	 *  是否置顶
+	 * @type {boolean}
+	 * @memberof TalksPageOutput
+	 */
+	isTop?: boolean;
+	/**
+	 *  发布时间
+	 * @type {Date}
+	 * @memberof TalksPageOutput
+	 */
+	createdTime?: Date;
 }

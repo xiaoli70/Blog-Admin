@@ -426,6 +426,31 @@
             备注
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTalksInput.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTalksInput.Content">
+            <summary>
+            说说正文
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTalksInput.Images">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTalksInput.IsAllowComments">
+            <summary>
+            是否允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.AddTalksInput.Status">
+            <summary>
+            可用状态
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.AlbumsPageOutput.Id">
             <summary>
             相册ID
@@ -781,6 +806,46 @@
             标签名称 
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TalksPageOutput.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TalksPageOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TalksPageOutput.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TalksPageOutput.Images">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TalksPageOutput.IsAllowComments">
+            <summary>
+            是否允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TalksPageOutput.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TalksPageOutput.CreatedTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.TalksPageQueryInput.Keyword">
+            <summary>
+            关键词
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateArticleInput.Id">
             <summary>
             文章ID
@@ -799,6 +864,11 @@
         <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateTagInput.Id">
             <summary>
             标签ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Blog.Dtos.UpdateTalksInput.Id">
+            <summary>
+            说说主键
             </summary>
         </member>
         <member name="T:Easy.Admin.Application.Blog.FriendLinkService">
@@ -883,56 +953,26 @@
             说说管理
             </summary>
         </member>
-        <member name="M:Easy.Admin.Application.Blog.TalksService.Page(Easy.Admin.Application.Blog.TalksPageQueryInput)">
+        <member name="M:Easy.Admin.Application.Blog.TalksService.Page(Easy.Admin.Application.Blog.Dtos.TalksPageQueryInput)">
             <summary>
             说说分页查询
             </summary>
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:Easy.Admin.Application.Blog.TalksService.Add(Easy.Admin.Application.Blog.AddTalksInput)">
+        <member name="M:Easy.Admin.Application.Blog.TalksService.Add(Easy.Admin.Application.Blog.Dtos.AddTalksInput)">
             <summary>
             添加说说
             </summary>
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:Easy.Admin.Application.Blog.TalksService.Update(Easy.Admin.Application.Blog.UpdateTalksInput)">
+        <member name="M:Easy.Admin.Application.Blog.TalksService.Update(Easy.Admin.Application.Blog.Dtos.UpdateTalksInput)">
             <summary>
             更新说说
             </summary>
             <param name="dto"></param>
             <returns></returns>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.TalksPageQueryInput.Keyword">
-            <summary>
-            关键词
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.UpdateTalksInput.Id">
-            <summary>
-            说说主键
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddTalksInput.IsTop">
-            <summary>
-            是否置顶
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddTalksInput.Content">
-            <summary>
-            说说正文
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddTalksInput.IsAllowComments">
-            <summary>
-            是否允许评论
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Application.Blog.AddTalksInput.Status">
-            <summary>
-            可用状态
-            </summary>
         </member>
         <member name="T:Easy.Admin.Application.Client.AlbumsController">
             <summary>
@@ -1218,6 +1258,11 @@
         <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.Content">
             <summary>
             内容
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.Images">
+            <summary>
+            图片
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Client.Dtos.TalksOutput.Upvote">

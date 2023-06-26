@@ -9,11 +9,11 @@
       <router-link :to="'/talks/' + item.id">
         <!-- 用户信息 -->
         <div class="user-info-wrapper">
-          <v-avatar size="36" class="user-avatar" :image="item.avatar">
+          <v-avatar size="36" class="user-avatar" :image="info.avatar!">
           </v-avatar>
           <div class="user-detail-wrapper">
             <div class="user-nickname">
-              {{ item.nickname }}
+              {{ info.nikeName }}
               <v-icon class="user-sign" size="20" color="#ffa51e">
                 mdi-check-decagram
               </v-icon>
@@ -28,11 +28,11 @@
             <!-- 说说信息 -->
             <div class="talk-content" v-html="item.content" />
             <!-- 图片列表 -->
-            <!-- <v-row class="talk-images" v-if="item.imgList">
+            <v-row class="talk-images" v-if="item.images">
               <v-col
                 :md="4"
                 :cols="6"
-                v-for="(img, index) of item.imgList"
+                v-for="(img, index) of item.images.split(',')"
                 :key="index"
               >
                 <v-img
@@ -43,7 +43,7 @@
                   @click.prevent="previewImg($event)"
                 />
               </v-col>
-            </v-row> -->
+            </v-row>
             <!-- 说说操作 -->
             <div class="talk-operation">
               <div class="talk-operation-item">
@@ -64,37 +64,51 @@
       </router-link>
     </div>
     <div class="load-wrapper">
-      <v-btn outlined> 加载更多... </v-btn>
+      <v-pagination
+        v-if="state.query.pageNo > 1"
+        v-model="state.query.pageNo"
+        size="x-small"
+        :length="state.pages"
+        active-color="#00C4B6"
+        :total-visible="3"
+        variant="elevated"
+      ></v-pagination>
+      <!-- <v-btn outlined> 加载更多... </v-btn> -->
     </div>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { images, talks as talkList } from "../api/data";
-import { reactive, computed, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { reactive, computed, onMounted, watch } from "vue";
 import Viewer from "viewerjs";
+import { useApp } from "@/stores/app";
 import "viewerjs/dist/viewer.css";
 import TalksApi from "@/api/TalksApi";
 import type { TalksOutput } from "@/api/models";
 import type { Pagination } from "@/api/models/pagination";
-const route = useRoute();
+import { storeToRefs } from "pinia";
+const appStore = useApp();
+const { info } = storeToRefs(appStore);
+// 页面数据
 const state = reactive({
   query: {} as Pagination,
   talks: [] as TalksOutput[],
   pages: 0,
 });
+//查看图片
 const previewImg = (e: Event): void => {
   const viewer = new Viewer(e.target as HTMLElement, {});
   viewer.show();
 };
-
+// 封面图
 const cover = computed(() => {
-  let cover: string = images.find(
-    (item) => item.pageLabel === route.name
-  )?.pageCover;
-  return "background: url(" + cover + ") center center / cover no-repeat";
+  return (
+    "background: url(" +
+    appStore.talkCover() +
+    ") center center / cover no-repeat"
+  );
 });
+// 分页请求说说
 const loadData = async () => {
   const { data, succeeded } = await TalksApi.list(state.query);
   if (succeeded) {
@@ -102,6 +116,14 @@ const loadData = async () => {
     state.pages = data?.pages ?? 0;
   }
 };
+// 监听页面变化时重新加载数据
+watch(
+  () => state.query.pageNo,
+  async () => {
+    await loadData();
+  }
+);
+// 首次加载数据
 onMounted(async () => {
   await loadData();
 });

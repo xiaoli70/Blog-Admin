@@ -59,6 +59,12 @@ public enum CoverType
     User,
 
     /// <summary>
+    /// 友情链接封面图
+    /// </summary>
+    [Description("友情链接封面图")]
+    Link,
+
+    /// <summary>
     /// 标签列表封面
     /// </summary>
     [Description("标签列表封面")]

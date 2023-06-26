@@ -11,7 +11,10 @@ class AppApi {
   info = () => {
     return http.get<BlogOutput>("/app/info");
   };
-
+  /**
+   * 友情链接
+   * @returns
+   */
   links = () => {
     return http.get<Array<FriendLinkOutput>>("/app/links");
   };

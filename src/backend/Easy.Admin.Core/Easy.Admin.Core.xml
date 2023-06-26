@@ -1111,6 +1111,11 @@
             说说正文
             </summary>
         </member>
+        <member name="P:Easy.Admin.Core.Entities.Talks.Images">
+            <summary>
+            图片
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Core.Entities.Talks.IsAllowComments">
             <summary>
             是否允许评论

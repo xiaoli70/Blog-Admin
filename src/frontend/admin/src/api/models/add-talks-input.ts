@@ -13,33 +13,39 @@
  */
 import { AvailabilityStatus } from './availability-status';
 /**
- * 
+ *
  * @export
  * @interface AddTalksInput
  */
 export interface AddTalksInput {
+	/**
+	 * 是否置顶
+	 * @type {boolean}
+	 * @memberof AddTalksInput
+	 */
+	isTop?: boolean;
+	/**
+	 * 说说正文
+	 * @type {string}
+	 * @memberof AddTalksInput
+	 */
+	content: string;
     /**
-     * 是否置顶
-     * @type {boolean}
-     * @memberof AddTalksInput
-     */
-    isTop?: boolean;
-    /**
-     * 说说正文
-     * @type {string}
-     * @memberof AddTalksInput
-     */
-    content: string;
-    /**
-     * 是否允许评论
-     * @type {boolean}
-     * @memberof AddTalksInput
-     */
-    isAllowComments?: boolean;
-    /**
-     * 
-     * @type {AvailabilityStatus}
-     * @memberof AddTalksInput
-     */
-    status?: AvailabilityStatus;
+	 * 说说图片
+	 * @type {string}
+	 * @memberof AddTalksInput
+	 */
+	images?: string | null;
+	/**
+	 * 是否允许评论
+	 * @type {boolean}
+	 * @memberof AddTalksInput
+	 */
+	isAllowComments?: boolean;
+	/**
+	 *
+	 * @type {AvailabilityStatus}
+	 * @memberof AddTalksInput
+	 */
+	status?: AvailabilityStatus;
 }

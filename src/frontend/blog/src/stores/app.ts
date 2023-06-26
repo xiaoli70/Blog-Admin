@@ -16,6 +16,7 @@ export const useApp = defineStore("app", () => {
       talk: [] as string[],
       message: [] as string[],
       user: [] as string[],
+      link: [] as string[],
       tagList: [] as string[],
       categories: [] as string[],
     },
@@ -58,6 +59,7 @@ export const useApp = defineStore("app", () => {
     app.covers.talk = covers.talk ?? ["/cover/talk.jpg"];
     app.covers.message = covers.message ?? ["/cover/message.png"];
     app.covers.user = covers.user ?? ["/cover/user.jpg"];
+    app.covers.link = covers.link ?? ["/cover/default.jpg"];
     app.covers.tagList = covers.tagList ?? ["/cover/default.jpg"];
     app.covers.categories = covers.categories ?? ["/cover/default.jpg"];
     app.isInit = true;
@@ -127,6 +129,13 @@ export const useApp = defineStore("app", () => {
     return arr[randomNumber(0, arr.length - 1)];
   };
   /**
+   * 友链
+   */
+  const linkCover = () => {
+    const arr = app.covers.link;
+    return arr[randomNumber(0, arr.length - 1)];
+  };
+  /**
    * 标签列表封面
    * @returns
    */
@@ -168,6 +177,7 @@ export const useApp = defineStore("app", () => {
     talkCover,
     messageCover,
     userCover,
+    linkCover,
     tagListCover,
     categoriesCover,
     isInit,

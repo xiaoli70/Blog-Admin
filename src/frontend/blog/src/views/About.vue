@@ -7,21 +7,23 @@
     <div class="my-wrapper">
       <v-avatar size="110" class="author-avatar" :image="img"> </v-avatar>
     </div>
-    <!-- <div class="about-content markdown-body" v-html="aboutContent" /> -->
+    <div class="about-content markdown-body" v-html="info.about" />
   </v-card>
 </template>
 
 <script setup lang="ts">
+import { useApp } from "@/stores/app";
 import img from "../assets/images/1.jpg";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { images } from "../api/data";
-const route = useRoute();
+import { storeToRefs } from "pinia";
+const appStore = useApp();
+const { info } = storeToRefs(appStore);
 const cover = computed(() => {
-  let cover: string = images.find(
-    (item) => item.pageLabel === route.name
-  )?.pageCover;
-  return "background: url(" + cover + ") center center / cover no-repeat";
+  return (
+    "background: url(" +
+    appStore.aboutCover() +
+    ") center center / cover no-repeat"
+  );
 });
 </script>
 
@@ -44,5 +46,8 @@ const cover = computed(() => {
 }
 .author-avatar:hover {
   transform: rotate(360deg);
+}
+.about-content {
+  margin-top: 20px;
 }
 </style>

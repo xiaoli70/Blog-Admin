@@ -1,31 +1,33 @@
-﻿namespace Easy.Admin.Application.Client.Dtos;
+﻿namespace Easy.Admin.Application.Blog.Dtos;
 
-public class TalksOutput
+public class TalksPageOutput
 {
     /// <summary>
-    /// 
+    /// 主键
     /// </summary>
     public long Id { get; set; }
     /// <summary>
-    /// 是否置顶
+    /// 状态
     /// </summary>
-    public bool IsTop { get; set; }
+    public AvailabilityStatus Status { get; set; }
     /// <summary>
     /// 内容
     /// </summary>
     public string Content { get; set; }
+
     /// <summary>
     /// 图片
     /// </summary>
     public string Images { get; set; }
+
     /// <summary>
-    /// 点赞数量
+    /// 是否允许评论
     /// </summary>
-    public int Upvote { get; set; }
+    public bool IsAllowComments { get; set; }
     /// <summary>
-    /// 评论数量
+    /// 是否置顶
     /// </summary>
-    public int Comments { get; set; }
+    public bool IsTop { get; set; }
     /// <summary>
     /// 发布时间
     /// </summary>

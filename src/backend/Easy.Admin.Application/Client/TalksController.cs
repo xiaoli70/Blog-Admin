@@ -32,6 +32,7 @@ public class TalksController : IDynamicApiController
                   Id = x.Id,
                   IsTop = x.IsTop,
                   Content = x.Content,
+                  Images = x.Images,
                   Upvote = 0,
                   Comments = 0,
                   CreatedTime = x.CreatedTime
@@ -46,13 +47,16 @@ public class TalksController : IDynamicApiController
     [HttpGet]
     public async Task<TalkDetailOutput> TalkDetail([FromQuery] long id)
     {
-        return await _talksRepository.AsQueryable().Select(x => new TalkDetailOutput
-        {
-            Id = x.Id,
-            Content = x.Content,
-            IsTop = x.IsTop,
-            IsAllowComments = x.IsAllowComments,
-            CreatedTime = x.CreatedTime
-        }).FirstAsync();
+        return await _talksRepository.AsQueryable()
+            .Where(x => x.Id == id)
+            .Select(x => new TalkDetailOutput
+            {
+                Id = x.Id,
+                Content = x.Content,
+                Images = x.Images,
+                IsTop = x.IsTop,
+                IsAllowComments = x.IsAllowComments,
+                CreatedTime = x.CreatedTime
+            }).FirstAsync();
     }
 }

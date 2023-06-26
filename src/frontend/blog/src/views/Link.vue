@@ -13,15 +13,15 @@
         class="link-wrapper"
         md="4"
         cols="12"
-        v-for="item in linkList"
+        v-for="item in state.links"
         :key="item.id"
       >
-        <a :href="item.linkAddress" target="_blank">
-          <v-avatar size="65" class="link-avatar" :image="item.linkAvatar">
+        <a :href="item.link!" target="_blank">
+          <v-avatar size="65" class="link-avatar" :image="item.logo!">
           </v-avatar>
           <div style="width: 100%; z-index: 10">
-            <div class="link-name">{{ item.linkName }}</div>
-            <div class="link-intro">{{ item.linkIntro }}</div>
+            <div class="link-name">{{ item.siteName }}</div>
+            <div class="link-intro">{{ item.remark }}</div>
           </div>
         </a>
       </v-col>
@@ -33,13 +33,13 @@
       >
     </div>
     <blockquote>
-      <div>名称：可乐不加冰的个人博客</div>
-      <div>简介：凡是过往，皆为序章</div>
-      <div>头像：https://www.static.talkxj.com/avatar/blogger.jpg</div>
+      <div>名称：{{ blogSetting.siteName }}</div>
+      <div>简介：{{ blogSetting.description }}</div>
+      <div>头像：{{ blogSetting.logo ?? avatar }}</div>
     </blockquote>
-    <div class="mt-5 mb-5">需要交换友链的可在下方留言💖</div>
+    <div class="mt-5 mb-5">需要交换友链的可前往个人中心填写💖</div>
     <blockquote class="mb-10">
-      友链信息展示需要，你的信息格式要包含：名称、介绍、链接、头像
+      友链信息展示需要，您的信息格式要包含：名称、介绍、链接、头像
     </blockquote>
     <!-- 评论 -->
     <Comment :type="3" />
@@ -48,15 +48,32 @@
 
 <script setup lang="ts">
 import Comment from "../components/Comment.vue";
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { images, linkList } from "../api/data";
-const route = useRoute();
+import { computed, onMounted, reactive } from "vue";
+import { useApp } from "@/stores/app";
+import AppApi from "@/api/AppApi";
+import { storeToRefs } from "pinia";
+import { FriendLinkOutput } from "@/api/models";
+const appStore = useApp();
+const { blogSetting } = storeToRefs(appStore);
+const state = reactive({
+  links: [] as FriendLinkOutput[],
+});
+const avatar = computed(() => {
+  return location.origin + "/default.jpg";
+});
+// 封面图
 const cover = computed(() => {
-  let cover: string = images.find(
-    (item) => item.pageLabel === route.name
-  )?.pageCover;
-  return "background: url(" + cover + ") center center / cover no-repeat";
+  return (
+    "background: url(" +
+    appStore.linkCover() +
+    ") center center / cover no-repeat"
+  );
+});
+onMounted(async () => {
+  const { data, succeeded } = await AppApi.links();
+  if (succeeded) {
+    state.links = data ?? [];
+  }
 });
 </script>
 

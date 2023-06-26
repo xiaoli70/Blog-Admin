@@ -1,4 +1,6 @@
-﻿namespace Easy.Admin.Application.Blog;
+﻿using Easy.Admin.Application.Blog.Dtos;
+
+namespace Easy.Admin.Application.Blog;
 
 /// <summary>
 /// 说说管理
@@ -29,6 +31,7 @@ public class TalksService : BaseService<Talks>
                   Id = x.Id,
                   Status = x.Status,
                   Content = x.Content,
+                  Images = x.Images,
                   IsAllowComments = x.IsAllowComments,
                   IsTop = x.IsTop,
                   CreatedTime = x.CreatedTime
@@ -61,54 +64,4 @@ public class TalksService : BaseService<Talks>
         dto.Adapt(talks);
         await _repository.UpdateAsync(talks);
     }
-}
-
-public class TalksPageOutput
-{
-    public long Id { get; set; }
-    public AvailabilityStatus Status { get; set; }
-    public string Content { get; set; }
-    public bool IsAllowComments { get; set; }
-    public bool IsTop { get; set; }
-    public DateTime CreatedTime { get; set; }
-}
-
-public class TalksPageQueryInput : Pagination
-{
-    /// <summary>
-    /// 关键词
-    /// </summary>
-    public string Keyword { get; set; }
-}
-
-public class UpdateTalksInput : AddTalksInput
-{
-    /// <summary>
-    /// 说说主键
-    /// </summary>
-    [Required(ErrorMessage = "缺少必要参数")]
-    public long Id { get; set; }
-}
-public class AddTalksInput
-{
-    /// <summary>
-    /// 是否置顶
-    /// </summary>
-    public bool IsTop { get; set; }
-
-    /// <summary>
-    /// 说说正文
-    /// </summary>
-    [Required(ErrorMessage = "说说正文为必填项")]
-    public string Content { get; set; }
-
-    /// <summary>
-    /// 是否允许评论
-    /// </summary>
-    public bool IsAllowComments { get; set; }
-
-    /// <summary>
-    /// 可用状态
-    /// </summary>
-    public AvailabilityStatus Status { get; set; }
 }

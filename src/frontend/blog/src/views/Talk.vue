@@ -8,26 +8,24 @@
     <div class="talk-wrapper">
       <!-- 用户信息 -->
       <div class="user-info-wrapper">
-        <v-avatar size="36" class="user-avatar">
-          <img :src="talkInfo.avatar" />
-        </v-avatar>
+        <v-avatar size="36" class="user-avatar" :image="info.avatar!" />
         <div class="user-detail-wrapper">
           <div class="user-nickname">
-            {{ talkInfo.nickname }}
+            {{ info.nikeName }}
             <v-icon class="user-sign" size="20" color="#ffa51e">
               mdi-check-decagram
             </v-icon>
           </div>
           <!-- 发表时间 -->
-          <div class="time">{{ talkInfo.createTime }}</div>
+          <div class="time">{{ state.talk.createdTime }}</div>
           <!-- 说说信息 -->
-          <div class="talk-content" v-html="talkInfo.content" />
+          <div class="talk-content" v-html="state.talk.content" />
           <!-- 图片列表 -->
-          <v-row class="talk-images" v-if="talkInfo.imgList">
+          <v-row class="talk-images" v-if="state.talk.images">
             <v-col
               :md="4"
               :cols="6"
-              v-for="(img, index) of talkInfo.imgList"
+              v-for="(img, index) of state.talk.images.split(',')"
               :key="index"
             >
               <v-img
@@ -35,7 +33,7 @@
                 :src="img"
                 aspect-ratio="1"
                 max-height="200"
-                @click="previewImg(img)"
+                @click="previewImg"
               />
             </v-col>
           </v-row>
@@ -44,20 +42,20 @@
             <div class="talk-operation-item">
               <v-icon
                 size="16"
-                :color="isLike(talkInfo.id)"
+                :color="isLike(state.talk.id!)"
                 class="like-btn"
-                @click.prevent="like(talkInfo)"
+                @click.prevent="like"
               >
                 mdi-thumb-up
               </v-icon>
               <div class="operation-count">
-                {{ talkInfo.likeCount == null ? 0 : talkInfo.likeCount }}
+                {{ state.talk.upvote ?? 0 }}
               </div>
             </div>
             <div class="talk-operation-item">
               <v-icon size="16" color="#999">mdi-chat</v-icon>
               <div class="operation-count">
-                {{ dto.commentCount == null ? 0 : dto.commentCount }}
+                {{ state.talk.comments ?? 0 }}
               </div>
             </div>
           </div>
@@ -65,31 +63,42 @@
       </div>
     </div>
     <!-- 评论 -->
-    <Comment :type="3" @getCommentCount="getCommentCount" />
+    <Comment
+      :type="3"
+      @getCommentCount="getCommentCount"
+      v-if="state.talk.isAllowComments"
+    />
   </v-card>
 </template>
 
 <script setup lang="ts">
 import Comment from "../components/Comment.vue";
-import { reactive, computed } from "vue";
+import { reactive, computed, onMounted } from "vue";
+import TalksApi from "@/api/TalksApi";
 import { useRoute } from "vue-router";
+import { useApp } from "@/stores/app";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
-import { images, talks as talkList, talks } from "../api/data";
+import type { TalkDetailOutput } from "@/api/models";
+import { storeToRefs } from "pinia";
+const appStore = useApp();
+const { info } = storeToRefs(appStore);
 const route = useRoute();
-const dto = reactive({
+const state = reactive({
   commentCount: 0,
+  id: 0,
+  talk: {} as TalkDetailOutput,
 });
-const talkInfo = talks[0];
 const cover = computed(() => {
-  let cover: string = images.find(
-    (item) => item.pageLabel === route.name
-  )?.pageCover;
-  return "background: url(" + cover + ") center center / cover no-repeat";
+  return (
+    "background: url(" +
+    appStore.tagListCover() +
+    ") center center / cover no-repeat"
+  );
 });
 
 const getCommentCount = (count: number) => {
-  dto.commentCount = count;
+  state.commentCount = count;
 };
 const previewImg = (e: Event): void => {
   const viewer = new Viewer(e.target as HTMLElement, {
@@ -104,7 +113,14 @@ const isLike = (talkId: number) => {
   // var talkLikeSet = this.$store.state.talkLikeSet;
   // return talkLikeSet.indexOf(talkId) != -1 ? "#eb5055" : "#999";
 };
-const like = (item: any) => {};
+const like = () => {};
+onMounted(async () => {
+  state.id = route.params.talkId as never as number;
+  const { data, succeeded } = await TalksApi.talkDetail(state.id);
+  if (succeeded) {
+    state.talk = data ?? {};
+  }
+});
 </script>
 
 <style scoped>
@@ -180,6 +196,9 @@ const like = (item: any) => {};
 .col-1 {
   width: 100%;
   padding: 2px !important;
+}
+:deep(.comment-title) {
+  margin-top: 20px;
 }
 .talk-wrapper {
   padding: 16px 20px;

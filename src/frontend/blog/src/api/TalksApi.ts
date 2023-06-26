@@ -1,6 +1,6 @@
 import http from "@/utils/http";
 import type { Pagination } from "./models/pagination";
-import type { PageResultTalksOutput, TalksOutput } from "./models";
+import type { PageResultTalksOutput, TalkDetailOutput } from "./models";
 
 class TalksApi {
   /**
@@ -18,7 +18,7 @@ class TalksApi {
    * @returns
    */
   talkDetail = (id: number) => {
-    return http.get<TalksOutput>("/talks/detail", { params: { id } });
+    return http.get<TalkDetailOutput>("/talks/talkdetail", { params: { id } });
   };
 }
 

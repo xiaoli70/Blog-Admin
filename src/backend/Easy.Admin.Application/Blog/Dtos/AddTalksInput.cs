@@ -1,8 +1,6 @@
-﻿using Easy.Admin.Core.Enum;
+﻿namespace Easy.Admin.Application.Blog.Dtos;
 
-namespace Easy.Admin.Core.Entities;
-
-public class Talks : Entity<long>, ISoftDelete, ICreatedTime, IAvailability
+public class AddTalksInput
 {
     /// <summary>
     /// 是否置顶
@@ -12,14 +10,14 @@ public class Talks : Entity<long>, ISoftDelete, ICreatedTime, IAvailability
     /// <summary>
     /// 说说正文
     /// </summary>
-    [SugarColumn(Length = int.MaxValue)]
+    [Required(ErrorMessage = "说说正文为必填项")]
     public string Content { get; set; }
 
     /// <summary>
     /// 图片
     /// </summary>
-    [SugarColumn(Length = 2048)]
-    public string? Images { get; set; }
+    [MaxLength(2048)]
+    public string Images { get; set; }
 
     /// <summary>
     /// 是否允许评论
@@ -30,14 +28,4 @@ public class Talks : Entity<long>, ISoftDelete, ICreatedTime, IAvailability
     /// 可用状态
     /// </summary>
     public AvailabilityStatus Status { get; set; }
-
-    /// <summary>
-    /// 标记删除
-    /// </summary>
-    public bool DeleteMark { get; set; }
-
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public DateTime CreatedTime { get; set; }
 }
