@@ -56,5 +56,17 @@ public enum CoverType
     /// 个人中心封面图
     /// </summary>
     [Description("个人中心封面图")]
-    User
+    User,
+
+    /// <summary>
+    /// 标签列表封面
+    /// </summary>
+    [Description("标签列表封面")]
+    TagList,
+
+    /// <summary>
+    /// 分类列表封面
+    /// </summary>
+    [Description("栏目列表封面")]
+    Categories
 }

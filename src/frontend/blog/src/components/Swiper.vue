@@ -46,8 +46,8 @@ type itemType = {
 import { ref, computed, onMounted } from "vue";
 const props = withDefaults(
   defineProps<{
-    height: number;
-    lineNum: number;
+    height?: number;
+    lineNum?: number;
     list: itemType[];
   }>(),
   {

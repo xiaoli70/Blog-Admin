@@ -1211,6 +1211,16 @@
             个人中心封面图
             </summary>
         </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.TagList">
+            <summary>
+            标签列表封面
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Categories">
+            <summary>
+            分类列表封面
+            </summary>
+        </member>
         <member name="F:Easy.Admin.Core.Enum.CreationType.Original">
             <summary>
             原创

@@ -14,6 +14,12 @@ public class AlbumsOutput
     /// 相册封面
     /// </summary>
     public string Cover { get; set; }
+    
+    /// <summary>
+    /// 相册描述
+    /// </summary>
+    public string Remark { get; set; }
+
     /// <summary>
     /// 创建时间
     /// </summary>

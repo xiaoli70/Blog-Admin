@@ -1,4 +1,5 @@
 ﻿using Easy.Admin.Application.Client.Dtos;
+using Furion.UnifyResult;
 
 namespace Easy.Admin.Application.Client;
 
@@ -32,6 +33,7 @@ public class AlbumsController : IDynamicApiController
                   Id = x.Id,
                   Name = x.Name,
                   Cover = x.Cover,
+                  Remark = x.Remark,
                   CreatedTime = x.CreatedTime
               }).ToPagedListAsync(dto);
     }
@@ -44,6 +46,12 @@ public class AlbumsController : IDynamicApiController
     [HttpGet]
     public async Task<PageResult<PictureOutput>> Pictures([FromQuery] PicturesQueryInput dto)
     {
+        var album = await _albumsRepository.AsQueryable().Where(x => x.Id == dto.AlbumId && x.IsVisible && x.Status == AvailabilityStatus.Enable).Select(x => new
+        {
+            x.Name,
+            x.Cover
+        }).FirstAsync();
+        UnifyContext.Fill(album);
         return await _albumsRepository.AsQueryable().InnerJoin<Pictures>((albums, pictures) => albums.Id == pictures.AlbumId)
              .Where(albums => albums.IsVisible && albums.Status == AvailabilityStatus.Enable && albums.Id == dto.AlbumId)
              .OrderByDescending((albums, pictures) => pictures.Id)

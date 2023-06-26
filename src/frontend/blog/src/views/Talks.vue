@@ -5,7 +5,7 @@
   </div>
   <!-- 说说内容 -->
   <v-card class="blog-container">
-    <div class="talk-item" v-for="item of talkList" :key="item.id">
+    <div class="talk-item" v-for="item of state.talks" :key="item.id">
       <router-link :to="'/talks/' + item.id">
         <!-- 用户信息 -->
         <div class="user-info-wrapper">
@@ -20,15 +20,15 @@
             </div>
             <!-- 发表时间 -->
             <div class="time">
-              {{ item.createTime }}
-              <span class="top" v-if="item.isTop == 1">
+              {{ item.createdTime }}
+              <span class="top" v-if="item.isTop">
                 <i class="iconfont iconzhiding" /> 置顶
               </span>
             </div>
             <!-- 说说信息 -->
             <div class="talk-content" v-html="item.content" />
             <!-- 图片列表 -->
-            <v-row class="talk-images" v-if="item.imgList">
+            <!-- <v-row class="talk-images" v-if="item.imgList">
               <v-col
                 :md="4"
                 :cols="6"
@@ -43,19 +43,19 @@
                   @click.prevent="previewImg($event)"
                 />
               </v-col>
-            </v-row>
+            </v-row> -->
             <!-- 说说操作 -->
             <div class="talk-operation">
               <div class="talk-operation-item">
                 <v-icon size="16" class="like-btn"> mdi-thumb-up </v-icon>
                 <div class="operation-count">
-                  {{ item.likeCount == null ? 0 : item.likeCount }}
+                  {{ item.upvote }}
                 </div>
               </div>
               <div class="talk-operation-item">
                 <v-icon size="16" color="#999">mdi-chat</v-icon>
                 <div class="operation-count">
-                  {{ item.commentCount == null ? 0 : item.commentCount }}
+                  {{ item.comments }}
                 </div>
               </div>
             </div>
@@ -71,18 +71,21 @@
 
 <script setup lang="ts">
 import { images, talks as talkList } from "../api/data";
-import { computed } from "vue";
+import { reactive, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
+import TalksApi from "@/api/TalksApi";
+import type { TalksOutput } from "@/api/models";
+import type { Pagination } from "@/api/models/pagination";
 const route = useRoute();
-
+const state = reactive({
+  query: {} as Pagination,
+  talks: [] as TalksOutput[],
+  pages: 0,
+});
 const previewImg = (e: Event): void => {
-  const viewer = new Viewer(e.target as HTMLElement,{
-    // exit(){
-
-    // }
-  });
+  const viewer = new Viewer(e.target as HTMLElement, {});
   viewer.show();
 };
 
@@ -91,6 +94,16 @@ const cover = computed(() => {
     (item) => item.pageLabel === route.name
   )?.pageCover;
   return "background: url(" + cover + ") center center / cover no-repeat";
+});
+const loadData = async () => {
+  const { data, succeeded } = await TalksApi.list(state.query);
+  if (succeeded) {
+    state.talks = data?.rows ?? [];
+    state.pages = data?.pages ?? 0;
+  }
+};
+onMounted(async () => {
+  await loadData();
 });
 </script>
 

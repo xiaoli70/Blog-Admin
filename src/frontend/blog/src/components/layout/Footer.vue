@@ -3,34 +3,38 @@
   <div id="player"></div>
   <v-footer app absolute>
     <div class="footer-wrap">
-      <div>©2019 - 2022 By 可乐不加冰</div>
+      <div>{{ blogSetting.copyright }}</div>
       <a href="https://beian.miit.gov.cn/" target="_blank">
-        鄂ICP备2020020251号-1
+        {{ blogSetting.filing }}
       </a>
     </div>
   </v-footer>
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import "APlayer/dist/APlayer.min.css";
 import APlayer from "APlayer";
-import { onMounted } from "vue";
+import { useApp } from "@/stores/app";
+const appStore = useApp();
+const { blogSetting } = storeToRefs(appStore);
 onMounted(() => {
   // 播放器文档api https://aplayer.js.org/#/zh-Hans/
-  const op = new APlayer({
-    container: document.getElementById("player")!,
-    fixed: true,
-    autoplay: true,
-    audio: [
-      {
-        name: "山茶花读不懂白玫瑰",
-        artist: "Li笑笑",
-        url: "http://124.71.129.173:9000/test/music/山茶花读不懂白玫瑰.mp3",
-        cover: "http://124.71.129.173:9000/test/music/山茶花读不懂白玫瑰.png",
-        lrc: "http://124.71.129.173:9000/test/music/山茶花读不懂白玫瑰.lrc",
-      },
-    ],
-  });
+  // const op = new APlayer({
+  //   container: document.getElementById("player")!,
+  //   fixed: true,
+  //   autoplay: true,
+  //   audio: [
+  //     {
+  //       name: "山茶花读不懂白玫瑰",
+  //       artist: "Li笑笑",
+  //       url: "http://124.71.129.173:9000/test/music/山茶花读不懂白玫瑰.mp3",
+  //       cover: "http://124.71.129.173:9000/test/music/山茶花读不懂白玫瑰.png",
+  //       lrc: "http://124.71.129.173:9000/test/music/山茶花读不懂白玫瑰.lrc",
+  //     },
+  //   ],
+  // });
 });
 </script>
 

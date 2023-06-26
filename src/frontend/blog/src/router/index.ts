@@ -3,9 +3,9 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import Index from "../views/Index.vue";
 import pinia from "@/stores";
-import { userApp } from "@/stores/app";
+import { useApp } from "@/stores/app";
 
-const appStore = userApp(pinia);
+const appStore = useApp(pinia);
 const routes: Array<RouteRecordRaw> = [
   {
     name: "home",
@@ -57,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     name: "tagsList",
-    path: "/tags/:id",
+    path: "/tags/:tid",
     component: () => import("../views/article/CategoryList.vue"),
     meta: {
       title: "分类",

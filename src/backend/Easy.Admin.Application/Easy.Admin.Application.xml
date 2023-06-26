@@ -1015,6 +1015,11 @@
             相册封面
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.AlbumsOutput.Remark">
+            <summary>
+            相册描述
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Client.Dtos.AlbumsOutput.CreatedTime">
             <summary>
             创建时间

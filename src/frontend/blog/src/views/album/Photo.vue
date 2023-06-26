@@ -1,16 +1,16 @@
 <template>
   <!-- banner -->
-  <div class="banner" :style="cover">
-    <h1 class="banner-title">{{ photos.photoAlbumName }}</h1>
+  <div class="banner" :style="state.cover">
+    <h1 class="banner-title">{{ state.name }}</h1>
   </div>
   <!-- 相册列表 -->
   <v-card class="blog-container">
     <div class="photo-wrap" id="photos">
       <img
-        v-for="(item, index) of photos.photoList"
+        v-for="(item, index) of state.photos"
         class="photo"
         :key="index"
-        :src="item"
+        :src="item.url!"
       />
     </div>
     <!-- 无限加载 -->
@@ -22,25 +22,37 @@
 </template>
 
 <script setup lang="ts">
-import { photos } from "../../api/data";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, reactive, nextTick } from "vue";
+import AlbumsApi from "@/api/AlbumsApi";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
+import { useRoute } from "vue-router";
+import type { PictureOutput } from "@/api/models";
+const route = useRoute();
+const state = reactive({
+  photos: [] as PictureOutput[],
+  cover: "",
+  name: "",
+  query: {
+    pageNo: 1,
+    pageSize: 10,
+    albumId: route.params.id as never,
+  },
+});
 const viewer = ref<Viewer | null>(null);
-onMounted(() => {
-  viewer.value = new Viewer(document.getElementById("photos") as HTMLElement);
+onMounted(async () => {
+  const { data, extras } = await AlbumsApi.pictures(state.query);
+  state.photos = data?.rows ?? [];
+  state.cover =
+    "background: url(" + extras?.cover + ") center center / cover no-repeat";
+  state.name = extras?.name;
+  nextTick(() => {
+    viewer.value = new Viewer(document.getElementById("photos") as HTMLElement);
+  });
 });
 
 onUnmounted(() => {
   viewer.value?.destroy();
-});
-
-const cover = computed(() => {
-  return (
-    "background: url(" +
-    photos.photoAlbumCover +
-    ") center center / cover no-repeat"
-  );
 });
 </script>
 

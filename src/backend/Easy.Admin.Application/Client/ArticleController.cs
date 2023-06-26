@@ -1,4 +1,5 @@
 ﻿using Easy.Admin.Application.Client.Dtos;
+using Furion.UnifyResult;
 
 namespace Easy.Admin.Application.Client;
 /// <summary>
@@ -29,6 +30,17 @@ public class ArticleController : IDynamicApiController
     [HttpGet]
     public async Task<PageResult<ArticleOutput>> Get([FromQuery] ArticleListQueryInput dto)
     {
+        if (dto.TagId.HasValue)
+        {
+            string tagName = await _tagsRepository.AsQueryable().Where(x => x.Id == dto.TagId && x.Status == AvailabilityStatus.Enable).Select(x => x.Name).FirstAsync();
+            UnifyContext.Fill(tagName);
+        }
+
+        if (dto.CategoryId.HasValue)
+        {
+            string categoryName = await _categoryRepository.AsQueryable().Where(x => x.Id == dto.CategoryId && x.Status == AvailabilityStatus.Enable).Select(x => x.Name).FirstAsync();
+            UnifyContext.Fill(categoryName);
+        }
         return await _articleRepository.AsQueryable().LeftJoin<ArticleCategory>((article, ac) => article.Id == ac.ArticleId)
               .InnerJoin<Categories>((article, ac, c) => ac.CategoryId == c.Id && c.Status == AvailabilityStatus.Enable)
               .Where(article => article.Status == AvailabilityStatus.Enable && article.PublishTime <= SqlFunc.GetDate())
@@ -36,7 +48,7 @@ public class ArticleController : IDynamicApiController
               .WhereIF(dto.CategoryId.HasValue, (article, ac) => ac.CategoryId == dto.CategoryId)
               .WhereIF(dto.TagId.HasValue,
                   article => SqlFunc.Subqueryable<Tags>().InnerJoin<ArticleTag>((tags, at) => tags.Id == at.TagId)
-                      .Where((tags, at) => tags.Status == AvailabilityStatus.Enable && at.ArticleId == article.Id).Any())
+                      .Where((tags, at) => tags.Status == AvailabilityStatus.Enable && at.ArticleId == article.Id && tags.Id == dto.TagId).Any())
               .OrderByDescending(article => article.IsTop)
               .OrderBy(article => article.Sort)
               .OrderByDescending(article => article.PublishTime)
@@ -88,7 +100,7 @@ public class ArticleController : IDynamicApiController
     [HttpGet]
     public async Task<List<CategoryOutput>> Categories()
     {
-        var queryable = _articleRepository.AsQueryable().Where(a => a.Status == AvailabilityStatus.Enable && a.PublishTime >= SqlFunc.GetDate() && (a.ExpiredTime == null || SqlFunc.GetDate() < a.ExpiredTime));
+        var queryable = _articleRepository.AsQueryable().Where(a => a.Status == AvailabilityStatus.Enable && a.PublishTime <= SqlFunc.GetDate() && (a.ExpiredTime == null || SqlFunc.GetDate() < a.ExpiredTime));
         return await _categoryRepository.AsQueryable().LeftJoin<ArticleCategory>((c, ac) => c.Id == ac.CategoryId)
               .LeftJoin(queryable, (c, ac, a) => ac.ArticleId == a.Id)
               .Where(c => c.Status == AvailabilityStatus.Enable)
@@ -119,7 +131,7 @@ public class ArticleController : IDynamicApiController
         //统计文章数量
         int articleCount = await _articleRepository.AsQueryable()
             .Where(x => x.Status == AvailabilityStatus.Enable && (x.ExpiredTime == null || SqlFunc.GetDate() < x.ExpiredTime))
-            .Where(x => x.PublishTime >= SqlFunc.GetDate())
+            .Where(x => x.PublishTime <= SqlFunc.GetDate())
             .CountAsync();
 
         //标签统计

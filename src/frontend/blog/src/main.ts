@@ -15,8 +15,6 @@ import "vue3-cute-component/dist/style.css";
 import InfiniteLoading from "vue-infinite-loading";
 import formatDateTime from "./plugins/formatDateTime";
 import Toast, { PluginOptions } from "vue-toastification";
-import pinia from "./stores";
-
 const app = createApp(App);
 registerPlugins(app);
 const options: PluginOptions = {

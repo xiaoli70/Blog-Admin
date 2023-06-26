@@ -8,36 +8,79 @@
     <v-row>
       <v-col
         :md="6"
-        v-for="item of albums"
+        v-for="item of state.albums"
         :key="item.id"
         style="flex-basis: auto"
       >
         <div class="album-item">
-          <v-img class="album-cover" :src="item.albumCover" cover />
+          <v-img class="album-cover" :src="item.cover!" cover />
           <router-link :to="'/albums/' + item.id" class="album-wrapper">
-            <div class="album-name">{{ item.albumName }}</div>
-            <div class="album-desc">{{ item.albumDesc }}</div>
+            <div class="album-name">{{ item.name }}</div>
+            <div class="album-desc">{{ item.remark ?? item.name }}</div>
           </router-link>
         </div>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-pagination
+          v-if="state.pages > 1"
+          v-model="state.query.pageNo"
+          size="x-small"
+          :length="state.pages"
+          active-color="#00C4B6"
+          :total-visible="3"
+          variant="elevated"
+        ></v-pagination>
+      </v-col>
+    </v-row>
+    <!-- <div class="load-wrapper" v-if="state.pages > 1">
+      <v-btn outlined> 加载更多... </v-btn>
+    </div> -->
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { images, albums } from "../../api/data";
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-const route = useRoute();
+import { computed, reactive, onMounted, watch } from "vue";
+import AlbumsApi from "@/api/AlbumsApi";
+import { useApp } from "@/stores/app";
+import type { AlbumsOutput } from "@/api/models";
+import type { Pagination } from "@/api/models/pagination";
+const state = reactive({
+  query: {
+    pageNo: 1,
+    pageSize: 6,
+  } as Pagination,
+  pages: 0,
+  albums: [] as AlbumsOutput[],
+});
+const appStore = useApp();
 const cover = computed(() => {
-  let cover: string = images.find(
-    (item) => item.pageLabel === route.name
-  )?.pageCover;
-  return "background: url(" + cover + ") center center / cover no-repeat";
+  return (
+    "background: url(" +
+    appStore.albumCover() +
+    ") center center / cover no-repeat"
+  );
+});
+const loadData = async () => {
+  const { data, succeeded } = await AlbumsApi.list(state.query);
+  if (succeeded) {
+    state.albums = data?.rows ?? [];
+    state.pages = data?.pages ?? 0;
+  }
+};
+watch(
+  () => state.query.pageNo,
+  async () => {
+    await loadData();
+  }
+);
+onMounted(async () => {
+  await loadData();
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .album-item {
   overflow: hidden;
   position: relative;
@@ -101,5 +144,16 @@ const cover = computed(() => {
   opacity: 0;
   transition: opacity 0.35s, transform 0.35s;
   transform: translate3d(100%, 0, 0);
+}
+
+.load-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    background-color: #49b1f5;
+    color: #fff;
+  }
 }
 </style>

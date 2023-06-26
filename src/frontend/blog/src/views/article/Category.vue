@@ -5,12 +5,16 @@
   </div>
   <!-- 分类列表 -->
   <v-card class="blog-container">
-    <div class="category-title">分类 - {{ categoryies.length }}</div>
+    <div class="category-title">分类 - {{ state.report.categoryCount }}</div>
     <ul class="category-list">
-      <li class="category-list-item" v-for="item of categoryies" :key="item.id">
+      <li
+        class="category-list-item"
+        v-for="item of state.categories"
+        :key="item.id"
+      >
         <router-link :to="'/categories/' + item.id">
-          {{ item.categoryName }}
-          <span class="category-count">({{ item.articleCount }})</span>
+          {{ item.name }}
+          <span class="category-count">({{ item.total }})</span>
         </router-link>
       </li>
     </ul>
@@ -18,16 +22,34 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { images } from "../../api/data";
-import { categoryies } from "../../api/data";
-const route = useRoute();
+import { reactive, computed, onMounted } from "vue";
+import ArticleApi from "@/api/ArticleApi";
+import { useApp } from "@/stores/app";
+import type { ArticleReportOutput, CategoryOutput } from "@/api/models";
+const appStore = useApp();
+const state = reactive({
+  categories: [] as CategoryOutput[],
+  report: {} as ArticleReportOutput,
+});
 const cover = computed(() => {
-  let cover: string = images.find(
-    (item) => item.pageLabel === route.name
-  )?.pageCover;
-  return "background: url(" + cover + ") center center / cover no-repeat";
+  return (
+    "background: url(" +
+    appStore.categoryCover() +
+    ") center center / cover no-repeat"
+  );
+});
+
+onMounted(async () => {
+  const [c, r] = await Promise.all([
+    ArticleApi.categories(),
+    ArticleApi.report(),
+  ]);
+  state.categories = c.data ?? [];
+  state.report = r.data ?? {
+    articleCount: 0,
+    tagCount: 0,
+    categoryCount: 0,
+  };
 });
 </script>
 

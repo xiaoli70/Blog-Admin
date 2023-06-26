@@ -4,7 +4,7 @@ import AppApi from "@/api/AppApi";
 import type { BlogSetting, BloggerInfo } from "@/api/models";
 import { randomNumber } from "@/utils";
 
-export const userApp = defineStore("app", () => {
+export const useApp = defineStore("app", () => {
   const app = reactive({
     covers: {
       home: [] as string[],
@@ -16,6 +16,8 @@ export const userApp = defineStore("app", () => {
       talk: [] as string[],
       message: [] as string[],
       user: [] as string[],
+      tagList: [] as string[],
+      categories: [] as string[],
     },
     info: {} as BloggerInfo,
     isInit: false,
@@ -32,6 +34,7 @@ export const userApp = defineStore("app", () => {
       nikeName: "可乐不加冰",
       motto: "凡是过往，皆为序章",
       qq: "823302316",
+      avatar: "/default.jpg",
     };
     app.blogSetting = data!.site ?? {
       siteName: "可乐不加冰",
@@ -46,7 +49,7 @@ export const userApp = defineStore("app", () => {
       keyword: "可乐不加冰的博客",
       visitorNumbers: 0,
     };
-    app.covers.home = covers.home ?? ["/cover/home.jpg"];
+    app.covers.home = covers.home ?? ["/cover/default.jpg"];
     app.covers.about = covers.about ?? ["/cover/about.jpg"];
     app.covers.archives = covers.archives ?? ["/cover/archives.jpg"];
     app.covers.category = covers.category ?? ["/cover/category.jpg"];
@@ -55,6 +58,8 @@ export const userApp = defineStore("app", () => {
     app.covers.talk = covers.talk ?? ["/cover/talk.jpg"];
     app.covers.message = covers.message ?? ["/cover/message.png"];
     app.covers.user = covers.user ?? ["/cover/user.jpg"];
+    app.covers.tagList = covers.tagList ?? ["/cover/default.jpg"];
+    app.covers.categories = covers.categories ?? ["/cover/default.jpg"];
     app.isInit = true;
   };
   /**
@@ -119,7 +124,22 @@ export const userApp = defineStore("app", () => {
    */
   const userCover = () => {
     const arr = app.covers.user;
-    return arr[randomNumber(0, arr.length)];
+    return arr[randomNumber(0, arr.length - 1)];
+  };
+  /**
+   * 标签列表封面
+   * @returns
+   */
+  const tagListCover = () => {
+    const arr = app.covers.tagList;
+    return arr[randomNumber(0, arr.length - 1)];
+  };
+  /**
+   * 分类列表封面
+   */
+  const categoriesCover = () => {
+    const arr = app.covers.categories;
+    return arr[randomNumber(0, arr.length - 1)];
   };
 
   /**
@@ -148,6 +168,8 @@ export const userApp = defineStore("app", () => {
     talkCover,
     messageCover,
     userCover,
+    tagListCover,
+    categoriesCover,
     isInit,
     info,
     blogSetting,

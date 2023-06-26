@@ -181,7 +181,7 @@ p {
   .blog-container {
     animation: main 1s;
     max-width: 970px;
-    padding: 50px 40px;
+    padding: 25px 40px;
     margin: 320px auto 40px auto;
   }
 
@@ -226,7 +226,7 @@ p {
 
   .blog-container {
     animation: main 1s;
-    margin: 240px 5px 20px 5px;
+    margin: 180px 5px 20px 5px;
     padding: 36px 14px;
   }
 

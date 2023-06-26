@@ -15,8 +15,12 @@ class AlbumsApi {
    * 相册下的图片
    * @returns
    */
-  pictures = () => {
-    return http.get<PageResultPictureOutput>("/albums/pictures");
+  pictures = (params: {
+    pageNo: number;
+    pageSize: number;
+    albumId?: number;
+  }) => {
+    return http.get<PageResultPictureOutput>("/albums/pictures", { params });
   };
 }
 

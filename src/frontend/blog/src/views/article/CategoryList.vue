@@ -1,11 +1,13 @@
 <template>
   <!-- 标签或分类名 -->
   <div class="banner" :style="cover">
-    <h1 class="banner-title animated fadeInDown">分类 - 学习</h1>
+    <h1 class="banner-title animated fadeInDown">
+      {{ state.query.categoryId ? "分类" : "标签" }} - {{ state.name }}
+    </h1>
   </div>
   <div class="article-list-wrapper">
     <v-row>
-      <v-col md="4" cols="12" v-for="item of articles" :key="item.id">
+      <v-col md="4" cols="12" v-for="item of state.articles" :key="item.id">
         <!-- 文章 -->
         <v-card class="animated zoomIn article-item-card">
           <div class="article-item-cover">
@@ -15,7 +17,7 @@
                 class="on-hover"
                 width="100%"
                 height="100%"
-                :src="item.articleCover"
+                :src="item.cover ?? ''"
                 :cover="true"
               />
             </router-link>
@@ -24,13 +26,13 @@
             <!-- 文章标题 -->
             <div>
               <router-link :to="'/articles/' + item.id">
-                {{ item.articleTitle }}
+                {{ item.title }}
               </router-link>
             </div>
             <div style="margin-top: 0.375rem">
               <!-- 发表时间 -->
               <v-icon size="20">mdi-clock-outline</v-icon>
-              {{ item.createTime }}
+              {{ item.publishTime }}
               <!-- 文章分类 -->
               <router-link
                 :to="'/categories/' + item.categoryId"
@@ -47,24 +49,77 @@
             <router-link
               :to="'/tags/' + tag.id"
               class="tag-btn"
-              v-for="tag of item.tagDTOList"
+              v-for="tag of item.tags ?? []"
               :key="tag.id"
             >
-              {{ tag.tagName }}
+              {{ tag.name }}
             </router-link>
           </div>
         </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-pagination
+          v-if="state.pages > 1"
+          v-model="state.query.pageNo"
+          style="margin: 20px 0"
+          size="x-small"
+          :length="state.pages"
+          active-color="#00C4B6"
+          :total-visible="3"
+          variant="elevated"
+        ></v-pagination>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { articles, images } from "../../api/data";
+import { reactive, computed, onMounted, watch } from "vue";
+import ArticleApi from "@/api/ArticleApi";
+import { useApp } from "@/stores/app";
+import { useRoute } from "vue-router";
+import type { ArticleListQueryInput } from "@/api/models/article-list-query-input";
+import type { ArticleOutput } from "@/api/models";
+const route = useRoute();
+const appStore = useApp();
+const state = reactive({
+  query: {
+    pageNo: 1,
+    pageSize: 10,
+    categoryId: route.params.id as never,
+    tagId: route.params.tid as never,
+  } as ArticleListQueryInput,
+  name: "", //标签名或栏目名称
+  pages: 0,
+  articles: [] as ArticleOutput[],
+});
 const cover = computed(() => {
-  let cover: string = images[1]?.pageCover;
-  return "background: url(" + cover + ") center center / cover no-repeat";
+  return (
+    "background: url(" +
+    appStore.categoriesCover() +
+    ") center center / cover no-repeat"
+  );
+});
+
+const loadData = async () => {
+  const { data, succeeded, extras } = await ArticleApi.list(state.query);
+  if (succeeded) {
+    state.articles = data?.rows ?? [];
+    state.pages = data?.pages ?? 0;
+    state.name = extras;
+  }
+};
+
+watch(
+  () => state.query.pageNo,
+  async () => {
+    await loadData();
+  }
+);
+onMounted(async () => {
+  await loadData();
 });
 </script>
 
@@ -72,7 +127,7 @@ const cover = computed(() => {
 @media (min-width: 760px) {
   .article-list-wrapper {
     max-width: 1106px;
-    margin: 370px auto 1rem auto;
+    margin: 300px auto 20px auto !important;
   }
   .article-item-card:hover {
     transition: all 0.3s;
@@ -92,6 +147,10 @@ const cover = computed(() => {
     line-height: 1.7;
     padding: 15px 15px 12px 18px;
     font-size: 15px;
+  }
+  :deep(.v-pagination) {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
   }
 }
 @media (max-width: 759px) {

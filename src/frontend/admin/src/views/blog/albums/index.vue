@@ -57,7 +57,19 @@ const AlbumDialog = defineAsyncComponent(() => import('./dialog.vue'));
 import ProTable from '/@/components/ProTable/index.vue';
 import { ColumnProps } from '/@/components/ProTable/interface';
 import { useRouter } from 'vue-router';
-const albumType = ['首页封面图', '归档封面图', '分类封面图', '标签封面图', '相册封面图', '说说封面图', '关于封面图', '留言封面图', '个人中心封面图'];
+const albumType = [
+	'首页封面图',
+	'归档封面图',
+	'分类封面图',
+	'标签封面图',
+	'相册封面图',
+	'说说封面图',
+	'关于封面图',
+	'留言封面图',
+	'个人中心封面图',
+	'标签列表封面图',
+	'分类列表封面图',
+];
 const router = useRouter();
 //  table实例
 const tableRef = ref<InstanceType<typeof ProTable>>();

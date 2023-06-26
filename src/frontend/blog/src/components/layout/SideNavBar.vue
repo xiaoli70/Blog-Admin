@@ -10,7 +10,7 @@
   >
     <!-- 博主介绍 -->
     <div class="blogger-info">
-      <v-avatar size="110" :image="img" style="margin-bottom: 0.5rem">
+      <v-avatar size="110" :image="info.avatar!" style="margin-bottom: 0.5rem">
       </v-avatar>
     </div>
     <!-- 博客信息 -->
@@ -18,19 +18,19 @@
       <div class="blog-info-data">
         <router-link to="/articles">
           <div style="font-size: 0.875rem">文章</div>
-          <div style="font-size: 1.125rem">150</div>
+          <div style="font-size: 1.125rem">{{ state.articleCount }}</div>
         </router-link>
       </div>
       <div class="blog-info-data">
-        <router-link to="/categories">
+        <router-link to="/category">
           <div style="font-size: 0.875rem">分类</div>
-          <div style="font-size: 1.125rem">13</div>
+          <div style="font-size: 1.125rem">{{ state.categoryCount }}</div>
         </router-link>
       </div>
       <div class="blog-info-data">
         <router-link to="/tags">
           <div style="font-size: 0.875rem">标签</div>
-          <div style="font-size: 1.125rem">68</div>
+          <div style="font-size: 1.125rem">{{ state.tagCount }}</div>
         </router-link>
       </div>
     </div>
@@ -90,18 +90,18 @@
         <router-link to="/about">
           <!-- <i class="iconfont iconzhifeiji" />  -->
           <v-icon
-              size="small"
-              style="
-                transform: rotate(-45deg);
-                margin-bottom: 3px;
-                margin-right: 0px;
-              "
-              >mdi mdi-send-variant</v-icon
-            >
+            size="small"
+            style="
+              transform: rotate(-45deg);
+              margin-bottom: 3px;
+              margin-right: 1.5em;
+            "
+            >mdi mdi-send-variant</v-icon
+          >
           关于
         </router-link>
       </div>
-      <div class="menus-item">
+      <div class="menus-item" v-if="blogSetting.isAllowMessage">
         <router-link to="/message">
           <!-- <i class="iconfont iconpinglunzu" />  -->
           <v-icon size="small">mdi mdi-message-bulleted</v-icon>
@@ -135,19 +135,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { storeToRefs } from "pinia";
+import emitter from "@/utils/mitt";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
-import img from "@/assets/images/1.jpg";
+import { useApp } from "@/stores/app";
+import type { ArticleReportOutput } from "@/api/models";
 const isLogin = ref(false);
 const { drawer } = storeToRefs(useDrawerSettingStore());
+const { blogSetting, info } = storeToRefs(useApp());
 
+const state = reactive<ArticleReportOutput>({
+  articleCount: 0,
+  tagCount: 0,
+  categoryCount: 0,
+});
 const handleLogin = () => {
   isLogin.value = true;
 };
 const handleLoginOut = () => {
   isLogin.value = false;
 };
+
+emitter.on("report", (payload) => {
+  const res = payload as ArticleReportOutput;
+  state.articleCount = res.articleCount;
+  state.categoryCount = res.categoryCount;
+  state.tagCount = res.tagCount;
+});
 </script>
 
 <style scoped>

@@ -6,7 +6,7 @@
       <h1 class="blog-title animated zoomIn">{{ blogSetting.siteName }}</h1>
       <!-- 一言 -->
       <div class="blog-intro">
-        {{ blogSetting.motto }} <span class="typed-cursor">|</span>
+        {{ state.print.output }} <span class="typed-cursor">|</span>
       </div>
       <!-- 联系方式 -->
       <div class="blog-contact">
@@ -135,7 +135,7 @@
               </router-link>
             </div>
             <div class="blog-info-data">
-              <router-link to="/categories">
+              <router-link to="/category">
                 <div style="font-size: 0.875rem">分类</div>
                 <div style="font-size: 1.25rem">
                   {{ state.report.categoryCount }}
@@ -161,10 +161,18 @@
             <a
               class="mr-5 iconfont iconqq"
               target="_blank"
-              :href="'http://wpa.qq.com/msgrd?v=3&uin=111514&ste=qq&menu=yes'"
+              :href="`http://wpa.qq.com/msgrd?v=3&uin=111514&ste=${info.qq}&menu=yes`"
             />
-            <a target="_blank" href="" class="mr-5 iconfont icongithub" />
-            <a target="_blank" class="iconfont icongitee-fill-round" />
+            <a
+              target="_blank"
+              :href="info.github ?? ''"
+              class="mr-5 iconfont icongithub"
+            />
+            <a
+              target="_blank"
+              :href="info.gitee ?? ''"
+              class="iconfont icongitee-fill-round"
+            />
           </div>
         </v-card>
         <!-- 网站信息 -->
@@ -214,11 +222,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from "vue";
+import { reactive, onMounted, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import EasyTyper from "easy-typer-js/src/ts";
+import emitter from "@/utils/mitt";
 import Swiper from "../components/Swiper.vue";
-import { userApp } from "@/stores/app";
+import { useApp } from "@/stores/app";
 import ArticleApi from "@/api/ArticleApi";
 import dayjs from "dayjs";
 import type {
@@ -227,7 +236,7 @@ import type {
   TalksOutput,
 } from "@/api/models";
 import TalksApi from "@/api/TalksApi";
-const appStore = userApp();
+const appStore = useApp();
 const { blogSetting, info } = storeToRefs(appStore);
 // 打字机配置
 const state = reactive({
@@ -303,6 +312,15 @@ const isRight = (index: number): string => {
 const cover = computed(() => {
   return `background: url(${appStore.homeCover()}) center center / cover no-repeat`;
 });
+
+// 监听页码发生改变
+watch(
+  () => state.article.page,
+  async () => {
+    await articlePage();
+  }
+);
+
 onMounted(async () => {
   new EasyTyper(
     state.print,
@@ -318,6 +336,7 @@ onMounted(async () => {
   ]);
   state.report = report.data!;
   state.talks = talks.data!.rows!;
+  emitter.emit("report", report.data!);
   setInterval(() => {
     runTime();
   }, 1000);
