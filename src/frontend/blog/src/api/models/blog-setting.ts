@@ -60,6 +60,18 @@ export interface BlogSetting {
    */
   motto?: string | null;
   /**
+   * 是否开启打赏
+   */
+  isRewards?: boolean;
+  /**
+   * 支付宝二维码
+   */
+  aliPay?: string | null;
+  /**
+   * 微信二维码
+   */
+  wxPay?: string | null;
+  /**
    * 网站运营时间
    * @type {Date}
    * @memberof BlogSetting

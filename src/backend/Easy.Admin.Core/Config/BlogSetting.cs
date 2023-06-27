@@ -13,6 +13,18 @@ public class BlogSetting
     /// </summary>
     public string Favicon { get; set; }
     /// <summary>
+    /// 开启打赏
+    /// </summary>
+    public bool? IsRewards { get; set; }
+    /// <summary>
+    /// 支付宝
+    /// </summary>
+    public string AliPay { get; set; }
+    /// <summary>
+    /// 微信收款码
+    /// </summary>
+    public string WxPay { get; set; }
+    /// <summary>
     /// 允许留言
     /// </summary>
     public bool? IsAllowMessage { get; set; }

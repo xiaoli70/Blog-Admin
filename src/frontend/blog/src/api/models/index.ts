@@ -1,5 +1,7 @@
 export * from "./albums-output";
 export * from "./article-output";
+export * from './article-basics-output';
+export * from './article-info-output';
 export * from "./blog-output";
 export * from "./blog-setting";
 export * from "./blogger-info";

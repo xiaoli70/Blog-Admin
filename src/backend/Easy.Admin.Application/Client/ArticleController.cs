@@ -146,4 +146,93 @@ public class ArticleController : IDynamicApiController
             TagCount = tagCount
         };
     }
+
+    /// <summary>
+    /// 文章详情
+    /// </summary>
+    /// <param name="id">文章ID</param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<ArticleInfoOutput> Info([FromQuery] long id)
+    {
+        var article = await _articleRepository.AsQueryable()
+            .LeftJoin<ArticleCategory>((x, ac) => x.Id == ac.ArticleId)
+            .InnerJoin<Categories>((x, ac, c) => ac.CategoryId == c.Id && c.Status == AvailabilityStatus.Enable)
+            .Where(x => x.Id == id && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
+            .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
+            .Select((x, ac, c) => new ArticleInfoOutput
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Content = x.Content,
+                Cover = x.Cover,
+                PublishTime = x.PublishTime,
+                Author = x.Author,
+                Views = x.Views,
+                CreationType = x.CreationType,
+                IsAllowComments = x.IsAllowComments,
+                IsHtml = x.IsHtml,
+                IsTop = x.IsTop,
+                Link = x.Link,
+                UpdatedTime = x.UpdatedTime,
+                CategoryId = c.Id,
+                CategoryName = c.Name,
+                Tags = SqlFunc.Subqueryable<Tags>().InnerJoin<ArticleTag>((tags, at) => tags.Id == at.TagId)
+                    .Where((tags, at) => tags.Status == AvailabilityStatus.Enable && at.ArticleId == x.Id)
+                    .ToList(tags => new TagsOutput
+                    {
+                        Id = tags.Id,
+                        Name = tags.Name,
+                        Color = tags.Color,
+                        Icon = tags.Icon
+                    })
+            }).FirstAsync();
+        if (article == null) throw Oops.Bah("糟糕，您访问的信息丢失了...").StatusCode(404);
+        await _articleRepository.UpdateAsync(x => new Article()
+        {
+            Views = x.Views + 1
+        }, x => x.Id == article.Id);
+        //上一篇
+        var prevQuery = _articleRepository.AsQueryable().Where(x => x.PublishTime < article.PublishTime && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
+            .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
+             .OrderByDescending(x => x.PublishTime)
+             .Select(x => new ArticleBasicsOutput { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = null, Type = 0 }).Take(1);
+        //下一篇
+        var nextQuery = _articleRepository.AsQueryable().Where(x => x.PublishTime > article.PublishTime && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
+            .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
+                .OrderBy(x => x.PublishTime)
+                .Select(x => new ArticleBasicsOutput { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = null, Type = 1 }).Take(1);
+        //随机6条
+        var randomQuery = _articleRepository.AsQueryable().Where(x => x.Id != id)
+            .Where(x => x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
+            .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
+            .OrderBy(x => SqlFunc.GetRandom())
+            .Select(x => new ArticleBasicsOutput
+            { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = x.PublishTime, Type = 2 })
+            .Take(6);
+        //相关文章
+        var relevant = await _articleRepository.AsSugarClient().Union(prevQuery, nextQuery, randomQuery)
+            .OrderBy(x => x.PublishTime).ToListAsync();
+        article.Prev = relevant.FirstOrDefault(x => x.Type == 0);
+        article.Next = relevant.FirstOrDefault(x => x.Type == 1);
+        article.Random = relevant.Where(x => x.Type == 2).ToList();
+        article.Views++;
+        return article;
+    }
+
+    /// <summary>
+    /// 最新文章
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<List<ArticleBasicsOutput>> Latest()
+    {
+        return await _articleRepository.AsQueryable()
+              .Where(x => x.Status == AvailabilityStatus.Enable && x.PublishTime <= DateTime.Now)
+              .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
+              .Take(5)
+              .OrderBy(x => x.PublishTime)
+              .Select<ArticleBasicsOutput>()
+              .ToListAsync();
+    }
 }

@@ -49,6 +49,21 @@
             站点图标
             </summary>
         </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.IsRewards">
+            <summary>
+            开启打赏
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.AliPay">
+            <summary>
+            支付宝
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Config.BlogSetting.WxPay">
+            <summary>
+            微信收款码
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Core.Config.BlogSetting.IsAllowMessage">
             <summary>
             允许留言
@@ -1214,6 +1229,11 @@
         <member name="F:Easy.Admin.Core.Enum.CoverType.User">
             <summary>
             个人中心封面图
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Core.Enum.CoverType.Link">
+            <summary>
+            友情链接封面图
             </summary>
         </member>
         <member name="F:Easy.Admin.Core.Enum.CoverType.TagList">

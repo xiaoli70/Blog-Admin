@@ -5,6 +5,8 @@ import type {
   CategoryOutput,
   ArticleReportOutput,
   PageResultArticleOutput,
+  ArticleInfoOutput,
+  ArticleBasicsOutput,
 } from "./models";
 
 class ArticleApi {
@@ -41,6 +43,23 @@ class ArticleApi {
    */
   report = () => {
     return http.get<ArticleReportOutput>("/article/report");
+  };
+  /**
+   * 文章详情
+   * @param id 文章ID
+   * @returns
+   */
+  info = (id: number) => {
+    return http.get<ArticleInfoOutput>("/article/info", {
+      params: { id },
+    });
+  };
+  /**
+   *  文章最新5条记录
+   * @returns
+   */
+  latest = () => {
+    return http.get<ArticleBasicsOutput[]>("/article/latest");
   };
 }
 

@@ -1040,6 +1040,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Easy.Admin.Application.Client.ArticleController.Info(System.Int64)">
+            <summary>
+            文章详情
+            </summary>
+            <param name="id">文章ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.ArticleController.Latest">
+            <summary>
+            最新文章
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Easy.Admin.Application.Client.Dtos.AlbumsOutput.Id">
             <summary>
             相册ID
@@ -1063,6 +1076,126 @@
         <member name="P:Easy.Admin.Application.Client.Dtos.AlbumsOutput.CreatedTime">
             <summary>
             创建时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleBasicsOutput.Id">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleBasicsOutput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleBasicsOutput.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleBasicsOutput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleBasicsOutput.PublishTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Id">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Content">
+            <summary>
+            文章内容
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Cover">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.PublishTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Views">
+            <summary>
+            浏览量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.CreationType">
+            <summary>
+            转载类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.IsAllowComments">
+            <summary>
+            是否允许评论
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.IsHtml">
+            <summary>
+            是否是html
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.IsTop">
+            <summary>
+            是否置顶
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Link">
+            <summary>
+            转载链接
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.CategoryId">
+            <summary>
+            栏目Id
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.CategoryName">
+            <summary>
+            栏目名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.UpdatedTime">
+            <summary>
+            最后更新时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Prev">
+            <summary>
+            上一篇
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Next">
+            <summary>
+            下一篇
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Random">
+            <summary>
+            随机
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Tags">
+            <summary>
+            标签
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Client.Dtos.ArticleListQueryInput.TagId">
