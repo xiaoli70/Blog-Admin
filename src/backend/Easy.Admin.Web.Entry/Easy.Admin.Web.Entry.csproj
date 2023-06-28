@@ -7,6 +7,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+		<UserSecretsId>dbe8130a-ff52-4e0b-97b7-1cd416d74122</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
 
@@ -17,6 +19,11 @@
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
 	</ItemGroup>
 	<ProjectExtensions>
 		<VisualStudio>
