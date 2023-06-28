@@ -232,12 +232,27 @@
               v-for="item of state.latest"
               :key="item.id"
             >
-              <router-link :to="'/articles/' + item.id" class="content-cover">
+              <router-link
+                :to="{
+                  name: 'detail',
+                  params: {
+                    id: item.id,
+                  },
+                }"
+                class="content-cover"
+              >
                 <img :src="item.cover!" />
               </router-link>
               <div class="content">
                 <div class="content-title">
-                  <router-link :to="'/articles/' + item.id">
+                  <router-link
+                    :to="{
+                      name: 'detail',
+                      params: {
+                        id: item.id,
+                      },
+                    }"
+                  >
                     {{ item.title }}
                   </router-link>
                 </div>
@@ -259,7 +274,7 @@ import hljs from "highlight.js";
 import { computed, ref, reactive, onMounted, onUnmounted, nextTick } from "vue";
 import ArticleApi from "@/api/ArticleApi";
 import { useApp } from "@/stores/app";
-import { article, blogInfo } from "../../api/data";
+import { article } from "../../api/data";
 import markdownToHtml from "../../utils/markdown";
 import Clipboard from "clipboard";
 import Viewer from "viewerjs";

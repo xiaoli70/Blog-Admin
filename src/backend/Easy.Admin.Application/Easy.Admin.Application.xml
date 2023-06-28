@@ -1413,6 +1413,39 @@
             发布时间
             </summary>
         </member>
+        <member name="T:Easy.Admin.Application.Client.OAuthController">
+            <summary>
+            第三方授权登录
+            </summary>
+        </member>
+        <member name="F:Easy.Admin.Application.Client.OAuthController.OAuthKey">
+            <summary>
+            第三方授权缓存
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.OAuthController.Get(System.String)">
+            <summary>
+            获取授权地址
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.OAuthController.Callback(System.String,System.String,System.String)">
+            <summary>
+            授权回调
+            </summary>
+            <param name="type">授权类型</param>
+            <param name="code"></param>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Client.OAuthController.Login(System.String)">
+            <summary>
+            登录
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
         <member name="T:Easy.Admin.Application.Client.TalksController">
             <summary>
             博客说说

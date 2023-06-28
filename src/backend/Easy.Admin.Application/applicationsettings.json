@@ -88,6 +88,16 @@
     "Bucket": "oss", //默认存储根目录
     "Domain": "https://oss.37czone.com" //外网访问域名或IP
   },
+  // 接入第三方授权登录 文档：https://github.com/mrhuo/MrHuo.OAuth
+  "oauth": {
+    "qq": {
+      "app_id": "102054591",
+      "app_key": "LchZEgtsc8PRFo8E",
+      "redirect_uri": "https://www.okay123.top/api/oauth/qqcallback",
+      "scope": "get_user_info"
+    },
+    "redirect_uri": "https://www.okay123.top" //授权成功后跳转地址
+  },
   // 雪花id 文档：https://github.com/yitter/IdGenerator
   "SnowId": {
     "Method": 1, //雪花计算方法（1-漂移算法|2-传统算法），默认1 

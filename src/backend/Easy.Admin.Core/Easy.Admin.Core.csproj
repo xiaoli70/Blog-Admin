@@ -21,6 +21,7 @@
 		<PackageReference Include="Furion.Pure" Version="4.8.8.6" />
 		<PackageReference Include="Hashids.net" Version="1.7.0" />
 		<PackageReference Include="Lazy.Captcha.Core" Version="2.0.3" />
+		<PackageReference Include="MrHuo.OAuth.QQ" Version="1.1.1" />
 		<PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.9" />
 		<PackageReference Include="SqlSugarCore" Version="5.1.4.69" />
 		<PackageReference Include="UAParser" Version="3.1.47" />

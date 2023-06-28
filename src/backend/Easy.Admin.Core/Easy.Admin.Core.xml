@@ -245,6 +245,56 @@
             主键
             </summary>
         </member>
+        <member name="T:Easy.Admin.Core.Entities.Account">
+            <summary>
+            博客授权用户
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.OAuthId">
+            <summary>
+            授权唯一标识
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.Type">
+            <summary>
+            授权类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.Name">
+            <summary>
+            姓名（昵称）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Account.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Core.Entities.Albums">
             <summary>
             相册表
@@ -727,6 +777,26 @@
             </summary>
         </member>
         <member name="P:Easy.Admin.Core.Entities.Pictures.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.Praise">
+            <summary>
+            点赞表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Praise.AccountId">
+            <summary>
+            用户ID 
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Praise.ObjectId">
+            <summary>
+            点赞对象ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Praise.CreatedTime">
             <summary>
             创建时间
             </summary>

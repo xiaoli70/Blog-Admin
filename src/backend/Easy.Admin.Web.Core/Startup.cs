@@ -15,6 +15,8 @@ using Lazy.Captcha.Core;
 using Lazy.Captcha.Core.Generator;
 using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MrHuo.OAuth;
+using MrHuo.OAuth.QQ;
 using OnceMi.AspNetCore.OSS;
 namespace Easy.Admin.Web.Core;
 
@@ -92,7 +94,8 @@ public class Startup : AppStartup
         {
             ossOptions.Adapt(options);
         });
-
+        var auth = new QQOAuth(OAuthConfig.LoadFrom(App.Configuration, "oauth:qq"));
+        services.AddSingleton(auth);
 
         #region 图形验证码
 
