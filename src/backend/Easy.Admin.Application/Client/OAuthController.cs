@@ -41,7 +41,7 @@ public class OAuthController : IDynamicApiController
     {
         return type.ToLower() switch
         {
-            "qq" => _qqoAuth.GetAuthorizeUrl(),
+            "qq" => _qqoAuth.GetAuthorizeUrl(_idGenerator.Encode(_idGenerator.NewLong())),
             _ => throw Oops.Bah("无效请求")
         };
     }
@@ -61,36 +61,43 @@ public class OAuthController : IDynamicApiController
         switch (type.ToLower())
         {
             case "qq":
-                var auth = await _qqoAuth.AuthorizeCallback(code, state);
-                if (!auth.IsSccess)
+                try
                 {
-                    throw Oops.Bah(auth.ErrorMessage);
-                }
-                var info = auth.UserInfo;
-                string openId = await _qqoAuth.GetOpenId(auth.AccessToken.AccessToken);
-                account = await _accountRepository.AsQueryable().FirstAsync(x => x.OAuthId == openId && SqlFunc.ToLower(x.Type) == "qq");
-                var gender = info.Gender == "男" ? Gender.Male :
-                    info.Gender == "女" ? Gender.Female : Gender.Unknown;
-                if (account != null)
-                {
-                    await _accountRepository.UpdateAsync(x => new Account()
+                    var auth = await _qqoAuth.AuthorizeCallback(code, state ?? "");
+                    if (!auth.IsSccess)
                     {
-                        Avatar = info.Avatar,
-                        Name = info.Name,
-                        Gender = gender
-                    },
-                        x => x.OAuthId == openId && SqlFunc.ToLower(x.Type) == "qq");
-                }
-                else
-                {
-                    account = await _accountRepository.InsertReturnEntityAsync(new Account()
+                        throw Oops.Bah(auth.ErrorMessage);
+                    }
+                    var info = auth.UserInfo;
+                    string openId = await _qqoAuth.GetOpenId(auth.AccessToken.AccessToken);
+                    account = await _accountRepository.AsQueryable().FirstAsync(x => x.OAuthId == openId && SqlFunc.ToLower(x.Type) == "qq");
+                    var gender = info.Gender == "男" ? Gender.Male :
+                        info.Gender == "女" ? Gender.Female : Gender.Unknown;
+                    if (account != null)
                     {
-                        Gender = gender,
-                        Avatar = info.Avatar,
-                        Name = info.Name,
-                        OAuthId = openId,
-                        Type = "QQ"
-                    });
+                        await _accountRepository.UpdateAsync(x => new Account()
+                        {
+                            Avatar = info.Avatar,
+                            Name = info.Name,
+                            Gender = gender
+                        },
+                            x => x.OAuthId == openId && SqlFunc.ToLower(x.Type) == "qq");
+                    }
+                    else
+                    {
+                        account = await _accountRepository.InsertReturnEntityAsync(new Account()
+                        {
+                            Gender = gender,
+                            Avatar = info.Avatar,
+                            Name = info.Name,
+                            OAuthId = openId,
+                            Type = "QQ"
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+
                 }
                 break;
 

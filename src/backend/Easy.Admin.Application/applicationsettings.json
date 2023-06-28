@@ -93,7 +93,7 @@
     "qq": {
       "app_id": "102054591",
       "app_key": "LchZEgtsc8PRFo8E",
-      "redirect_uri": "https://www.okay123.top/api/oauth/qqcallback",
+      "redirect_uri": "https://www.okay123.top/api/oauth/qq/callback",
       "scope": "get_user_info"
     },
     "redirect_uri": "https://www.okay123.top" //授权成功后跳转地址
