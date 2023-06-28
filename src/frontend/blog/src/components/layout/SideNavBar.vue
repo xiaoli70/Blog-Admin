@@ -140,6 +140,7 @@ import { storeToRefs } from "pinia";
 import emitter from "@/utils/mitt";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import { useApp } from "@/stores/app";
+import OAuthApi from "@/api/OAuthApi";
 import type { ArticleReportOutput } from "@/api/models";
 const isLogin = ref(false);
 const { drawer } = storeToRefs(useDrawerSettingStore());
@@ -150,8 +151,9 @@ const state = reactive<ArticleReportOutput>({
   tagCount: 0,
   categoryCount: 0,
 });
-const handleLogin = () => {
-  isLogin.value = true;
+const handleLogin = async () => {
+  const { data } = await OAuthApi.get();
+  location.href = data!;
 };
 const handleLoginOut = () => {
   isLogin.value = false;

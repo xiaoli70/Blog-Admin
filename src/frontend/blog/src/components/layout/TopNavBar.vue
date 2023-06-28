@@ -170,6 +170,7 @@
 import { storeToRefs } from "pinia";
 import { onMounted, ref, watch, reactive } from "vue";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
+import OAuthApi from "@/api/OAuthApi";
 import SearchModel from "../SearchModel.vue";
 const vm = reactive({
   scrollTop: 0,
@@ -198,8 +199,9 @@ const searchModelHandel = () => {
   vm.isShow = true;
 };
 
-const handleLogin = () => {
-  vm.isLogin = true;
+const handleLogin = async () => {
+  const { data } = await OAuthApi.get();
+  location.href = data!;
 };
 const handleLoginOut = () => {
   vm.isLogin = false;
