@@ -15,7 +15,7 @@ public class AuthManager : ITransient
     /// <summary>
     /// 用户Id
     /// </summary>
-    public long UserId => _httpContextAccessor.HttpContext!.User.FindFirst(AuthClaimsConst.AuthIdKey)!.Value.Adapt<long>();
+    public long UserId => _httpContextAccessor.HttpContext!.User.FindFirst(AuthClaimsConst.AuthIdKey)?.Value.Adapt<long>() ?? 0;
 
     /// <summary>
     /// 是否是超级管理员

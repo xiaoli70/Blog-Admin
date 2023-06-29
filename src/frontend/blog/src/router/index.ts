@@ -9,7 +9,7 @@ const appStore = useApp(pinia);
 const routes: Array<RouteRecordRaw> = [
   {
     name: "home",
-    path: "/",
+    path: "/:code?",
     component: Index,
     meta: {
       title: "首页",

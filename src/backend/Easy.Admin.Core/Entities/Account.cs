@@ -4,7 +4,7 @@ namespace Easy.Admin.Core.Entities;
 /// <summary>
 /// 博客授权用户
 /// </summary>
-public class Account : Entity<long>, IUpdatedTime, ISoftDelete, ICreatedTime
+public class AuthAccount : Entity<long>, IUpdatedTime, ISoftDelete, ICreatedTime
 {
 
     /// <summary>

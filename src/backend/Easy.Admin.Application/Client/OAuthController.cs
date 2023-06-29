@@ -13,13 +13,13 @@ public class OAuthController : IDynamicApiController
     /// </summary>
     private const string OAuthKey = "oauth.";
     private readonly QQOAuth _qqoAuth;
-    private readonly ISqlSugarRepository<Account> _accountRepository;
+    private readonly ISqlSugarRepository<AuthAccount> _accountRepository;
     private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IIdGenerator _idGenerator;
 
     public OAuthController(QQOAuth qqoAuth,
-        ISqlSugarRepository<Account> accountRepository,
+        ISqlSugarRepository<AuthAccount> accountRepository,
         IEasyCachingProvider easyCachingProvider,
         IHttpContextAccessor httpContextAccessor,
         IIdGenerator idGenerator)
@@ -56,7 +56,7 @@ public class OAuthController : IDynamicApiController
     [HttpGet("{type}/callback")]
     public async Task<IActionResult> Callback(string type, [FromQuery] string code, [FromQuery] string state)
     {
-        Account account = null;
+        AuthAccount account = null;
         string encode = _idGenerator.Encode(_idGenerator.NewLong());
         switch (type.ToLower())
         {
@@ -75,7 +75,7 @@ public class OAuthController : IDynamicApiController
                         info.Gender == "女" ? Gender.Female : Gender.Unknown;
                     if (account != null)
                     {
-                        await _accountRepository.UpdateAsync(x => new Account()
+                        await _accountRepository.UpdateAsync(x => new AuthAccount()
                         {
                             Avatar = info.Avatar,
                             Name = info.Name,
@@ -85,7 +85,7 @@ public class OAuthController : IDynamicApiController
                     }
                     else
                     {
-                        account = await _accountRepository.InsertReturnEntityAsync(new Account()
+                        account = await _accountRepository.InsertReturnEntityAsync(new AuthAccount()
                         {
                             Gender = gender,
                             Avatar = info.Avatar,
@@ -106,7 +106,7 @@ public class OAuthController : IDynamicApiController
         }
 
         string key = $"{OAuthKey}{encode}";
-        await _easyCachingProvider.SetAsync(key, account ?? new Account(), TimeSpan.FromSeconds(30));
+        await _easyCachingProvider.SetAsync(key, account ?? new AuthAccount(), TimeSpan.FromSeconds(30));
         string url = App.Configuration["oauth:redirect_uri"];
         return new RedirectResult($"{url}/{encode}");
     }
@@ -120,7 +120,7 @@ public class OAuthController : IDynamicApiController
     public async Task Login(string code)
     {
         string key = $"{OAuthKey}{code}";
-        var value = await _easyCachingProvider.GetAsync<Account>(key);
+        var value = await _easyCachingProvider.GetAsync<AuthAccount>(key);
         if (value.HasValue)
         {
             throw Oops.Bah("无效参数");
