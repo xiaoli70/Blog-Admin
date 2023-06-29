@@ -106,7 +106,7 @@ public class OAuthController : IDynamicApiController
         }
 
         string key = $"{OAuthKey}{encode}";
-        await _easyCachingProvider.SetAsync(key, account, TimeSpan.FromSeconds(30));
+        await _easyCachingProvider.SetAsync(key, account ?? new Account(), TimeSpan.FromSeconds(30));
         string url = App.Configuration["oauth:redirect_uri"];
         return new RedirectResult($"{url}/{encode}");
     }
