@@ -168,10 +168,13 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted, ref, watch, reactive } from "vue";
+import { onMounted, watch, reactive } from "vue";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import OAuthApi from "@/api/OAuthApi";
 import SearchModel from "../SearchModel.vue";
+import { useRoute } from "vue-router";
+import { Session } from "@/utils/storage";
+const route = useRoute();
 const vm = reactive({
   scrollTop: 0,
   navClass: "nav",
@@ -190,7 +193,7 @@ watch(
 
 const scroll = (): void => {
   vm.scrollTop =
-    window.pageYOffset ||
+    window.scrollY ||
     document.documentElement.scrollTop ||
     document.body.scrollTop;
   vm.navClass = vm.scrollTop > 60 ? "nav-fixed" : "nav";
@@ -201,6 +204,7 @@ const searchModelHandel = () => {
 
 const handleLogin = async () => {
   const { data } = await OAuthApi.get();
+  Session.set("redirect_uri", route.fullPath);
   location.href = data!;
 };
 const handleLoginOut = () => {

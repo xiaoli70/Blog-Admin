@@ -1,4 +1,5 @@
 import http from "@/utils/http";
+import type { OAuthAccountDetailOutput } from "./models";
 
 class OAuthApi {
   /**
@@ -15,6 +16,13 @@ class OAuthApi {
    */
   login = (code: string) => {
     return http.post("/oauth/login/" + code);
+  };
+  /**
+   * 获取用户信息
+   * @returns
+   */
+  info = () => {
+    return http.get<OAuthAccountDetailOutput>("/oauth/userinfo");
   };
 }
 

@@ -1,4 +1,6 @@
-﻿using MrHuo.OAuth.QQ;
+﻿using Easy.Admin.Application.Auth;
+using Easy.Admin.Application.Client.Dtos;
+using MrHuo.OAuth.QQ;
 
 namespace Easy.Admin.Application.Client;
 /// <summary>
@@ -13,19 +15,25 @@ public class OAuthController : IDynamicApiController
     /// </summary>
     private const string OAuthKey = "oauth.";
     private readonly QQOAuth _qqoAuth;
+    private readonly AuthManager _authManager;
     private readonly ISqlSugarRepository<AuthAccount> _accountRepository;
+    private readonly ISqlSugarRepository<FriendLink> _friendLinkRepository;
     private readonly IEasyCachingProvider _easyCachingProvider;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IIdGenerator _idGenerator;
 
     public OAuthController(QQOAuth qqoAuth,
+        AuthManager authManager,
         ISqlSugarRepository<AuthAccount> accountRepository,
+        ISqlSugarRepository<FriendLink> friendLinkRepository,
         IEasyCachingProvider easyCachingProvider,
         IHttpContextAccessor httpContextAccessor,
         IIdGenerator idGenerator)
     {
         _qqoAuth = qqoAuth;
+        _authManager = authManager;
         _accountRepository = accountRepository;
+        _friendLinkRepository = friendLinkRepository;
         _easyCachingProvider = easyCachingProvider;
         _httpContextAccessor = httpContextAccessor;
         _idGenerator = idGenerator;
@@ -139,5 +147,55 @@ public class OAuthController : IDynamicApiController
         // 设置响应报文头
         _httpContextAccessor.HttpContext!.Response.Headers["access-token"] = token;
         _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToken;
+    }
+
+    /// <summary>
+    /// 获取用户信息
+    /// </summary>
+    /// <returns></returns>
+    [Authorize]
+    [HttpGet]
+    public async Task<OAuthAccountDetailOutput> UserInfo()
+    {
+        long id = _authManager.UserId;
+        return await _accountRepository.AsQueryable().LeftJoin<FriendLink>((account, link) => account.Id == link.AppUserId)
+            .Where(account => account.Id == id)
+            .Select((account, link) => new OAuthAccountDetailOutput
+            {
+                Id = account.Id,
+                Avatar = account.Avatar,
+                Status = link.Status,
+                NickName = account.Name,
+                Link = link.Link,
+                Logo = link.Logo,
+                SiteName = link.SiteName,
+                Url = link.Url,
+                Remark = link.Remark
+            }).FirstAsync();
+    }
+
+    /// <summary>
+    /// 申请友链
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [Authorize]
+    public async Task AddLink(AddLinkOutput dto)
+    {
+        long userId = _authManager.UserId;
+
+        var link = await _friendLinkRepository.GetFirstAsync(x => x.AppUserId == userId);
+        if (link == null)
+        {
+            link = dto.Adapt<FriendLink>();
+            link.Status = AvailabilityStatus.Disable;
+            await _friendLinkRepository.InsertAsync(link);
+            return;
+        }
+
+        link = dto.Adapt(link);
+        link.Status = AvailabilityStatus.Disable;
+        await _friendLinkRepository.UpdateAsync(link);
     }
 }

@@ -8,9 +8,19 @@ public class CommentOutput
     public long Id { get; set; }
 
     /// <summary>
+    /// 博主标识
+    /// </summary>
+    public bool IsBlogger { get; set; }
+
+    /// <summary>
     /// 评论人ID
     /// </summary>
     public long AccountId { get; set; }
+
+    /// <summary>
+    /// 昵称
+    /// </summary>
+    public string NickName { get; set; }
 
     /// <summary>
     /// 头像

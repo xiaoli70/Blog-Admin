@@ -228,6 +228,7 @@ import EasyTyper from "easy-typer-js/src/ts";
 import emitter from "@/utils/mitt";
 import Swiper from "../components/Swiper.vue";
 import { useApp } from "@/stores/app";
+import { useAuth } from "@/stores/auth";
 import ArticleApi from "@/api/ArticleApi";
 import dayjs from "dayjs";
 import type {
@@ -236,8 +237,13 @@ import type {
   TalksOutput,
 } from "@/api/models";
 import TalksApi from "@/api/TalksApi";
+import { useRoute, useRouter } from "vue-router";
+import { Session } from "@/utils/storage";
+const router = useRouter();
 const appStore = useApp();
+const route = useRoute();
 const { blogSetting, info } = storeToRefs(appStore);
+const authStore = useAuth();
 // 打字机配置
 const state = reactive({
   report: {} as ArticleReportOutput,
@@ -324,11 +330,21 @@ watch(
 onMounted(async () => {
   new EasyTyper(
     state.print,
-    blogSetting.value.motto! ??
+    blogSetting.value.motto ??
       "虽然人生在世有种种不如意，但你仍可以在幸福与不幸中做选择。-王小波",
     () => {},
     () => {}
   );
+  if (route.params.code) {
+    const success = await authStore.login(route.params.code as string);
+    if (success) {
+      const url = Session.get<string>("redirect_uri");
+      if (url) {
+        Session.remove("redirect_uri");
+        router.push(url);
+      }
+    }
+  }
   const [report, talks] = await Promise.all([
     ArticleApi.report(),
     TalksApi.list({ pageNo: 1, pageSize: 10 }),

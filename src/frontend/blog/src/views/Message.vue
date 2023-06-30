@@ -6,15 +6,15 @@
       <h1 class="message-title">留言板</h1>
       <div class="animated fadeInUp message-input-wrapper">
         <input
-          v-model="messageContent"
-          @click="show = true"
+          v-model="state.content"
+          @click="state.show = true"
           @keyup.enter="addToList"
           placeholder="说点什么吧"
         />
         <button
           class="ml-3 animated bounceInLeft"
           @click="addToList"
-          v-show="show"
+          v-show="state.show"
         >
           发送
         </button>
@@ -24,7 +24,7 @@
     <div class="barrage-container">
       <vue-danmaku
         ref="danmaku"
-        v-model:danmus="danmus"
+        v-model:danmus="state.items"
         useSlot
         loop
         randomChannel
@@ -38,8 +38,8 @@
               height="30"
               style="border-radius: 50%"
             />
-            <span class="ml-2">{{ danmu.nickname }} :</span>
-            <span class="ml-2">{{ danmu.messageContent }}</span>
+            <span class="ml-2">{{ danmu.nickName }} :</span>
+            <span class="ml-2">{{ danmu.content }}</span>
           </span>
         </template>
       </vue-danmaku>
@@ -49,27 +49,59 @@
 <script setup lang="ts">
 //弹幕开源地址：https://github.com/hellodigua/vue-danmaku/tree/vue3
 import vueDanmaku from "vue3-danmaku";
-import { computed, ref, reactive, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { images, messageList } from "../api/data";
-const route = useRoute();
-const messageContent = ref<string>("");
-const show = ref<boolean>(false);
-
-const addToList = (): void => {};
-const barrageList = (): void => {};
-const danmaku = ref(null);
-
-const danmus = reactive(messageList);
-const cover = computed(() => {
-  let cover: string = images.find(
-    (item) => item.pageLabel === route.name
-  )?.pageCover;
-  return "background: url(" + cover + ") center center / cover no-repeat";
+import { computed, ref, reactive, onMounted, nextTick } from "vue";
+import { useApp } from "@/stores/app";
+import { useAuth } from "@/stores/auth";
+import CommentApi from "@/api/CommentApi";
+import { CommentOutput } from "@/api/models";
+import { storeToRefs } from "pinia";
+const appStore = useApp();
+const authStore = useAuth();
+const { info } = storeToRefs(authStore);
+const state = reactive({
+  content: "",
+  items: [] as CommentOutput[],
+  show: false,
 });
 
-onMounted(() => {
-  (danmaku.value as any).play();
+// 发送弹幕
+const addToList = async () => {
+  if (!info.value) {
+    alert("请先登录");
+    return;
+  }
+  const { succeeded } = await CommentApi.add({
+    content: state.content,
+  });
+  if (succeeded) {
+    state.items.push({
+      content: state.content,
+      avatar: authStore.info?.avatar,
+    });
+  }
+};
+// 弹幕实例
+const danmaku = ref(null);
+
+const cover = computed(() => {
+  return (
+    "background: url(" +
+    appStore.messageCover() +
+    ") center center / cover no-repeat"
+  );
+});
+
+onMounted(async () => {
+  const { data, succeeded } = await CommentApi.list({
+    pageNo: 1,
+    pageSize: 1000,
+  });
+  if (succeeded && (data?.rows?.length ?? 0) > 0) {
+    state.items.push(...data!.rows!);
+  }
+  nextTick(() => {
+    (danmaku.value as any).play();
+  });
 });
 </script>
 

@@ -1,5 +1,6 @@
 import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
+import { generateUUID } from "./index";
 export default function markdownToHtml(content: string): string {
   const md = new MarkdownIt({
     html: true,
@@ -7,19 +8,8 @@ export default function markdownToHtml(content: string): string {
     typographer: true,
     breaks: true,
     highlight(str: string, lang: string = "C#"): string {
-      // 当前时间加随机数生成唯一的id标识
-      let d: number = new Date().getTime();
-      if (window.performance && typeof window.performance.now === "function") {
-        d += performance.now();
-      }
-      const codeIndex = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-        /[xy]/g,
-        function (c) {
-          const r: number = (d + Math.random() * 16) % 16 | 0;
-          d = Math.floor(d / 16);
-          return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
-        }
-      );
+      // 生成唯一的id标识
+      const codeIndex = generateUUID();
       // 复制功能主要使用的是 clipboard.js
       let html: string = `<button class="copy-btn iconfont iconfuzhi" type="button" data-clipboard-action="copy" data-clipboard-target="#copy${codeIndex}"></button>`;
       const linesLength: number = str.split(/\n/).length - 1;

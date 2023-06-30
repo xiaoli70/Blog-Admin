@@ -121,6 +121,7 @@ const emit = defineEmits<{
 
 const current = ref<number>(1);
 const changeReplyCurrent = (i: number) => {
+  current.value = i;
   emit("changeReplyCurrent", current.value, props.index, props.commentId);
 };
 const prePage = (): void => {

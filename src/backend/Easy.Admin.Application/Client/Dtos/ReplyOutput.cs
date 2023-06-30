@@ -7,6 +7,14 @@ public class ReplyOutput
     /// </summary>
     public long Id { get; set; }
     /// <summary>
+    /// 评论内容
+    /// </summary>
+    public string Content { get; set; }
+    /// <summary>
+    /// 博主标识
+    /// </summary>
+    public bool IsBlogger { get; set; }
+    /// <summary>
     /// 顶级楼层评论ID
     /// </summary>
     public long? RootId { get; set; }
@@ -38,6 +46,14 @@ public class ReplyOutput
     /// Ip地址
     /// </summary>
     public string IP { get; set; }
+    /// <summary>
+    /// 点赞数量
+    /// </summary>
+    public int PraiseTotal { get; set; }
+    /// <summary>
+    /// 是否已点赞
+    /// </summary>
+    public bool IsPraise { get; set; }
     /// <summary>
     /// Ip所属地
     /// </summary>

@@ -18,6 +18,11 @@ public class AuthAccount : Entity<long>, IUpdatedTime, ISoftDelete, ICreatedTime
     public string Type { get; set; }
 
     /// <summary>
+    /// 博主标识
+    /// </summary>
+    public bool IsBlogger { get; set; }
+
+    /// <summary>
     /// 姓名（昵称）
     /// </summary>
     [SugarColumn(Length = 64)]

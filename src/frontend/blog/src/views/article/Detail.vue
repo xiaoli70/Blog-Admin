@@ -201,7 +201,7 @@
         <hr />
         <!-- 评论 -->
         <Comment
-          :type="1"
+          :type="state.id"
           @getCommentCount="getCommentCount"
           v-if="state.info.isAllowComments && blogSetting.isAllowComments"
         />

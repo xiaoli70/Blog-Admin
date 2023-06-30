@@ -36,28 +36,32 @@
 import { reactive } from "vue";
 import Emoji from "./Emoji.vue";
 import EmojiList from "../assets/emoji";
-const props = defineProps<{
-  type: number;
+interface ReplyInfo {
+  index: number;
+  chooseEmoji: boolean;
+  parentId?: number;
+  nickname?: string;
+  commentContent?: string;
+  visible: boolean;
+}
+const emit = defineEmits<{
+  (e: "submit", index: number): void;
 }>();
-const replay = reactive({
+const replay = reactive<ReplyInfo>({
   index: 0,
   chooseEmoji: false,
-  nickname: "",
-  replyUserId: null,
-  parentId: null,
-  commentContent: "",
   visible: false,
 });
 
 const cancleReply = () => {
-  console.log("aa");
   replay.visible = false;
 };
 
 const insertReply = () => {
+  replay.commentContent = replay.commentContent?.replace(/<[^<>]*>/g, "");
   //解析表情
   var reg = /\[.+?\]/g;
-  replay.commentContent = replay.commentContent.replace(
+  replay.commentContent = replay.commentContent?.replace(
     reg,
     function (str: string) {
       return (
@@ -67,6 +71,7 @@ const insertReply = () => {
       );
     }
   );
+  emit("submit", replay.index);
 };
 
 const addEmoji = (text: string) => {
@@ -74,8 +79,8 @@ const addEmoji = (text: string) => {
 };
 
 defineExpose({
-    replay
-})
+  replay,
+});
 </script>
 
 <style scoped>

@@ -245,52 +245,57 @@
             主键
             </summary>
         </member>
-        <member name="T:Easy.Admin.Core.Entities.Account">
+        <member name="T:Easy.Admin.Core.Entities.AuthAccount">
             <summary>
             博客授权用户
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.OAuthId">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.OAuthId">
             <summary>
             授权唯一标识
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.Type">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Type">
             <summary>
             授权类型
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.Name">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.IsBlogger">
+            <summary>
+            博主标识
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Name">
             <summary>
             姓名（昵称）
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.Gender">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Gender">
             <summary>
             性别
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.Avatar">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Avatar">
             <summary>
             头像
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.Email">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Email">
             <summary>
             邮箱
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.UpdatedTime">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.UpdatedTime">
             <summary>
             更新时间
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.DeleteMark">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.DeleteMark">
             <summary>
             标记删除
             </summary>
         </member>
-        <member name="P:Easy.Admin.Core.Entities.Account.CreatedTime">
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.CreatedTime">
             <summary>
             创建时间
             </summary>
@@ -533,6 +538,61 @@
         <member name="P:Easy.Admin.Core.Entities.Categories.Children">
             <summary>
             子栏目
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.Comments">
+            <summary>
+            评论表
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.ModuleId">
+            <summary>
+             对应模块ID（null表留言，0代表友链的评论）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.RootId">
+            <summary>
+            顶级楼层评论ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.ParentId">
+            <summary>
+            被回复的评论ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.AccountId">
+            <summary>
+            当前评论人ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.ReplyAccountId">
+            <summary>
+            回复人ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.Content">
+            <summary>
+            评论内容
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.IP">
+            <summary>
+            Ip地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.Geolocation">
+            <summary>
+            IP所属地
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.Comments.CreatedTime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="T:Easy.Admin.Core.Entities.CustomConfig">
@@ -1459,6 +1519,63 @@
         <member name="P:Easy.Admin.Core.Shared.TreeSelectOutput.Children">
             <summary>
             子选项
+            </summary>
+        </member>
+        <member name="M:Easy.Core.HttpContextExtension.GetGeolocation(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取Ip所属详细地理位置
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.Ip">
+            <summary>
+            ip
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.Province">
+            <summary>
+            省份
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.ProCode">
+            <summary>
+            省编码
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.CityCode">
+            <summary>
+            城市编码
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.Region">
+            <summary>
+            区域
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.RegionCode">
+            <summary>
+            区编码
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.Address">
+            <summary>
+            IP归属地
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.RegionNames">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Easy.Core.IpInfoDto.Error">
+            <summary>
+            错误信息
             </summary>
         </member>
         <member name="M:Easy.Core.ServiceCollectionExtension.AddCustomOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
