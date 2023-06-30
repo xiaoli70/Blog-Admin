@@ -174,7 +174,7 @@
           />
         </div>
         <!-- 回复框 -->
-        <Reply ref="reply" @reloadReply="reloadReply" />
+        <Reply ref="reply" @submit="reloadReply" />
       </div>
     </div>
     <!-- 加载按钮 -->
@@ -243,9 +243,13 @@ const addEmoji = (key: string): void => {
 };
 
 //提交评论
-const insertComment = (): void => {
+const insertComment = async () => {
   //删除html标签
   state.commentContent = state.commentContent.replace(/<[^<>]*>/g, "");
+  if (state.commentContent.length === 0) {
+    alert("请输入内容");
+    return;
+  }
   const reg: RegExp = /\[.+?\]/g;
   state.commentContent = state.commentContent.replace(
     reg,
@@ -257,6 +261,10 @@ const insertComment = (): void => {
       );
     }
   );
+  const { succeeded } = await CommentApi.add({
+    moduleId: props.type,
+    content: state.commentContent,
+  });
 };
 
 const replyComment = (index: number, item: CommentOutput): void => {
@@ -268,8 +276,17 @@ const replyComment = (index: number, item: CommentOutput): void => {
   reply.value[index].replay.visible = true;
 };
 
-const reloadReply = (): void => {
-  console.log("加载回复");
+const reloadReply = async (index: number) => {
+  const item = reply.value[index].replay;
+  if ((item.commentContent ?? "").length === 0) {
+    alert("请输入内容");
+    return;
+  }
+  const { succeeded } = await CommentApi.add({
+    content: item.commentContent ?? "",
+    parentId: item.parentId,
+    moduleId: props.type,
+  });
 };
 </script>
 
