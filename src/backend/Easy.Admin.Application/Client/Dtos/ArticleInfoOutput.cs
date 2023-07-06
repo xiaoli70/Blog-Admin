@@ -50,6 +50,15 @@ public class ArticleInfoOutput
     /// 转载链接
     /// </summary>
     public string Link { get; set; }
+
+    /// <summary>
+    /// 点赞数量
+    /// </summary>
+    public int PraiseTotal { get; set; }
+    /// <summary>
+    /// 当前用户是否已点赞
+    /// </summary>
+    public bool IsPraise { get; set; }
     /// <summary>
     /// 栏目Id
     /// </summary>

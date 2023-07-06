@@ -47,7 +47,12 @@
             <!-- 说说操作 -->
             <div class="talk-operation">
               <div class="talk-operation-item">
-                <v-icon size="16" class="like-btn"> mdi-thumb-up </v-icon>
+                <v-icon
+                  size="16"
+                  :class="item.isPraise ? 'like-btn-active' : 'like-btn'"
+                >
+                  mdi-thumb-up
+                </v-icon>
                 <div class="operation-count">
                   {{ item.upvote }}
                 </div>

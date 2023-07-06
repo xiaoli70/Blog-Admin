@@ -183,6 +183,17 @@
         加载更多...
       </v-btn>
     </div>
+    <v-snackbar
+      v-model="state.showBar"
+      :timeout="2000"
+      location="center"
+      rounded="pill"
+      position="fixed"
+      color="warning"
+      ariant="text"
+    >
+      {{ state.message }}
+    </v-snackbar>
   </div>
   <!-- 没有评论提示 -->
   <div v-else style="padding: 1.25rem; text-align: center">来发评论吧~</div>
@@ -198,7 +209,7 @@ import EmojiList from "../assets/emoji";
 import CommentApi from "@/api/CommentApi";
 import { CommentOutput } from "@/api/models";
 const props = defineProps<{
-  type?: number;
+  type?: number | string;
 }>();
 
 const emit = defineEmits<{
@@ -213,13 +224,15 @@ const state = reactive({
   commentList: [] as Array<CommentOutput>,
   count: 0,
   pages: 0,
+  showBar: false,
+  message: "",
 });
 
 const reply = ref<Array<InstanceType<typeof Reply>>>([]);
 const loadData = async () => {
   const { data } = await CommentApi.list({
     pageNo: state.current,
-    id: props.type,
+    id: props.type as number,
   });
   state.commentList.push(...(data?.rows ?? []));
   state.count = data?.total ?? 0;
@@ -245,26 +258,25 @@ const addEmoji = (key: string): void => {
 //提交评论
 const insertComment = async () => {
   //删除html标签
-  state.commentContent = state.commentContent.replace(/<[^<>]*>/g, "");
-  if (state.commentContent.length === 0) {
-    alert("请输入内容");
+  const content = formatContent(state.commentContent);
+  if (content.length === 0) {
+    state.message = "请输入内容";
+    state.showBar = true;
     return;
   }
-  const reg: RegExp = /\[.+?\]/g;
-  state.commentContent = state.commentContent.replace(
-    reg,
-    function (str: string) {
-      return (
-        "<img src= '" +
-        EmojiList[str] +
-        "' width='24'height='24' style='margin: 0 1px;vertical-align: text-bottom'/>"
-      );
-    }
-  );
-  const { succeeded } = await CommentApi.add({
-    moduleId: props.type,
-    content: state.commentContent,
+  const { succeeded, statusCode } = await CommentApi.add({
+    moduleId: props.type as number,
+    content,
   });
+  if (statusCode === 401) {
+    state.message = "请登录后再试";
+    state.showBar = true;
+    return;
+  }
+  if (succeeded) {
+    state.commentContent = "";
+    loadData();
+  }
 };
 
 const replyComment = (index: number, item: CommentOutput): void => {
@@ -278,14 +290,32 @@ const replyComment = (index: number, item: CommentOutput): void => {
 
 const reloadReply = async (index: number) => {
   const item = reply.value[index].replay;
-  if ((item.commentContent ?? "").length === 0) {
-    alert("请输入内容");
+  const content = formatContent(item.commentContent ?? "");
+  if (content.length === 0) {
+    state.message = "请输入内容";
+    state.showBar = true;
     return;
   }
   const { succeeded } = await CommentApi.add({
-    content: item.commentContent ?? "",
+    content: content ?? "",
     parentId: item.parentId,
-    moduleId: props.type,
+    moduleId: props.type as number,
+  });
+  if (succeeded) {
+    item.commentContent = "";
+    loadData();
+  }
+};
+// 格式化评论内容
+const formatContent = (content: string) => {
+  content = content.replace(/<[^<>]*>/g, "");
+  const reg: RegExp = /\[.+?\]/g;
+  return content.replace(reg, function (str: string) {
+    return (
+      "<img src= '" +
+      EmojiList[str] +
+      "' width='24'height='24' style='margin: 0 1px;vertical-align: text-bottom'/>"
+    );
   });
 };
 </script>

@@ -85,12 +85,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
 // import AvatarCropper from "vue-avatar-cropper";
 const cover = ref(
   `background: url(https://xiaogerblog.oss-cn-chengdu.aliyuncs.com/config/c796ff3ca8e6a736cae59f8eda6d9948.jpg) center center / cover no-repeat`
 );
 import img from "../assets/images/1.jpg";
+onMounted(()=>{
+  console.log('object');
+})
 </script>
 
 <style scoped lang="scss">

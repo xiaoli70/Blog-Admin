@@ -1,4 +1,5 @@
-﻿using Easy.Admin.Application.Client.Dtos;
+﻿using Easy.Admin.Application.Auth;
+using Easy.Admin.Application.Client.Dtos;
 using Furion.UnifyResult;
 
 namespace Easy.Admin.Application.Client;
@@ -11,14 +12,17 @@ public class ArticleController : IDynamicApiController
 {
     private readonly ISqlSugarRepository<Tags> _tagsRepository;
     private readonly ISqlSugarRepository<Article> _articleRepository;
+    private readonly AuthManager _authManager;
     private readonly ISqlSugarRepository<Categories> _categoryRepository;
 
     public ArticleController(ISqlSugarRepository<Tags> tagsRepository,
         ISqlSugarRepository<Article> articleRepository,
+        AuthManager authManager,
         ISqlSugarRepository<Categories> categoryRepository)
     {
         _tagsRepository = tagsRepository;
         _articleRepository = articleRepository;
+        _authManager = authManager;
         _categoryRepository = categoryRepository;
     }
 
@@ -155,6 +159,7 @@ public class ArticleController : IDynamicApiController
     [HttpGet]
     public async Task<ArticleInfoOutput> Info([FromQuery] long id)
     {
+        long userId = _authManager.UserId;
         var article = await _articleRepository.AsQueryable()
             .LeftJoin<ArticleCategory>((x, ac) => x.Id == ac.ArticleId)
             .InnerJoin<Categories>((x, ac, c) => ac.CategoryId == c.Id && c.Status == AvailabilityStatus.Enable)
@@ -176,6 +181,8 @@ public class ArticleController : IDynamicApiController
                 Link = x.Link,
                 UpdatedTime = x.UpdatedTime,
                 CategoryId = c.Id,
+                PraiseTotal = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id).Count(),
+                IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any()),
                 CategoryName = c.Name,
                 Tags = SqlFunc.Subqueryable<Tags>().InnerJoin<ArticleTag>((tags, at) => tags.Id == at.TagId)
                     .Where((tags, at) => tags.Status == AvailabilityStatus.Enable && at.ArticleId == x.Id)

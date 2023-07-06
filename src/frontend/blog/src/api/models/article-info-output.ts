@@ -69,6 +69,14 @@ export interface ArticleInfoOutput {
    */
   categoryId?: number;
   /**
+   * 点赞数量
+   */
+  praiseTotal?: number;
+  /**
+   * 当前用户是否已点赞
+   */
+  isPraise?: boolean;
+  /**
    * 栏目名称
    * @type {string}
    * @memberof ArticleInfoOutput

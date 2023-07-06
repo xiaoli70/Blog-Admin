@@ -54,7 +54,9 @@
           </span>
           <span class="separator">|</span>
           <!-- 评论量 -->
-          <span> <i class="iconfont iconpinglunzu1" />评论数: {{ 556 }} </span>
+          <span>
+            <i class="iconfont iconpinglunzu1" />评论数: {{ commentCount }}
+          </span>
         </div>
       </div>
     </div>
@@ -121,7 +123,10 @@
         <!-- 点赞打赏等 -->
         <div class="article-reward">
           <!-- 点赞按钮 -->
-          <a class="like-btn-active">
+          <a
+            :class="state.info.isPraise ? 'like-btn-active' : 'like-btn'"
+            @click="onPraise"
+          >
             <!-- <i class="iconfont mdi-thumb-up"></i> -->
             <v-icon size="14" color="#fff" icon="mdi-thumb-up" /> 点赞
             <span v-show="article.likeCount > 0">{{ article.likeCount }}</span>
@@ -263,6 +268,17 @@
             </div>
           </div>
         </v-card>
+        <v-snackbar
+          v-model="state.showBar"
+          :timeout="2000"
+          location="center"
+          rounded="pill"
+          position="fixed"
+          color="warning"
+          ariant="text"
+        >
+          {{ state.message }}
+        </v-snackbar>
       </div>
     </v-col>
   </v-row>
@@ -286,6 +302,7 @@ import { ShareType } from "../../components/Share/ShareType";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import type { ArticleBasicsOutput, ArticleInfoOutput } from "@/api/models";
+import CommentApi from "@/api/CommentApi";
 const appStore = useApp();
 const { blogSetting } = storeToRefs(appStore);
 const route = useRoute();
@@ -293,6 +310,8 @@ const state = reactive({
   id: 0,
   info: {} as ArticleInfoOutput,
   latest: [] as ArticleBasicsOutput[],
+  showBar: false,
+  message: "",
 });
 let clipboard: Clipboard | null = null; //ref<Clipboard>();
 let viewer: Viewer | null = null;
@@ -307,6 +326,7 @@ const cover = computed(() => {
 const link = computed(() => {
   return state.info.creationType === 0 ? location.href : state.info.link;
 });
+// 评论数量
 const commentCount = ref<number>(0);
 const getCommentCount = (count: number) => {
   commentCount.value = count;
@@ -328,6 +348,22 @@ const textTotal = computed(() => {
 const isFull = computed(() => {
   return (id?: number) => (id ? "post full" : "post");
 });
+
+// 点赞
+const onPraise = async () => {
+  const { succeeded, statusCode } = state.info.isPraise
+    ? await CommentApi.cancelPraise(state.info.id!)
+    : await CommentApi.praise(state.info.id!);
+  console.log(succeeded, statusCode);
+  if (statusCode === 401) {
+    state.message = "请登录后再试";
+    state.showBar = true;
+    return false;
+  }
+  if (succeeded) {
+    state.info.isPraise = !state.info.isPraise;
+  }
+};
 onMounted(async () => {
   state.id = route.params.id as never as number;
   const [first, last] = await Promise.all([
@@ -369,7 +405,7 @@ onMounted(async () => {
     // isShow.value = true;
   });
 });
-//下载相关组件
+//卸载相关组件
 onUnmounted(() => {
   clipboard?.destroy();
   viewer?.destroy();

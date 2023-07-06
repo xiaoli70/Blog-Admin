@@ -1,5 +1,5 @@
 import http from "@/utils/http";
-import type { OAuthAccountDetailOutput } from "./models";
+import type { AddLinkOutput, OAuthAccountDetailOutput } from "./models";
 
 class OAuthApi {
   /**
@@ -23,6 +23,15 @@ class OAuthApi {
    */
   info = () => {
     return http.get<OAuthAccountDetailOutput>("/oauth/userinfo");
+  };
+
+  /**
+   * 申请友链
+   * @param data
+   * @returns
+   */
+  addLink = (data: AddLinkOutput) => {
+    return http.post("/oauth/link", data);
   };
 }
 

@@ -25,6 +25,10 @@ public class TalksPageOutput
     /// </summary>
     public bool IsAllowComments { get; set; }
     /// <summary>
+    /// 是否已点赞
+    /// </summary>
+    public bool IsPraise { get; set; }
+    /// <summary>
     /// 是否置顶
     /// </summary>
     public bool IsTop { get; set; }

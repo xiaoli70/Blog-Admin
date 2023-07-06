@@ -1,6 +1,5 @@
 ﻿using Easy.Admin.Application.Auth;
 using Easy.Admin.Application.Client.Dtos;
-using Easy.Admin.Core.Entities;
 
 namespace Easy.Admin.Application.Client;
 
@@ -11,13 +10,16 @@ namespace Easy.Admin.Application.Client;
 public class CommentController : IDynamicApiController
 {
     private readonly ISqlSugarRepository<Comments> _repository;
+    private readonly ISqlSugarRepository<Praise> _praiseRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly AuthManager _authManager;
 
     public CommentController(ISqlSugarRepository<Comments> repository,
+        ISqlSugarRepository<Praise> praiseRepository,
         IHttpContextAccessor httpContextAccessor, AuthManager authManager)
     {
         _repository = repository;
+        _praiseRepository = praiseRepository;
         _httpContextAccessor = httpContextAccessor;
         _authManager = authManager;
     }
@@ -108,5 +110,36 @@ public class CommentController : IDynamicApiController
         comments.IP = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4();
         comments.Geolocation = address;
         await _repository.InsertAsync(comments);
+    }
+
+    /// <summary>
+    /// 点赞
+    /// </summary>
+    /// <param name="dto">对象ID</param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task Praise(KeyDto dto)
+    {
+        var praise = new Praise()
+        {
+            AccountId = _authManager.UserId,
+            ObjectId = dto.Id,
+        };
+        await _praiseRepository.InsertAsync(praise);
+    }
+
+    /// <summary>
+    /// 取消点赞
+    /// </summary>
+    /// <param name="dto">对象ID</param>
+    /// <returns></returns>
+    [HttpDelete]
+    public async Task CancelPraise(KeyDto dto)
+    {
+        bool success = await _praiseRepository.DeleteAsync(x => x.ObjectId == dto.Id);
+        if (!success)
+        {
+            throw Oops.Oh("取消点赞出错了！");
+        }
     }
 }

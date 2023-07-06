@@ -30,6 +30,23 @@ class CommentApi {
   add = (data: AddCommentInput) => {
     return http.post("/comment", data);
   };
+
+  /**
+   * 点赞
+   * @param id 对象ID
+   * @returns
+   */
+  praise = (id: number) => {
+    return http.post("/comment/praise", { id: id });
+  };
+  /**
+   * 取消点赞
+   */
+  cancelPraise = (id: number) => {
+    return http.delete("/comment/cancelpraise", {
+      data: { id },
+    });
+  };
 }
 
 export default new CommentApi();

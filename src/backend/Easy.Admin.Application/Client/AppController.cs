@@ -1,4 +1,5 @@
-﻿using Easy.Admin.Application.Client.Dtos;
+﻿using Easy.Admin.Application.Auth;
+using Easy.Admin.Application.Client.Dtos;
 using Easy.Admin.Application.Config;
 
 namespace Easy.Admin.Application.Client;
@@ -11,14 +12,17 @@ public class AppController : IDynamicApiController
 {
     private readonly CustomConfigService _customConfigService;
     private readonly ISqlSugarRepository<Albums> _albumsRepository;
+    private readonly AuthManager _authManager;
     private readonly ISqlSugarRepository<FriendLink> _linkRepository;
 
     public AppController(CustomConfigService customConfigService,
         ISqlSugarRepository<Albums> albumsRepository,
+        AuthManager authManager,
         ISqlSugarRepository<FriendLink> linkRepository)
     {
         _customConfigService = customConfigService;
         _albumsRepository = albumsRepository;
+        _authManager = authManager;
         _linkRepository = linkRepository;
     }
 

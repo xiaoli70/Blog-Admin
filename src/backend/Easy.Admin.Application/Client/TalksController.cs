@@ -33,8 +33,8 @@ public class TalksController : IDynamicApiController
                   IsTop = x.IsTop,
                   Content = x.Content,
                   Images = x.Images,
-                  Upvote = 0,
-                  Comments = 0,
+                  Upvote = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id).Count(),
+                  Comments = SqlFunc.Subqueryable<Comments>().Where(c => c.ModuleId == x.Id).Count(),
                   CreatedTime = x.CreatedTime
               }).ToPagedListAsync(dto);
     }

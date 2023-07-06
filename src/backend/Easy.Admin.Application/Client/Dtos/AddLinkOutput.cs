@@ -22,6 +22,7 @@ public class AddLinkOutput
     /// </summary>
     [MaxLength(256, ErrorMessage = "Logo限制256个字符内")]
     [DataValidation(ValidationTypes.Url, ErrorMessage = "链接不符合规范")]
+    [Required(ErrorMessage = "请输入您的Logo地址")]
     public string Logo { get; set; }
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using Easy.Admin.Application.Blog.Dtos;
+﻿using Easy.Admin.Application.Auth;
+using Easy.Admin.Application.Blog.Dtos;
 
 namespace Easy.Admin.Application.Blog;
 
@@ -8,10 +9,12 @@ namespace Easy.Admin.Application.Blog;
 public class TalksService : BaseService<Talks>
 {
     private readonly ISqlSugarRepository<Talks> _repository;
+    private readonly AuthManager _authManager;
 
-    public TalksService(ISqlSugarRepository<Talks> repository) : base(repository)
+    public TalksService(ISqlSugarRepository<Talks> repository, AuthManager authManager) : base(repository)
     {
         _repository = repository;
+        _authManager = authManager;
     }
 
     /// <summary>
@@ -23,6 +26,7 @@ public class TalksService : BaseService<Talks>
     [HttpGet]
     public async Task<PageResult<TalksPageOutput>> Page([FromQuery] TalksPageQueryInput dto)
     {
+        long userId = _authManager.UserId;
         return await _repository.AsQueryable()
               .WhereIF(!string.IsNullOrWhiteSpace(dto.Keyword), x => x.Content.Contains(dto.Keyword))
               .OrderByDescending(x => x.Id)
@@ -34,6 +38,7 @@ public class TalksService : BaseService<Talks>
                   Images = x.Images,
                   IsAllowComments = x.IsAllowComments,
                   IsTop = x.IsTop,
+                  IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any()),
                   CreatedTime = x.CreatedTime
               }).ToPagedListAsync(dto);
     }

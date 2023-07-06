@@ -148,9 +148,8 @@ class Axios {
         // });
         if (data.statusCode === 401) {
           clearAccessTokens();
-          window.location.href = "/"; // 去登录页
         }
-        return Promise.reject(new Error(data.errors || "Error"));
+        return data;
       },
       (err: any) => {
         // 这里用来处理http常见错误，进行全局提示

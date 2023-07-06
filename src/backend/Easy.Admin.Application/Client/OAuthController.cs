@@ -7,7 +7,6 @@ namespace Easy.Admin.Application.Client;
 /// 第三方授权登录
 /// </summary>
 [ApiDescriptionSettings("博客前端接口")]
-[AllowAnonymous]
 public class OAuthController : IDynamicApiController
 {
     /// <summary>
@@ -45,6 +44,7 @@ public class OAuthController : IDynamicApiController
     /// <param name="type"></param>
     /// <returns></returns>
     [HttpGet("{type}")]
+    [AllowAnonymous]
     public string Get(string type)
     {
         return type.ToLower() switch
@@ -62,50 +62,44 @@ public class OAuthController : IDynamicApiController
     /// <param name="state"></param>
     /// <returns></returns>
     [HttpGet("{type}/callback")]
+    [AllowAnonymous]
     public async Task<IActionResult> Callback(string type, [FromQuery] string code, [FromQuery] string state)
     {
-        AuthAccount account = null;
+        AuthAccount account;
         string encode = _idGenerator.Encode(_idGenerator.NewLong());
         switch (type.ToLower())
         {
             case "qq":
-                try
+                var auth = await _qqoAuth.AuthorizeCallback(code, state ?? "");
+                if (!auth.IsSccess)
                 {
-                    var auth = await _qqoAuth.AuthorizeCallback(code, state ?? "");
-                    if (!auth.IsSccess)
-                    {
-                        throw Oops.Bah(auth.ErrorMessage);
-                    }
-                    var info = auth.UserInfo;
-                    string openId = await _qqoAuth.GetOpenId(auth.AccessToken.AccessToken);
-                    account = await _accountRepository.AsQueryable().FirstAsync(x => x.OAuthId == openId && SqlFunc.ToLower(x.Type) == "qq");
-                    var gender = info.Gender == "男" ? Gender.Male :
-                        info.Gender == "女" ? Gender.Female : Gender.Unknown;
-                    if (account != null)
-                    {
-                        await _accountRepository.UpdateAsync(x => new AuthAccount()
-                        {
-                            Avatar = info.Avatar,
-                            Name = info.Name,
-                            Gender = gender
-                        },
-                            x => x.OAuthId == openId && SqlFunc.ToLower(x.Type) == "qq");
-                    }
-                    else
-                    {
-                        account = await _accountRepository.InsertReturnEntityAsync(new AuthAccount()
-                        {
-                            Gender = gender,
-                            Avatar = info.Avatar,
-                            Name = info.Name,
-                            OAuthId = openId,
-                            Type = "QQ"
-                        });
-                    }
+                    throw Oops.Bah(auth.ErrorMessage);
                 }
-                catch (Exception e)
+                var info = auth.UserInfo;
+                string openId = await _qqoAuth.GetOpenId(auth.AccessToken.AccessToken);
+                account = await _accountRepository.AsQueryable().FirstAsync(x => x.OAuthId == openId && SqlFunc.ToLower(x.Type) == "qq");
+                var gender = info.Gender == "男" ? Gender.Male :
+                    info.Gender == "女" ? Gender.Female : Gender.Unknown;
+                if (account != null)
                 {
-
+                    await _accountRepository.UpdateAsync(x => new AuthAccount()
+                    {
+                        Avatar = info.Avatar,
+                        Name = info.Name,
+                        Gender = gender
+                    },
+                        x => x.OAuthId == openId && SqlFunc.ToLower(x.Type) == "qq");
+                }
+                else
+                {
+                    account = await _accountRepository.InsertReturnEntityAsync(new AuthAccount()
+                    {
+                        Gender = gender,
+                        Avatar = info.Avatar,
+                        Name = info.Name,
+                        OAuthId = openId,
+                        Type = "QQ"
+                    });
                 }
                 break;
 
@@ -114,7 +108,7 @@ public class OAuthController : IDynamicApiController
         }
 
         string key = $"{OAuthKey}{encode}";
-        await _easyCachingProvider.SetAsync(key, account ?? new AuthAccount(), TimeSpan.FromSeconds(30));
+        await _easyCachingProvider.SetAsync(key, account, TimeSpan.FromSeconds(30));
         string url = App.Configuration["oauth:redirect_uri"];
         return new RedirectResult($"{url}/{encode}");
     }
@@ -124,7 +118,8 @@ public class OAuthController : IDynamicApiController
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
-    [HttpPost("{code}")]
+    [HttpPost("login/{code}")]
+    [AllowAnonymous]
     public async Task Login(string code)
     {
         string key = $"{OAuthKey}{code}";
@@ -153,7 +148,6 @@ public class OAuthController : IDynamicApiController
     /// 获取用户信息
     /// </summary>
     /// <returns></returns>
-    [Authorize]
     [HttpGet]
     public async Task<OAuthAccountDetailOutput> UserInfo()
     {
@@ -180,7 +174,6 @@ public class OAuthController : IDynamicApiController
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPost]
-    [Authorize]
     public async Task AddLink(AddLinkOutput dto)
     {
         long userId = _authManager.UserId;
