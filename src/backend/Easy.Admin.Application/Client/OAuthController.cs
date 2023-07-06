@@ -124,7 +124,7 @@ public class OAuthController : IDynamicApiController
     {
         string key = $"{OAuthKey}{code}";
         var value = await _easyCachingProvider.GetAsync<AuthAccount>(key);
-        if (value.HasValue)
+        if (!value.HasValue)
         {
             throw Oops.Bah("无效参数");
         }
