@@ -108,7 +108,7 @@
           留言
         </router-link>
       </div>
-      <div v-if="!isLogin" class="menus-item">
+      <div v-if="!authStore.info" class="menus-item">
         <!-- <a><i class="iconfont icondenglu" /> 登录 </a> -->
         <a @click="handleLogin">
           <!-- <i class="iconfont iconqq" />  -->
@@ -135,17 +135,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { reactive } from "vue";
 import { storeToRefs } from "pinia";
 import emitter from "@/utils/mitt";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import { useApp } from "@/stores/app";
+import { useAuth } from "@/stores/auth";
 import OAuthApi from "@/api/OAuthApi";
 import type { ArticleReportOutput } from "@/api/models";
 import { Session } from "@/utils/storage";
 import { useRoute } from "vue-router";
 const route = useRoute();
-const isLogin = ref(false);
+const authStore = useAuth();
 const { drawer } = storeToRefs(useDrawerSettingStore());
 const { blogSetting, info } = storeToRefs(useApp());
 
@@ -160,7 +161,7 @@ const handleLogin = async () => {
   location.href = data!;
 };
 const handleLoginOut = () => {
-  isLogin.value = false;
+  authStore.logout();
 };
 
 emitter.on("report", (payload) => {

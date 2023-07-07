@@ -129,7 +129,9 @@
           >
             <!-- <i class="iconfont mdi-thumb-up"></i> -->
             <v-icon size="14" color="#fff" icon="mdi-thumb-up" /> 点赞
-            <span v-show="article.likeCount > 0">{{ article.likeCount }}</span>
+            <span v-show="state.info.praiseTotal ?? 0 > 0">{{
+              state.info.praiseTotal
+            }}</span>
           </a>
           <a class="reward-btn" v-if="blogSetting.isRewards">
             <!-- 打赏按钮 -->
@@ -178,7 +180,7 @@
         <!-- 推荐文章 -->
         <div
           class="recommend-container"
-          v-if="article.recommendArticleList.length"
+          v-if="(state.info.random?.length ?? 0) > 0"
         >
           <div class="recommend-title" v-if="state.info.random">
             <v-icon size="20" color="#4c4948">mdi-thumb-up</v-icon> 相关推荐
@@ -290,7 +292,6 @@ import hljs from "highlight.js";
 import { computed, ref, reactive, onMounted, onUnmounted, nextTick } from "vue";
 import ArticleApi from "@/api/ArticleApi";
 import { useApp } from "@/stores/app";
-import { article } from "../../api/data";
 import markdownToHtml from "../../utils/markdown";
 import Clipboard from "clipboard";
 import Viewer from "viewerjs";

@@ -84,7 +84,7 @@ public class OAuthController : IDynamicApiController
                 {
                     await _accountRepository.UpdateAsync(x => new AuthAccount()
                     {
-                        Avatar = info.Avatar,
+                        Avatar = info.QQAvatar,
                         Name = info.Name,
                         Gender = gender
                     },

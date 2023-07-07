@@ -129,7 +129,7 @@
         </div>
         <div class="menus-item">
           <!-- <a class="menu-btn"> <i class="iconfont icondenglu" /> 登录 </a> -->
-          <a v-if="!vm.isLogin" @click="handleLogin" class="menu-btn">
+          <a v-if="!authStore.info" @click="handleLogin" class="menu-btn">
             <!-- <i class="iconfont iconqq" />  -->
             <v-icon size="small">mdi mdi-qqchat</v-icon>
             登录
@@ -174,6 +174,8 @@ import OAuthApi from "@/api/OAuthApi";
 import SearchModel from "../SearchModel.vue";
 import { useRoute } from "vue-router";
 import { Session } from "@/utils/storage";
+import { useAuth } from "@/stores/auth";
+const authStore = useAuth();
 const route = useRoute();
 const vm = reactive({
   scrollTop: 0,
@@ -208,7 +210,7 @@ const handleLogin = async () => {
   location.href = data!;
 };
 const handleLoginOut = () => {
-  vm.isLogin = false;
+  authStore.logout();
 };
 onMounted(() => {
   window.addEventListener("scroll", scroll);

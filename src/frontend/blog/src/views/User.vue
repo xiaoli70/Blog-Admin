@@ -32,8 +32,8 @@
               color="primary"
               density="compact"
               hint="您的昵称"
-              v-bind="info?.nickName"
               :disabled="true"
+              :model-value="info?.nickName"
             />
             <v-text-field
               class="mt-3"
@@ -150,11 +150,11 @@ const state = reactive({
   form: false,
   loading: false,
   link: {
-    siteName: info.value?.siteName ?? "",
-    url: info.value?.url ?? "",
-    link: info.value?.link ?? "",
-    remark: info.value?.remark ?? "",
-    logo: info.value?.logo ?? "",
+    // siteName: info.value?.siteName ?? "",
+    // url: info.value?.url ?? "",
+    // link: info.value?.link ?? "",
+    // remark: info.value?.remark ?? "",
+    // logo: info.value?.logo ?? "",
   } as AddLinkOutput,
   message: "",
   showBar: false,
