@@ -111,7 +111,6 @@
                 type="submit"
                 variant="outlined"
                 color="success"
-                :disabled="!state.form"
                 :loading="state.loading"
                 >提交</v-btn
               >

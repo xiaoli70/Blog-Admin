@@ -198,19 +198,19 @@
         加载更多...
       </v-btn>
     </div>
-    <v-snackbar
-      v-model="state.showBar"
-      :timeout="2000"
-      location="top"
-      position="fixed"
-      color="warning"
-      ariant="text"
-    >
-      {{ state.message }}
-    </v-snackbar>
   </div>
   <!-- 没有评论提示 -->
   <div v-else style="padding: 1.25rem; text-align: center">来发评论吧~</div>
+  <v-snackbar
+    v-model="state.showBar"
+    :timeout="2000"
+    location="top"
+    position="fixed"
+    color="warning"
+    ariant="text"
+  >
+    {{ state.message }}
+  </v-snackbar>
 </template>
 
 <script setup lang="ts">

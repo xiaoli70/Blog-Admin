@@ -138,7 +138,7 @@
           <template v-else>
             <img
               class="user-avatar"
-              :src="require('../../assets/images/1.jpg')"
+              :src="info?.avatar!"
               height="30"
               width="30"
             />
@@ -186,6 +186,7 @@ const vm = reactive({
 });
 const store = useDrawerSettingStore();
 const { drawer } = storeToRefs(store);
+const { info } = storeToRefs(authStore);
 watch(
   () => vm.scrollTop,
   (n, o) => {
