@@ -70,17 +70,21 @@
               (item.isPraise ? 'like-active' : 'like') /**模拟点赞 */ +
               ' iconfont icondianzan'
             "
+            @click="onPraise(item)"
           />
-          <span v-show="item.praiseTotal ?? 0 > 0">
+          <span v-show="(item.praiseTotal ?? 0) > 0">
             {{ item.praiseTotal }}</span
           >
           <!-- 回复 -->
-          <span class="reply-btn" @click="replyComment(index, item)">
+          <span class="reply-btn" @click="replyComment(index, item, item.id)">
             回复
           </span>
         </div>
         <!-- 评论内容 -->
-        <p v-html="item.content" class="comment-content"></p>
+        <p
+          v-html="formatContent(item.content ?? '', true)"
+          class="comment-content"
+        ></p>
         <!-- 回复人 -->
         <div
           style="display: flex"
@@ -94,7 +98,7 @@
           <div class="reply-meta">
             <!-- 用户名 -->
             <div class="comment-user">
-              <span>{{ reply.nikeName }}</span>
+              <span>{{ reply.nickName }}</span>
               <!-- <span v-if="!reply.webSite">{{ reply.nickname }}</span>
               <a v-else :href="reply.webSite" target="_blank">
                 {{ reply.nickname }}
@@ -110,23 +114,27 @@
               <!-- 点赞 -->
               <span
                 :class="
-                  (reply.isPraise ? 'like-active' : 'like') /**模拟点赞 */ +
+                  (reply.isPraise ? 'like-active' : 'like') +
                   ' iconfont icondianzan'
                 "
+                @click="onPraise(reply)"
               />
-              <span v-show="reply.praiseTotal ?? 0 > 0">
+              <span v-show="(reply.praiseTotal ?? 0) > 0">
                 {{ reply.praiseTotal }}</span
               >
               <!-- 回复 -->
-              <span class="reply-btn" @click="replyComment(index, reply)">
+              <span
+                class="reply-btn"
+                @click="replyComment(index, reply, item.id)"
+              >
                 回复
               </span>
             </div>
             <!-- 回复内容 -->
             <p class="comment-content">
               <!-- 回复用户名 -->
-              <template v-if="reply.replyAccountId != item.accountId">
-                <span>{{ reply.relyNikeName }}</span>
+              <template v-if="reply.replyAccountId === item.accountId">
+                <span>{{ reply.relyNickName }}</span>
                 <!-- <span v-if="!reply.replyWebSite" class="ml-1">
                   @{{ reply.replyNickname }}
                 </span>
@@ -140,7 +148,7 @@
                 </a> -->
                 ，
               </template>
-              <span v-html="reply.content" />
+              <span v-html="formatContent(reply.content ?? '', true)" />
             </p>
           </div>
         </div>
@@ -148,19 +156,25 @@
         <div
           class="mb-3"
           style="font-size: 0.75rem; color: #6d757a"
-          v-show="item.replyCount ?? 0 > 5"
+          v-show="(item.replyCount ?? 0) > 0 && item.replyList?.pageNo === 0"
           ref="check"
         >
           共
           <b>{{ item.replyCount }}</b>
           条回复，
-          <span style="color: #00a1d6; cursor: pointer"> 点击查看 </span>
+          <span
+            style="color: #00a1d6; cursor: pointer"
+            @click="changeReplyCurrent(1, index, item.id!)"
+          >
+            点击查看
+          </span>
         </div>
         <!-- 回复分页 -->
         <div
           class="mb-3"
-          style="font-size: 0.75rem; color: #222; display: none"
+          style="font-size: 0.75rem; color: #222"
           ref="paging"
+          v-if="(item.replyList?.pages ?? 0) > 1"
         >
           <span style="padding-right: 10px">
             共{{ item.replyList?.pages }}页
@@ -171,6 +185,7 @@
             :index="index"
             :commentId="item.id!"
             @changeReplyCurrent="changeReplyCurrent"
+            style="display: inline-block"
           />
         </div>
         <!-- 回复框 -->
@@ -179,15 +194,14 @@
     </div>
     <!-- 加载按钮 -->
     <div class="load-wrapper">
-      <v-btn outlined v-if="state.pages > state.current" @click="loadData">
+      <v-btn outlined v-if="state.pages > state.current" @click="onMore">
         加载更多...
       </v-btn>
     </div>
     <v-snackbar
       v-model="state.showBar"
       :timeout="2000"
-      location="center"
-      rounded="pill"
+      location="top"
       position="fixed"
       color="warning"
       ariant="text"
@@ -207,7 +221,7 @@ import Reply from "./Replay.vue";
 import Paging from "./Paging.vue";
 import EmojiList from "../assets/emoji";
 import CommentApi from "@/api/CommentApi";
-import { CommentOutput } from "@/api/models";
+import type { CommentOutput, ReplyOutput } from "@/api/models";
 const props = defineProps<{
   type?: number | string;
 }>();
@@ -234,21 +248,35 @@ const loadData = async () => {
     pageNo: state.current,
     id: props.type as number,
   });
-  state.commentList.push(...(data?.rows ?? []));
+  if (state.current === 1) {
+    state.commentList = data?.rows ?? [];
+  } else {
+    state.commentList.push(...(data?.rows ?? []));
+  }
   state.count = data?.total ?? 0;
   state.pages = data?.pages ?? 0;
   emit("getCommentCount", state.count);
 };
-onMounted(async () => {
+const onMore = async () => {
+  state.current++;
   await loadData();
-});
+};
 
-const changeReplyCurrent = (
+const changeReplyCurrent = async (
   current: number,
   index: number,
   commentId: number
-): void => {
-  console.log("查看下一条回复");
+) => {
+  const item = state.commentList.find((item) => item.id == commentId);
+  item!.replyList!.pageNo = current;
+  const { data, succeeded } = await CommentApi.replyList({
+    id: commentId,
+    pageNo: current,
+    pageSize: 5,
+  });
+  if (succeeded && data) {
+    item!.replyList = data;
+  }
 };
 
 const addEmoji = (key: string): void => {
@@ -264,25 +292,44 @@ const insertComment = async () => {
     state.showBar = true;
     return;
   }
-  const { succeeded, statusCode } = await CommentApi.add({
+  const { succeeded, statusCode, errors } = await CommentApi.add({
     moduleId: props.type as number,
     content,
   });
-  if (statusCode === 401) {
-    state.message = "请登录后再试";
-    state.showBar = true;
-    return;
-  }
   if (succeeded) {
     state.commentContent = "";
+    state.current = 1;
     loadData();
+  } else {
+    state.message =
+      statusCode === 401 ? "请登录后再试" : errors ?? "糟糕！出错了...";
+    state.showBar = true;
   }
 };
 
-const replyComment = (index: number, item: CommentOutput): void => {
+// 点赞或取消点赞
+const onPraise = async (item: ReplyOutput) => {
+  const { succeeded } = item.isPraise
+    ? await CommentApi.cancelPraise(item.id!)
+    : await CommentApi.praise(item.id!);
+  if (succeeded) {
+    item.isPraise = !item.isPraise;
+    item.praiseTotal = item.isPraise
+      ? item.praiseTotal! + 1
+      : item.praiseTotal! - 1;
+  }
+};
+
+const replyComment = (
+  index: number,
+  item: CommentOutput,
+  rootId?: number
+): void => {
   reply.value[index].replay.commentContent = "";
   reply.value[index].replay.nickname = item.nickName!;
-  reply.value[index].replay.parentId = state.commentList[index].id;
+  reply.value[index].replay.parentId = item.id!;
+  reply.value[index].replay.rootId = rootId;
+  reply.value[index].replay.replyAccountId = item.accountId;
   reply.value[index].replay.chooseEmoji = false;
   reply.value[index].replay.index = index;
   reply.value[index].replay.visible = true;
@@ -296,19 +343,35 @@ const reloadReply = async (index: number) => {
     state.showBar = true;
     return;
   }
-  const { succeeded } = await CommentApi.add({
+
+  const { succeeded, statusCode, errors } = await CommentApi.add({
     content: content ?? "",
     parentId: item.parentId,
     moduleId: props.type as number,
+    rootId: item.rootId,
+    replyAccountId: item.replyAccountId,
   });
   if (succeeded) {
     item.commentContent = "";
-    loadData();
+    reply.value[index].replay.visible = false;
+    await changeReplyCurrent(1, index, item.rootId!);
+  } else {
+    state.message =
+      statusCode === 401 ? "请登录后再试" : errors ?? "糟糕！出错了...";
+    state.showBar = true;
   }
 };
+
+onMounted(async () => {
+  await loadData();
+});
+
 // 格式化评论内容
-const formatContent = (content: string) => {
+const formatContent = (content: string, isHandleEmoji: boolean = false) => {
   content = content.replace(/<[^<>]*>/g, "");
+  if (!isHandleEmoji) {
+    return content;
+  }
   const reg: RegExp = /\[.+?\]/g;
   return content.replace(reg, function (str: string) {
     return (

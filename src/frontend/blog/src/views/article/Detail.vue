@@ -363,6 +363,9 @@ const onPraise = async () => {
   }
   if (succeeded) {
     state.info.isPraise = !state.info.isPraise;
+    state.info.praiseTotal = state.info.isPraise
+      ? state.info.praiseTotal! + 1
+      : state.info.praiseTotal! - 1;
   }
 };
 onMounted(async () => {

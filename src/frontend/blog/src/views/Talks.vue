@@ -296,7 +296,13 @@ onMounted(async () => {
   background-color: #49b1f5;
   color: #fff;
 }
+.like-btn {
+  color: #b3b3b3;
+}
 .like-btn:hover {
+  color: #eb5055 !important;
+}
+.like-btn-active {
   color: #eb5055 !important;
 }
 </style>

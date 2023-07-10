@@ -62,13 +62,13 @@ export interface ReplyOutput {
    * @type {string}
    * @memberof ReplyOutput
    */
-  nikeName?: string | null;
+  nickName?: string | null;
   /**
    * 回复人昵称
    * @type {string}
    * @memberof ReplyOutput
    */
-  relyNikeName?: string | null;
+  relyNickName?: string | null;
   /**
    * 当前评论人头像
    * @type {string}

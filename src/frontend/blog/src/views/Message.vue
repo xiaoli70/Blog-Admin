@@ -26,7 +26,7 @@
         ref="danmaku"
         v-model:danmus="state.items"
         useSlot
-        loop
+        :loop="loop"
         randomChannel
         :speeds="150"
       >
@@ -44,12 +44,22 @@
         </template>
       </vue-danmaku>
     </div>
+    <v-snackbar
+      v-model="state.showBar"
+      :timeout="2000"
+      location="top"
+      position="fixed"
+      color="warning"
+      ariant="text"
+    >
+      {{ state.message }}
+    </v-snackbar>
   </div>
 </template>
 <script setup lang="ts">
 //弹幕开源地址：https://github.com/hellodigua/vue-danmaku/tree/vue3
 import vueDanmaku from "vue3-danmaku";
-import { computed, ref, reactive, onMounted, nextTick } from "vue";
+import { computed, ref, reactive, onMounted } from "vue";
 import { useApp } from "@/stores/app";
 import { useAuth } from "@/stores/auth";
 import CommentApi from "@/api/CommentApi";
@@ -62,12 +72,15 @@ const state = reactive({
   content: "",
   items: [] as CommentOutput[],
   show: false,
+  showBar: false,
+  message: "",
 });
 
 // 发送弹幕
 const addToList = async () => {
   if (!info.value) {
-    alert("请先登录");
+    state.message = "请先登录";
+    state.showBar = true;
     return;
   }
   const { succeeded } = await CommentApi.add({
@@ -81,7 +94,7 @@ const addToList = async () => {
   }
 };
 // 弹幕实例
-const danmaku = ref(null);
+const danmaku = ref<any>(null);
 
 const cover = computed(() => {
   return (
@@ -89,6 +102,11 @@ const cover = computed(() => {
     appStore.messageCover() +
     ") center center / cover no-repeat"
   );
+});
+
+// 循环播放
+const loop = computed(() => {
+  return state.items.length > 100;
 });
 
 onMounted(async () => {
@@ -99,9 +117,6 @@ onMounted(async () => {
   if (succeeded && (data?.rows?.length ?? 0) > 0) {
     state.items.push(...data!.rows!);
   }
-  nextTick(() => {
-    (danmaku.value as any).play();
-  });
 });
 </script>
 

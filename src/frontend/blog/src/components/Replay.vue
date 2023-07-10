@@ -40,6 +40,8 @@ interface ReplyInfo {
   index: number;
   chooseEmoji: boolean;
   parentId?: number;
+  rootId?: number;
+  replyAccountId?: number;
   nickname?: string;
   commentContent?: string;
   visible: boolean;
@@ -60,17 +62,17 @@ const cancleReply = () => {
 const insertReply = () => {
   replay.commentContent = replay.commentContent?.replace(/<[^<>]*>/g, "");
   //解析表情
-  var reg = /\[.+?\]/g;
-  replay.commentContent = replay.commentContent?.replace(
-    reg,
-    function (str: string) {
-      return (
-        "<img src= '" +
-        EmojiList[str] +
-        "' width='24'height='24' style='margin: 0 1px;vertical-align: text-bottom'/>"
-      );
-    }
-  );
+  // var reg = /\[.+?\]/g;
+  // replay.commentContent = replay.commentContent?.replace(
+  //   reg,
+  //   function (str: string) {
+  //     return (
+  //       "<img src= '" +
+  //       EmojiList[str] +
+  //       "' width='24'height='24' style='margin: 0 1px;vertical-align: text-bottom'/>"
+  //     );
+  //   }
+  // );
   emit("submit", replay.index);
 };
 

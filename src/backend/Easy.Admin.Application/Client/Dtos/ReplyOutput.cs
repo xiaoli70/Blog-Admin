@@ -33,11 +33,11 @@ public class ReplyOutput
     /// <summary>
     /// 当前人昵称
     /// </summary>
-    public string NikeName { get; set; }
+    public string NickName { get; set; }
     /// <summary>
     /// 回复人昵称
     /// </summary>
-    public string RelyNikeName { get; set; }
+    public string RelyNickName { get; set; }
     /// <summary>
     /// 当前评论人头像
     /// </summary>

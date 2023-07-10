@@ -61,5 +61,15 @@ public class CommentOutput
     /// </summary>
     public DateTime CreatedTime { get; set; }
 
-    public PageResult<ReplyOutput> ReplyList { get; set; }
+    /// <summary>
+    /// 回复
+    /// </summary>
+    public PageResult<ReplyOutput> ReplyList { get; set; } = new()
+    {
+        PageNo = 0,
+        PageSize = 5,
+        Rows = new List<ReplyOutput>(),
+        Pages = 0,
+        Total = 0
+    };
 }

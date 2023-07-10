@@ -47,6 +47,12 @@ export interface TalkDetailOutput {
    * @memberof TalkDetailOutput
    */
   upvote?: number;
+    /**
+   * 是否已点赞
+   * @type {boolean}
+   * @memberof TalkDetailOutput
+   */
+    isPraise?: boolean;
   /**
    * 评论数量
    * @type {number}

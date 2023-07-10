@@ -1,4 +1,5 @@
-﻿using Easy.Admin.Application.Client.Dtos;
+﻿using Easy.Admin.Application.Auth;
+using Easy.Admin.Application.Client.Dtos;
 
 namespace Easy.Admin.Application.Client;
 
@@ -10,10 +11,13 @@ namespace Easy.Admin.Application.Client;
 public class TalksController : IDynamicApiController
 {
     private readonly ISqlSugarRepository<Talks> _talksRepository;
+    private readonly AuthManager _authManager;
 
-    public TalksController(ISqlSugarRepository<Talks> talksRepository)
+    public TalksController(ISqlSugarRepository<Talks> talksRepository,
+        AuthManager authManager)
     {
         _talksRepository = talksRepository;
+        _authManager = authManager;
     }
 
     /// <summary>
@@ -24,9 +28,10 @@ public class TalksController : IDynamicApiController
     [HttpGet]
     public async Task<PageResult<TalksOutput>> Get([FromQuery] Pagination dto)
     {
+        long userId = _authManager.UserId;
         return await _talksRepository.AsQueryable().Where(x => x.Status == AvailabilityStatus.Enable)
               .OrderByDescending(x => x.IsTop)
-              .OrderBy(x => x.Id)
+              .OrderByDescending(x => x.Id)
               .Select(x => new TalksOutput
               {
                   Id = x.Id,
@@ -34,7 +39,8 @@ public class TalksController : IDynamicApiController
                   Content = x.Content,
                   Images = x.Images,
                   Upvote = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id).Count(),
-                  Comments = SqlFunc.Subqueryable<Comments>().Where(c => c.ModuleId == x.Id).Count(),
+                  Comments = SqlFunc.Subqueryable<Comments>().Where(c => c.ModuleId == x.Id && c.RootId == null).Count(),
+                  IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any()),
                   CreatedTime = x.CreatedTime
               }).ToPagedListAsync(dto);
     }
@@ -47,6 +53,7 @@ public class TalksController : IDynamicApiController
     [HttpGet]
     public async Task<TalkDetailOutput> TalkDetail([FromQuery] long id)
     {
+        long userId = _authManager.UserId;
         return await _talksRepository.AsQueryable()
             .Where(x => x.Id == id)
             .Select(x => new TalkDetailOutput
@@ -56,6 +63,8 @@ public class TalksController : IDynamicApiController
                 Images = x.Images,
                 IsTop = x.IsTop,
                 IsAllowComments = x.IsAllowComments,
+                IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any()),
+                Upvote = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id).Count(),
                 CreatedTime = x.CreatedTime
             }).FirstAsync();
     }

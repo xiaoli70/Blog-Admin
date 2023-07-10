@@ -182,6 +182,7 @@ public class OAuthController : IDynamicApiController
         if (link == null)
         {
             link = dto.Adapt<FriendLink>();
+            link.AppUserId = userId;
             link.Status = AvailabilityStatus.Disable;
             await _friendLinkRepository.InsertAsync(link);
             return;

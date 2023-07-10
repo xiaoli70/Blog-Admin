@@ -19,6 +19,10 @@ public class TalksOutput
     /// </summary>
     public string Images { get; set; }
     /// <summary>
+    /// 是否已点赞
+    /// </summary>
+    public bool IsPraise { get; set; }
+    /// <summary>
     /// 点赞数量
     /// </summary>
     public int Upvote { get; set; }

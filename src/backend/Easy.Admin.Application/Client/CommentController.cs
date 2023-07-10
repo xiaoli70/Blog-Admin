@@ -32,33 +32,37 @@ public class CommentController : IDynamicApiController
     public async Task<PageResult<CommentOutput>> Get([FromQuery] CommentPageQueryInput dto)
     {
         long userId = _authManager.UserId;
-        return await _repository.AsQueryable().LeftJoin<AuthAccount>((comments, account) => comments.AccountId == account.Id)
-              .Where(comments => comments.ModuleId == dto.Id && comments.RootId == null) //排除回复的评论
-              .OrderByDescending(comments => comments.Id)
-              .Select((comments, account) => new CommentOutput
-              {
-                  Id = comments.Id,
-                  Content = comments.Content,
-                  PraiseTotal = SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == comments.Id).Count(),
-                  IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == comments.Id && x.AccountId == userId).Any()),
-                  ReplyCount = SqlFunc.Subqueryable<Comments>().Where(x => x.RootId == comments.Id).Count(),
-                  IP = comments.IP,
-                  AccountId = account.Id,
-                  NickName = account.Name,
-                  IsBlogger = account.IsBlogger,
-                  Geolocation = comments.Geolocation,
-                  CreatedTime = comments.CreatedTime
-              }).Mapper(async it =>
-              {
-                  if (it.ReplyCount > 0)
-                  {
-                      it.ReplyList = await ReplyList(new CommentPageQueryInput()
-                      {
-                          PageNo = 1,
-                          Id = it.Id
-                      });
-                  }
-              }).ToPagedListAsync(dto);
+        var result = await _repository.AsQueryable().LeftJoin<AuthAccount>((c, account) => c.AccountId == account.Id)
+            .Where(c => c.ModuleId == dto.Id && c.RootId == null) //排除回复的评论
+            .OrderByDescending(c => c.Id)
+            .Select((c, account) => new CommentOutput
+            {
+                Id = c.Id,
+                Content = c.Content,
+                PraiseTotal = SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id).Count(),
+                IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id && x.AccountId == userId).Any()),
+                ReplyCount = SqlFunc.Subqueryable<Comments>().Where(s => s.RootId == c.Id).Count(),
+                IP = c.IP,
+                Avatar = account.Avatar,
+                AccountId = account.Id,
+                NickName = account.Name,
+                IsBlogger = account.IsBlogger,
+                Geolocation = c.Geolocation,
+                CreatedTime = c.CreatedTime
+            })
+            //.Mapper(it =>
+            //{
+            //    if (it.ReplyCount > 0)
+            //    {
+            //        it.ReplyList = ReplyList(new CommentPageQueryInput()
+            //        {
+            //            PageNo = 1,
+            //            Id = it.Id
+            //        }).GetAwaiter().GetResult();
+            //    }
+            //})
+            .ToPagedListAsync(dto);
+        return result;
     }
 
     /// <summary>
@@ -71,7 +75,6 @@ public class CommentController : IDynamicApiController
     public async Task<PageResult<ReplyOutput>> ReplyList([FromQuery] CommentPageQueryInput dto)
     {
         long userId = _authManager.UserId;
-        dto.PageSize = dto.PageSize = 5;
         return await _repository.AsQueryable().LeftJoin<AuthAccount>((c, a1) => c.AccountId == a1.Id)
               .LeftJoin<AuthAccount>((c, a1, a2) => c.ReplyAccountId == a2.Id)
               .Where(c => c.RootId == dto.Id)
@@ -84,8 +87,8 @@ public class CommentController : IDynamicApiController
                   AccountId = c.AccountId,
                   ReplyAccountId = c.ReplyAccountId,
                   IsBlogger = a1.IsBlogger,
-                  NikeName = a1.Name,
-                  RelyNikeName = a2.Name,
+                  NickName = a1.Name,
+                  RelyNickName = a2.Name,
                   RootId = c.RootId,
                   Avatar = a1.Avatar,
                   PraiseTotal = SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id).Count(),

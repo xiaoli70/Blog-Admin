@@ -42,8 +42,7 @@
             <div class="talk-operation-item">
               <v-icon
                 size="16"
-                :color="isLike(state.talk.id!)"
-                class="like-btn"
+                :class="state.talk.isPraise ? 'like-btn-active' : 'like-btn'"
                 @click.prevent="like"
               >
                 mdi-thumb-up
@@ -55,7 +54,7 @@
             <div class="talk-operation-item">
               <v-icon size="16" color="#999">mdi-chat</v-icon>
               <div class="operation-count">
-                {{ state.talk.comments ?? 0 }}
+                {{ state.commentCount }}
               </div>
             </div>
           </div>
@@ -64,7 +63,7 @@
     </div>
     <!-- 评论 -->
     <Comment
-      :type="3"
+      :type="state.id"
       @getCommentCount="getCommentCount"
       v-if="state.talk.isAllowComments"
     />
@@ -81,6 +80,7 @@ import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
 import type { TalkDetailOutput } from "@/api/models";
 import { storeToRefs } from "pinia";
+import CommentApi from "@/api/CommentApi";
 const appStore = useApp();
 const { info } = storeToRefs(appStore);
 const route = useRoute();
@@ -107,13 +107,17 @@ const previewImg = (e: Event): void => {
   });
   viewer.show();
 };
-
-const isLike = (talkId: number) => {
-  return new Date().getTime() % 2 === 0 ? "#eb5055" : "#999";
-  // var talkLikeSet = this.$store.state.talkLikeSet;
-  // return talkLikeSet.indexOf(talkId) != -1 ? "#eb5055" : "#999";
+const like = async () => {
+  const { succeeded } = state.talk.isPraise
+    ? await CommentApi.cancelPraise(state.id)
+    : await CommentApi.praise(state.id);
+  if (succeeded) {
+    state.talk.isPraise = !state.talk.isPraise;
+    state.talk.upvote = state.talk.isPraise
+      ? state.talk.upvote! + 1
+      : state.talk.upvote! - 1;
+  }
 };
-const like = () => {};
 onMounted(async () => {
   state.id = route.params.talkId as never as number;
   const { data, succeeded } = await TalksApi.talkDetail(state.id);
@@ -285,7 +289,13 @@ onMounted(async () => {
 .comment-wrapper {
   margin-top: 20px;
 }
+.like-btn {
+  color: #b3b3b3;
+}
 .like-btn:hover {
+  color: #eb5055 !important;
+}
+.like-btn-active {
   color: #eb5055 !important;
 }
 </style>
