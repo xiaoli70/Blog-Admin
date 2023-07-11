@@ -50,6 +50,7 @@ public class ArticleController : IDynamicApiController
               .Where(article => article.Status == AvailabilityStatus.Enable && article.PublishTime <= SqlFunc.GetDate())
               .Where(article => article.ExpiredTime == null || SqlFunc.GetDate() < article.ExpiredTime)
               .WhereIF(dto.CategoryId.HasValue, (article, ac) => ac.CategoryId == dto.CategoryId)
+              .WhereIF(!string.IsNullOrWhiteSpace(dto.Keyword), article => article.Summary.Contains(dto.Keyword) || article.Content.Contains(dto.Keyword))
               .WhereIF(dto.TagId.HasValue,
                   article => SqlFunc.Subqueryable<Tags>().InnerJoin<ArticleTag>((tags, at) => tags.Id == at.TagId)
                       .Where((tags, at) => tags.Status == AvailabilityStatus.Enable && at.ArticleId == article.Id && tags.Id == dto.TagId).Any())

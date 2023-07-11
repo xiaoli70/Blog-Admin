@@ -1312,6 +1312,11 @@
             栏目ID
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleListQueryInput.Keyword">
+            <summary>
+            关键词
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Client.Dtos.ArticleOutput.Id">
             <summary>
             文章ID
