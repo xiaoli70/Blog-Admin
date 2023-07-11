@@ -18,19 +18,19 @@
       <div class="blog-info-data">
         <router-link to="/articles">
           <div style="font-size: 0.875rem">文章</div>
-          <div style="font-size: 1.125rem">{{ state.articleCount }}</div>
+          <div style="font-size: 1.125rem">{{ report.articleCount }}</div>
         </router-link>
       </div>
       <div class="blog-info-data">
         <router-link to="/category">
           <div style="font-size: 0.875rem">分类</div>
-          <div style="font-size: 1.125rem">{{ state.categoryCount }}</div>
+          <div style="font-size: 1.125rem">{{ report.categoryCount }}</div>
         </router-link>
       </div>
       <div class="blog-info-data">
         <router-link to="/tags">
           <div style="font-size: 0.875rem">标签</div>
-          <div style="font-size: 1.125rem">{{ state.tagCount }}</div>
+          <div style="font-size: 1.125rem">{{ report.tagCount }}</div>
         </router-link>
       </div>
     </div>
@@ -116,45 +116,40 @@
           登录
         </a>
       </div>
-      <div v-else class="menus-item">
-        <router-link to="/user">
-          <!-- <i class="iconfont icongerenzhongxin" />  -->
-          <v-icon size="small">mdi mdi-account-circle</v-icon>
-          个人中心
-        </router-link>
-      </div>
-      <div class="menus-item">
-        <a @click="handleLoginOut">
-          <!-- <i class="iconfont icontuichu" />  -->
-          <v-icon size="small">mdi mdi-logout</v-icon>
-          退出</a
-        >
-      </div>
+      <template v-else>
+        <div class="menus-item">
+          <router-link to="/user">
+            <!-- <i class="iconfont icongerenzhongxin" />  -->
+            <v-icon size="small">mdi mdi-account-circle</v-icon>
+            个人中心
+          </router-link>
+        </div>
+        <div class="menus-item">
+          <a @click="handleLoginOut">
+            <!-- <i class="iconfont icontuichu" />  -->
+            <v-icon size="small">mdi mdi-logout</v-icon>
+            退出</a
+          >
+        </div>
+      </template>
     </div>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import emitter from "@/utils/mitt";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import { useApp } from "@/stores/app";
 import { useAuth } from "@/stores/auth";
 import OAuthApi from "@/api/OAuthApi";
-import type { ArticleReportOutput } from "@/api/models";
 import { Session } from "@/utils/storage";
 import { useRoute } from "vue-router";
 const route = useRoute();
 const authStore = useAuth();
 const { drawer } = storeToRefs(useDrawerSettingStore());
-const { blogSetting, info } = storeToRefs(useApp());
-
-const state = reactive<ArticleReportOutput>({
-  articleCount: 0,
-  tagCount: 0,
-  categoryCount: 0,
-});
+const appStore = useApp();
+const { blogSetting, info, report } = storeToRefs(appStore);
 const handleLogin = async () => {
   const { data } = await OAuthApi.get();
   Session.set("redirect_uri", route.fullPath);
@@ -164,11 +159,8 @@ const handleLoginOut = () => {
   authStore.logout();
 };
 
-emitter.on("report", (payload) => {
-  const res = payload as ArticleReportOutput;
-  state.articleCount = res.articleCount;
-  state.categoryCount = res.categoryCount;
-  state.tagCount = res.tagCount;
+onMounted(async () => {
+  await appStore.getSiteReport();
 });
 </script>
 

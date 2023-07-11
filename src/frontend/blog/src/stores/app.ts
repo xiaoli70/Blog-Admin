@@ -1,8 +1,13 @@
 import { defineStore } from "pinia";
 import { reactive, computed } from "vue";
 import AppApi from "@/api/AppApi";
-import type { BlogSetting, BloggerInfo } from "@/api/models";
+import type {
+  ArticleReportOutput,
+  BlogSetting,
+  BloggerInfo,
+} from "@/api/models";
 import { randomNumber } from "@/utils";
+import ArticleApi from "@/api/ArticleApi";
 
 export const useApp = defineStore("app", () => {
   const app = reactive({
@@ -23,12 +28,23 @@ export const useApp = defineStore("app", () => {
     info: {} as BloggerInfo,
     isInit: false,
     blogSetting: {} as BlogSetting,
+    report: {
+      articleCount: 0,
+      tagCount: 0,
+      categoryCount: 0,
+    } as ArticleReportOutput,
   });
 
   /**
    * 初始化博客基本信息
    */
   const init = async () => {
+    // const [site, report] = await Promise.all([
+    //   AppApi.info(),
+    //   ArticleApi.report(),
+    // ]);
+    // const data = site.data;
+    // if (report.data) app.report = report.data;
     const { data } = await AppApi.info();
     const covers = data!.covers!;
     app.info = data!.info ?? {
@@ -166,6 +182,17 @@ export const useApp = defineStore("app", () => {
     return app.blogSetting;
   });
 
+  const report = computed(() => {
+    return app.report;
+  });
+
+  const getSiteReport = async () => {
+    const { data } = await ArticleApi.report();
+    if (data) {
+      app.report = data;
+    }
+  };
+
   return {
     init,
     homeCover,
@@ -180,8 +207,10 @@ export const useApp = defineStore("app", () => {
     linkCover,
     tagListCover,
     categoriesCover,
+    getSiteReport,
     isInit,
     info,
     blogSetting,
+    report,
   };
 });

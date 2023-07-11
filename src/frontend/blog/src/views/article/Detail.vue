@@ -547,7 +547,7 @@ onUnmounted(() => {
 }
 .aritcle-copyright {
   position: relative;
-  margin-top: 40px;
+  /* margin-top: 40px; */
   margin-bottom: 10px;
   font-size: 0.875rem;
   line-height: 2;
@@ -583,7 +583,7 @@ onUnmounted(() => {
   content: "";
 }
 .article-reward {
-  margin-top: 5rem;
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;

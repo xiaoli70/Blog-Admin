@@ -28,11 +28,11 @@
             :key="item.id"
           >
             <!-- 文章标题 -->
-            <a @click="goTo(item.id)" v-html="item.articleTitle" />
+            <a @click="goTo(item.id)" v-html="item.title" />
             <!-- 文章内容 -->
             <p
               class="search-reslut-content text-justify"
-              v-html="item.articleContent"
+              v-html="item.summary"
             />
           </li>
         </ul>
@@ -51,11 +51,11 @@
 <script setup lang="ts">
 import { computed, ref, watch, reactive } from "vue";
 import { useRouter } from "vue-router";
-import { articles } from "../api/data";
-const props = defineProps<{
+import ArticleApi from "@/api/ArticleApi";
+import { ArticleOutput } from "@/api/models";
+defineProps<{
   isShow: boolean;
 }>();
-// const visible = ref(props.isShow);
 const router = useRouter();
 const keywords = ref<string>("");
 const emit = defineEmits<{ (e: "update:isShow", isShow: boolean): void }>();
@@ -64,6 +64,7 @@ const closeHandle = () => {
 };
 const goTo = (id: any) => {
   emit("update:isShow", false);
+  articleList.list = [];
   router.push({
     name: "detail",
     params: {
@@ -75,7 +76,7 @@ const handlerUpdateValue = (v: boolean) => {
   emit("update:isShow", v);
 };
 const articleList = reactive({
-  list: articles,
+  list: [] as ArticleOutput[],
 });
 
 const isMobile = computed(() => {
@@ -85,13 +86,16 @@ const isMobile = computed(() => {
   }
   return true;
 });
-watch(keywords, (val) => {
+watch(keywords, async (val: string) => {
   if (val.trim().length === 0) {
-    articleList.list = articles;
+    articleList.list = [];
   } else {
-    articleList.list = articleList.list.filter((item) =>
-      item.articleTitle.includes(val)
-    );
+    const { data } = await ArticleApi.list({
+      keyword: val,
+      pageNo: 1,
+      pageSize: 10,
+    });
+    articleList.list = data?.rows ?? [];
   }
 });
 watch(isMobile, () => {

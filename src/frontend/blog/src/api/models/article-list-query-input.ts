@@ -10,4 +10,8 @@ export interface ArticleListQueryInput extends Pagination {
    * 栏目ID
    */
   categoryId?: number;
+  /**
+   * 关键词
+   */
+  keyword?: string;
 }

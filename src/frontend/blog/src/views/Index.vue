@@ -130,7 +130,7 @@
               <router-link to="/archives">
                 <div style="font-size: 0.875rem">文章</div>
                 <div style="font-size: 1.25rem">
-                  {{ state.report.articleCount }}
+                  {{ report.articleCount }}
                 </div>
               </router-link>
             </div>
@@ -138,7 +138,7 @@
               <router-link to="/category">
                 <div style="font-size: 0.875rem">分类</div>
                 <div style="font-size: 1.25rem">
-                  {{ state.report.categoryCount }}
+                  {{ report.categoryCount }}
                 </div>
               </router-link>
             </div>
@@ -146,7 +146,7 @@
               <router-link to="/tags">
                 <div style="font-size: 0.875rem">标签</div>
                 <div style="font-size: 1.25rem">
-                  {{ state.report.tagCount }}
+                  {{ report.tagCount }}
                 </div>
               </router-link>
             </div>
@@ -222,10 +222,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, computed, watch } from "vue";
+import { reactive, onMounted, computed, watch, provide } from "vue";
 import { storeToRefs } from "pinia";
 import EasyTyper from "easy-typer-js/src/ts";
-import emitter from "@/utils/mitt";
 import Swiper from "../components/Swiper.vue";
 import { useApp } from "@/stores/app";
 import { useAuth } from "@/stores/auth";
@@ -242,11 +241,10 @@ import { Session } from "@/utils/storage";
 const router = useRouter();
 const appStore = useApp();
 const route = useRoute();
-const { blogSetting, info } = storeToRefs(appStore);
+const { blogSetting, info, report } = storeToRefs(appStore);
 const authStore = useAuth();
 // 打字机配置
 const state = reactive({
-  report: {} as ArticleReportOutput,
   talks: [] as TalksOutput[], // 说说
   print: {
     output: "",
@@ -345,14 +343,11 @@ onMounted(async () => {
       }
     }
   }
-  const [report, talks] = await Promise.all([
-    ArticleApi.report(),
+  const [talks] = await Promise.all([
     TalksApi.list({ pageNo: 1, pageSize: 10 }),
     articlePage(),
   ]);
-  state.report = report.data!;
   state.talks = talks.data!.rows!;
-  emitter.emit("report", report.data!);
   setInterval(() => {
     runTime();
   }, 1000);
