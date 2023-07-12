@@ -65,7 +65,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
     /// </summary>
     /// <param name="code">自定义配置唯一编码</param>
     /// <returns></returns>
-    [Description("获取自定义配置")]
+    [DisplayName("获取自定义配置")]
     [HttpGet("getConfig")]
     public async Task<dynamic> GetConfig([FromQuery][Required(ErrorMessage = "缺少参数")] string code)
     {
@@ -95,7 +95,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("自定义配置分页查询")]
+    [DisplayName("自定义配置分页查询")]
     [HttpGet]
     public async Task<PageResult<CustomConfigPageOutput>> Page([FromQuery] CustomConfigQueryInput dto)
     {
@@ -122,7 +122,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("添加自定义配置")]
+    [DisplayName("添加自定义配置")]
     [HttpPost("add")]
     public async Task AddConfig(AddCustomConfigInput dto)
     {
@@ -140,7 +140,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("修改自定义配置")]
+    [DisplayName("修改自定义配置")]
     [HttpPut("edit")]
     public async Task UpdateConfig(UpdateCustomConfigInput dto)
     {
@@ -165,7 +165,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
     /// <param name="id"></param>
     /// <param name="itemId"></param>
     /// <returns></returns>
-    [Description("获取配置表单设计和表单数据")]
+    [DisplayName("获取配置表单设计和表单数据")]
     [HttpGet("GetFormJson")]
     public async Task<CustomConfigDetailOutput> GetFormJson([FromQuery] long id, [FromQuery] long? itemId)
     {
@@ -198,7 +198,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("修改配置表单设计")]
+    [DisplayName("修改配置表单设计")]
     [HttpPatch]
     public async Task SetJson(CustomConfigSetJsonInput dto)
     {
@@ -215,7 +215,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("生成自定配置类")]
+    [DisplayName("生成自定配置类")]
     [HttpPost]
     public async Task Generate(KeyDto dto)
     {
@@ -241,7 +241,7 @@ public class CustomConfigService : BaseService<CustomConfig>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("删除自定义配置类")]
+    [DisplayName("删除自定义配置类")]
     [HttpPatch("deleteClass")]
     public async Task DeleteClass(KeyDto dto)
     {

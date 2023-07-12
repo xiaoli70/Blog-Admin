@@ -19,7 +19,7 @@ public class FriendLinkService : BaseService<FriendLink>, IDynamicApiController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("友情链接分页查询")]
+    [DisplayName("友情链接分页查询")]
     [HttpGet]
     public async Task<PageResult<FriendLinkPageOutput>> Page([FromQuery] FriendLinkPageQueryInput dto)
     {
@@ -46,7 +46,7 @@ public class FriendLinkService : BaseService<FriendLink>, IDynamicApiController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("添加友情链接")]
+    [DisplayName("添加友情链接")]
     [HttpPost("add")]
     public async Task Add(AddFriendLinkInput dto)
     {
@@ -54,7 +54,7 @@ public class FriendLinkService : BaseService<FriendLink>, IDynamicApiController
         await _repository.InsertAsync(link);
     }
 
-    [Description("更新友情链接")]
+    [DisplayName("更新友情链接")]
     [HttpPut("edit")]
     public async Task Update(UpdateFriendLinkInput dto)
     {

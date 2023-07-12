@@ -245,61 +245,6 @@
             主键
             </summary>
         </member>
-        <member name="T:Easy.Admin.Core.Entities.AuthAccount">
-            <summary>
-            博客授权用户
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.OAuthId">
-            <summary>
-            授权唯一标识
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Type">
-            <summary>
-            授权类型
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.IsBlogger">
-            <summary>
-            博主标识
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Name">
-            <summary>
-            姓名（昵称）
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Gender">
-            <summary>
-            性别
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Avatar">
-            <summary>
-            头像
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Email">
-            <summary>
-            邮箱
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.UpdatedTime">
-            <summary>
-            更新时间
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.DeleteMark">
-            <summary>
-            标记删除
-            </summary>
-        </member>
-        <member name="P:Easy.Admin.Core.Entities.AuthAccount.CreatedTime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
         <member name="T:Easy.Admin.Core.Entities.Albums">
             <summary>
             相册表
@@ -483,6 +428,61 @@
         <member name="P:Easy.Admin.Core.Entities.ArticleTag.TagId">
             <summary>
             标签Id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.AuthAccount">
+            <summary>
+            博客授权用户
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.OAuthId">
+            <summary>
+            授权唯一标识
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Type">
+            <summary>
+            授权类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.IsBlogger">
+            <summary>
+            博主标识
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Name">
+            <summary>
+            姓名（昵称）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.DeleteMark">
+            <summary>
+            标记删除
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.AuthAccount.CreatedTime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="T:Easy.Admin.Core.Entities.Categories">
@@ -971,6 +971,111 @@
             子菜单
             </summary>
         </member>
+        <member name="T:Easy.Admin.Core.Entities.SysOperationLog">
+            <summary>
+            操作日志
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.UserId">
+            <summary>
+            操作用户ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.LogLevel">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.Description">
+            <summary>
+            接口描述
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.ControllerName">
+            <summary>
+            控制器名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.ActionName">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.HttpMethod">
+            <summary>
+            请求方式
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.TraceId">
+            <summary>
+            请求跟踪唯一ID （同一次请求ID相同）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.ThreadId">
+            <summary>
+            线程ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.UserAgent">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.RequestUrl">
+            <summary>
+            请求地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.RemoteIp">
+            <summary>
+            ip地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.OsDescription">
+            <summary>
+            用户系统信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.Elapsed">
+            <summary>
+            耗时（毫秒）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.Location">
+            <summary>
+            Ip归属地
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.HttpStatusCode">
+            <summary>
+            http状态码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.Parameter">
+            <summary>
+            请求参数
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.Response">
+            <summary>
+            响应结果
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.Message">
+            <summary>
+            详细信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.Exception">
+            <summary>
+            异常信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysOperationLog.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Core.Entities.SysOrganization">
             <summary>
             组织机构信息表
@@ -1079,6 +1184,46 @@
         <member name="P:Easy.Admin.Core.Entities.SysRoleMenu.MenuId">
             <summary>
             菜单按钮id
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Core.Entities.SysSigninLog">
+            <summary>
+            用户登录日志
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysSigninLog.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysSigninLog.RemoteIp">
+            <summary>
+            ip地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysSigninLog.UserAgent">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysSigninLog.Location">
+            <summary>
+            Ip归属地
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysSigninLog.OsDescription">
+            <summary>
+            用户系统信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysSigninLog.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Core.Entities.SysSigninLog.CreatedTime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="T:Easy.Admin.Core.Entities.SysUser">
@@ -1436,6 +1581,11 @@
             按钮
             </summary>
         </member>
+        <member name="M:Easy.Admin.Core.Logging.DatabaseLoggingWriter.Dispose">
+            <summary>
+            释放服务作用域
+            </summary>
+        </member>
         <member name="T:Easy.Admin.Core.Options.DbConnectionOptions">
             <summary>
             数据库选项配置
@@ -1526,6 +1676,13 @@
             获取Ip所属详细地理位置
             </summary>
             <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Core.HttpContextExtension.GetGeolocation(System.String)">
+            <summary>
+            获取ip详细信息
+            </summary>
+            <param name="ip"></param>
             <returns></returns>
         </member>
         <member name="P:Easy.Core.IpInfoDto.Ip">

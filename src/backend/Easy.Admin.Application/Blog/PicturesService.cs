@@ -22,7 +22,7 @@ public class PicturesService : IDynamicApiController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("相册图片分页")]
+    [DisplayName("相册图片分页")]
     [HttpGet]
     [AllowAnonymous]
     public async Task<PageResult<PicturesPageOutput>> Page([FromQuery] PicturesPageQueryInput dto)
@@ -39,7 +39,7 @@ public class PicturesService : IDynamicApiController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("上传图片到相册")]
+    [DisplayName("上传图片到相册")]
     [HttpPost("add")]
     public async Task Add(AddPictureInput dto)
     {
@@ -52,7 +52,7 @@ public class PicturesService : IDynamicApiController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("删除相册图片")]
+    [DisplayName("删除相册图片")]
     [HttpDelete("delete")]
     public async Task Delete(KeyDto dto)
     {

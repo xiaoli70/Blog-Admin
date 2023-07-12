@@ -13,7 +13,7 @@ public abstract class BaseService<TEntity> : IDynamicApiController where TEntity
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("删除信息"), HttpDelete("delete")]
+    [DisplayName("删除信息"), HttpDelete("delete")]
     public virtual async Task Delete(KeyDto dto)
     {
         bool success = await _repository.UpdateAsync(x => new TEntity()
@@ -32,7 +32,7 @@ public abstract class BaseService<TEntity> : IDynamicApiController where TEntity
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("修改状态"), HttpPatch("setStatus")]
+    [DisplayName("修改状态"), HttpPatch("setStatus")]
     public virtual async Task SetStatus(AvailabilityDto dto)
     {
         bool success = await _repository.UpdateAsync(x => new TEntity()

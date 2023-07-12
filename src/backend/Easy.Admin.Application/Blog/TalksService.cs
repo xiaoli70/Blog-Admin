@@ -22,7 +22,7 @@ public class TalksService : BaseService<Talks>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("说说分页查询")]
+    [DisplayName("说说分页查询")]
     [HttpGet]
     public async Task<PageResult<TalksPageOutput>> Page([FromQuery] TalksPageQueryInput dto)
     {
@@ -48,7 +48,7 @@ public class TalksService : BaseService<Talks>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("添加说说")]
+    [DisplayName("添加说说")]
     [HttpPost("add")]
     public async Task Add(AddTalksInput dto)
     {
@@ -61,7 +61,7 @@ public class TalksService : BaseService<Talks>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("更新说说")]
+    [DisplayName("更新说说")]
     [HttpPut("edit")]
     public async Task Update(UpdateTalksInput dto)
     {

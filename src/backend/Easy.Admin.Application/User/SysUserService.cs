@@ -43,7 +43,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("系统用户分页查询")]
+    [DisplayName("系统用户分页查询")]
     [HttpGet]
     public async Task<PageResult<SysUserPageOutput>> Page([FromQuery] QuerySysUserInput dto)
     {
@@ -81,7 +81,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// <param name="dto"></param>
     /// <returns></returns>
     [UnitOfWork, HttpPost("add")]
-    [Description("添加系统用户")]
+    [DisplayName("添加系统用户")]
     public async Task AddUser(AddSysUserInput dto)
     {
         var user = dto.Adapt<SysUser>();
@@ -103,7 +103,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("更新系统用户信息")]
+    [DisplayName("更新系统用户信息")]
     [UnitOfWork, HttpPut("edit")]
     public async Task UpdateUser(UpdateSysUserInput dto)
     {
@@ -152,7 +152,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// 重置系统用户密码
     /// </summary>
     /// <returns></returns>
-    [Description("重置系统用户密码")]
+    [DisplayName("重置系统用户密码")]
     [HttpPatch]
     public async Task Reset(ResetPasswordInput dto)
     {
@@ -167,7 +167,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// 获取当前登录用户的信息
     /// </summary>
     /// <returns></returns>
-    [Description("获取登录用户的信息")]
+    [DisplayName("获取登录用户的信息")]
     [HttpGet]
     public async Task<SysUserInfoOutput> CurrentUserInfo()
     {
@@ -210,7 +210,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("用户修改账户密码")]
+    [DisplayName("用户修改账户密码")]
     [HttpPatch]
     public async Task ChangePassword(ChangePasswordOutput dto)
     {
@@ -236,7 +236,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// </summary>
     /// <param name="url"></param>
     /// <returns></returns>
-    [Description("用户修改头像")]
+    [DisplayName("用户修改头像")]
     [HttpPatch]
     public async Task UploadAvatar([FromBody]string url)
     {
@@ -251,7 +251,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// 系统用户修改自己的信息
     /// </summary>
     /// <returns></returns>
-    [Description("系统用户修改个人信息")]
+    [DisplayName("系统用户修改个人信息")]
     [HttpPatch("updateCurrentUser")]
     public async Task UpdateCurrentUser(UpdateCurrentUserInput dto)
     {

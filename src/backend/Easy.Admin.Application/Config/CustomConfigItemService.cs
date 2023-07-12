@@ -23,7 +23,7 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpGet]
-    [Description("自定义配置项分页列表")]
+    [DisplayName("自定义配置项分页列表")]
     public async Task<PageResult<JObject>> Page([FromQuery] CustomConfigItemQueryInput dto)
     {
         var result = await _repository.AsQueryable().Where(x => x.ConfigId == dto.Id)
@@ -51,7 +51,7 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("添加自定义配置子项")]
+    [DisplayName("添加自定义配置子项")]
     [HttpPost("add")]
     public async Task AddItem(AddCustomConfigItemInput dto)
     {
@@ -65,7 +65,7 @@ public class CustomConfigItemService : BaseService<CustomConfigItem>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("修改自定义配子置项")]
+    [DisplayName("修改自定义配子置项")]
     [HttpPut("edit")]
     public async Task UpdateItem(UpdateCustomConfigItemInput dto)
     {

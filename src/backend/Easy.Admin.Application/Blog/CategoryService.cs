@@ -18,7 +18,7 @@ public class CategoryService : BaseService<Categories>
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    [Description("文章栏目列表")]
+    [DisplayName("文章栏目列表")]
     [HttpGet]
     public async Task<List<CategoryPageOutput>> Page([FromQuery] string name)
     {
@@ -40,7 +40,7 @@ public class CategoryService : BaseService<Categories>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("添加文章栏目")]
+    [DisplayName("添加文章栏目")]
     [HttpPost("add")]
     public async Task Add(AddCategoryInput dto)
     {
@@ -52,7 +52,7 @@ public class CategoryService : BaseService<Categories>
     /// 更新文章栏目
     /// </summary>
     /// <returns></returns>
-    [Description("更新文章栏目")]
+    [DisplayName("更新文章栏目")]
     [HttpPut("edit")]
     public async Task Update(UpdateCategoryInput dto)
     {
@@ -66,7 +66,7 @@ public class CategoryService : BaseService<Categories>
     /// 获取文章栏目下拉选项
     /// </summary>
     /// <returns></returns>
-    [Description("获取文章栏目下拉选项")]
+    [DisplayName("获取文章栏目下拉选项")]
     [HttpGet]
     public async Task<List<TreeSelectOutput>> TreeSelect()
     {

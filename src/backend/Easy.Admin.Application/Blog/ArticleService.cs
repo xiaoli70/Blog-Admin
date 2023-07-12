@@ -22,7 +22,7 @@ public class ArticleService : BaseService<Article>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("【后端】文章列表分页查询")]
+    [DisplayName("【后端】文章列表分页查询")]
     [HttpGet]
     public async Task<PageResult<ArticlePageOutput>> Page([FromQuery] ArticlePageQueryInput dto)
     {
@@ -62,7 +62,7 @@ public class ArticleService : BaseService<Article>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("添加文章")]
+    [DisplayName("添加文章")]
     [HttpPost("add")]
     [UnitOfWork]
     public async Task Add(AddArticleInput dto)
@@ -88,7 +88,7 @@ public class ArticleService : BaseService<Article>
     /// 更新文章
     /// </summary>
     /// <returns></returns>
-    [Description("更新文章")]
+    [DisplayName("更新文章")]
     [HttpPut("edit")]
     [UnitOfWork]
     public async Task Update(UpdateArticleInput dto)
@@ -120,7 +120,7 @@ public class ArticleService : BaseService<Article>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Description("文章详情")]
+    [DisplayName("文章详情")]
     [HttpGet]
     public async Task<ArticleDetailOutput> Detail([FromQuery] long id)
     {

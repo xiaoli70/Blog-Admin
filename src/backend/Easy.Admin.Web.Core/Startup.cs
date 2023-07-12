@@ -9,6 +9,7 @@ using Newtonsoft.Json.Serialization;
 using SqlSugar;
 using System.Text;
 using System.Threading.Tasks;
+using Easy.Admin.Core.Logging;
 using Easy.Admin.Core.Options;
 using Easy.Core;
 using Lazy.Captcha.Core;
@@ -18,6 +19,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MrHuo.OAuth;
 using MrHuo.OAuth.QQ;
 using OnceMi.AspNetCore.OSS;
+using System;
+
 namespace Easy.Admin.Web.Core;
 
 public class Startup : AppStartup
@@ -50,6 +53,14 @@ public class Startup : AppStartup
             };
         });
         services.AddConsoleFormatter();
+
+
+        // 全局日志 文档：http://furion.baiqian.ltd/docs/logging/#18116-%E8%BE%93%E5%87%BA-json-%E6%94%AF%E6%8C%81%E5%BF%BD%E7%95%A5%E5%B1%9E%E6%80%A7%E5%90%8D%E6%88%96%E5%B1%9E%E6%80%A7%E7%B1%BB%E5%9E%8B
+        services.AddMonitorLogging(options =>
+        {
+            options.IgnorePropertyNames = new[] { "Byte" };
+            options.IgnorePropertyTypes = new[] { typeof(byte[]) };
+        });
 
         //允许跨域
         services.AddCorsAccessor();
@@ -84,6 +95,16 @@ public class Startup : AppStartup
 
         //注册事件总线 文档：https://furion.baiqian.ltd/docs/event-bus
         services.AddEventBus();
+
+        // 数据库日志
+        // 文档：http://furion.baiqian.ltd/docs/logging#1871-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8
+        services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+        {
+            options.WithStackFrame = true; // 显示堆栈信息
+            options.WithTraceId = true; // 显示线程Id
+            options.IgnoreReferenceLoop = false; // 忽略循环检测
+            options.WriteFilter = (logMsg) => logMsg.LogName == "System.Logging.LoggingMonitor";
+        });
 
         //模板引擎 文档：https://furion.baiqian.ltd/docs/view-engine
         services.AddViewEngine();

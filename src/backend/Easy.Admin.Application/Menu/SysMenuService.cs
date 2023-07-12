@@ -26,7 +26,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    [Description("菜单列表查询")]
+    [DisplayName("菜单列表查询")]
     [HttpGet]
     public async Task<List<SysMenuPageOutput>> Page([FromQuery] string name)
     {
@@ -51,7 +51,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// 添加菜单/按钮
     /// </summary>
     /// <returns></returns>
-    [Description("添加菜单/按钮")]
+    [DisplayName("添加菜单/按钮")]
     [HttpPost("add")]
     public async Task AddMenu(AddSysMenuInput dto)
     {
@@ -77,7 +77,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("更新菜单/按钮")]
+    [DisplayName("更新菜单/按钮")]
     [HttpPut("edit")]
     public async Task UpdateMenu(UpdateSysMenuInput dto)
     {
@@ -120,7 +120,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Description("系统菜单详情")]
+    [DisplayName("系统菜单详情")]
     [HttpGet]
     public async Task<SysMenuDetailOutput> Detail([FromQuery] long id)
     {
@@ -152,7 +152,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// 菜单下拉树
     /// </summary>
     /// <returns></returns>
-    [Description("菜单下拉树")]
+    [DisplayName("菜单下拉树")]
     [HttpGet]
     public async Task<List<TreeSelectOutput>> TreeSelect()
     {
@@ -169,7 +169,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("删除菜单/按钮"), HttpDelete("delete")]
+    [DisplayName("删除菜单/按钮"), HttpDelete("delete")]
     public override async Task Delete(KeyDto dto)
     {
         await base.Delete(dto);
@@ -181,7 +181,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("修改菜单/按钮状态"), HttpPut("setStatus")]
+    [DisplayName("修改菜单/按钮状态"), HttpPut("setStatus")]
     public override async Task SetStatus(AvailabilityDto dto)
     {
         await base.SetStatus(dto);
@@ -192,7 +192,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// 获取当前登录用户可用菜单
     /// </summary>
     /// <returns></returns>
-    [Description("获取当前登录用户可用菜单")]
+    [DisplayName("获取当前登录用户可用菜单")]
     [HttpGet]
     public async Task<List<RouterOutput>> PermissionMenus()
     {
@@ -230,7 +230,7 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     /// 菜单按钮树
     /// </summary>
     /// <returns></returns>
-    [Description("菜单按钮树")]
+    [DisplayName("菜单按钮树")]
     [HttpGet]
     public async Task<List<TreeSelectOutput>> TreeMenuButton()
     {

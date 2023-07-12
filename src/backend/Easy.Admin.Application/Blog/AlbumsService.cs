@@ -13,7 +13,7 @@ public class AlbumsService : BaseService<Albums>
         _repository = repository;
     }
 
-    [Description("相册列表分页查询")]
+    [DisplayName("相册列表分页查询")]
     [HttpGet]
     public async Task<PageResult<AlbumsPageOutput>> Page([FromQuery] AlbumsPageQueryInput dto)
     {
@@ -40,7 +40,7 @@ public class AlbumsService : BaseService<Albums>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("新增相册")]
+    [DisplayName("新增相册")]
     [HttpPost("add")]
     public async Task Add(AddAlbumsInput dto)
     {
@@ -53,7 +53,7 @@ public class AlbumsService : BaseService<Albums>
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [Description("更新相册信息")]
+    [DisplayName("更新相册信息")]
     [HttpPut("edit")]
     public async Task Update(UpdateAlbumsInput dto)
     {

@@ -18,11 +18,33 @@ public static class HttpContextExtension
         {
             string ip = context.GetRemoteIpAddressToIPv4();
             //获取ip信息
+            return GetGeolocation(ip);
+        }
+        catch (Exception e)
+        {
+            return string.Empty;
+        }
+    }
+
+    /// <summary>
+    /// 获取ip详细信息
+    /// </summary>
+    /// <param name="ip"></param>
+    /// <returns></returns>
+    public static string GetGeolocation(string ip)
+    {
+        if (string.IsNullOrWhiteSpace(ip))
+        {
+            return string.Empty;
+        }
+        try
+        {
+            //获取ip信息
             byte[] bytes = $"http://whois.pconline.com.cn/ipJson.jsp?ip={ip}&json=true".GetAsByteArrayAsync().GetAwaiter().GetResult();
             string json = Encoding.GetEncoding("gb2312").GetString(bytes);
             return JsonConvert.DeserializeObject<IpInfoDto>(json)?.Address ?? "";
         }
-        catch (Exception e)
+        catch
         {
             return string.Empty;
         }
