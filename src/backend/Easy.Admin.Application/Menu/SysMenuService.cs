@@ -30,21 +30,42 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
     [HttpGet]
     public async Task<List<SysMenuPageOutput>> Page([FromQuery] string name)
     {
-        var q1 = _sysMenuRepository.AsQueryable()
-            .OrderBy(x => x.Sort)
-            .OrderBy(x => x.Id);
-        var q2 = _sysMenuRepository.AsQueryable().InnerJoin<SysRoleMenu>((menu, roleMenu) => menu.Id == roleMenu.MenuId)
-            .InnerJoin<SysRole>((menu, roleMenu, role) => roleMenu.RoleId == role.Id)
-            .InnerJoin<SysUserRole>((menu, roleMenu, role, userRole) => role.Id == userRole.RoleId)
-            .Where((menu, roleMenu, role) => role.Status == AvailabilityStatus.Enable);
-        if (!string.IsNullOrWhiteSpace(name))
+        if (_authManager.IsSuperAdmin)
         {
-            var list = _authManager.IsSuperAdmin ? await q1.Where(x => x.Name.Contains(name)).ToListAsync() : await q2.Where(menu => menu.Name.Contains(name)).Distinct().OrderBy(menu => menu.Sort).OrderBy(menu => menu.Id).ToListAsync();
-            return list.Adapt<List<SysMenuPageOutput>>();
+            var q1 = _sysMenuRepository.AsQueryable()
+                .OrderBy(x => x.Sort)
+                .OrderBy(x => x.Id);
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                var list = await q1.Where(x => x.Name.Contains(name)).ToListAsync();
+                return list.Adapt<List<SysMenuPageOutput>>();
+            }
+
+            var menus = await q1.ToTreeAsync(x => x.Children, x => x.ParentId, null);
+            return menus.Adapt<List<SysMenuPageOutput>>();
         }
-        var menus = _authManager.IsSuperAdmin ? await q1.ToTreeAsync(x => x.Children, x => x.ParentId, null) : await q2.Distinct().OrderBy(menu => menu.Sort).OrderBy(menu => menu.Id).ToTreeAsync(
-               menu => menu.Children, menu => menu.ParentId, null);
-        return menus.Adapt<List<SysMenuPageOutput>>();
+        else
+        {
+            long userId = _authManager.UserId;
+            var q2 = _sysMenuRepository.AsQueryable().InnerJoin<SysRoleMenu>((menu, roleMenu) => menu.Id == roleMenu.MenuId)
+                .InnerJoin<SysRole>((menu, roleMenu, role) => roleMenu.RoleId == role.Id)
+                .InnerJoin<SysUserRole>((menu, roleMenu, role, userRole) => role.Id == userRole.RoleId)
+                .Where((menu, roleMenu, role, userRole) => role.Status == AvailabilityStatus.Enable && userRole.UserId == userId);
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                var list = await q2.Where(menu => menu.Name.Contains(name)).Distinct().OrderBy(menu => menu.Sort).OrderBy(menu => menu.Id).ToListAsync();
+                return list.Adapt<List<SysMenuPageOutput>>();
+            }
+
+            var menuIdList = await q2.Select(menu => menu.Id).ToListAsync();
+            var array = menuIdList.Select(x => x as object).ToArray();
+            var menus = await _sysMenuRepository.AsQueryable()
+                .Where(x => x.Status == AvailabilityStatus.Enable)
+                .OrderBy(x => x.Sort)
+                .OrderBy(x => x.Id)
+                .ToTreeAsync(x => x.Children, x => x.ParentId, null, array);
+            return menus.Adapt<List<SysMenuPageOutput>>();
+        }
     }
 
     /// <summary>
@@ -214,11 +235,12 @@ public class SysMenuService : BaseService<SysMenu>, ITransient
             {
                 List<long> menuIdList = await _sysMenuRepository.AsSugarClient().Queryable<SysRole>().InnerJoin<SysUserRole>((role, userRole) => userRole.RoleId == role.Id)
                     .InnerJoin<SysRoleMenu>((role, userRole, roleMenu) => role.Id == roleMenu.RoleId)
-                    .Where((role, userRole, roleMenu) => role.Status == AvailabilityStatus.Enable)
+                    .InnerJoin<SysMenu>((role, userRole, roleMenu, menu) => roleMenu.MenuId == menu.Id)
+                    .Where((role, userRole, roleMenu, menu) => role.Status == AvailabilityStatus.Enable && userRole.UserId == userId && menu.Status == AvailabilityStatus.Enable)
                     .Select((role, userRole, roleMenu) => roleMenu.MenuId).ToListAsync();
+                var array = menuIdList.Select(x => x as object).ToArray();
                 list = await queryable
-                    .ToTreeAsync(x => x.Children, x => x.ParentId, null, menuIdList.Select(x => x as object).ToArray());
-
+                .ToTreeAsync(x => x.Children, x => x.ParentId, null, array);
                 RemoveButton(list);
             }
             return list.Adapt<List<RouterOutput>>();

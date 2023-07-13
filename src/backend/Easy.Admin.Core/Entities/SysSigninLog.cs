@@ -7,7 +7,7 @@ public class SysSigninLog : Entity<long>, ICreatedTime
     /// <summary>
     /// 用户ID
     /// </summary>
-    public long? UserId { get; set; }
+    public long UserId { get; set; }
 
     /// <summary>
     /// ip地址

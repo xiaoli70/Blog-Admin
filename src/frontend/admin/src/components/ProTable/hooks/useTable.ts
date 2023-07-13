@@ -13,7 +13,8 @@ export const useTable = (
 	initParam: object = {},
 	isPageable: boolean = true,
 	dataCallBack?: (data: any) => any,
-	requestError?: (error: any) => void
+	requestError?: (error: any) => void,
+	pageSize: number = 10
 ) => {
 	const state = reactive<Table.TableStateProps>({
 		// 表格数据
@@ -23,7 +24,7 @@ export const useTable = (
 			// 当前页数
 			pageNo: 1,
 			// 每页显示条数
-			pageSize: 10,
+			pageSize: pageSize,
 			// 总条数
 			total: 0,
 		},

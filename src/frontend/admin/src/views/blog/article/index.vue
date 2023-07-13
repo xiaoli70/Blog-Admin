@@ -78,13 +78,14 @@ const columns = reactive<ColumnProps[]>([
 			el: 'input',
 		},
 	},
-	{ prop: 'views', label: '浏览量' },
-	{ prop: 'isTop', label: '置顶' },
-	{ prop: 'creationType', label: '创作类型' },
-	{ prop: 'status', label: '状态' },
+	{ prop: 'views', label: '浏览量', width: 100 },
+	{ prop: 'isTop', label: '置顶', width: 80 },
+	{ prop: 'creationType', label: '创作类型', width: 100 },
+	{ prop: 'status', label: '状态', width: 100 },
 	{
 		prop: 'createdTime',
 		label: '创建时间',
+		width: 180,
 	},
 	{
 		prop: 'action',

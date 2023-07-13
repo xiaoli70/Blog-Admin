@@ -47,12 +47,22 @@
 							v-bind="item"
 							:align="item.align ?? 'center'"
 							:reserve-selection="item.type == 'selection'"
-							v-if="item.type && ['selection', 'index', 'expand'].includes(item.type)"
+							v-if="item.type && ['selection', 'expand'].includes(item.type)"
 						>
 							<template #default="scope" v-if="item.type == 'expand'">
 								<component :is="item.render" v-bind="scope" v-if="item.render"> </component>
 								<slot :name="item.type" v-bind="scope" v-else></slot>
 							</template>
+						</el-table-column>
+						<el-table-column
+							v-bind="item"
+							:align="item.align ?? 'center'"
+							v-if="item.type === 'index'"
+							:index="(index:number)=>{
+								return (pageable.pageNo-1)*pageable.pageSize+index+1
+
+						}"
+						>
 						</el-table-column>
 						<!-- other -->
 						<TableColumn v-if="!item.type && item.prop && item.isShow" :column="item">
@@ -123,6 +133,7 @@ export interface ProTableProps {
 	rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
 	searchCol?: number | Record<BreakPoint, number>; // 表格搜索项 每列占比配置 ==> 非必传 { xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }
 	pageSizes?: number[]; // 页码大小选择
+	pageSize?: number; //每页显示条数
 }
 
 // 接受父组件参数，配置默认值
@@ -136,6 +147,7 @@ const props = withDefaults(defineProps<ProTableProps>(), {
 	rowKey: 'id',
 	searchCol: () => ({ xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }),
 	pageSizes: () => [10, 20, 30, 40, 50],
+	pageSize: 10,
 });
 
 // 是否显示搜索模块
@@ -153,7 +165,8 @@ const { loading, tableData, pageable, searchParam, searchInitParam, getTableList
 	props.initParam,
 	props.pagination,
 	props.dataCallback,
-	props.requestError
+	props.requestError,
+	props.pageSize
 );
 
 // 清空选中数据列表

@@ -40,6 +40,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
                 {
                     return;
                 }
+
                 var sysSigninLog = new SysSigninLog
                 {
                     OsDescription = $"{json.osDescription}（{json.osArchitecture}）",
@@ -52,8 +53,18 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
                 };
                 _sysSigninLogRepository.Insert(sysSigninLog);
             }
+
             return;
         }
+
+        //不记录操作日志列表查询和博客的操作记录
+        if ("SysOperationLogService".Equals(json.controllerTypeName.ToString(), StringComparison.CurrentCultureIgnoreCase) &&
+            "List".Equals(json.actionTypeName.ToString(), StringComparison.CurrentCultureIgnoreCase) || (json.controllerTypeName.ToString().EndsWith("Controller", StringComparison.CurrentCultureIgnoreCase) && logMsg.Exception == null))
+        {
+            return;
+        }
+
+        //记录登录日志
         long? userId = null;
         if (json.authorizationClaims != null)
         {
@@ -88,7 +99,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
             LogLevel = logMsg.LogLevel,
             CreatedTime = logMsg.LogDateTime
         };
-        var a = _sysOperationLogRepository.Insert(sysOperationLog);
+        _sysOperationLogRepository.Insert(sysOperationLog);
     }
 
     /// <summary>

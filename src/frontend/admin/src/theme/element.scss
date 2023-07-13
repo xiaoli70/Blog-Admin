@@ -256,6 +256,31 @@
 	overflow-x: hidden;
 }
 
+.el-dialog__title{
+	font-size: 14px;
+	color: #FFF;
+	font-weight: 700;
+}
+.el-dialog__header {
+	margin-right: 0;
+	padding-top: 10px;
+	background: var(--el-color-primary);
+}
+.el-dialog__footer {
+	border-top: 1px solid var(--el-color-info-light-7);
+	padding-bottom: 10px;
+  }
+.el-dialog__headerbtn{
+	height: 32px;
+	font-weight: 900;
+	.el-dialog__close{
+		color: #FFF;
+	}
+}
+.el-dialog__headerbtn:hover .el-dialog__close{
+	color: var(--el-color-danger) !important;
+}
+
 /* Card 卡片
 ------------------------------- */
 .el-card__header {

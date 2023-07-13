@@ -30,6 +30,7 @@
 		<Folder Include="Blog\Dtos\" />
 		<Folder Include="Config\Dtos\" />
 		<Folder Include="File\Dtos\" />
+		<Folder Include="Logging\Dtos\" />
 		<Folder Include="Menu\Dtos\" />
 		<Folder Include="Organization\Dtos\" />
 	</ItemGroup>

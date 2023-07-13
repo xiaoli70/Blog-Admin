@@ -2108,6 +2108,186 @@
             <param name="file"></param>
             <returns></returns>
         </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.LogPageQueryInput.Keyword">
+            <summary>
+            关键词
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.LogPageQueryInput.LogLevel">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.LogPageQueryInput.Account">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Id">
+            <summary>
+            日志ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Description">
+            <summary>
+            日志描述
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.LogLevel">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Message">
+            <summary>
+            日志详细信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.ActionName">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.ControllerName">
+            <summary>
+            控制器名称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.HttpMethod">
+            <summary>
+            请求方式
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.HttpStatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Elapsed">
+            <summary>
+            耗时（毫秒）
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Exception">
+            <summary>
+            异常信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Location">
+            <summary>
+            地理位置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.RemoteIp">
+            <summary>
+            ip地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.OsDescription">
+            <summary>
+            客户端系统信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.UserAgent">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Parameter">
+            <summary>
+            请求参数
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Response">
+            <summary>
+            响应参数
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.RequestUrl">
+            <summary>
+            请求地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.Account">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.OperationLogPageOutput.CreatedTime">
+            <summary>
+            操作时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.SigninLogPageOutput.Id">
+            <summary>
+            日志ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.SigninLogPageOutput.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.SigninLogPageOutput.RemoteIp">
+            <summary>
+            ip地址
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.SigninLogPageOutput.Location">
+            <summary>
+            地理位置
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.SigninLogPageOutput.OsDescription">
+            <summary>
+            客户端系统信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.SigninLogPageOutput.UserAgent">
+            <summary>
+            客户端浏览器信息
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.SigninLogPageOutput.CreatedTime">
+            <summary>
+            登录时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Logging.Dtos.SigninLogPageOutput.Account">
+            <summary>
+            登录人账户名
+            </summary>
+        </member>
+        <member name="T:Easy.Admin.Application.Logging.SysOperationLogService">
+            <summary>
+            操作日志
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Logging.SysOperationLogService.List(Easy.Admin.Application.Logging.Dtos.LogPageQueryInput)">
+            <summary>
+            操作日志列表
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Logging.SysOperationLogService.Clear">
+            <summary>
+            清除日志
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Easy.Admin.Application.Logging.SysSigninLogService">
+            <summary>
+            登录日志
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Logging.SysSigninLogService.List(Easy.Admin.Application.Logging.Dtos.LogPageQueryInput)">
+            <summary>
+            登录日志分页查询
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="P:Easy.Admin.Application.Menu.Dtos.AddSysMenuInput.Name">
             <summary>
             菜单名称
