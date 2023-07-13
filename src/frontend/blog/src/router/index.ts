@@ -16,14 +16,6 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    name: "articles",
-    path: "/articles",
-    component: () => import("../views/article/List.vue"),
-    meta: {
-      title: "博文列表",
-    },
-  },
-  {
     name: "archives",
     path: "/archives",
     component: () => import("../views/article/Archives.vue"),
