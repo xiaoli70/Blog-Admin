@@ -29,12 +29,6 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 			open: JSON.parse(env.VITE_OPEN),
 			hmr: true,
 			proxy: {
-				'/gitee': {
-					target: 'https://gitee.com',
-					ws: true,
-					changeOrigin: true,
-					rewrite: (path) => path.replace(/^\/gitee/, ''),
-				},
 				'/api': {
 					target: 'https://localhost:44342',
 					ws: true,
