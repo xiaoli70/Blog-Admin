@@ -86,7 +86,7 @@
     "IsEnableHttps": false, //是否启用HTTPS
     "IsEnableCache": true, //是否启用缓存(启用后将缓存签名URL，以减少请求次数)
     "Bucket": "oss", //默认存储根目录
-    "Domain": "https://oss.okey123.top" //外网访问域名或IP
+    "Domain": "https://oss.okay123.top" //外网访问域名或IP
   },
   // 接入第三方授权登录 文档：https://github.com/mrhuo/MrHuo.OAuth
   "oauth": {
