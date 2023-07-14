@@ -24,7 +24,7 @@
 			</template>
 		</ProTable>
 		<el-dialog v-model="state.showDialog" title="日志详情" width="1000">
-			<p v-html="state.message"></p>
+			<div v-html="state.message"></div>
 		</el-dialog>
 	</div>
 </template>
@@ -118,7 +118,7 @@ const columns = reactive<ColumnProps[]>([
 
 // 查看日志详情
 const onDetail = (message: string) => {
-	state.message = message.replace(/\r\n/g, '<br/>');
+	state.message = message.replace(/(\r\n|\r|\n)/g, '<br/>');
 	state.showDialog = true;
 };
 

@@ -20,6 +20,7 @@ using MrHuo.OAuth;
 using MrHuo.OAuth.QQ;
 using OnceMi.AspNetCore.OSS;
 using System;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Easy.Admin.Web.Core;
 
@@ -92,6 +93,16 @@ public class Startup : AppStartup
 
         //雪花id 文档：https://github.com/yitter/IdGenerator
         services.AddIdGenerator(App.GetConfig<SnowIdOptions>("SnowId"));
+
+        // 配置Nginx转发获取客户端真实IP
+        // 注1：如果负载均衡不是在本机通过 Loopback 地址转发请求的，一定要加上options.KnownNetworks.Clear()和options.KnownProxies.Clear()
+        // 注2：如果设置环境变量 ASPNETCORE_FORWARDEDHEADERS_ENABLED 为 True，则不需要下面的配置代码
+        services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.All;
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+        });
 
         //注册事件总线 文档：https://furion.baiqian.ltd/docs/event-bus
         services.AddEventBus();

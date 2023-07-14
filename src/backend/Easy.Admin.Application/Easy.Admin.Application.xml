@@ -2911,6 +2911,32 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Easy.Admin.Application.User.AuthAccountService">
+            <summary>
+            博客授权用户
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.User.AuthAccountService.List(Easy.Admin.Application.User.Dtos.AuthAccountPageQueryInput)">
+            <summary>
+            博客授权用户列表
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.User.AuthAccountService.SetBlogger(Easy.Admin.Core.Shared.KeyDto)">
+            <summary>
+            设置博主
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.User.AuthAccountService.Delete(Easy.Admin.Core.Shared.KeyDto)">
+            <summary>
+            删除博客用户
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Account">
             <summary>
             用户名
@@ -2964,6 +2990,46 @@
         <member name="P:Easy.Admin.Application.User.Dtos.AddSysUserInput.Roles">
             <summary>
             角色
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AuthAccountPageOutput.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AuthAccountPageOutput.Name">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AuthAccountPageOutput.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AuthAccountPageOutput.Type">
+            <summary>
+            授权类型
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AuthAccountPageOutput.IsBlogger">
+            <summary>
+            是否是博主
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AuthAccountPageOutput.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AuthAccountPageOutput.CreatedTime">
+            <summary>
+            注册时间
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.User.Dtos.AuthAccountPageQueryInput.Name">
+            <summary>
+            昵称
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.User.Dtos.ChangePasswordOutput.OriginalPwd">
