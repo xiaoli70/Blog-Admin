@@ -26,7 +26,8 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
     {
         var contextJson = logMsg.Context.Get("loggingMonitor").ToString()!;
         var json = JsonConvert.DeserializeObject<dynamic>(contextJson);
-        string location = HttpContextExtension.GetGeolocation(json.remoteIPv4.ToString());
+        string ip = string.IsNullOrWhiteSpace(logMsg.Context.Get("ip").ToString()) ? json.remoteIPv4.ToString() : logMsg.Context.Get("ip").ToString();
+        string location = HttpContextExtension.GetGeolocation(ip);
 
         //记录登录日志
         if ("AuthService".Equals(json.controllerTypeName.ToString(), StringComparison.CurrentCultureIgnoreCase) &&
@@ -45,7 +46,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
                 {
                     OsDescription = $"{json.osDescription}（{json.osArchitecture}）",
                     Location = location,
-                    RemoteIp = json.remoteIPv4,
+                    RemoteIp = ip,
                     UserAgent = json.userAgent,
                     UserId = id,
                     CreatedTime = logMsg.LogDateTime,
@@ -85,7 +86,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
             HttpMethod = json.httpMethod,
             HttpStatusCode = json.returnInformation.httpStatusCode,
             Message = logMsg.Message,
-            RemoteIp = json.remoteIPv4,
+            RemoteIp = ip,
             RequestUrl = json.requestUrl,
             UserAgent = json.userAgent,
             ThreadId = logMsg.ThreadId,

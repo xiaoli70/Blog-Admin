@@ -1671,6 +1671,13 @@
             子选项
             </summary>
         </member>
+        <member name="M:Easy.Core.HttpContextExtension.GetRemoteIp(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取ip
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
         <member name="M:Easy.Core.HttpContextExtension.GetGeolocation(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>
             获取Ip所属详细地理位置

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Easy.Admin.Core.Logging;
 using Easy.Admin.Core.Options;
 using Easy.Core;
+using Furion.Logging;
 using Lazy.Captcha.Core;
 using Lazy.Captcha.Core.Generator;
 using Mapster;
@@ -19,8 +20,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MrHuo.OAuth;
 using MrHuo.OAuth.QQ;
 using OnceMi.AspNetCore.OSS;
-using System;
-using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Easy.Admin.Web.Core;
 
@@ -61,6 +60,12 @@ public class Startup : AppStartup
         {
             options.IgnorePropertyNames = new[] { "Byte" };
             options.IgnorePropertyTypes = new[] { typeof(byte[]) };
+            options.ConfigureLogger((logger, logContext, context) =>
+            {
+                var httpContext = context.HttpContext;
+
+                logContext.Set("ip", httpContext.GetRemoteIp());
+            });
         });
 
         //允许跨域

@@ -8,6 +8,22 @@ namespace Easy.Core;
 public static class HttpContextExtension
 {
     /// <summary>
+    /// 获取ip
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string GetRemoteIp(this HttpContext context)
+    {
+        string ip = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(ip))
+        {
+            ip = context.GetRemoteIpAddressToIPv4();
+        }
+
+        return ip;
+    }
+
+    /// <summary>
     /// 获取Ip所属详细地理位置
     /// </summary>
     /// <param name="context"></param>
@@ -16,7 +32,7 @@ public static class HttpContextExtension
     {
         try
         {
-            string ip = context.GetRemoteIpAddressToIPv4();
+            string ip = context.GetRemoteIp();
             //获取ip信息
             return GetGeolocation(ip);
         }
