@@ -110,7 +110,7 @@ public class CommentController : IDynamicApiController
         string address = _httpContextAccessor.HttpContext.GetGeolocation();
         var comments = dto.Adapt<Comments>();
         comments.AccountId = _authManager.UserId;
-        comments.IP = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4();
+        comments.IP = _httpContextAccessor.HttpContext.GetRemoteIp();
         comments.Geolocation = address;
         await _repository.InsertAsync(comments);
     }
