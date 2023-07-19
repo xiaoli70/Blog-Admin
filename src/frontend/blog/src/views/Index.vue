@@ -102,7 +102,7 @@
         </div>
       </v-card>
       <v-pagination
-        v-if="state.article.page > 1"
+        v-if="state.article.totalPage > 1"
         v-model="state.article.page"
         style="margin: 20px 0"
         size="x-small"
@@ -222,7 +222,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, computed, watch, provide } from "vue";
+import { reactive, onMounted, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import EasyTyper from "easy-typer-js/src/ts";
 import Swiper from "../components/Swiper.vue";
@@ -230,11 +230,7 @@ import { useApp } from "@/stores/app";
 import { useAuth } from "@/stores/auth";
 import ArticleApi from "@/api/ArticleApi";
 import dayjs from "dayjs";
-import type {
-  ArticleOutput,
-  ArticleReportOutput,
-  TalksOutput,
-} from "@/api/models";
+import type { ArticleOutput, TalksOutput } from "@/api/models";
 import TalksApi from "@/api/TalksApi";
 import { useRoute, useRouter } from "vue-router";
 import { Session } from "@/utils/storage";
