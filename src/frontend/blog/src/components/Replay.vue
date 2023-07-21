@@ -35,7 +35,6 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import Emoji from "./Emoji.vue";
-import EmojiList from "../assets/emoji";
 interface ReplyInfo {
   index: number;
   chooseEmoji: boolean;
