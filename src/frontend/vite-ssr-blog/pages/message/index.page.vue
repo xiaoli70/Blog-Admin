@@ -89,6 +89,7 @@ const addToList = async () => {
     content: state.content,
   });
   if (succeeded) {
+    state.content = "";
     state.items.push({
       content: state.content,
       avatar: authStore.info?.avatar,
