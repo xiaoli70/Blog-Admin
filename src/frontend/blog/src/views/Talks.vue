@@ -70,7 +70,7 @@
     </div>
     <div class="load-wrapper">
       <v-pagination
-        v-if="state.query.pageNo > 1"
+        v-if="state.pages > 1"
         v-model="state.query.pageNo"
         size="x-small"
         :length="state.pages"

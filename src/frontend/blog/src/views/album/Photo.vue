@@ -35,7 +35,7 @@ const state = reactive({
   name: "",
   query: {
     pageNo: 1,
-    pageSize: 10,
+    pageSize: 1000,
     albumId: route.params.id as never,
   },
 });

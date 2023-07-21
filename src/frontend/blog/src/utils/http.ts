@@ -128,11 +128,7 @@ class Axios {
         switch (data.statusCode) {
           case 401:
             clearAccessTokens();
-            message = "您已登出，请重新登录";
-            // ElMessageBox.alert('您已登出，请重新登录', '提示', {})
-            // 	.then(() => {})
-            // 	.catch(() => {});
-            // window.location.href = '/'; // 去登录页
+            message = "请登录后重试...";
             break;
           case 403:
             message = "您没有权限，无法执行此项操作！";
@@ -141,11 +137,6 @@ class Axios {
             message = JSON.stringify(data.errors);
             break;
         }
-        // ElMessage({
-        // 	showClose: true,
-        // 	message: `${message}`,
-        // 	type: 'error',
-        // });
         if (data.statusCode === 401) {
           clearAccessTokens();
         }

@@ -98,7 +98,9 @@ const state = reactive({
 const cover = computed(() => {
   return (
     "background: url(" +
-    appStore.categoriesCover() +
+    (state.query.categoryId
+      ? appStore.categoriesCover()
+      : appStore.tagListCover()) +
     ") center center / cover no-repeat"
   );
 });

@@ -37,14 +37,20 @@
           <!-- 字数统计 -->
           <span>
             <i class="iconfont iconzishu" />
-            字数统计: {{ textTotal }}
+            字数统计:
+            {{
+              textTotal > 1000
+                ? (textTotal / 1000).toString().match(/^\d+(?:\.\d{0,1})?/) +
+                  "k"
+                : textTotal.toString()
+            }}
           </span>
-          <!-- <span class="separator">|</span> -->
+          <span class="separator">|</span>
           <!-- 阅读时长 -->
-          <!-- <span>
+          <span>
             <i class="iconfont iconshijian" />
-            阅读时长: {{ 2 }}
-          </span> -->
+            阅读时长: {{ Math.ceil(textTotal / 300) + "分钟" }}
+          </span>
         </div>
         <div class="third-line">
           <span class="separator">|</span>
@@ -340,10 +346,8 @@ const textTotal = computed(() => {
       ? state.info.content ?? ""
       : markdownToHtml(state.info.content ?? "")
   ).replaceAll("/<[^>]+>/g, ''", "");
-  const total = text.length;
-  return total > 1000
-    ? (total / 1000).toString().match(/^\d+(?:\.\d{0,1})?/) + "k"
-    : total.toString();
+  const total = text.match(/[w+]|[\u4e00-\u9fa5]|\d/g)?.length ?? 0;
+  return total;
 });
 
 const isFull = computed(() => {

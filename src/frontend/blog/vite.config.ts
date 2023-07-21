@@ -44,7 +44,7 @@ export default defineConfig({
     hmr: true,
     proxy: {
       "/api": {
-        target: "https://localhost:44342",
+        target: "http://localhost:53785",
         ws: true,
         changeOrigin: true,
         secure: false, //解决target使用https出错问题

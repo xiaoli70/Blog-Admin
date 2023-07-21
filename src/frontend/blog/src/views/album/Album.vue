@@ -62,13 +62,6 @@ const cover = computed(() => {
     ") center center / cover no-repeat"
   );
 });
-const infiniteHandler = async ($state: any) => {
-  const { data, succeeded } = await AlbumsApi.list(state.query);
-  if (succeeded) {
-    state.albums = data?.rows ?? [];
-    state.pages = data?.pages ?? 0;
-  }
-};
 const loadData = async () => {
   const { data, succeeded } = await AlbumsApi.list(state.query);
   if (succeeded) {

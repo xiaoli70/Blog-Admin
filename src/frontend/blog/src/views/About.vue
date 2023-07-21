@@ -5,7 +5,8 @@
   <!-- 关于我内容 -->
   <v-card class="blog-container">
     <div class="my-wrapper">
-      <v-avatar size="110" class="author-avatar" :image="img"> </v-avatar>
+      <v-avatar size="110" class="author-avatar" :image="info.avatar ?? img">
+      </v-avatar>
     </div>
     <div class="about-content markdown-body" v-html="info.about" />
   </v-card>
