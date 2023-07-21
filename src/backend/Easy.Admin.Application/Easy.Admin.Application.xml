@@ -1212,6 +1212,11 @@
             文章内容
             </summary>
         </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Summary">
+            <summary>
+            简介
+            </summary>
+        </member>
         <member name="P:Easy.Admin.Application.Client.Dtos.ArticleInfoOutput.Cover">
             <summary>
             封面图
@@ -1380,6 +1385,16 @@
         <member name="P:Easy.Admin.Application.Client.Dtos.ArticleReportOutput.CategoryCount">
             <summary>
             栏目数量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleReportOutput.UserCount">
+            <summary>
+            用户量
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Client.Dtos.ArticleReportOutput.LinkCount">
+            <summary>
+            友链数量
             </summary>
         </member>
         <member name="P:Easy.Admin.Application.Client.Dtos.BlogOutput.Site">
@@ -1732,6 +1747,11 @@
             第三方授权缓存
             </summary>
         </member>
+        <member name="F:Easy.Admin.Application.Client.OAuthController.OAuthRedirectKey">
+            <summary>
+            授权成功后回调页面缓存键
+            </summary>
+        </member>
         <member name="M:Easy.Admin.Application.Client.OAuthController.Get(System.String)">
             <summary>
             获取授权地址
@@ -1745,7 +1765,7 @@
             </summary>
             <param name="type">授权类型</param>
             <param name="code"></param>
-            <param name="state"></param>
+            <param name="state">缓存唯一ID</param>
             <returns></returns>
         </member>
         <member name="M:Easy.Admin.Application.Client.OAuthController.Login(System.String)">

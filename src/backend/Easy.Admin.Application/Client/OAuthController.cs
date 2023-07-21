@@ -13,6 +13,10 @@ public class OAuthController : IDynamicApiController
     /// 第三方授权缓存
     /// </summary>
     private const string OAuthKey = "oauth.";
+    /// <summary>
+    /// 授权成功后回调页面缓存键
+    /// </summary>
+    private const string OAuthRedirectKey = "oauth.redirect.";
     private readonly QQOAuth _qqoAuth;
     private readonly AuthManager _authManager;
     private readonly ISqlSugarRepository<AuthAccount> _accountRepository;
@@ -45,11 +49,14 @@ public class OAuthController : IDynamicApiController
     /// <returns></returns>
     [HttpGet("{type}")]
     [AllowAnonymous]
-    public string Get(string type)
+    public async Task<string> Get(string type)
     {
+        string code = _idGenerator.Encode(_idGenerator.NewLong());
+        var referer = _httpContextAccessor.HttpContext!.Request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
+        await _easyCachingProvider.SetAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
         return type.ToLower() switch
         {
-            "qq" => _qqoAuth.GetAuthorizeUrl(_idGenerator.Encode(_idGenerator.NewLong())),
+            "qq" => _qqoAuth.GetAuthorizeUrl(code),
             _ => throw Oops.Bah("无效请求")
         };
     }
@@ -59,18 +66,21 @@ public class OAuthController : IDynamicApiController
     /// </summary>
     /// <param name="type">授权类型</param>
     /// <param name="code"></param>
-    /// <param name="state"></param>
+    /// <param name="state">缓存唯一ID</param>
     /// <returns></returns>
     [HttpGet("{type}/callback")]
     [AllowAnonymous]
     public async Task<IActionResult> Callback(string type, [FromQuery] string code, [FromQuery] string state)
     {
+        if (string.IsNullOrWhiteSpace(state) || !await _easyCachingProvider.ExistsAsync($"{OAuthRedirectKey}{state}"))
+        {
+            throw Oops.Oh("缺少参数");
+        }
         AuthAccount account;
-        string encode = _idGenerator.Encode(_idGenerator.NewLong());
         switch (type.ToLower())
         {
             case "qq":
-                var auth = await _qqoAuth.AuthorizeCallback(code, state ?? "");
+                var auth = await _qqoAuth.AuthorizeCallback(code, state);
                 if (!auth.IsSccess)
                 {
                     throw Oops.Bah(auth.ErrorMessage);
@@ -107,10 +117,11 @@ public class OAuthController : IDynamicApiController
                 throw Oops.Bah("无效请求");
         }
 
-        string key = $"{OAuthKey}{encode}";
+        string key = $"{OAuthKey}{state}";
         await _easyCachingProvider.SetAsync(key, account, TimeSpan.FromSeconds(30));
+        //登录成功后的回调页面
         string url = App.Configuration["oauth:redirect_uri"];
-        return new RedirectResult($"{url}/{encode}");
+        return new RedirectResult($"{url}?code={state}");
     }
 
     /// <summary>
@@ -120,9 +131,10 @@ public class OAuthController : IDynamicApiController
     /// <returns></returns>
     [HttpPost("login/{code}")]
     [AllowAnonymous]
-    public async Task Login(string code)
+    public async Task<string> Login(string code)
     {
-        string key = $"{OAuthKey}{code}";
+        long decode = _idGenerator.Decode(code);
+        string key = $"{OAuthKey}{code}", key2 = $"{OAuthRedirectKey}{decode}";
         var value = await _easyCachingProvider.GetAsync<AuthAccount>(key);
         if (!value.HasValue)
         {
@@ -142,6 +154,10 @@ public class OAuthController : IDynamicApiController
         // 设置响应报文头
         _httpContextAccessor.HttpContext!.Response.Headers["access-token"] = token;
         _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToken;
+        string url = (await _easyCachingProvider.GetAsync<string>(key2)).Value;
+        await _easyCachingProvider.RemoveAsync(key);
+        await _easyCachingProvider.RemoveAsync(key2);
+        return url;
     }
 
     /// <summary>

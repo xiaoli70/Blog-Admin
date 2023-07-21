@@ -14,16 +14,22 @@ public class ArticleController : IDynamicApiController
     private readonly ISqlSugarRepository<Article> _articleRepository;
     private readonly AuthManager _authManager;
     private readonly ISqlSugarRepository<Categories> _categoryRepository;
+    private readonly ISqlSugarRepository<AuthAccount> _authAccountRepository;
+    private readonly ISqlSugarRepository<FriendLink> _friendLinkRepository;
 
     public ArticleController(ISqlSugarRepository<Tags> tagsRepository,
         ISqlSugarRepository<Article> articleRepository,
         AuthManager authManager,
-        ISqlSugarRepository<Categories> categoryRepository)
+        ISqlSugarRepository<Categories> categoryRepository,
+        ISqlSugarRepository<AuthAccount> authAccountRepository,
+        ISqlSugarRepository<FriendLink> friendLinkRepository)
     {
         _tagsRepository = tagsRepository;
         _articleRepository = articleRepository;
         _authManager = authManager;
         _categoryRepository = categoryRepository;
+        _authAccountRepository = authAccountRepository;
+        _friendLinkRepository = friendLinkRepository;
     }
 
     /// <summary>
@@ -141,14 +147,20 @@ public class ArticleController : IDynamicApiController
 
         //标签统计
         int tagCount = await _tagsRepository.AsQueryable().Where(x => x.Status == AvailabilityStatus.Enable).CountAsync();
-        //一级栏目统计
+        //栏目统计
         int categoryCount = await _categoryRepository.AsQueryable().Where(x => x.Status == AvailabilityStatus.Enable).CountAsync();
+
+        int userCount = await _authAccountRepository.AsQueryable().CountAsync();
+
+        int linkCount = await _friendLinkRepository.AsQueryable().CountAsync(x => x.Status == AvailabilityStatus.Enable);
 
         return new ArticleReportOutput
         {
             ArticleCount = articleCount,
             CategoryCount = categoryCount,
-            TagCount = tagCount
+            TagCount = tagCount,
+            LinkCount = linkCount,
+            UserCount = userCount
         };
     }
 
@@ -171,6 +183,7 @@ public class ArticleController : IDynamicApiController
                 Id = x.Id,
                 Title = x.Title,
                 Content = x.Content,
+                Summary = x.Summary,
                 Cover = x.Cover,
                 PublishTime = x.PublishTime,
                 Author = x.Author,

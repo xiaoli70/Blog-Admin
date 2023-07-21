@@ -15,6 +15,10 @@ public class ArticleInfoOutput
     /// </summary>
     public string Content { get; set; }
     /// <summary>
+    /// 简介
+    /// </summary>
+    public string Summary { get; set; }
+    /// <summary>
     /// 封面图
     /// </summary>
     public string Cover { get; set; }

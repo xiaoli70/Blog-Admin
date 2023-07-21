@@ -15,4 +15,14 @@ public class ArticleReportOutput
     /// 栏目数量
     /// </summary>
     public int CategoryCount { get; set; }
+
+    /// <summary>
+    /// 用户量
+    /// </summary>
+    public int UserCount { get; set; }
+
+    /// <summary>
+    /// 友链数量
+    /// </summary>
+    public int LinkCount { get; set; }
 }
