@@ -11,4 +11,13 @@ export interface ArticleReportOutput {
    * 标签总数
    */
   tagCount: number;
+   /**
+   * 友链数量
+   */
+   linkCount: number;
+
+   /**
+    * 用户数量
+    */
+   userCount: number;
 }

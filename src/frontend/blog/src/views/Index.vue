@@ -202,8 +202,13 @@
               运行时间:<span class="float-right">{{ state.runTime }}</span>
             </div>
             <div style="padding: 4px 0 0">
-              总访问量:<span class="float-right">
-                {{ blogSetting.visitorNumbers }}
+              用户数量:<span class="float-right">
+                {{ report.userCount }}
+              </span>
+            </div>
+            <div style="padding: 4px 0 0">
+              友链数量:<span class="float-right">
+                {{ report.linkCount }}
               </span>
             </div>
           </div>
