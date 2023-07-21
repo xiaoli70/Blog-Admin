@@ -276,17 +276,6 @@
             </div>
           </div>
         </v-card>
-        <v-snackbar
-          v-model="state.showBar"
-          :timeout="2000"
-          location="center"
-          rounded="pill"
-          position="fixed"
-          color="warning"
-          ariant="text"
-        >
-          {{ state.message }}
-        </v-snackbar>
       </div>
     </v-col>
   </v-row>
@@ -298,10 +287,10 @@ import hljs from "highlight.js";
 import { computed, ref, reactive, onMounted, onUnmounted, nextTick } from "vue";
 import ArticleApi from "@/api/ArticleApi";
 import { useApp } from "@/stores/app";
+import { useToast } from "@/stores/toast";
 import markdownToHtml from "../../utils/markdown";
 import Clipboard from "clipboard";
 import Viewer from "viewerjs";
-import { useToast, POSITION } from "vue-toastification";
 import * as tocbot from "tocbot";
 import "viewerjs/dist/viewer.css";
 import Share from "../../components/Share/Index.vue";
@@ -311,14 +300,13 @@ import { storeToRefs } from "pinia";
 import type { ArticleBasicsOutput, ArticleInfoOutput } from "@/api/models";
 import CommentApi from "@/api/CommentApi";
 const appStore = useApp();
+const toastStore = useToast();
 const { blogSetting } = storeToRefs(appStore);
 const route = useRoute();
 const state = reactive({
   id: 0,
   info: {} as ArticleInfoOutput,
   latest: [] as ArticleBasicsOutput[],
-  showBar: false,
-  message: "",
 });
 let clipboard: Clipboard | null = null; //ref<Clipboard>();
 let viewer: Viewer | null = null;
@@ -356,15 +344,9 @@ const isFull = computed(() => {
 
 // 点赞
 const onPraise = async () => {
-  const { succeeded, statusCode } = state.info.isPraise
+  const { succeeded } = state.info.isPraise
     ? await CommentApi.cancelPraise(state.info.id!)
     : await CommentApi.praise(state.info.id!);
-  console.log(succeeded, statusCode);
-  if (statusCode === 401) {
-    state.message = "请登录后再试";
-    state.showBar = true;
-    return false;
-  }
   if (succeeded) {
     state.info.isPraise = !state.info.isPraise;
     state.info.praiseTotal = state.info.isPraise
@@ -385,12 +367,7 @@ onMounted(async () => {
     clipboard = new Clipboard(".copy-btn");
     clipboard.on("success", (): void => {
       //复制成功
-      useToast().success("复制成功", {
-        position: POSITION.TOP_CENTER,
-        timeout: 3000,
-        hideProgressBar: true,
-        closeButton: false,
-      });
+      toastStore.success("复制成功");
     });
     //生成目录
     tocbot.init({

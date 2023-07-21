@@ -201,16 +201,6 @@
   </div>
   <!-- 没有评论提示 -->
   <div v-else style="padding: 1.25rem; text-align: center">来发评论吧~</div>
-  <v-snackbar
-    v-model="state.showBar"
-    :timeout="2000"
-    location="top"
-    position="fixed"
-    color="warning"
-    ariant="text"
-  >
-    {{ state.message }}
-  </v-snackbar>
 </template>
 
 <script setup lang="ts">
@@ -222,14 +212,14 @@ import Paging from "./Paging.vue";
 import EmojiList from "../assets/emoji";
 import CommentApi from "@/api/CommentApi";
 import type { CommentOutput, ReplyOutput } from "@/api/models";
+import { useToast } from "@/stores/toast";
 const props = defineProps<{
   type?: number | string;
 }>();
-
 const emit = defineEmits<{
   (e: "getCommentCount", count: number): void;
 }>();
-
+const toast = useToast();
 const state = reactive({
   reFresh: true,
   commentContent: "",
@@ -238,8 +228,6 @@ const state = reactive({
   commentList: [] as Array<CommentOutput>,
   count: 0,
   pages: 0,
-  showBar: false,
-  message: "",
 });
 
 const reply = ref<Array<InstanceType<typeof Reply>>>([]);
@@ -288,11 +276,10 @@ const insertComment = async () => {
   //删除html标签
   const content = formatContent(state.commentContent);
   if (content.length === 0) {
-    state.message = "请输入内容";
-    state.showBar = true;
+    toast.error("请输入评论内容");
     return;
   }
-  const { succeeded, statusCode, errors } = await CommentApi.add({
+  const { succeeded } = await CommentApi.add({
     moduleId: props.type as number,
     content,
   });
@@ -300,10 +287,6 @@ const insertComment = async () => {
     state.commentContent = "";
     state.current = 1;
     loadData();
-  } else {
-    state.message =
-      statusCode === 401 ? "请登录后再试" : errors ?? "糟糕！出错了...";
-    state.showBar = true;
   }
 };
 
@@ -339,12 +322,11 @@ const reloadReply = async (index: number) => {
   const item = reply.value[index].replay;
   const content = formatContent(item.commentContent ?? "");
   if (content.length === 0) {
-    state.message = "请输入内容";
-    state.showBar = true;
+    toast.success("请输入评论内容");
     return;
   }
 
-  const { succeeded, statusCode, errors } = await CommentApi.add({
+  const { succeeded } = await CommentApi.add({
     content: content ?? "",
     parentId: item.parentId,
     moduleId: props.type as number,
@@ -355,10 +337,6 @@ const reloadReply = async (index: number) => {
     item.commentContent = "";
     reply.value[index].replay.visible = false;
     await changeReplyCurrent(1, index, item.rootId!);
-  } else {
-    state.message =
-      statusCode === 401 ? "请登录后再试" : errors ?? "糟糕！出错了...";
-    state.showBar = true;
   }
 };
 

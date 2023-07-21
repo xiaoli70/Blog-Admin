@@ -330,7 +330,7 @@ const reloadReply = async (index: number) => {
     return;
   }
 
-  const { succeeded, statusCode, errors } = await CommentApi.add({
+  const { succeeded } = await CommentApi.add({
     content: content ?? "",
     parentId: item.parentId,
     moduleId: props.type as number,

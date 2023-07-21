@@ -143,16 +143,12 @@ import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import { useApp } from "@/stores/app";
 import { useAuth } from "@/stores/auth";
 import OAuthApi from "@/api/OAuthApi";
-import { Session } from "@/utils/storage";
-import { useRoute } from "vue-router";
-const route = useRoute();
 const authStore = useAuth();
 const { drawer } = storeToRefs(useDrawerSettingStore());
 const appStore = useApp();
 const { blogSetting, info, report } = storeToRefs(appStore);
 const handleLogin = async () => {
   const { data } = await OAuthApi.get();
-  Session.set("redirect_uri", route.fullPath);
   location.href = data!;
 };
 const handleLoginOut = () => {

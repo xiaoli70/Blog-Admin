@@ -177,12 +177,10 @@ import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import { useApp } from "~/stores/app";
 import OAuthApi from "../../api/OAuthApi";
 import { useAuth } from "../../stores/auth";
-import { usePageContext } from "../../renderer/usePageContext";
 const SearchModel = defineAsyncComponent(() => import("../SearchModel.vue"));
 const authStore = useAuth();
 const appStore = useApp();
 const { blogSetting } = storeToRefs(appStore);
-const route = usePageContext();
 const vm = reactive({
   scrollTop: 0,
   navClass: "nav",

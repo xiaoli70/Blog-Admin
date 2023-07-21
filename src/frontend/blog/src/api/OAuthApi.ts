@@ -15,7 +15,7 @@ class OAuthApi {
    * @returns
    */
   login = (code: string) => {
-    return http.post("/oauth/login/" + code);
+    return http.post<string>("/oauth/login/" + code);
   };
   /**
    * 获取用户信息

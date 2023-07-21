@@ -39,12 +39,10 @@ export const useApp = defineStore("app", () => {
    * 初始化博客基本信息
    */
   const init = async () => {
-    // const [site, report] = await Promise.all([
-    //   AppApi.info(),
-    //   ArticleApi.report(),
-    // ]);
-    // const data = site.data;
-    // if (report.data) app.report = report.data;
+    if (app.isInit) {
+      return;
+    }
+    app.isInit = true;
     const { data } = await AppApi.info();
     const covers = data!.covers!;
     app.info = data!.info ?? {
@@ -78,7 +76,6 @@ export const useApp = defineStore("app", () => {
     app.covers.link = covers.link ?? ["/cover/default.jpg"];
     app.covers.tagList = covers.tagList ?? ["/cover/default.jpg"];
     app.covers.categories = covers.categories ?? ["/cover/default.jpg"];
-    app.isInit = true;
   };
   /**
    * 首页cover

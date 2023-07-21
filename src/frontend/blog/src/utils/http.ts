@@ -7,6 +7,7 @@ import type {
   InternalAxiosRequestConfig,
 } from "axios";
 import { Session } from "./storage";
+import { useToast } from "@/stores/toast";
 
 // token 键定义
 export const accessTokenKey = "access-token";
@@ -137,6 +138,10 @@ class Axios {
             message = JSON.stringify(data.errors);
             break;
         }
+        if (message) {
+          const toast = useToast();
+          toast.error(message);
+        }
         if (data.statusCode === 401) {
           clearAccessTokens();
         }
@@ -186,14 +191,10 @@ class Axios {
           }
         }
         // 这里错误消息可以使用全局弹框展示出来
-        // if (message) {
-        // 	// 比如element plus 可以使用 ElMessage
-        // 	ElMessage({
-        // 		showClose: true,
-        // 		message: `${message}，请检查网络或联系管理员！`,
-        // 		type: 'error',
-        // 	});
-        // }
+        if (message) {
+          const toast = useToast();
+          toast.error(message);
+        }
 
         // 这里是AxiosError类型，所以一般我们只reject我们需要的响应即可
         return Promise.reject(err);

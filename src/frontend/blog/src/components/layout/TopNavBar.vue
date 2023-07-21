@@ -172,11 +172,8 @@ import { onMounted, watch, reactive } from "vue";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import OAuthApi from "@/api/OAuthApi";
 import SearchModel from "../SearchModel.vue";
-import { useRoute } from "vue-router";
-import { Session } from "@/utils/storage";
 import { useAuth } from "@/stores/auth";
 const authStore = useAuth();
-const route = useRoute();
 const vm = reactive({
   scrollTop: 0,
   navClass: "nav",
@@ -207,7 +204,6 @@ const searchModelHandel = () => {
 
 const handleLogin = async () => {
   const { data } = await OAuthApi.get();
-  Session.set("redirect_uri", route.fullPath);
   location.href = data!;
 };
 const handleLoginOut = () => {

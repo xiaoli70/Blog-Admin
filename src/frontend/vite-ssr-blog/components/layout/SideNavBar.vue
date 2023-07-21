@@ -142,8 +142,6 @@ import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import { useApp } from "../../stores/app";
 import { useAuth } from "../../stores/auth";
 import OAuthApi from "../../api/OAuthApi";
-import { usePageContext } from "../../renderer/usePageContext";
-const route = usePageContext();
 const authStore = useAuth();
 const { drawer } = storeToRefs(useDrawerSettingStore());
 const appStore = useApp();

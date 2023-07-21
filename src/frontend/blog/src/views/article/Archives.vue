@@ -71,6 +71,7 @@ const loadData = async () => {
 watch(
   () => state.query.pageNo,
   async () => {
+    window.scrollTo(0, 0);
     await loadData();
   }
 );

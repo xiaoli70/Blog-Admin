@@ -118,17 +118,6 @@
       </v-row>
     </v-form>
   </v-card>
-  <v-snackbar
-    v-model="state.showBar"
-    :timeout="2000"
-    location="center"
-    rounded="pill"
-    position="fixed"
-    :color="state.success ? 'success' : 'warning'"
-    ariant="text"
-  >
-    {{ state.message }}
-  </v-snackbar>
 </template>
 
 <script setup lang="ts">
@@ -139,9 +128,10 @@ import img from "../assets/images/1.jpg";
 import { storeToRefs } from "pinia";
 import { AddLinkOutput } from "@/api/models";
 import OAuthApi from "@/api/OAuthApi";
-import { Session } from "@/utils/storage";
+import { useToast } from "@/stores/toast";
 const appStore = useApp();
 const authStore = useAuth();
+const toastStore = useToast();
 const { info } = storeToRefs(authStore);
 const state = reactive({
   form: false,
@@ -153,8 +143,6 @@ const state = reactive({
     remark: info.value?.remark ?? "",
     logo: info.value?.logo ?? "",
   } as AddLinkOutput,
-  message: "",
-  showBar: false,
   success: false,
   cover: `background: url(${appStore.userCover()}) center center / cover no-repeat`,
 });
@@ -171,18 +159,18 @@ const onSubmit = async () => {
 
   state.loading = false;
   state.success = succeeded;
-  state.message = succeeded ? "提交成功" : "提交失败";
-  state.showBar = true;
   if (succeeded) {
+    toastStore.success("提交成功，请耐心等待审核");
     await authStore.getUserInfo();
   }
 };
 onMounted(async () => {
-  Session.remove("redirect_uri");
   if (!info.value) {
     const { data } = await OAuthApi.get();
-    Session.set("redirect_uri", "/user");
     location.href = data!;
+  }
+  if (info.value?.status === 1) {
+    toastStore.info("您申请的交换友链正在审核中");
   }
 });
 </script>

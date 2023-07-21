@@ -152,7 +152,10 @@
             </div>
           </div>
           <!-- 收藏按钮 -->
-          <a class="collection-btn" @click="state.tip = true">
+          <a
+            class="collection-btn"
+            @click="useToast().info('按CTRL+D 键将本页加入书签')"
+          >
             <v-icon color="#fff" size="18" class="mr-1">mdi-bookmark</v-icon>
             加入书签
           </a>
@@ -208,17 +211,6 @@
       </div>
     </v-col>
   </v-row>
-  <!-- 提示消息 -->
-  <v-snackbar
-    v-model="state.tip"
-    location="center"
-    position="fixed"
-    color="blue"
-    ariant="text"
-    :timeout="2000"
-  >
-    按CTRL+D 键将本页加入书签
-  </v-snackbar>
 </template>
 
 <script setup lang="ts">
@@ -233,7 +225,7 @@ import dayjs from "dayjs";
 import type { ArticleOutput, TalksOutput } from "@/api/models";
 import TalksApi from "@/api/TalksApi";
 import { useRoute, useRouter } from "vue-router";
-import { Session } from "@/utils/storage";
+import { useToast } from "@/stores/toast";
 const router = useRouter();
 const appStore = useApp();
 const route = useRoute();
@@ -253,7 +245,6 @@ const state = reactive({
     sentencePause: true,
   },
   runTime: "", // 运行时长
-  tip: false, //提示
   article: {
     page: 1,
     pageSize: 10,
@@ -317,6 +308,7 @@ const cover = computed(() => {
 watch(
   () => state.article.page,
   async () => {
+    scrollDown();
     await articlePage();
   }
 );
@@ -329,14 +321,11 @@ onMounted(async () => {
     () => {},
     () => {}
   );
-  if (route.params.code) {
-    const success = await authStore.login(route.params.code as string);
-    if (success) {
-      const url = Session.get<string>("redirect_uri");
-      if (url) {
-        Session.remove("redirect_uri");
-        router.push(url);
-      }
+  const code = route.query.code || route.params.code;
+  if (code) {
+    const { data, succeeded } = await authStore.login(code as string);
+    if (succeeded && data) {
+      router.push(data);
     }
   }
   const [talks] = await Promise.all([

@@ -44,16 +44,6 @@
         </template>
       </vue-danmaku>
     </div>
-    <v-snackbar
-      v-model="state.showBar"
-      :timeout="2000"
-      location="top"
-      position="fixed"
-      color="warning"
-      ariant="text"
-    >
-      {{ state.message }}
-    </v-snackbar>
   </div>
 </template>
 <script setup lang="ts">
@@ -65,22 +55,25 @@ import { useAuth } from "@/stores/auth";
 import CommentApi from "@/api/CommentApi";
 import { CommentOutput } from "@/api/models";
 import { storeToRefs } from "pinia";
+import { useToast } from "@/stores/toast";
 const appStore = useApp();
 const authStore = useAuth();
+const toast = useToast();
 const { info } = storeToRefs(authStore);
 const state = reactive({
   content: "",
   items: [] as CommentOutput[],
   show: false,
-  showBar: false,
-  message: "",
 });
 
 // 发送弹幕
 const addToList = async () => {
+  if (!state.content) {
+    toast.error("请输入内容");
+    return;
+  }
   if (!info.value) {
-    state.message = "请先登录";
-    state.showBar = true;
+    toast.error("请登录后发表留言");
     return;
   }
   const { succeeded } = await CommentApi.add({
