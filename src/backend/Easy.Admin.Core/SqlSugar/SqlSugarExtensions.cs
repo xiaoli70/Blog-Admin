@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Reflection;
 using Easy.Admin.Core.Const;
 using Easy.Admin.Core.Entities;
+using Easy.Admin.Core.Enum;
 using Easy.Admin.Core.Options;
 using Mapster;
+using Newtonsoft.Json;
 using Yitter.IdGenerator;
 
 namespace SqlSugar;
@@ -63,6 +67,9 @@ public static class SqlSugarExtensions
         provider.DbMaintenance.CreateDatabase();
         IEnumerable<Type> types = App.EffectiveTypes.Where(x => !x.IsInterface && x.IsClass && !x.IsAbstract && typeof(IEntity).IsAssignableFrom(x));
         provider.CodeFirst.InitTables(types.ToArray());
+
+        //初始化数据
+        InitData(client);
     }
 
     /// <summary>
@@ -123,7 +130,7 @@ public static class SqlSugarExtensions
                     {
                         createdTime.CreatedTime = DateTime.Now;
                     }
-                    if (entityInfo.EntityValue is ICreatedUserId createdUserId)
+                    if (entityInfo.EntityValue is ICreatedUserId { CreatedUserId: 0 } createdUserId)
                     {
                         createdUserId.CreatedUserId = App.User.FindFirst(AuthClaimsConst.AuthIdKey)!.Value.Adapt<long>();
                     }
@@ -168,4 +175,53 @@ public static class SqlSugarExtensions
         //配置逻辑删除过滤器（查询数据时过滤掉已被标记删除的数据）
         db.QueryFilter.AddTableFilter<ISoftDelete>(it => it.DeleteMark == false);
     };
+
+    /// <summary>
+    /// 初始化基础数据
+    /// </summary>
+    private static void InitData(SqlSugarScope client)
+    {
+        List<SysUser> users = new List<SysUser>()
+        {
+            new SysUser()
+            {
+                Id = 1,
+                Account = "admin",
+                Password = "9658b68df5e6208e97ae6c8f4eac6c39",
+                Name = "管理员",
+                Gender = Gender.Female,
+                NickName = "管理员",
+                Avatar = "https://oss.okay123.top/oss//2023/07/13/Yln0lzZQLN.jpg",
+                CreatedUserId = 1
+            },
+            new SysUser()
+            {
+                Id = 50048753934341,
+                Account = "test",
+                Password = "65caa9533b8d9f336bd07919dd9bf74e",
+                Name = "测试",
+                Gender = Gender.Female,
+                NickName = "测试",
+                CreatedUserId = 1
+            }
+        };
+        client.Storageable(users).ToStorage().AsInsertable.ExecuteCommand();
+
+        string path = Path.Combine(AppContext.BaseDirectory, "InitData");
+        var dir = new DirectoryInfo(path);
+        var files = dir.GetFiles("*.txt");
+        foreach (var file in files)
+        {
+            using var reader = file.OpenText();
+            string s = reader.ReadToEnd();
+            var table = JsonConvert.DeserializeObject<DataTable>(s);
+            if (table.Rows.Count == 0)
+            {
+                continue;
+            }
+            table.TableName = file.Name.Replace(".txt", "");
+
+            client.Storageable(table).WhereColumns("Id").ToStorage().AsInsertable.ExecuteCommand();
+        }
+    }
 }

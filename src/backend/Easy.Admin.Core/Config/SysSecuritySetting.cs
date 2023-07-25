@@ -17,11 +17,11 @@ public class SysSecuritySetting
     /// </summary>
     public string PasswordRule { get; set; }
     /// <summary>
-    /// 密码验证提示语
+    /// 密码规则提示语
     /// </summary>
     public string RuleMessage { get; set; }
     /// <summary>
-    /// 单点登录
+    /// Token有效期(分钟)
     /// </summary>
-    public bool? IsSso { get; set; }
+    public int? TokenExpired { get; set; }
 }

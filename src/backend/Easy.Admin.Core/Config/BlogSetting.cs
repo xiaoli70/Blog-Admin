@@ -49,10 +49,6 @@ public class BlogSetting
     /// </summary>
     public DateTime RunTime { get; set; }
     /// <summary>
-    /// 网站访问量
-    /// </summary>
-    public int VisitorNumbers { get; set; }
-    /// <summary>
     /// 站点版权
     /// </summary>
     public string Copyright { get; set; }

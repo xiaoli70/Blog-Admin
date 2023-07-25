@@ -36,8 +36,9 @@
     "Connections": [
       {
         "ConfigId": 1,
-        "DbType": "MySql", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access、OpenGauss、QuestDB、HG、ClickHouse、GBase、Odbc、Custom
-        "ConnectionString": "Server=182.254.150.99;User Id=root;Password=Asd1024***;Port=3306;Database=Easy.Admin;CharSet=utf8mb4;",
+        "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access、OpenGauss、QuestDB、HG、ClickHouse、GBase、Odbc、Custom
+        //"ConnectionString": "Server=182.254.150.99;User Id=root;Password=Asd1024***;Port=3306;Database=Easy.Admin;CharSet=utf8mb4;",// mysql
+        "ConnectionString": "DataSource=easy.admin.sqlite",// sqllite
         "IsAutoCloseConnection": true,
         "EnableInitDb": true
       }
