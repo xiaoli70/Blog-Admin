@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts" name="loginAccount">
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage, dayjs } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -193,6 +193,17 @@ const signInSuccess = (isNoPower: boolean | undefined) => {
 		NextLoading.start();
 	}
 };
+const enterHandler = async (event: KeyboardEvent) => {
+	if (event.key === 'Enter') {
+		await onSignIn();
+	}
+};
+onMounted(() => {
+	window.addEventListener('keydown', enterHandler);
+});
+onBeforeUnmount(() => {
+	window.removeEventListener('keydown', enterHandler);
+});
 </script>
 
 <style scoped lang="scss">
