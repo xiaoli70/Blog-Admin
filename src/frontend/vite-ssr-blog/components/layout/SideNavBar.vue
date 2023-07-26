@@ -146,10 +146,12 @@ const authStore = useAuth();
 const { drawer } = storeToRefs(useDrawerSettingStore());
 const appStore = useApp();
 const { blogSetting, info, report } = storeToRefs(appStore);
+// 跳转登录
 const handleLogin = async () => {
   const { data } = await OAuthApi.get();
   location.href = data!;
 };
+// 退出登录
 const handleLoginOut = () => {
   authStore.logout();
 };
