@@ -210,9 +210,8 @@ const searchModelHandel = () => {
 };
 
 const handleLogin = async () => {
-  authStore.toLogin();
-  // const { data } = await OAuthApi.get();
-  // location.href = data!;
+  const { data } = await OAuthApi.get();
+  location.href = data!;
 };
 const handleLoginOut = () => {
   authStore.logout();
