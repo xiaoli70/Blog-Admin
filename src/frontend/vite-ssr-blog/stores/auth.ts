@@ -25,6 +25,18 @@ export const useAuth = defineStore("auth", () => {
   };
 
   /**
+   * 跳转到登录地址
+   */
+  const toLogin = async (type = "qq") => {
+    const { data } = await OAuthApi.get(type);
+    window.open(
+      data,
+      "TencentLogin",
+      "width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1"
+    );
+  };
+
+  /**
    * 退出登录
    */
   const logout = () => {
@@ -45,5 +57,5 @@ export const useAuth = defineStore("auth", () => {
     return store.info;
   });
 
-  return { login, logout, getUserInfo, info };
+  return { login, logout, getUserInfo, toLogin, info };
 });

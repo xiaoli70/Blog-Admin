@@ -1,6 +1,7 @@
 ﻿using Easy.Admin.Application.Auth;
 using Easy.Admin.Application.Client.Dtos;
 using MrHuo.OAuth.QQ;
+using System.Security.Policy;
 
 namespace Easy.Admin.Application.Client;
 /// <summary>
@@ -54,11 +55,12 @@ public class OAuthController : IDynamicApiController
         string code = _idGenerator.Encode(_idGenerator.NewLong());
         var referer = _httpContextAccessor.HttpContext!.Request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
         await _easyCachingProvider.SetAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
-        return type.ToLower() switch
+        string url = type.ToLower() switch
         {
             "qq" => _qqoAuth.GetAuthorizeUrl(code),
             _ => throw Oops.Bah("无效请求")
         };
+        return url;
     }
 
     /// <summary>
@@ -94,7 +96,7 @@ public class OAuthController : IDynamicApiController
                 {
                     await _accountRepository.UpdateAsync(x => new AuthAccount()
                     {
-                        Avatar = info.QQAvatar,
+                        Avatar = string.IsNullOrWhiteSpace(info.QQ100Avatar) ? info.Avatar : info.QQ100Avatar,
                         Name = info.Name,
                         Gender = gender
                     },
