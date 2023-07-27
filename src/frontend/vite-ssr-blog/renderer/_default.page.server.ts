@@ -13,7 +13,7 @@ import { renderToString as renderToString_ } from "@vue/server-renderer";
 import type { App } from "vue";
 import { escapeInject, dangerouslySkipEscape } from "vite-plugin-ssr/server";
 import { createApp } from "./app";
-import logoUrl from "./logo.svg";
+import logoUrl from "./favicon.ico";
 import type { PageContextServer } from "./types";
 import AppApi from "~/api/AppApi";
 
@@ -27,19 +27,21 @@ async function render(pageContext: PageContextServer) {
   // See https://vite-plugin-ssr.com/head
   let title = meta?.title,
     keywords = meta?.keywords,
-    desc = meta?.description;
+    desc = meta?.description,
+    logo = logoUrl;
   if (meta === null || !title || !desc || !keywords) {
     const { data } = await AppApi.info();
     title = (meta?.title ?? "oops") + "-" + data?.site?.siteName!;
     desc = meta?.description || data?.site?.description!;
     keywords = meta?.keywords || data?.site?.keyword!;
+    logo = data?.site?.logo || logo;
   }
 
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
-        <link rel="icon" href="${logoUrl}" />
+        <link rel="icon" href="${logo}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${desc}" />
         <meta name="keywords" content="${keywords}" />
