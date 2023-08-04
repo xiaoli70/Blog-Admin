@@ -3,7 +3,8 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY . .
+COPY ["./package.json","app/"]
+COPY ["./dist","app/"]
 
 RUN npm install --registry=https://registry.npm.taobao.org --no-package-lock --no-save
 
