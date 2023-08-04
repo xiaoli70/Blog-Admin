@@ -1,17 +1,17 @@
 # 使用官方的 Node.js 基础镜像
 FROM node:latest
 
-WORKDIR /app/vue-ssr
+WORKDIR /app
 
-COPY . /app/vue-ssr
+COPY dist /app
 
-RUN cd /app/vue-ssr
+COPY package.json /app
 
 RUN npm install
 
 ENV NODE_ENV production
 
-PORT 5200
+ENV PORT 5200
 
 EXPOSE 5200
 
