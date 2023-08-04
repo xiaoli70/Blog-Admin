@@ -1,9 +1,7 @@
 # 使用官方的 Node.js 基础镜像
 FROM node:latest
 
-COPY package.json /app/
-
-COPY dist /app/
+COPY . /app/
 
 WORKDIR /app
 
