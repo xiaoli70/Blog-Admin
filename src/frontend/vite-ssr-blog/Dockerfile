@@ -1,13 +1,11 @@
 # 使用官方的 Node.js 基础镜像
 FROM node:latest
 
-COPY . /app/
+COPY package.json /app/
+COPY dist /app/
+COPY node_modules /app/
 
 WORKDIR /app
-
-RUN npm install yarn && yarn install
-
-#RUN npm run build
 
 ENV NODE_ENV production
 
