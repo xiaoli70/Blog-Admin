@@ -3,9 +3,9 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY ./package.json
+COPY ./package.json /app
 
-COPY ./dist
+COPY ./dist /app/dist
 
 WORKDIR /app
 
