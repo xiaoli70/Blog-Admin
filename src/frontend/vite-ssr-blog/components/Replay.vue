@@ -10,6 +10,7 @@
       auto-grow
       dense
       v-model="replay.commentContent"
+      :maxlength="replay.maxlength ?? 200"
     />
     <div class="emoji-container">
       <span
@@ -44,6 +45,7 @@ interface ReplyInfo {
   nickname?: string;
   commentContent?: string;
   visible: boolean;
+  maxlength?: number;
 }
 const emit = defineEmits<{
   (e: "submit", index: number): void;
@@ -52,6 +54,7 @@ const replay = reactive<ReplyInfo>({
   index: 0,
   chooseEmoji: false,
   visible: false,
+  maxlength: 200,
 });
 
 const cancleReply = () => {

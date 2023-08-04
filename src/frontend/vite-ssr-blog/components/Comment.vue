@@ -11,6 +11,7 @@
             v-model="state.commentContent"
             placeholder="留下点什么吧..."
             auto-grow
+            :maxlength="maxlength ?? 200"
             dense
           />
         </div>
@@ -215,6 +216,7 @@ import type { CommentOutput, ReplyOutput } from "../api/models";
 import { useToast } from "~/stores/toast";
 const props = defineProps<{
   type?: number | string;
+  maxlength?: number;
 }>();
 
 const toast = useToast();
