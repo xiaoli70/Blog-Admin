@@ -3,9 +3,11 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY dist/ /app/dist
-
 COPY package.json /app
+
+WORKDIR /app/dist
+
+COPY dist/ /app/dist
 
 RUN npm install
 
