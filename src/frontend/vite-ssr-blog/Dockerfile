@@ -7,9 +7,9 @@ COPY dist /app/
 
 WORKDIR /app
 
-RUN npm install --registry=https://registry.npm.taobao.org --no-package-lock --no-save
+RUN npm install
 
-RUN npm run build
+#RUN npm run build
 
 ENV NODE_ENV production
 
