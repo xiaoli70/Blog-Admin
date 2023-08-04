@@ -3,7 +3,7 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY dist /app
+COPY dist/ /app/dist
 
 COPY package.json /app
 
