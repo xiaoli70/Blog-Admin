@@ -3,15 +3,11 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY package.json /app
+COPY . .
 
-WORKDIR /app/dist
+RUN npm install --registry=https://registry.npm.taobao.org --no-package-lock --no-save
 
-COPY ./dist/ /app/dist
-
-WORKDIR /app
-
-RUN npm install
+RUN npm run build
 
 ENV NODE_ENV production
 
