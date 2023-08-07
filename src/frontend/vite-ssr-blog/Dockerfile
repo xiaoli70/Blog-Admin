@@ -1,15 +1,13 @@
-# 使用官方的 Node.js 基础镜像
-FROM node:latest
-
-COPY package.json /app/
-COPY dist /app/
-COPY server /app/
-COPY tsconfig.json /app/
-COPY .env /app/
+# 使用Node.js 基础镜像
+FROM node:lts-alpine
 
 WORKDIR /app
 
-RUN npm install
+RUN yarn config set registry https://registry.npmmirror.com/ #设置镜像源
+
+COPY . .
+
+RUN yarn install&&yarn run build
 
 ENV NODE_ENV production
 
@@ -17,4 +15,4 @@ ENV PORT 5200
 
 EXPOSE 5200
 
-CMD npm run server:prod
+ENTRYPOINT ["yarn","run","server:prod"]
