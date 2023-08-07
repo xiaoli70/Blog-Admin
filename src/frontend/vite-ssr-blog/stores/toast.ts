@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import type { Component } from "vue";
-import { useToast as toast, POSITION } from "vue-toastification";
+import * as pkg from "vue-toastification";
 export const useToast = defineStore("toast", () => {
+  const { useToast, POSITION } = pkg;
   /**
    * 提示成功
    * @param message 消息内容
@@ -10,10 +11,10 @@ export const useToast = defineStore("toast", () => {
    */
   const success = (
     message: string | Component,
-    position: POSITION = POSITION.TOP_CENTER,
+    position = POSITION.TOP_CENTER,
     timeout: number = 3000
   ) => {
-    toast().success(message, {
+    useToast().success(message, {
       position: position,
       timeout: timeout,
       hideProgressBar: true,
@@ -29,10 +30,10 @@ export const useToast = defineStore("toast", () => {
    */
   const error = (
     message: string | Component,
-    position: POSITION = POSITION.TOP_CENTER,
+    position = POSITION.TOP_CENTER,
     timeout: number = 3000
   ) => {
-    toast().error(message, {
+    useToast().error(message, {
       position: position,
       timeout: timeout,
       hideProgressBar: true,
@@ -48,10 +49,10 @@ export const useToast = defineStore("toast", () => {
    */
   const warning = (
     message: string | Component,
-    position: POSITION = POSITION.TOP_CENTER,
+    position = POSITION.TOP_CENTER,
     timeout: number = 3000
   ) => {
-    toast().warning(message, {
+    useToast().warning(message, {
       position: position,
       timeout: timeout,
       hideProgressBar: true,
@@ -67,10 +68,10 @@ export const useToast = defineStore("toast", () => {
    */
   const info = (
     message: string | Component,
-    position: POSITION = POSITION.TOP_CENTER,
+    position = POSITION.TOP_CENTER,
     timeout: number = 3000
   ) => {
-    toast().info(message, {
+    useToast().info(message, {
       position: position,
       timeout: timeout,
       hideProgressBar: true,

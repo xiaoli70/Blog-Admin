@@ -4,6 +4,9 @@ FROM node:latest
 COPY package.json /app/
 COPY dist /app/
 COPY node_modules /app/
+COPY server /app/
+COPY tsconfig.json /app/
+COPY .env /app/
 
 WORKDIR /app
 
@@ -13,4 +16,4 @@ ENV PORT 5200
 
 EXPOSE 5200
 
-CMD npm run server
+CMD npm run server:prod
