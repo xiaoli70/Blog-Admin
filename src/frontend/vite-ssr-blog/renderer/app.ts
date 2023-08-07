@@ -10,6 +10,7 @@ import "~/assets/css/iconfont.css";
 import "~/assets/css/markdown.css";
 import "highlight.js/styles/atom-one-dark.css";
 import "vue3-cute-component/dist/style.css";
+import Toast from "vue-toastification";
 export { createApp };
 
 function createApp(pageContext: PageContext) {
@@ -40,6 +41,8 @@ function createApp(pageContext: PageContext) {
 
   //注册组件
   registerPlugins(app);
+
+  app.use(Toast);
 
   const store = createPinia();
   app.use(store);

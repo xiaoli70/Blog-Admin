@@ -8,7 +8,7 @@ import type { PageContextClient } from "./types";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import "vue-toastification/dist/index.css";
-import Toast from "vue-toastification";
+// import Toast from "vue-toastification";
 import { useApp } from "~/stores/app";
 
 // 使用客户端路由（如果使用服务端路由注释下面一行代码）
@@ -30,7 +30,7 @@ async function render(pageContext: PageContextClient) {
     const { app, store } = createApp(pageContext);
     client = app;
     store.state.value = pageContext.initialStoreState;
-    app.use(Toast);
+    // app.use(Toast);
     app.mount("#app");
   }
 }
