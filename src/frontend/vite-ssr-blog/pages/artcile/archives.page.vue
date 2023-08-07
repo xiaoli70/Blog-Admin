@@ -38,7 +38,9 @@
 </template>
 
 <script setup lang="ts">
-import { Timeline, TimelineTitle, TimelineItem } from "vue3-cute-component";
+import * as pkg from "vue3-cute-component";
+const { Timeline, TimelineTitle, TimelineItem } = pkg;
+// import { Timeline, TimelineTitle, TimelineItem } from "vue3-cute-component";
 import { ref, computed, watch } from "vue";
 import { useApp } from "~/stores/app";
 import type { ArticleOutput } from "~/api/models";
