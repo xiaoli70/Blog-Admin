@@ -3,12 +3,13 @@ FROM node:latest
 
 COPY package.json /app/
 COPY dist /app/
-COPY node_modules /app/
 COPY server /app/
 COPY tsconfig.json /app/
 COPY .env /app/
 
 WORKDIR /app
+
+RUN npm install
 
 ENV NODE_ENV production
 
