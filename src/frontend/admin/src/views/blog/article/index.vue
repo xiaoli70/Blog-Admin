@@ -18,7 +18,7 @@
 					</el-button></template
 				>
 				<template #isTop="{ row }">
-					<el-tag :type="row.isTop === 0 ? 'danger' : 'info'"> {{ row.status === 0 ? '是' : '否' }}</el-tag>
+					<el-tag :type="row.isTop === 0 ? 'danger' : 'info'"> {{ row.isTop === 0 ? '是' : '否' }}</el-tag>
 				</template>
 				<template #status="{ row }">
 					<el-tag :type="row.status === 0 ? 'success' : 'danger'"> {{ row.status === 0 ? '启用' : '禁用' }}</el-tag>
