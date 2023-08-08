@@ -376,7 +376,6 @@ watch(
     nextTick(() => {
       tocbot.refresh();
     });
-    // genCatalogs();
   }
 );
 
