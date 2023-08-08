@@ -69,9 +69,10 @@ class Axios {
 
   // 基础配置，url和超时时间
   baseConfig: AxiosRequestConfig = {
-    baseURL: import.meta.env.SSR
-      ? import.meta.env.VITE_BASE_API_URL + "/api"
-      : "/blog",
+    // baseURL: import.meta.env.SSR
+    //   ? import.meta.env.VITE_BASE_API_URL + "/api"
+    //   : "/blog",
+    baseURL: import.meta.env.VITE_BASE_API_URL + "/api",
     headers: { "Content-Type": "application/json" },
     timeout: 30000,
   };

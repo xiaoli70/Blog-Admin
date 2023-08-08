@@ -265,6 +265,7 @@ import {
   onUnmounted,
   nextTick,
   defineAsyncComponent,
+  watch,
 } from "vue";
 import "viewerjs/dist/viewer.css";
 import { storeToRefs } from "pinia";
@@ -340,13 +341,6 @@ const onPraise = async () => {
 onMounted(async () => {
   state.link = props.info.creationType === 0 ? location.href : state.link;
   nextTick(() => {
-    state.visible = true;
-    //复制代码
-    clipboard = new Clipboard(".copy-btn");
-    clipboard.on("success", (): void => {
-      //复制成功
-      toastStore.success("复制成功");
-    });
     //生成目录
     tocbot.init({
       tocSelector: "#toc", //要把目录添加元素位置，支持选择器
@@ -356,6 +350,13 @@ onMounted(async () => {
       onClick: function (e: Event) {
         e.preventDefault();
       },
+    });
+    state.visible = true;
+    //复制代码
+    clipboard = new Clipboard(".copy-btn");
+    clipboard.on("success", (): void => {
+      //复制成功
+      toastStore.success("复制成功");
     });
     if (props.info.isHtml) {
       hljs.highlightAll();
@@ -368,16 +369,23 @@ onMounted(async () => {
     // isShow.value = true;
   });
 });
+
+watch(
+  () => props.info.content,
+  () => {
+    nextTick(() => {
+      tocbot.refresh();
+    });
+    // genCatalogs();
+  }
+);
+
 //卸载相关组件
 onUnmounted(() => {
   clipboard?.destroy();
   viewer?.destroy();
   tocbot.destroy();
 });
-
-// const isLike = () => {
-//   return new Date().getTime() % 2 === 0 ? "like-btn-active" : "like-btn";
-// };
 </script>
 
 <style scoped>

@@ -56,9 +56,9 @@ function createApp(pageContext: PageContext) {
       Object.assign(pageContextReactive, pageContext);
       rootComponent.Page = markRaw(pageContext.Page);
       rootComponent.pageProps = markRaw(pageContext.pageProps || {});
-      rootComponent.Layout = markRaw(
-        pageContext.exports.Layout || DefaultLayout
-      );
+      // rootComponent.Layout = markRaw(
+      //   pageContext.exports.Layout || DefaultLayout
+      // );
     },
   });
 

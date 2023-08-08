@@ -6,6 +6,7 @@ export const passToClient = [
   "routeParams",
   "meta",
   "urlOriginal",
+  "render",
   // "urlPathname",
 ];
 
@@ -13,7 +14,6 @@ import { renderToString as renderToString_ } from "@vue/server-renderer";
 import type { App } from "vue";
 import { escapeInject, dangerouslySkipEscape } from "vite-plugin-ssr/server";
 import { createApp } from "./app";
-import logoUrl from "./favicon.ico";
 import type { PageContextServer } from "./types";
 import AppApi from "~/api/AppApi";
 
@@ -28,7 +28,7 @@ async function render(pageContext: PageContextServer) {
   let title = meta?.title,
     keywords = meta?.keywords,
     desc = meta?.description,
-    logo = logoUrl;
+    logo = '/favicon.ico';
   if (meta === null || !title || !desc || !keywords) {
     const { data } = await AppApi.info();
     title = (meta?.title ?? "oops") + "-" + data?.site?.siteName!;
