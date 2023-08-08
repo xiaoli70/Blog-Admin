@@ -15,4 +15,4 @@ ENV PORT 5200
 
 EXPOSE 5200
 
-ENTRYPOINT ["yarn","run","server:prod"]
+ENTRYPOINT ["yarn","run","server"]
