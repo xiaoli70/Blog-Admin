@@ -48,5 +48,11 @@ export default function markdownToHtml(content: string): string {
     .use(require("markdown-it-katex-external"))
     .use(require("markdown-it-task-lists"));
   // 将markdown替换为html标签
-  return md.render(content);
+  let s = md.render(content);
+  if (s.length > 0) {
+    s.match(/<h\d>.*?<\/h\d>/g)?.forEach((item, index) => {
+      s = s.replace(item, item.replace(">", ` id="h_index_${index}">`));
+    });
+  }
+  return s;
 }

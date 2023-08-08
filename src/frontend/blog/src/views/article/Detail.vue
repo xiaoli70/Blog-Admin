@@ -396,10 +396,6 @@ onUnmounted(() => {
   viewer?.destroy();
   tocbot.destroy();
 });
-
-// const isLike = () => {
-//   return new Date().getTime() % 2 === 0 ? "like-btn-active" : "like-btn";
-// };
 </script>
 
 <style scoped>
