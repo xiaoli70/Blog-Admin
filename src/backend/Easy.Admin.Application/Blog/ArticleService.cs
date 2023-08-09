@@ -37,7 +37,7 @@ public class ArticleService : BaseService<Article>
         }
         return await _repository.AsQueryable().LeftJoin<ArticleCategory>((article, ac) => article.Id == ac.ArticleId)
               .InnerJoin<Categories>((article, ac, c) => ac.CategoryId == c.Id && c.Status == AvailabilityStatus.Enable)
-              .WhereIF(!string.IsNullOrWhiteSpace(dto.Title), article => article.Title.Contains(dto.Title))
+              .WhereIF(!string.IsNullOrWhiteSpace(dto.Title), article => article.Title.Contains(dto.Title) || article.Summary.Contains(dto.Title) || article.Content.Contains(dto.Title))
               .WhereIF(categoryList.Any(), (article, ac) => categoryList.Contains(ac.CategoryId))
               .OrderByDescending(article => article.IsTop)
               .OrderBy(article => article.Sort)
