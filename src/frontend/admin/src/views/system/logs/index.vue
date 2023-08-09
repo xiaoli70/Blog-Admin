@@ -1,6 +1,6 @@
 <template>
 	<div class="syslogin-log-container layout-padding">
-		<ProTable ref="tableRef" :request-api="SysSigninLogApi.page" :columns="columns" :tool-button="false" />
+		<ProTable ref="tableRef" :request-api="SysSigninLogApi.page" :columns="columns" :tool-button="false" :page-sizes="[15, 30, 50]" :page-size="15" />
 	</div>
 </template>
 
