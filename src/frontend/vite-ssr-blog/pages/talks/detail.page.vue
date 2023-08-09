@@ -90,7 +90,7 @@ const state = reactive({
 const cover = computed(() => {
   return (
     "background: url(" +
-    appStore.tagListCover() +
+    appStore.talkCover() +
     ") center center / cover no-repeat"
   );
 });
