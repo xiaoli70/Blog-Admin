@@ -11,6 +11,7 @@ import "~/assets/css/markdown.css";
 import "highlight.js/styles/atom-one-dark.css";
 import "vue3-cute-component/dist/style.css";
 import Toast from "vue-toastification";
+import * as pkg from "vue3-cute-component";
 export { createApp };
 
 function createApp(pageContext: PageContext) {
@@ -43,7 +44,7 @@ function createApp(pageContext: PageContext) {
   registerPlugins(app);
 
   app.use(Toast);
-
+  app.use(pkg.plugin);
   const store = createPinia();
   app.use(store);
 

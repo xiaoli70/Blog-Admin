@@ -21,14 +21,11 @@ import SideNavBar from "~/components/layout/SideNavBar.vue";
 import Footer from "~/components/layout/Footer.vue";
 import BackTop from "~/components/BackTop.vue";
 import { useThemeSettingStore } from "~/stores/themeSetting";
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { usePageContext } from "./usePageContext";
 const { theme } = storeToRefs(useThemeSettingStore());
 const route = usePageContext();
 const showFooter = computed(() => {
   return !route.urlPathname.startsWith("/message");
 });
-// const key = computed(() => {
-//   return route.urlPathname + Math.random();
-// });
 </script>
