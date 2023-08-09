@@ -1,5 +1,5 @@
 <template>
-  <div class="banner" :style="state.cover">
+  <div class="banner" :style="cover">
     <h1 class="banner-title">个人中心</h1>
   </div>
   <v-card class="blog-container">
@@ -129,6 +129,7 @@ import img from "~/assets/images/1.jpg";
 import { storeToRefs } from "pinia";
 import { AddLinkOutput } from "~/api/models";
 import OAuthApi from "~/api/OAuthApi";
+import { computed } from "vue";
 const appStore = useApp();
 const authStore = useAuth();
 const toastStore = useToast();
@@ -144,8 +145,13 @@ const state = reactive({
     logo: info.value?.logo ?? "",
   } as AddLinkOutput,
   success: false,
-  cover: `background: url(${appStore.userCover()}) center center / cover no-repeat`,
 });
+
+//封面
+const cover = computed(() => {
+  return `background: url(${appStore.userCover()}) center center / cover no-repeat`;
+});
+
 const required = (v: string) => {
   return !!v || "此项为必填";
 };
