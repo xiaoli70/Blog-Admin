@@ -64,7 +64,7 @@ const closeHandle = () => {
 const goTo = (id: any) => {
   emit("update:isShow", false);
   articleList.list = [];
-  navigate(`/detail/${id}`);
+  navigate(`/articles/${id}`);
 };
 const handlerUpdateValue = (v: boolean) => {
   emit("update:isShow", v);
