@@ -246,11 +246,15 @@ import dayjs from "dayjs";
 import { usePageContext } from "~/renderer/usePageContext";
 import { navigate } from "vite-plugin-ssr/client/router";
 import { useToast } from "~/stores/toast";
+import { Session } from "~/utils/storage";
+import { accessTokenKey, refreshAccessTokenKey } from "~/utils/http";
 const props = defineProps<{
   talks: TalksOutput[];
   articles: ArticleOutput[];
   pages: number;
   pageNo: number;
+  token?: string;
+  refreshToken?: string;
 }>();
 const route = usePageContext();
 const appStore = useApp();
@@ -330,11 +334,13 @@ onMounted(async () => {
     () => {}
   );
   const code = route.urlParsed?.search.code;
-  if (code) {
-    const { data, succeeded } = await authStore.login(code);
-    if (succeeded && data) {
-      navigate(data);
-    }
+  if (code && props.token && props.refreshToken) {
+    Session.set(accessTokenKey, props.token);
+    Session.set(refreshAccessTokenKey, props.refreshToken);
+    // const { data, succeeded } = await authStore.login(code);
+    // if (succeeded && data) {
+    //   navigate(data);
+    // }
   }
   setInterval(() => {
     runTime();

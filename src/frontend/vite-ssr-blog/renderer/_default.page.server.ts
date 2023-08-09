@@ -28,7 +28,7 @@ async function render(pageContext: PageContextServer) {
   let title = meta?.title,
     keywords = meta?.keywords,
     desc = meta?.description,
-    logo = '/favicon.ico';
+    logo = "/favicon.ico";
   if (meta === null || !title || !desc || !keywords) {
     const { data } = await AppApi.info();
     title = (meta?.title ?? "oops") + "-" + data?.site?.siteName!;

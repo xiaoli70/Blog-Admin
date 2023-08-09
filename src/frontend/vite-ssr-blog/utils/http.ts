@@ -74,6 +74,7 @@ class Axios {
       : "/blog",
     headers: { "Content-Type": "application/json" },
     timeout: 30000,
+    withCredentials: true,
   };
   constructor(config?: AxiosRequestConfig) {
     // 使用axios.create创建axios实例
