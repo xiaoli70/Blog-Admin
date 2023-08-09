@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 5200
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
@@ -29,5 +29,7 @@ RUN cat /etc/apt/sources.list
 #°²×°fontconfig
 RUN apt-get clean
 RUN apt-get update && apt-get install -y fontconfig
+
+ENV ASPNETCORE_URLS 'http://*:5200'
 
 ENTRYPOINT ["dotnet", "Easy.Admin.Web.Entry.dll"]
