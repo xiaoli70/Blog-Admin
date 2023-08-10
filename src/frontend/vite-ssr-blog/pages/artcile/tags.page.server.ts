@@ -14,10 +14,11 @@ const onBeforeRender = async (pageContext: PageContextBuiltIn) => {
         articles: data?.rows ?? [],
         pages: data?.pages ?? 0,
         pageNo: data?.pageNo ?? 1,
-        name: extras,
+        name: extras.name,
+        cover: extras.cover,
       },
       meta: {
-        title: `标签.${extras}`,
+        title: `标签.${extras.name}`,
       },
     },
   };

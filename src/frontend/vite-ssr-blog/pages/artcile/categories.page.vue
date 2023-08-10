@@ -86,16 +86,12 @@ const props = defineProps<{
   pages: number;
   pageNo: number;
   name: string;
+  cover: string;
 }>();
 const route = usePageContext();
-const appStore = useApp();
 const page = ref(props.pageNo);
 const cover = computed(() => {
-  return (
-    "background: url(" +
-    appStore.categoriesCover() +
-    ") center center / cover no-repeat"
-  );
+  return "background: url(" + props.cover + ") center center / cover no-repeat";
 });
 
 watch(page, async () => {
