@@ -205,7 +205,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import img from "../assets/images/1.jpg";
 import Emoji from "./Emoji.vue";
 import Reply from "./Replay.vue";
@@ -345,6 +345,13 @@ const reloadReply = async (index: number) => {
     await changeReplyCurrent(1, index, item.rootId!);
   }
 };
+
+watch(
+  () => props.type,
+  async () => {
+    await loadData();
+  }
+);
 
 onMounted(async () => {
   await loadData();
