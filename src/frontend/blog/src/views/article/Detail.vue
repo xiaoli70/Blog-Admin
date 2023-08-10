@@ -344,12 +344,10 @@ const isFull = computed(() => {
 
 // 点赞
 const onPraise = async () => {
-  const { succeeded } = state.info.isPraise
-    ? await CommentApi.cancelPraise(state.info.id!)
-    : await CommentApi.praise(state.info.id!);
+  const { succeeded, data } = await CommentApi.praise(state.info.id!);
   if (succeeded) {
-    state.info.isPraise = !state.info.isPraise;
-    state.info.praiseTotal = state.info.isPraise
+    state.info.isPraise = data;
+    state.info.praiseTotal = data
       ? state.info.praiseTotal! + 1
       : state.info.praiseTotal! - 1;
   }

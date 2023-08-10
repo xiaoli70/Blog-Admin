@@ -108,14 +108,10 @@ const previewImg = (e: Event): void => {
   viewer.show();
 };
 const like = async () => {
-  const { succeeded } = state.talk.isPraise
-    ? await CommentApi.cancelPraise(state.id)
-    : await CommentApi.praise(state.id);
+  const { succeeded, data } = await CommentApi.praise(state.id);
   if (succeeded) {
-    state.talk.isPraise = !state.talk.isPraise;
-    state.talk.upvote = state.talk.isPraise
-      ? state.talk.upvote! + 1
-      : state.talk.upvote! - 1;
+    state.talk.isPraise = data;
+    state.talk.upvote = data ? state.talk.upvote! + 1 : state.talk.upvote! - 1;
   }
 };
 onMounted(async () => {
