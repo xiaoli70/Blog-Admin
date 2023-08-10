@@ -1085,14 +1085,7 @@
         </member>
         <member name="M:Easy.Admin.Application.Client.CommentController.Praise(Easy.Admin.Core.Shared.KeyDto)">
             <summary>
-            点赞
-            </summary>
-            <param name="dto">对象ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:Easy.Admin.Application.Client.CommentController.CancelPraise(Easy.Admin.Core.Shared.KeyDto)">
-            <summary>
-            取消点赞
+            点赞/取消点赞
             </summary>
             <param name="dto">对象ID</param>
             <returns></returns>
