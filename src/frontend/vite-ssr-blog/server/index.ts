@@ -48,6 +48,7 @@ async function startServer() {
     const pageContextInit = {
       urlOriginal: req.originalUrl,
     };
+    console.log(res.cookie.name);
     const pageContext = await renderPage(pageContextInit);
     const { httpResponse } = pageContext;
     if (!httpResponse) return next();

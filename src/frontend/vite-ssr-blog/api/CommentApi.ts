@@ -37,15 +37,7 @@ class CommentApi {
    * @returns
    */
   praise = (id: number) => {
-    return http.post("/comment/praise", { id: id });
-  };
-  /**
-   * 取消点赞
-   */
-  cancelPraise = (id: number) => {
-    return http.delete("/comment/cancelpraise", {
-      data: { id },
-    });
+    return http.post<boolean>("/comment/praise", { id: id });
   };
 }
 

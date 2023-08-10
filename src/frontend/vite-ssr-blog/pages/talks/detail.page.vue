@@ -106,14 +106,10 @@ const previewImg = (e: Event): void => {
   viewer.show();
 };
 const like = async () => {
-  const { succeeded } = props.talk.isPraise
-    ? await CommentApi.cancelPraise(props.id)
-    : await CommentApi.praise(props.id);
+  const { succeeded, data } = await CommentApi.praise(props.id);
   if (succeeded) {
-    state.talk.isPraise = !state.talk.isPraise;
-    state.talk.upvote = state.talk.isPraise
-      ? state.talk.upvote! + 1
-      : state.talk.upvote! - 1;
+    state.talk.isPraise = data;
+    state.talk.upvote = data ? state.talk.upvote! + 1 : state.talk.upvote! - 1;
   }
 };
 </script>

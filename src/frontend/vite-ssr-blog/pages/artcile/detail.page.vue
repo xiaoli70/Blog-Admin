@@ -326,14 +326,12 @@ const isFull = computed(() => {
   return (id?: number) => (id ? "post full" : "post");
 });
 
-// 点赞
+// 点赞/取消点赞
 const onPraise = async () => {
-  const { succeeded } = props.info.isPraise
-    ? await CommentApi.cancelPraise(props.info.id!)
-    : await CommentApi.praise(props.info.id!);
+  const { succeeded, data } = await CommentApi.praise(props.info.id!);
   if (succeeded) {
-    props.info.isPraise = !props.info.isPraise;
-    props.info.praiseTotal = props.info.isPraise
+    props.info.isPraise = data;
+    props.info.praiseTotal = data
       ? props.info.praiseTotal! + 1
       : props.info.praiseTotal! - 1;
   }

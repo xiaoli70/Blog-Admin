@@ -298,14 +298,10 @@ const insertComment = async () => {
 
 // 点赞或取消点赞
 const onPraise = async (item: ReplyOutput) => {
-  const { succeeded } = item.isPraise
-    ? await CommentApi.cancelPraise(item.id!)
-    : await CommentApi.praise(item.id!);
+  const { succeeded, data } = await CommentApi.praise(item.id!);
   if (succeeded) {
-    item.isPraise = !item.isPraise;
-    item.praiseTotal = item.isPraise
-      ? item.praiseTotal! + 1
-      : item.praiseTotal! - 1;
+    item.isPraise = data;
+    item.praiseTotal = data ? item.praiseTotal! + 1 : item.praiseTotal! - 1;
   }
 };
 
