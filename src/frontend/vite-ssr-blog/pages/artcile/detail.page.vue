@@ -125,13 +125,13 @@
         <div class="article-reward">
           <!-- 点赞按钮 -->
           <a
-            :class="info.isPraise ? 'like-btn-active' : 'like-btn'"
+            :class="state.isPraise ? 'like-btn-active' : 'like-btn'"
             @click="onPraise"
           >
             <!-- <i class="iconfont mdi-thumb-up"></i> -->
             <v-icon size="14" color="#fff" icon="mdi-thumb-up" /> 点赞
-            <span v-show="(info.praiseTotal ?? 0) > 0">{{
-              info.praiseTotal
+            <span v-show="(state.praiseTotal ?? 0) > 0">{{
+              state.praiseTotal
             }}</span>
           </a>
           <a class="reward-btn" v-if="blogSetting.isRewards">
@@ -295,6 +295,8 @@ const state = reactive({
   id: Number(route.routeParams?.id ?? 0),
   visible: false,
   link: props.info.creationType === 0 ? "" : props.info.link,
+  isPraise: props.info.isPraise,
+  praiseTotal: props.info.praiseTotal,
 });
 let clipboard: Clipboard | null = null; //ref<Clipboard>();
 let viewer: Viewer | null = null;
@@ -330,10 +332,9 @@ const isFull = computed(() => {
 const onPraise = async () => {
   const { succeeded, data } = await CommentApi.praise(props.info.id!);
   if (succeeded) {
-    props.info.isPraise = data;
-    props.info.praiseTotal = data
-      ? props.info.praiseTotal! + 1
-      : props.info.praiseTotal! - 1;
+    console.log(props.info.isPraise);
+    state.isPraise = data;
+    state.praiseTotal = data ? state.praiseTotal! + 1 : state.praiseTotal! - 1;
   }
 };
 onMounted(async () => {
