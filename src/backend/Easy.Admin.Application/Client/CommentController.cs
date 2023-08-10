@@ -116,33 +116,22 @@ public class CommentController : IDynamicApiController
     }
 
     /// <summary>
-    /// 点赞
+    /// 点赞/取消点赞
     /// </summary>
     /// <param name="dto">对象ID</param>
     /// <returns></returns>
     [HttpPost]
-    public async Task Praise(KeyDto dto)
+    public async Task<bool> Praise(KeyDto dto)
     {
+        if (await _praiseRepository.IsAnyAsync(x => x.ObjectId == dto.Id))
+        {
+            return await _praiseRepository.DeleteAsync(x => x.ObjectId == dto.Id) ? false : throw Oops.Oh("糟糕，取消失败了...");
+        }
         var praise = new Praise()
         {
             AccountId = _authManager.UserId,
             ObjectId = dto.Id,
         };
-        await _praiseRepository.InsertAsync(praise);
-    }
-
-    /// <summary>
-    /// 取消点赞
-    /// </summary>
-    /// <param name="dto">对象ID</param>
-    /// <returns></returns>
-    [HttpDelete]
-    public async Task CancelPraise(KeyDto dto)
-    {
-        bool success = await _praiseRepository.DeleteAsync(x => x.ObjectId == dto.Id);
-        if (!success)
-        {
-            throw Oops.Oh("取消点赞出错了！");
-        }
+        return await _praiseRepository.InsertAsync(praise) ? true : throw Oops.Oh("糟糕，点赞失败了...");
     }
 }
