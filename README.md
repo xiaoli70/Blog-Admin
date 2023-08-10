@@ -15,7 +15,7 @@
 >
 > 文件所在目录：`/src/backend/Easy.Admin.Application/applicationsettings.json`
 
-1. 可根据需求修改[`applicationsettings.json`](https://gitee.com/miss_you/easy-admin/blob/master/src/backend/Easy.Admin.Application/applicationsettings.json)中的配置文件中的配置,默认使用的sqllite数据库，可修改数据连接字符串更改数据，修改成功后重新生成解决方案，系统会自动创建数据库和初始化基础数据
+1. 可根据需求修改[`applicationsettings.json`](https://gitee.com/miss_you/easy-admin/blob/master/src/backend/Easy.Admin.Application/applicationsettings.json)中的配置文件中的配置，默认使用的sqllite数据库，可修改数据连接字符串更改数据，修改成功后重新生成解决方案，系统会自动创建数据库和初始化基础数据
 2. 附件默认上传至站点目录中，可以修改[`applicationsettings.json`](https://gitee.com/miss_you/easy-admin/blob/master/src/backend/Easy.Admin.Application/applicationsettings.json)中`OssConnection`节点，支持上传至站点目录以及常用的对象云存储（Minio、腾讯云、阿里云），使用文档：<https://github.com/oncemi/OnceMi.AspNetCore.OSS> ；如果需要使用对象云存储，需将`OssConnection`节点中的`Enable`设置为`true`
 3. 缓存默认使用的内置缓存，可修改[`applicationsettings.json`](https://gitee.com/miss_you/easy-admin/blob/master/src/backend/Easy.Admin.Application/applicationsettings.json)中的`easycaching`节点；支持`In-Memory`（默认）、`Redis`、`Memcached`、`SQLite`、`Hybird`、`Disk`、`LiteDB`等；使用文档：<https://easycaching.readthedocs.io/en/latest/>
 
