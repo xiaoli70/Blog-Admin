@@ -45,7 +45,6 @@ async function render(pageContext: PageContextServer) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${desc}" />
         <meta name="keywords" content="${keywords}" />
-        <meta name="baidu-site-verification" content="codeva-LnVYLJDR1t" />
         <title>${title}</title>
       </head>
       <body>
