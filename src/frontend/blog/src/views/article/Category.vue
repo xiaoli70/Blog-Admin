@@ -49,6 +49,8 @@ onMounted(async () => {
     articleCount: 0,
     tagCount: 0,
     categoryCount: 0,
+    linkCount: 0,
+    userCount: 0,
   };
 });
 </script>

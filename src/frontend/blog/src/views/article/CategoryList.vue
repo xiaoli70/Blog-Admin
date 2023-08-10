@@ -92,17 +92,12 @@ const state = reactive({
     tagId: route.params.tid as never,
   } as ArticleListQueryInput,
   name: "", //标签名或栏目名称
+  cover: "",
   pages: 0,
   articles: [] as ArticleOutput[],
 });
 const cover = computed(() => {
-  return (
-    "background: url(" +
-    (state.query.categoryId
-      ? appStore.categoriesCover()
-      : appStore.tagListCover()) +
-    ") center center / cover no-repeat"
-  );
+  return "background: url(" + state.cover + ") center center / cover no-repeat";
 });
 
 const loadData = async () => {
@@ -110,7 +105,8 @@ const loadData = async () => {
   if (succeeded) {
     state.articles = data?.rows ?? [];
     state.pages = data?.pages ?? 0;
-    state.name = extras;
+    state.name = extras.name;
+    state.cover = extras.cover;
   }
 };
 
