@@ -42,14 +42,14 @@ public class ArticleController : IDynamicApiController
     {
         if (dto.TagId.HasValue)
         {
-            string tagName = await _tagsRepository.AsQueryable().Where(x => x.Id == dto.TagId && x.Status == AvailabilityStatus.Enable).Select(x => x.Name).FirstAsync();
-            UnifyContext.Fill(tagName);
+            var tag = await _tagsRepository.AsQueryable().Where(x => x.Id == dto.TagId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstAsync();
+            UnifyContext.Fill(new { tag.Name, tag.Cover });
         }
 
         if (dto.CategoryId.HasValue)
         {
-            string categoryName = await _categoryRepository.AsQueryable().Where(x => x.Id == dto.CategoryId && x.Status == AvailabilityStatus.Enable).Select(x => x.Name).FirstAsync();
-            UnifyContext.Fill(categoryName);
+            var category = await _categoryRepository.AsQueryable().Where(x => x.Id == dto.CategoryId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstAsync();
+            UnifyContext.Fill(new { category.Name, category.Cover });
         }
         return await _articleRepository.AsQueryable().LeftJoin<ArticleCategory>((article, ac) => article.Id == ac.ArticleId)
               .InnerJoin<Categories>((article, ac, c) => ac.CategoryId == c.Id && c.Status == AvailabilityStatus.Enable)
