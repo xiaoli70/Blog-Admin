@@ -80,7 +80,7 @@ yarn run build
 
 #### 📷博客预览图
 
-![image-20230810174722534](C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20230810174722534.png)
+![image-20230810180158798](https://gitee.com/miss_you/static/raw/master/images/image-20230810180158798.png)
 
 ![image-20230810174842938](https://gitee.com/miss_you/static/raw/master/images/image-20230810174842938.png)
 
