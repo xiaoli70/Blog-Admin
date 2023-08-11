@@ -29,9 +29,9 @@ import "viewerjs/dist/viewer.css";
 import type { PictureOutput } from "~/api/models";
 defineProps<{ photos: PictureOutput[]; cover: string; name: string }>();
 const viewer = ref<Viewer | null>(null);
-onMounted(async () => {
+onMounted(() => {
   nextTick(() => {
-    viewer.value = new Viewer(document.getElementById("photos") as HTMLElement);
+    viewer.value = new Viewer(document.getElementById("photos")!);
   });
 });
 

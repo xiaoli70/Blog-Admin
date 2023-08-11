@@ -299,7 +299,7 @@ const state = reactive({
   praiseTotal: props.info.praiseTotal,
 });
 let clipboard: Clipboard | null = null; //ref<Clipboard>();
-let viewer: Viewer | null = null;
+const viewer = ref<Viewer | null>(null);
 
 //封面图
 const cover = computed(() => {
@@ -337,7 +337,7 @@ const onPraise = async () => {
     state.praiseTotal = data ? state.praiseTotal! + 1 : state.praiseTotal! - 1;
   }
 };
-onMounted(async () => {
+onMounted(() => {
   state.link = props.info.creationType === 0 ? location.href : state.link;
   nextTick(() => {
     //生成目录
@@ -360,12 +360,14 @@ onMounted(async () => {
     if (props.info.isHtml) {
       hljs.highlightAll();
     }
-    //图片预览
-    const bodyHtml = document.getElementById("write")!;
-    if (bodyHtml.querySelectorAll("img").length > 0) {
-      viewer = new Viewer(bodyHtml);
-    }
-    // isShow.value = true;
+    setTimeout(() => {
+      //图片预览
+      const bodyHtml = document.getElementById("write")!;
+      if (bodyHtml.querySelectorAll("img").length > 0) {
+        viewer.value = new Viewer(document.getElementById("write")!);
+        // viewer.value?.show();
+      }
+    }, 100);
   });
 });
 
@@ -381,7 +383,7 @@ watch(
 //卸载相关组件
 onUnmounted(() => {
   clipboard?.destroy();
-  viewer?.destroy();
+  viewer.value?.destroy();
   tocbot.destroy();
 });
 </script>
