@@ -105,7 +105,7 @@ yarn run build
 - [vue-next-admin](https://gitee.com/lyt-top/vue-next-admin)
 - [element-plus](https://element-plus.gitee.io/zh-CN/)
 
-- [pure-admin-table)](https://gitee.com/yiming_chang/pure-admin-table)
+- [pure-admin-table](https://gitee.com/yiming_chang/pure-admin-table)
 
 - [idgenerator](https://gitee.com/yitter/idgenerator)
 
