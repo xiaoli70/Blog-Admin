@@ -82,7 +82,6 @@ import CommentApi from "~/api/CommentApi";
 const props = defineProps<{ talk: TalkDetailOutput; id: number }>();
 const appStore = useApp();
 const { info } = storeToRefs(appStore);
-const commentCount = ref(0);
 const state = reactive({
   commentCount: 0,
   talk: props.talk,
@@ -96,7 +95,7 @@ const cover = computed(() => {
 });
 
 const getCommentCount = (count: number) => {
-  commentCount.value = count;
+  state.commentCount = count;
 };
 const previewImg = (e: Event): void => {
   const viewer = new Viewer(e.target as HTMLElement, {
