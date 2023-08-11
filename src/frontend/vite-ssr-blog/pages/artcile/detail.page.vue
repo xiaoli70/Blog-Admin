@@ -340,16 +340,6 @@ const onPraise = async () => {
 onMounted(() => {
   state.link = props.info.creationType === 0 ? location.href : state.link;
   nextTick(() => {
-    //生成目录
-    tocbot.init({
-      tocSelector: "#toc", //要把目录添加元素位置，支持选择器
-      contentSelector: ".article-content", //获取html的元素
-      headingSelector: "h1, h2, h3", //要显示的id的目录
-      hasInnerContainers: true,
-      onClick: function (e: Event) {
-        e.preventDefault();
-      },
-    });
     state.visible = true;
     //复制代码
     clipboard = new Clipboard(".copy-btn");
@@ -361,6 +351,16 @@ onMounted(() => {
       hljs.highlightAll();
     }
     setTimeout(() => {
+      //生成目录
+      tocbot.init({
+        tocSelector: "#toc", //要把目录添加元素位置，支持选择器
+        contentSelector: ".article-content", //获取html的元素
+        headingSelector: "h1, h2, h3", //要显示的id的目录
+        hasInnerContainers: true,
+        onClick: function (e: Event) {
+          e.preventDefault();
+        },
+      });
       //图片预览
       const bodyHtml = document.getElementById("write")!;
       if (bodyHtml.querySelectorAll("img").length > 0) {
