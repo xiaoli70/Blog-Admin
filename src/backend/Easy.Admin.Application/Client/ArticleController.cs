@@ -252,7 +252,7 @@ public class ArticleController : IDynamicApiController
               .Where(x => x.Status == AvailabilityStatus.Enable && x.PublishTime <= DateTime.Now)
               .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
               .Take(5)
-              .OrderBy(x => x.PublishTime)
+              .OrderByDescending(x => x.Id)
               .Select<ArticleBasicsOutput>()
               .ToListAsync();
     }
