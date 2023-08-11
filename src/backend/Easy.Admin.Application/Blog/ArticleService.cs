@@ -1,4 +1,5 @@
 ﻿using Easy.Admin.Application.Blog.Dtos;
+using Easy.Admin.Core.Entities;
 
 namespace Easy.Admin.Application.Blog;
 
@@ -41,6 +42,7 @@ public class ArticleService : BaseService<Article>
               .WhereIF(categoryList.Any(), (article, ac) => categoryList.Contains(ac.CategoryId))
               .OrderByDescending(article => article.IsTop)
               .OrderBy(article => article.Sort)
+              .OrderByDescending(article => article.PublishTime)
               .Select((article, ac, c) => new ArticlePageOutput
               {
                   Id = article.Id,
