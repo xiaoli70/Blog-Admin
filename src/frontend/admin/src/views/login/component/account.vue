@@ -117,8 +117,8 @@ const state = reactive({
 	isShowPassword: false,
 	random: new Date().getTime(),
 	ruleForm: {
-		account: 'admin',
-		password: '123456',
+		account: '',
+		password: '',
 		code: '',
 		id: dayjs().valueOf().toString(),
 	} as AdminLoginInput,
