@@ -47,7 +47,7 @@ export const useApp = defineStore("app", () => {
     const covers = data!.covers!;
     app.info = data!.info ?? {
       nikeName: "可乐不加冰",
-      motto: "凡是过往，皆为序章",
+      motto: "凡是过往，皆为序章。",
       qq: "823302316",
       avatar: "/default.jpg",
     };
