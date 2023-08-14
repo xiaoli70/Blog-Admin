@@ -21,7 +21,7 @@ const onBeforeRender = async (pageContext: PageContextBuiltIn) => {
           ...(info?.tags?.map((t) => t.name) ?? []),
           info?.author,
           info?.categoryName,
-        ].join(", "),
+        ].join(","),
       },
     },
   };
