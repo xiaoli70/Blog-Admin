@@ -332,7 +332,6 @@ const isFull = computed(() => {
 const onPraise = async () => {
   const { succeeded, data } = await CommentApi.praise(props.info.id!);
   if (succeeded) {
-    console.log(props.info.isPraise);
     state.isPraise = data;
     state.praiseTotal = data ? state.praiseTotal! + 1 : state.praiseTotal! - 1;
   }
