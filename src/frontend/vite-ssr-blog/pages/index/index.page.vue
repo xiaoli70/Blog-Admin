@@ -312,6 +312,10 @@ const cover = computed(() => {
   return `background: url(${appStore.homeCover()}) center center / cover no-repeat`;
 });
 
+const motto = computed(() => {
+  return blogSetting.value.motto || "凡是过往皆为序章，所有将来皆为可盼。";
+});
+
 // 监听页码发生改变
 watch(
   () => state.page,
@@ -324,8 +328,7 @@ watch(
 onMounted(async () => {
   new EasyTyper(
     state.print,
-    blogSetting.value.motto ??
-      "虽然人生在世有种种不如意，但你仍可以在幸福与不幸中做选择。-王小波",
+    motto.value,
     () => {},
     () => {}
   );
