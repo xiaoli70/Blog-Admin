@@ -361,21 +361,27 @@ onMounted(() => {
           e.preventDefault();
         },
       });
-      //图片预览
-      const bodyHtml = document.getElementById("write")!;
-      if (bodyHtml.querySelectorAll("img").length > 0) {
-        viewer.value = new Viewer(document.getElementById("write")!);
-        // viewer.value?.show();
-      }
+      previewImg();
     }, 100);
   });
 });
+
+const previewImg = () => {
+  //图片预览
+  const bodyHtml = document.getElementById("write")!;
+  if (bodyHtml.querySelectorAll("img").length > 0) {
+    viewer.value = new Viewer(document.getElementById("write")!);
+  } else {
+    viewer.value?.destroy();
+  }
+};
 
 watch(
   () => props.info.content,
   () => {
     nextTick(() => {
       tocbot.refresh();
+      previewImg();
     });
   }
 );
