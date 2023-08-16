@@ -1,6 +1,5 @@
 # Easy.Admin
-
-####  🌈介绍
+####  🌈介绍（喜欢的话给个star吧❤️）
 
 - 后端基于`.NET 7` + `Furion ` + `SqlSugar` + `Vue3` + `Typescript` ，并且支持多种数据库
 - 博客基于`Vue3` + `Typescript` + `Vuetify` + `Pinia`,分为普通版本和SSR（服务端渲染，支持SEO），服务端渲染框架基于`vite-plugin-ssr`实现
@@ -80,17 +79,17 @@ yarn run build
 
 #### 📷博客预览图
 
-![image-20230811135352667](https://oss.okay123.top/typora/20238/11/1691733233256.png)
+![image-20230810180158798](https://gitee.com/miss_you/static/raw/master/images/image-20230810175841435.png)
 
-![image-20230811135430864](https://oss.okay123.top/typora/20238/11/1691733271545.png)
+![image-20230810174842938](https://gitee.com/miss_you/static/raw/master/images/image-20230810174842938.png)
 
-![image-20230811135503400](https://oss.okay123.top/typora/20238/11/1691733304053.png)
+![image-20230810175305100](https://gitee.com/miss_you/static/raw/master/images/image-20230810175245836.png)
 
-![image-20230811135531297](https://oss.okay123.top/typora/20238/11/1691733331888.png)
+![image-20230810174907977](https://gitee.com/miss_you/static/raw/master/images/image-20230810174907977.png)
 
-![image-20230811135556229](https://oss.okay123.top/typora/20238/11/1691733356852.png)
+![image-20230810174933853](https://gitee.com/miss_you/static/raw/master/images/image-20230810174933853.png)
 
-![image-20230811135620238](https://oss.okay123.top/typora/20238/11/1691733380637.png)
+![image-20230810175004790](https://gitee.com/miss_you/static/raw/master/images/image-20230810175004790.png)
 
 #### ❤️ 鸣谢
 
@@ -105,7 +104,7 @@ yarn run build
 - [vue-next-admin](https://gitee.com/lyt-top/vue-next-admin)
 - [element-plus](https://element-plus.gitee.io/zh-CN/)
 
-- [pure-admin-table](https://gitee.com/yiming_chang/pure-admin-table)
+- [pure-admin-table)](https://gitee.com/yiming_chang/pure-admin-table)
 
 - [idgenerator](https://gitee.com/yitter/idgenerator)
 
