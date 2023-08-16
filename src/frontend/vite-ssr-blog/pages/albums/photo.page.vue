@@ -3,8 +3,7 @@
   <div
     class="banner"
     :style="{
-      background:
-        'background: url(' + cover + ') center center / cover no-repeat',
+      background: 'url(' + cover + ') center center / cover no-repeat',
     }"
   >
     <h1 class="banner-title">{{ name }}</h1>
