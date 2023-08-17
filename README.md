@@ -30,13 +30,13 @@
 
 ``` bash
 # 安装依赖
-cnpm install
+pnpm install
 
 # 运行项目
-cnpm run dev
+pnpm run dev
 
 # 打包发布
-cnpm run build
+pnpm run build
 ```
 
 #### 📚博客普通版使用说明
