@@ -9,6 +9,7 @@ using Newtonsoft.Json.Serialization;
 using SqlSugar;
 using System.Text;
 using System.Threading.Tasks;
+using AspNetCoreRateLimit;
 using Easy.Admin.Core.Logging;
 using Easy.Admin.Core.Options;
 using Easy.Core;
@@ -102,6 +103,11 @@ public class Startup : AppStartup
         //注册事件总线 文档：https://furion.baiqian.ltd/docs/event-bus
         services.AddEventBus();
 
+        // 配置限流
+        services.Configure<IpRateLimitOptions>(App.Configuration.GetSection("IpRateLimiting"));
+        services.AddInMemoryRateLimiting();
+        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
         // 数据库日志
         // 文档：http://furion.baiqian.ltd/docs/logging#1871-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8
         services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
@@ -179,6 +185,9 @@ public class Startup : AppStartup
         app.UseRouting();
 
         app.UseCorsAccessor();
+
+        app.UseIpRateLimiting();
+
         app.UseAuthentication();
         app.UseAuthorization();
 
