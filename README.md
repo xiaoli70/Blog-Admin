@@ -91,7 +91,7 @@ yarn run build
 
 ![image-20230810175004790](https://gitee.com/miss_you/static/raw/master/images/image-20230810175004790.png)
 
-#### 💯 学习交流加 QQ 群
+#### 🎉 学习交流加 QQ 群
 > QQ群号：647952498 
 
 #### ❤️ 鸣谢
