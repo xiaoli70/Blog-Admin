@@ -217,12 +217,12 @@ public class ArticleController : IDynamicApiController
         var prevQuery = _articleRepository.AsQueryable().Where(x => x.PublishTime < article.PublishTime && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
             .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
              .OrderByDescending(x => x.PublishTime)
-             .Select(x => new ArticleBasicsOutput { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = null, Type = 0 }).Take(1);
+             .Select(x => new ArticleBasicsOutput { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = null, Type = 0 }).Take(1).MergeTable();
         //下一篇
         var nextQuery = _articleRepository.AsQueryable().Where(x => x.PublishTime > article.PublishTime && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
             .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
                 .OrderBy(x => x.PublishTime)
-                .Select(x => new ArticleBasicsOutput { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = null, Type = 1 }).Take(1);
+                .Select(x => new ArticleBasicsOutput { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = null, Type = 1 }).Take(1).MergeTable();
         //随机6条
         var randomQuery = _articleRepository.AsQueryable().Where(x => x.Id != id)
             .Where(x => x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
@@ -230,7 +230,7 @@ public class ArticleController : IDynamicApiController
             .OrderBy(x => SqlFunc.GetRandom())
             .Select(x => new ArticleBasicsOutput
             { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = x.PublishTime, Type = 2 })
-            .Take(6);
+            .Take(6).MergeTable();
         //相关文章
         var relevant = await _articleRepository.AsSugarClient().Union(prevQuery, nextQuery, randomQuery)
             .OrderBy(x => x.PublishTime).ToListAsync();
