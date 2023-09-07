@@ -50,7 +50,6 @@ public class SysOperationLog : Entity<long>, ICreatedTime
     /// <summary>
     /// 线程ID
     /// </summary>
-    [SugarColumn(Length = 16)]
     public int ThreadId { get; set; }
 
     /// <summary>
