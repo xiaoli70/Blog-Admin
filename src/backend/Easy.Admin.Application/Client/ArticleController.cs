@@ -196,7 +196,7 @@ public class ArticleController : IDynamicApiController
                 UpdatedTime = x.UpdatedTime,
                 CategoryId = c.Id,
                 PraiseTotal = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id).Count(),
-                IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any()),
+                IsPraise = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any(),
                 CategoryName = c.Name,
                 Tags = SqlFunc.Subqueryable<Tags>().InnerJoin<ArticleTag>((tags, at) => tags.Id == at.TagId)
                     .Where((tags, at) => tags.Status == AvailabilityStatus.Enable && at.ArticleId == x.Id)
