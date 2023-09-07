@@ -40,7 +40,7 @@ public class CommentController : IDynamicApiController
                 Id = c.Id,
                 Content = c.Content,
                 PraiseTotal = SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id).Count(),
-                IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id && x.AccountId == userId).Any()),
+                IsPraise = SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id && x.AccountId == userId).Any(),
                 ReplyCount = SqlFunc.Subqueryable<Comments>().Where(s => s.RootId == c.Id).Count(),
                 IP = c.IP,
                 Avatar = account.Avatar,
@@ -92,7 +92,7 @@ public class CommentController : IDynamicApiController
                   RootId = c.RootId,
                   Avatar = a1.Avatar,
                   PraiseTotal = SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id).Count(),
-                  IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id && x.AccountId == userId).Any()),
+                  IsPraise = SqlFunc.Subqueryable<Praise>().Where(x => x.ObjectId == c.Id && x.AccountId == userId).Any(),
                   IP = c.IP,
                   Geolocation = c.Geolocation,
                   CreatedTime = c.CreatedTime

@@ -38,7 +38,7 @@ public class TalksService : BaseService<Talks>
                   Images = x.Images,
                   IsAllowComments = x.IsAllowComments,
                   IsTop = x.IsTop,
-                  IsPraise = SqlFunc.IF(userId == 0).Return(false).End(SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any()),
+                  IsPraise = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any(),
                   CreatedTime = x.CreatedTime
               }).ToPagedListAsync(dto);
     }
