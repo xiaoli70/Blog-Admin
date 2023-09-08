@@ -53,7 +53,7 @@
 								<mavon-editor
 									ref="mdRef"
 									v-else
-									style="height: 100%"
+									style="height: 100%; max-width: 99.5%"
 									:toolbars="state.markdownToolbar"
 									v-model="state.form.content"
 									@imgAdd="onUploadMdImg"
@@ -458,6 +458,7 @@ onBeforeUnmount(() => {
 		display: flex;
 		flex-direction: row;
 		.left {
+			min-width: 80%;
 			height: inherit;
 			flex: 0.8;
 			padding-right: 10px;
@@ -484,6 +485,7 @@ onBeforeUnmount(() => {
 			}
 		}
 		.right {
+			// width: 17%;
 			height: inherit;
 			flex: 0.2;
 			justify-content: center;
