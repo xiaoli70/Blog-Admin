@@ -6,6 +6,14 @@ EXPOSE 8066
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
+#修改apt-get源，加速apt下载
+RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list
+RUN cat /etc/apt/sources.list
+#安装fontconfig
+RUN apt-get clean
+RUN apt-get update && apt-get install -y fontconfig
+
 WORKDIR /src
 COPY ["Easy.Admin.Web.Entry/Easy.Admin.Web.Entry.csproj", "Easy.Admin.Web.Entry/"]
 COPY ["Easy.Admin.Web.Core/Easy.Admin.Web.Core.csproj", "Easy.Admin.Web.Core/"]
@@ -22,13 +30,6 @@ RUN dotnet publish "Easy.Admin.Web.Entry.csproj" -c Release -o /app/publish /p:U
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
-#修改apt-get源，加速apt下载
-RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list
-RUN cat /etc/apt/sources.list
-#安装fontconfig
-RUN apt-get clean
-RUN apt-get update && apt-get install -y fontconfig
 
 ENV ASPNETCORE_URLS 'http://*:8066'
 
