@@ -93,6 +93,10 @@ yarn run build
 
 #### 🎉 学习交流加 QQ 群
 > QQ群号：647952498 
+
+#### 反馈
+> 有bug可以在Issues中进行反馈。
+
 #### ❤️ 鸣谢
 - 感谢 [JetBrains](https://jb.gg/OpenSourceSupport) 提供的免费开源 License：https://jb.gg/OpenSourceSupport
 
