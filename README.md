@@ -7,11 +7,12 @@
 ####  ⛱️ 博客在线预览
 
 - 服务端渲染预览：<https://www.okay123.top/>
+> 具体部署教程，可以前往博客中查看。<https://www.okay123.top/>
+
 
 ####  📚后端API使用教程
 
 > 注意：每次修改[`applicationsettings.json`](https://gitee.com/miss_you/easy-admin/blob/master/src/backend/Easy.Admin.Application/applicationsettings.json)中的配置都需要重新生成解决方案方可生效
->
 > 文件所在目录：`/src/backend/Easy.Admin.Application/applicationsettings.json`
 
 1. 可根据需求修改[`applicationsettings.json`](https://gitee.com/miss_you/easy-admin/blob/master/src/backend/Easy.Admin.Application/applicationsettings.json)中的配置文件中的配置，默认使用的sqllite数据库，可修改数据连接字符串更改数据，修改成功后重新生成解决方案，系统会自动创建数据库和初始化基础数据
