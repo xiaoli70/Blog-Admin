@@ -328,10 +328,8 @@ onMounted(async () => {
   );
   const code = route.query.code || route.params.code;
   if (code) {
-    const { data, succeeded } = await authStore.login(code as string);
-    if (succeeded && data) {
-      router.push(data);
-    }
+    await authStore.login(code as string);
+    window.close();
   }
   const [talks] = await Promise.all([
     TalksApi.list({ pageNo: 1, pageSize: 10 }),
