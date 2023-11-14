@@ -51,7 +51,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
         if (dto.OrgId.HasValue)
         {
             orgIdList.Add(dto.OrgId.Value);
-            var list = await _orgRepository.AsQueryable().ToChildListAsync(x => x.Children, dto.OrgId);
+            var list = await _orgRepository.AsQueryable().ToChildListAsync(x => x.ParentId, dto.OrgId);
             orgIdList.AddRange(list.Select(x => x.Id));
         }
         return await _repository.AsQueryable()
@@ -238,7 +238,7 @@ public class SysUserService : BaseService<SysUser>, ITransient
     /// <returns></returns>
     [DisplayName("用户修改头像")]
     [HttpPatch]
-    public async Task UploadAvatar([FromBody]string url)
+    public async Task UploadAvatar([FromBody] string url)
     {
         long userId = _authManager.UserId;
         await _repository.UpdateAsync(x => new SysUser()
