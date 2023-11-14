@@ -2,7 +2,7 @@
 	<div class="system-user-container layout-padding main-box">
 		<TreeFilter ref="orgTreeRef" :request-api="SysOrganizationApi.getTreeSelect" id="value" :default-value="initParam.orgId" @change="onChangeTree" />
 		<div class="table-box">
-			<ProTable ref="proTableRef" :init-param="initParam" :columns="columns" :request-api="SysUserApi.page" :tool-button="false">
+			<ProTable ref="tableRef" :init-param="initParam" :columns="columns" :request-api="SysUserApi.page" :tool-button="false">
 				<template #tools>
 					<el-button v-auth="'sysuser:add'" type="primary" icon="ele-Plus" @click="onOpenUser(0)">新增</el-button>
 				</template>
