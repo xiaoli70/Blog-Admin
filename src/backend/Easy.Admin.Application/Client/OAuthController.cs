@@ -18,6 +18,11 @@ public class OAuthController : IDynamicApiController
     /// 授权成功后回调页面缓存键
     /// </summary>
     private const string OAuthRedirectKey = "oauth.redirect.";
+
+    /// <summary>
+    /// 请求地址的域名
+    /// </summary>
+    private const string DomainKey = "oauth.domain";
     private readonly QQOAuth _qqoAuth;
     private readonly AuthManager _authManager;
     private readonly ISqlSugarRepository<AuthAccount> _accountRepository;
@@ -53,7 +58,10 @@ public class OAuthController : IDynamicApiController
     public async Task<string> Get(string type)
     {
         string code = _idGenerator.Encode(_idGenerator.NewLong());
-        var referer = _httpContextAccessor.HttpContext!.Request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
+        var request = _httpContextAccessor.HttpContext!.Request;
+        var referer = request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
+        string hostValue = request.Scheme + "://" + _httpContextAccessor.HttpContext!.Request.Host.Value;
+        await _easyCachingProvider.SetAsync(DomainKey, hostValue, TimeSpan.FromMinutes(5));
         await _easyCachingProvider.SetAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
         string url = type.ToLower() switch
         {
@@ -122,7 +130,7 @@ public class OAuthController : IDynamicApiController
         string key = $"{OAuthKey}{state}";
         await _easyCachingProvider.SetAsync(key, account, TimeSpan.FromSeconds(30));
         //登录成功后的回调页面
-        string url = App.Configuration["oauth:redirect_uri"];
+        string url = (await _easyCachingProvider.GetAsync<string>(DomainKey)).Value;//App.Configuration["oauth:redirect_uri"]?.TrimEnd('/');
         return new RedirectResult($"{url}?code={state}");
     }
 
