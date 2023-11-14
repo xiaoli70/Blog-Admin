@@ -149,7 +149,6 @@ const { blogSetting, info, report } = storeToRefs(appStore);
 // 跳转登录
 const handleLogin = async () => {
   const { data } = await OAuthApi.get();
-  window.close();
   const width = window.outerWidth;
   const height = window.outerHeight;
   window.open(
