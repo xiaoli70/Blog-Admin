@@ -211,7 +211,15 @@ const searchModelHandel = () => {
 
 const handleLogin = async () => {
   const { data } = await OAuthApi.get();
-  location.href = data!;
+  const width = window.outerWidth;
+  const height = window.outerHeight;
+  window.open(data,
+    "_blank",
+    `width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,top=${
+      (height - 320) / 2
+    },left=${(width - 450) / 2}`
+  );
+  //location.href = data!;
 };
 const handleLoginOut = () => {
   authStore.logout();
