@@ -16,7 +16,7 @@
       <!-- 输入框 -->
       <div class="search-input-wrapper">
         <v-icon>mdi-magnify</v-icon>
-        <input v-model="keywords" placeholder="输入文章标题或内容..." />
+        <input ref="refKeywordsInput" v-model="keywords" placeholder="输入文章标题或内容..." />
       </div>
       <!-- 搜索结果 -->
       <div class="search-result-wrapper">
@@ -49,15 +49,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, reactive } from "vue";
+import { computed, ref, watch, watchEffect, reactive } from "vue";
 import { useRouter } from "vue-router";
 import ArticleApi from "@/api/ArticleApi";
 import { ArticleOutput } from "@/api/models";
-defineProps<{
+const props = defineProps<{
   isShow: boolean;
 }>();
 const router = useRouter();
 const keywords = ref<string>("");
+const refKeywordsInput = ref<any>(null);
 const emit = defineEmits<{ (e: "update:isShow", isShow: boolean): void }>();
 const closeHandle = () => {
   emit("update:isShow", false);
@@ -100,6 +101,11 @@ watch(keywords, async (val: string) => {
 });
 watch(isMobile, () => {
   emit("update:isShow", false);
+});
+watchEffect(() => {
+  if (props.isShow && refKeywordsInput.value) {
+    refKeywordsInput.value.focus();
+  }
 });
 </script>
 <style scoped>
