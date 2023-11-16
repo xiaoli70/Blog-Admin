@@ -7,8 +7,6 @@ WORKDIR /app
 EXPOSE 8001
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
 COPY . .
 
 #修改apt-get源，加速apt下载
