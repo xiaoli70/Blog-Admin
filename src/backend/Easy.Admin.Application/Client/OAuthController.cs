@@ -1,7 +1,6 @@
 ﻿using Easy.Admin.Application.Auth;
 using Easy.Admin.Application.Client.Dtos;
 using MrHuo.OAuth.QQ;
-using System.Security.Policy;
 
 namespace Easy.Admin.Application.Client;
 /// <summary>
@@ -17,7 +16,7 @@ public class OAuthController : IDynamicApiController
     /// <summary>
     /// 授权成功后回调页面缓存键
     /// </summary>
-    //private const string OAuthRedirectKey = "oauth.redirect.";
+    private const string OAuthRedirectKey = "oauth.redirect.";
 
     /// <summary>
     /// 请求地址的域名
@@ -59,10 +58,10 @@ public class OAuthController : IDynamicApiController
     {
         string code = _idGenerator.Encode(_idGenerator.NewLong());
         var request = _httpContextAccessor.HttpContext!.Request;
-        //var referer = request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
+        var referer = request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
         string hostValue = request.Scheme + "://" + _httpContextAccessor.HttpContext!.Request.Host.Value;
-        await _easyCachingProvider.SetAsync(DomainKey, hostValue, TimeSpan.FromMinutes(5));
-        //await _easyCachingProvider.SetAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
+        await _easyCachingProvider.SetAsync($"{DomainKey}{code}", hostValue, TimeSpan.FromMinutes(5));
+        await _easyCachingProvider.SetAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
         string url = type.ToLower() switch
         {
             "qq" => _qqoAuth.GetAuthorizeUrl(code),
@@ -130,8 +129,8 @@ public class OAuthController : IDynamicApiController
         string key = $"{OAuthKey}{state}";
         await _easyCachingProvider.SetAsync(key, account, TimeSpan.FromMinutes(3));
         //登录成功后的回调页面
-        string url = (await _easyCachingProvider.GetAsync<string>(DomainKey)).Value;//App.Configuration["oauth:redirect_uri"]?.TrimEnd('/');
-        return new RedirectResult($"{url}?code={state}");
+        string url = (await _easyCachingProvider.GetAsync<string>($"{DomainKey}{state}")).Value;//App.Configuration["oauth:redirect_uri"]?.TrimEnd('/');
+        return new RedirectResult($"{url}/oauth/{state}");
     }
 
     /// <summary>
@@ -141,9 +140,9 @@ public class OAuthController : IDynamicApiController
     /// <returns></returns>
     [HttpPost("login/{code}")]
     [AllowAnonymous]
-    public async Task Login(string code)
+    public async Task<string> Login(string code)
     {
-        string key = $"{OAuthKey}{code}"; //key2 = $"{DomainKey}{code}";
+        string key = $"{OAuthKey}{code}", key2 = $"{OAuthRedirectKey}{code}";
         var value = await _easyCachingProvider.GetAsync<AuthAccount>(key);
         if (!value.HasValue)
         {
@@ -163,10 +162,10 @@ public class OAuthController : IDynamicApiController
         // 设置响应报文头
         _httpContextAccessor.HttpContext!.Response.Headers["access-token"] = token;
         _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToken;
-        //string url = (await _easyCachingProvider.GetAsync<string>(key2)).Value;
+        string url = (await _easyCachingProvider.GetAsync<string>(key2)).Value;
         await _easyCachingProvider.RemoveAsync(key);
-        //await _easyCachingProvider.RemoveAsync(key2);
-        // return url;
+        await _easyCachingProvider.RemoveAsync(key2);
+        return url;
     }
 
     /// <summary>
