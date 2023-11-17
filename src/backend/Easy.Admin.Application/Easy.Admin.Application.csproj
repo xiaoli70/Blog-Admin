@@ -3,7 +3,7 @@
 
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<NoWarn>1701;1702;1591</NoWarn>
 		<DocumentationFile>Easy.Admin.Application.xml</DocumentationFile>
 		<ImplicitUsings>enable</ImplicitUsings>

@@ -331,13 +331,13 @@ onMounted(async () => {
     () => {},
     () => {}
   );
-  const code = route.urlParsed?.search.code || route.routeParams?.code;
-  if (code) {
-    const { data, succeeded } = await authStore.login(code);
-    if (succeeded) {
-      window.close();
-    }
-  }
+  // const code = route.urlParsed?.search.code || route.routeParams?.code;
+  // if (code) {
+  //   const { data, succeeded } = await authStore.login(code);
+  //   if (succeeded) {
+  //     window.close();
+  //   }
+  // }
   setInterval(() => {
     runTime();
   }, 1000);
