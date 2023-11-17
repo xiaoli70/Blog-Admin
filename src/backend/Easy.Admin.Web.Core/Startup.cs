@@ -75,10 +75,18 @@ public class Startup : AppStartup
         //配置缓存 文档：https://easycaching.readthedocs.io/en/latest/
         services.AddEasyCaching(options =>
         {
-            //options.UseCSRedis(App.Configuration);
-            //options.WithJson("DefaultCSRedis");
-            options.UseInMemory(App.Configuration);
-            options.WithJson("DefaultInMemory");
+            string type = App.Configuration["easycaching:type"];
+            switch (type)
+            {
+                case "csredis":
+                    options.UseCSRedis(App.Configuration);
+                    options.WithJson("DefaultCSRedis");
+                    break;
+                case "inmemory":
+                    options.UseInMemory(App.Configuration);
+                    options.WithJson("DefaultInMemory");
+                    break;
+            }
         });
 
         // 配置ORM 文档：https://www.donet5.com/Home/Doc
