@@ -82,7 +82,7 @@ public class Startup : AppStartup
                     options.UseCSRedis(App.Configuration);
                     options.WithJson("DefaultCSRedis");
                     break;
-                case "inmemory":
+                default:
                     options.UseInMemory(App.Configuration);
                     options.WithJson("DefaultInMemory");
                     break;
