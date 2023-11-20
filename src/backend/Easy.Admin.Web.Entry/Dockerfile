@@ -4,7 +4,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 # ÈÝÆ÷±©Â¶µÄ¶Ë¿Ú
-EXPOSE 8001
+EXPOSE 8066
 EXPOSE 443
 
 COPY . .
@@ -17,6 +17,6 @@ RUN apt-get clean
 RUN apt-get update && apt-get install -y fontconfig
 
 # API¶Ë¿Ú
-ENV ASPNETCORE_URLS 'http://*:8001'
+ENV ASPNETCORE_URLS 'http://*:8066'
 
 ENTRYPOINT ["dotnet", "Easy.Admin.Web.Entry.dll"]
