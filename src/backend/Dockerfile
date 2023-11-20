@@ -1,6 +1,15 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+
+#修改apt-get源，加速apt下载
+RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list
+RUN cat /etc/apt/sources.list
+#安装fontconfig
+RUN apt-get clean
+RUN apt-get update 
+RUN apt-get install -y fontconfig
+
 WORKDIR /app
 EXPOSE 8066
 EXPOSE 443
@@ -19,16 +28,6 @@ RUN dotnet build "Easy.Admin.Web.Entry.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Easy.Admin.Web.Entry.csproj" -c Release -o /app/publish /p:UseAppHost=false
-
-#修改apt-get源，加速apt下载
-RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list
-RUN cat /etc/apt/sources.list
-#安装fontconfig
-RUN apt-get clean
-RUN apt-get update && apt-get install -y fontconfig
-
-# 设置时区
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
 
 FROM base AS final
 WORKDIR /app
