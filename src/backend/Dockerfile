@@ -28,8 +28,7 @@ RUN apt-get clean
 RUN apt-get update && apt-get install -y fontconfig
 
 # ÉèÖÃÊ±Çø
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo 'Asia/Shanghai' >/etc/timezone
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
 
 FROM base AS final
 WORKDIR /app
