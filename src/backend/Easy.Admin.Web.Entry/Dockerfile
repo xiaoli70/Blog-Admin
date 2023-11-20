@@ -16,10 +16,6 @@ RUN cat /etc/apt/sources.list
 RUN apt-get clean
 RUN apt-get update && apt-get install -y fontconfig
 
-# 设置时区
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
-
-
 # API端口
 ENV ASPNETCORE_URLS 'http://*:8066'
 
