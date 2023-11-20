@@ -130,7 +130,7 @@ public class OAuthController : IDynamicApiController
         await _easyCachingProvider.SetAsync(key, account, TimeSpan.FromMinutes(3));
         //登录成功后的回调页面
         string url = (await _easyCachingProvider.GetAsync<string>($"{DomainKey}{state}")).Value;//App.Configuration["oauth:redirect_uri"]?.TrimEnd('/');
-        return new RedirectResult($"{url}/oauth/{state}");
+        return new RedirectResult($"{url}?code={state}");
     }
 
     /// <summary>
