@@ -210,7 +210,7 @@ const searchModelHandel = () => {
 };
 
 const handleLogin = async () => {
-  const { data } = await OAuthApi.get();
+  const { data } = await OAuthApi.get(location.href);
   //const width = window.outerWidth;
   //const height = window.outerHeight;
   // window.open(data,

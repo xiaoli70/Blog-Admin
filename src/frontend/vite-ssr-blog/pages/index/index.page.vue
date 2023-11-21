@@ -241,7 +241,6 @@ import type { ArticleOutput, TalksOutput } from "~/api/models";
 import EasyTyper from "easy-typer-js/src/ts";
 import Swiper from "~/components/Swiper.vue";
 import { useApp } from "~/stores/app";
-import { useAuth } from "~/stores/auth";
 import dayjs from "dayjs";
 import { usePageContext } from "~/renderer/usePageContext";
 import { navigate } from "vite-plugin-ssr/client/router";
@@ -255,7 +254,7 @@ const props = defineProps<{
 const route = usePageContext();
 const appStore = useApp();
 const { blogSetting, info, report } = storeToRefs(appStore);
-const authStore = useAuth();
+
 // 打字机配置
 const state = reactive({
   print: {
@@ -331,13 +330,6 @@ onMounted(async () => {
     () => {},
     () => {}
   );
-  const code = route.urlParsed?.search.code || route.routeParams?.code;
-  if (code) {
-    const { data, succeeded } = await authStore.login(code);
-    if (succeeded) {
-      location.href = data ?? "/";
-    }
-  }
   setInterval(() => {
     runTime();
   }, 1000);

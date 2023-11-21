@@ -21,11 +21,22 @@ import SideNavBar from "~/components/layout/SideNavBar.vue";
 import Footer from "~/components/layout/Footer.vue";
 import BackTop from "~/components/BackTop.vue";
 import { useThemeSettingStore } from "~/stores/themeSetting";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
+import { useAuth } from "~/stores/auth";
 import { usePageContext } from "./usePageContext";
 const { theme } = storeToRefs(useThemeSettingStore());
 const route = usePageContext();
 const showFooter = computed(() => {
   return !route.urlPathname.startsWith("/message");
+});
+const authStore = useAuth();
+
+onMounted(async () => {
+  // 第三方授权登录（QQ）
+  const code = route.urlParsed?.search.code || route.routeParams?.code;
+  console.log(code);
+  if (code) {
+    const { data, succeeded } = await authStore.login(code);
+  }
 });
 </script>
