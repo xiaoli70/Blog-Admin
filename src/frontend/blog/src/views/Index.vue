@@ -224,18 +224,13 @@ import { storeToRefs } from "pinia";
 import EasyTyper from "easy-typer-js/src/ts";
 import Swiper from "../components/Swiper.vue";
 import { useApp } from "@/stores/app";
-import { useAuth } from "@/stores/auth";
 import ArticleApi from "@/api/ArticleApi";
 import dayjs from "dayjs";
 import type { ArticleOutput, TalksOutput } from "@/api/models";
 import TalksApi from "@/api/TalksApi";
-import { useRoute, useRouter } from "vue-router";
 import { useToast } from "@/stores/toast";
-const router = useRouter();
 const appStore = useApp();
-const route = useRoute();
 const { blogSetting, info, report } = storeToRefs(appStore);
-const authStore = useAuth();
 // 打字机配置
 const state = reactive({
   talks: [] as TalksOutput[], // 说说
@@ -326,11 +321,6 @@ onMounted(async () => {
     () => {},
     () => {}
   );
-  const code = route.query.code || route.params.code;
-  if (code) {
-    await authStore.login(code as string);
-    window.close();
-  }
   const [talks] = await Promise.all([
     TalksApi.list({ pageNo: 1, pageSize: 10 }),
     articlePage(),

@@ -16,7 +16,7 @@
     <!-- 博客信息 -->
     <div class="blog-info-wrapper">
       <div class="blog-info-data">
-        <router-link to="/articles">
+        <router-link to="/archives">
           <div style="font-size: 0.875rem">文章</div>
           <div style="font-size: 1.125rem">{{ report.articleCount }}</div>
         </router-link>
@@ -148,17 +148,8 @@ const { drawer } = storeToRefs(useDrawerSettingStore());
 const appStore = useApp();
 const { blogSetting, info, report } = storeToRefs(appStore);
 const handleLogin = async () => {
-  const { data } = await OAuthApi.get();
-  const width = window.outerWidth;
-  const height = window.outerHeight;
-  window.open(
-    data,
-    "_blank",
-    `width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,top=${
-      (height - 320) / 2
-    },left=${(width - 450) / 2}`
-  );
-  //location.href = data!;
+  const { data } = await OAuthApi.get(location.href);
+  location.href = data!;
 };
 const handleLoginOut = () => {
   authStore.logout();
