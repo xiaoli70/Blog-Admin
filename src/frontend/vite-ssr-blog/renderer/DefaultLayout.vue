@@ -25,18 +25,17 @@ import { computed, onMounted } from "vue";
 import { useAuth } from "~/stores/auth";
 import { usePageContext } from "./usePageContext";
 const { theme } = storeToRefs(useThemeSettingStore());
+const authStore = useAuth();
 const route = usePageContext();
 const showFooter = computed(() => {
   return !route.urlPathname.startsWith("/message");
 });
-const authStore = useAuth();
 
 onMounted(async () => {
   // 第三方授权登录（QQ）
   const code = route.urlParsed?.search.code || route.routeParams?.code;
-  console.log(code);
   if (code) {
-    const { data, succeeded } = await authStore.login(code);
+    await authStore.login(code);
   }
 });
 </script>
