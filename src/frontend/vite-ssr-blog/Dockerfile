@@ -6,8 +6,6 @@ RUN mkdir -p /app
 WORKDIR /app
 EXPOSE 5200
 
-WORKDIR /vite-ssr-blog
-
 #设置镜像源
 RUN yarn config set registry https://registry.npmmirror.com/ 
 RUN yarn install && yarn run build
