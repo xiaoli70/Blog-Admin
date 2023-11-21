@@ -18,10 +18,6 @@ public class OAuthController : IDynamicApiController
     /// </summary>
     private const string OAuthRedirectKey = "oauth.redirect.";
 
-    /// <summary>
-    /// 请求地址的域名
-    /// </summary>
-    private const string DomainKey = "oauth.domain";
     private readonly QQOAuth _qqoAuth;
     private readonly AuthManager _authManager;
     private readonly ISqlSugarRepository<AuthAccount> _accountRepository;
@@ -50,24 +46,22 @@ public class OAuthController : IDynamicApiController
     /// <summary>
     /// 获取授权地址
     /// </summary>
-    /// <param name="type"></param>
+    /// <param name="type">授权登录类型</param>
+    /// <param name="referer">回跳地址</param>
     /// <returns></returns>
     [HttpGet("{type}")]
     [AllowAnonymous]
-    public async Task<string> Get(string type)
+    public async Task<string> Get(string type, [FromQuery][Required(ErrorMessage = "缺少参数")] string referer)
     {
         string code = _idGenerator.Encode(_idGenerator.NewLong());
         var request = _httpContextAccessor.HttpContext!.Request;
-        var referer = request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
-        string hostValue = request.Scheme + "://" + _httpContextAccessor.HttpContext!.Request.Host.Value;
-        await _easyCachingProvider.SetAsync($"{DomainKey}{code}", hostValue, TimeSpan.FromMinutes(5));
         await _easyCachingProvider.SetAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
-        string url = type.ToLower() switch
+        string authUrl = type.ToLower() switch
         {
             "qq" => _qqoAuth.GetAuthorizeUrl(code),
             _ => throw Oops.Bah("无效请求")
         };
-        return url;
+        return authUrl;
     }
 
     /// <summary>
@@ -81,7 +75,7 @@ public class OAuthController : IDynamicApiController
     [AllowAnonymous]
     public async Task<IActionResult> Callback(string type, [FromQuery] string code, [FromQuery] string state)
     {
-        if (string.IsNullOrWhiteSpace(state) || !await _easyCachingProvider.ExistsAsync($"{DomainKey}{state}"))
+        if (string.IsNullOrWhiteSpace(state) || !await _easyCachingProvider.ExistsAsync($"{OAuthRedirectKey}{state}"))
         {
             throw Oops.Oh("缺少参数");
         }
@@ -129,8 +123,9 @@ public class OAuthController : IDynamicApiController
         string key = $"{OAuthKey}{state}";
         await _easyCachingProvider.SetAsync(key, account, TimeSpan.FromMinutes(3));
         //登录成功后的回调页面
-        string url = (await _easyCachingProvider.GetAsync<string>($"{DomainKey}{state}")).Value;//App.Configuration["oauth:redirect_uri"]?.TrimEnd('/');
-        return new RedirectResult($"{url}?code={state}");
+        string url = (await _easyCachingProvider.GetAsync<string>($"{OAuthRedirectKey}{state}")).Value;//App.Configuration["oauth:redirect_uri"]?.TrimEnd('/');
+        string redirect = url.Contains("?") ? $"{url}&code={state}" : $"{url}?code={state}";
+        return new RedirectResult(redirect);
     }
 
     /// <summary>
