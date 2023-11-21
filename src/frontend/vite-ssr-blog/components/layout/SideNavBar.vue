@@ -16,7 +16,7 @@
     <!-- 博客信息 -->
     <div class="blog-info-wrapper">
       <div class="blog-info-data">
-        <a href="/articles">
+        <a href="/archives">
           <div style="font-size: 0.875rem">文章</div>
           <div style="font-size: 1.125rem">{{ report.articleCount }}</div>
         </a>
