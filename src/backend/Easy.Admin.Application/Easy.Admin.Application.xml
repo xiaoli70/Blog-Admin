@@ -1750,11 +1750,12 @@
             请求地址的域名
             </summary>
         </member>
-        <member name="M:Easy.Admin.Application.Client.OAuthController.Get(System.String)">
+        <member name="M:Easy.Admin.Application.Client.OAuthController.Get(System.String,System.String)">
             <summary>
             获取授权地址
             </summary>
-            <param name="type"></param>
+            <param name="type">授权登录类型</param>
+            <param name="referer">回跳地址</param>
             <returns></returns>
         </member>
         <member name="M:Easy.Admin.Application.Client.OAuthController.Callback(System.String,System.String,System.String)">
