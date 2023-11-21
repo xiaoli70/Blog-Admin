@@ -96,8 +96,7 @@
       "app_key": "你的key",
       "redirect_uri": "https://你的域名/api/oauth/qq/callback",
       "scope": "get_user_info"
-    },
-    "redirect_uri": "https://www.你的域名" //授权成功后跳转地址
+    }
   },
   // 雪花id 文档：https://github.com/yitter/IdGenerator
   "SnowId": {
