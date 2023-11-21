@@ -2,7 +2,7 @@
 ####  🌈介绍（喜欢的话给个star吧❤️）
 
 - 后端基于`.NET 7` + `Furion ` + `SqlSugar` + `Vue3` + `TypeScript` ，并且支持多种数据库
-- 博客基于`Vue3` + `Typescript` + `Vuetify` + `Pinia`,分为普通版本和SSR（服务端渲染，支持SEO），服务端渲染框架基于`vite-plugin-ssr`实现
+- 博客基于`Vue3` + `TypeScript` + `Vuetify` + `Pinia`,分为普通版本和SSR（服务端渲染，支持SEO），服务端渲染框架基于`vite-plugin-ssr`实现
 
 ####  ⛱️ 博客在线预览
 
