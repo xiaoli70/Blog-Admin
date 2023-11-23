@@ -1,5 +1,5 @@
 # 使用Node.js 基础镜像
-FROM node:lts
+FROM node:18.16.0
 
 RUN mkdir -p /app
 COPY . /app
