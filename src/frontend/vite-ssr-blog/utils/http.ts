@@ -1,6 +1,5 @@
 // api/axios.ts
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import type {
   AxiosInstance,
   AxiosRequestConfig,
@@ -49,7 +48,9 @@ export function checkAndStoreAuthentication(res: any): void {
  * @returns <any>object
  */
 export function decryptJWT(token: string): any {
-  return jwtDecode(token);
+  token = token.replace(/_/g, "/").replace(/-/g, "+");
+  const json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
+  return JSON.parse(json);
 }
 
 /**
@@ -111,7 +112,7 @@ class Axios {
     );
 
     this.instance.interceptors.response.use(
-      (res: AxiosResponse) => {
+      async (res: AxiosResponse) => {
         // 检查并存储授权信息
         checkAndStoreAuthentication(res);
         const data = res.data;
