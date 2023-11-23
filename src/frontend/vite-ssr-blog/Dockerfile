@@ -1,5 +1,5 @@
 # 使用Node.js 基础镜像
-FROM node:18.16.0
+FROM node:16.20.2
 
 RUN mkdir -p /app
 COPY . /app
