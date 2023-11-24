@@ -34,7 +34,7 @@ const code = computed(() => {
 watch(code, async () => {
   if (code.value) {
     // 第三方授权登录（QQ）
-    await authStore.login(code.value).then(() => {});
+    await authStore.login(code.value);
   }
 });
 </script>
