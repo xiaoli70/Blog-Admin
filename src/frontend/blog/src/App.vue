@@ -31,6 +31,7 @@ const key = computed(() => {
 const code = computed(() => {
   return (route.query?.code as string) || (route.params?.code as string);
 });
+//解决刷新后，code丢失的问题
 watch(code, async () => {
   if (code.value) {
     // 第三方授权登录（QQ）
