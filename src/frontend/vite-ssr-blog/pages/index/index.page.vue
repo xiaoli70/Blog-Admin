@@ -221,17 +221,6 @@
         </div>
       </v-col>
     </v-row>
-    <!-- 提示消息 -->
-    <!-- <v-snackbar
-      v-model="state.tip"
-      location="center"
-      position="fixed"
-      color="blue"
-      ariant="text"
-      :timeout="2000"
-    >
-      按CTRL+D 键将本页加入书签
-    </v-snackbar> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -251,7 +240,6 @@ const props = defineProps<{
   pages: number;
   pageNo: number;
 }>();
-const route = usePageContext();
 const appStore = useApp();
 const { blogSetting, info, report } = storeToRefs(appStore);
 
