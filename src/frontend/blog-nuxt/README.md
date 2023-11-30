@@ -1,75 +1,26 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3 服务端渲染使用指南
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+官方文档 [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction)
 
-## Setup
-
-Make sure to install the dependencies:
+## 安装依赖
+> 注意：请确保你的 Node.js 版本 >= 18
 
 ```bash
-# npm
-npm install
 
-# pnpm
-pnpm install
-
-# yarn
 yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+## 运行
 
-Start the development server on `http://localhost:3000`:
+开发环境运行地址 `http://localhost:3001`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
 yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
+## 生产环境
 
 ```bash
 # npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
 yarn build
-
-# bun
-bun run build
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
