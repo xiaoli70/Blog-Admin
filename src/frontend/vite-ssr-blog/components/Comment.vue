@@ -204,7 +204,7 @@
   <div v-else style="padding: 1.25rem; text-align: center">来发评论吧~</div>
 </template>
 
-<script setup lang="ts">
+<script async setup lang="ts">
 import { ref, reactive, onMounted, watch } from "vue";
 import img from "../assets/images/1.jpg";
 import Emoji from "./Emoji.vue";

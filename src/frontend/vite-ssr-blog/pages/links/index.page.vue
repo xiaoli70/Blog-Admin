@@ -42,7 +42,7 @@
       友链信息展示需要，您的信息格式要包含：名称、介绍、链接、头像
     </blockquote>
     <!-- 评论 -->
-    <Comment :type="0" />
+    <Comment :type="0" v-if="blogSetting.isAllowComments" />
   </v-card>
 </template>
 

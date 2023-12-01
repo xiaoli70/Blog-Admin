@@ -77,7 +77,6 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
-import { useApp } from "~/stores/app";
 import type { ArticleOutput } from "~/api/models";
 import { usePageContext } from "~/renderer/usePageContext";
 import { navigate } from "vite-plugin-ssr/client/router";
