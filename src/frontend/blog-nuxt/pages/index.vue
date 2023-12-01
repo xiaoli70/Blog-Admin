@@ -291,7 +291,6 @@ const scrollDown = (): void => {
     top: document.documentElement.clientHeight,
   });
 };
-const router = useRouter();
 watch(
   () => pager.value.pageNo,
   () => {
