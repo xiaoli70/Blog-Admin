@@ -56,6 +56,18 @@ const [{ data: articles }, { data: site }] = await Promise.all([
   AppApi.info(),
 ]);
 
+watch(
+  () => pager.value.pageNo,
+  () => {
+    setTimeout(() => {
+      window.scrollTo({
+        behavior: "smooth",
+        top: 0,
+      });
+    }, 200);
+  }
+);
+
 // 封面图
 const cover = computed(() => {
   const arr = site.value?.data?.covers?.archives ?? ["archives.jpg"];
@@ -67,6 +79,9 @@ useSeoMeta({
   title: "归档-" + site.value?.data?.site?.siteName,
   description: site.value?.data?.site?.description,
   keywords: site.value?.data?.site?.keyword,
+});
+useHead({
+  link: [{ rel: "icon", href: site.value?.data?.site?.logo ?? "" }],
 });
 </script>
 

@@ -29,14 +29,11 @@ const route = useRoute();
 const showFooter = computed(() => {
   return !route.path.startsWith("/message");
 });
-const someErrorLogger = (error: unknown) => {
-  console.log(error);
-};
 // onMounted(async () => {
 // 第三方授权登录（QQ）
 const code = (route.params.code || route.query.code) as string;
 if (code) {
-  const data = await authStore.login(code);
+  await authStore.login(code);
 }
 // });
 </script>

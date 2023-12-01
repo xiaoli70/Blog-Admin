@@ -183,7 +183,7 @@ import { useDrawerSettingStore } from "~/stores/drawerSetting";
 import { useApp } from "~/stores/app";
 import OAuthApi from "~/api/OAuthApi";
 import { useAuth } from "~/stores/auth";
-const SearchModel = defineAsyncComponent(() => import("~/SearchModel.vue"));
+const SearchModel = defineAsyncComponent(() => import("~/components/SearchModel.vue"));
 const authStore = useAuth();
 const appStore = useApp();
 const { blogSetting } = storeToRefs(appStore);

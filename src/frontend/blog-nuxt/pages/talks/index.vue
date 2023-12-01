@@ -122,6 +122,9 @@ useSeoMeta({
   description: site.value?.data?.site?.description,
   keywords: site.value?.data?.site?.keyword,
 });
+useHead({
+  link: [{ rel: "icon", href: site.value?.data?.site?.logo ?? "" }],
+});
 </script>
 
 <style scoped>

@@ -294,11 +294,13 @@ const scrollDown = (): void => {
 const router = useRouter();
 watch(
   () => pager.value.pageNo,
-  (n, o) => {
+  () => {
     if (import.meta.client) {
-      scrollDown();
+      setTimeout(() => {
+        scrollDown();
+      }, 200);
     }
-    router.push({ path: "/", query: { page: n } });
+    // router.push({ path: "/", query: { page: n } });
   }
 );
 
@@ -330,12 +332,6 @@ const report = computed(() => {
   return statistics.value!.data!;
 });
 
-useSeoMeta({
-  title: "首页-" + blogSetting.value.siteName,
-  description: blogSetting.value?.description,
-  keywords: blogSetting.value?.keyword,
-});
-
 onMounted(async () => {
   new EasyTyper(
     state.print,
@@ -346,6 +342,15 @@ onMounted(async () => {
   setInterval(() => {
     runTime();
   }, 1000);
+});
+
+useSeoMeta({
+  title: "首页-" + blogSetting.value.siteName,
+  description: blogSetting.value?.description,
+  keywords: blogSetting.value?.keyword,
+});
+useHead({
+  link: [{ rel: "icon", href: site.value?.data?.site?.logo ?? "" }],
 });
 </script>
 <style scoped lang="scss">

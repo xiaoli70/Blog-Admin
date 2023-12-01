@@ -169,7 +169,7 @@ const onSubmit = async () => {
     await authStore.getUserInfo();
   }
 };
-onMounted(async () => {
+onMounted(() => {
   if (info.value?.status === 1) {
     toastStore.info("您申请的交换友链正在审核中");
   }

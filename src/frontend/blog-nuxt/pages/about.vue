@@ -36,6 +36,9 @@ useSeoMeta({
   description: data.value?.data?.site?.description,
   keywords: data.value?.data?.site?.keyword,
 });
+useHead({
+  link: [{ rel: "icon", href: data.value?.data?.site?.logo ?? "" }],
+});
 </script>
 
 <style scoped>

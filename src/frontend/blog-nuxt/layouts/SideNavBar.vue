@@ -153,7 +153,7 @@ import OAuthApi from "~/api/OAuthApi";
 const authStore = useAuth();
 const { drawer } = storeToRefs(useDrawerSettingStore());
 const appStore = useApp();
-const { blogSetting, info, report } = storeToRefs(appStore);
+const { info, report } = storeToRefs(appStore);
 // 跳转登录
 const handleLogin = async () => {
   const { data } = await OAuthApi.get(location.href);
