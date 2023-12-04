@@ -1,5 +1,4 @@
 ﻿using Easy.Admin.Application.Blog.Dtos;
-using Easy.Admin.Core.Entities;
 
 namespace Easy.Admin.Application.Blog;
 
