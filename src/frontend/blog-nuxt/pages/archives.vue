@@ -41,8 +41,8 @@
 
 <script setup lang="ts">
 // 文档：https://github.com/xiaojieajie/vue3-cute-timeline
-import "vue3-cute-component/dist/style.css";
-import { Timeline, TimelineTitle, TimelineItem } from "vue3-cute-component";
+// import "vue3-cute-component/dist/style.css";
+// import { Timeline, TimelineTitle, TimelineItem } from "vue3-cute-component";
 import type { Pagination } from "~/api/models/pagination";
 import ArticleApi from "~/api/ArticleApi";
 import AppApi from "~/api/AppApi";

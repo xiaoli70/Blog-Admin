@@ -25,11 +25,10 @@ class http {
   request = <T>(url: string, options: UseFetchOptions<ApiResult<T>> = {}) => {
     const apiUrl = useRuntimeConfig().public.apiBaseUrl as string;
     console.log(
-      "API地址：" + import.meta.env.MODE === "production" && import.meta.client
+      import.meta.env.MODE === "production" && import.meta.client
         ? "/api"
         : apiUrl
     );
-    console.log("环境变量：" + import.meta.env.MODE);
     const defaults: UseFetchOptions<ApiResult<T>> = {
       // 此配置在nuxt.config.ts中
       baseURL:
@@ -80,6 +79,9 @@ class http {
             const refreshToken = useCookie(refreshAccessTokenKey);
             token.value = accessToken;
             refreshToken.value = refreshAccessToken;
+          }
+          if (!response._data?.succeeded) {
+            console.log(response._data);
           }
           if (import.meta.client && !response._data?.succeeded) {
             let message = "";
