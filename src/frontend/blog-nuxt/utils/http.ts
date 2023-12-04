@@ -24,6 +24,9 @@ class http {
    */
   request = <T>(url: string, options: UseFetchOptions<ApiResult<T>> = {}) => {
     const config = useRuntimeConfig();
+    console.log("api地址：" + config.public.apiBaseUrl);
+    console.log("环境变量1：" + import.meta.env.NUXT_API_BASE_URL);
+    console.log("环境变量2：" + process.env.NUXT_API_BASE_URL);
     const defaults: UseFetchOptions<ApiResult<T>> = {
       // 此配置在nuxt.config.ts中
       baseURL: config.public.apiBaseUrl as string,
@@ -58,6 +61,9 @@ class http {
        * 如果响应成功，将响应数据存储在response._data中
        */
       onResponse({ request, response, options }) {
+        console.log("------------结果---------------");
+        console.log(response._data);
+        console.log("--------------结果-------------");
         if (response.status === 200) {
           const accessToken = response.headers.get(accessTokenKey);
           const refreshAccessToken = response.headers.get(
