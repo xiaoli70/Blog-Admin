@@ -2,8 +2,9 @@
 FROM node:18.18.1
 
 RUN mkdir -p /app
-COPY . /app
 WORKDIR /app
+COPY . .
+ADD .env.production .
 
 #设置镜像源
 RUN yarn config set registry https://registry.npmmirror.com/
