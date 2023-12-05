@@ -17,20 +17,21 @@ export const useAuth = defineStore("auth", () => {
    * @returns
    */
   const login = async (code: string) => {
-    const {
-      data: { value },
-    } = await OAuthApi.login(code);
-    if (value?.succeeded) {
+    const data = await OAuthApi.login(code);
+    console.log("------------登录成功--------------");
+    console.log(data);
+    console.log("---------------------------------");
+    if (data.data.value?.succeeded) {
       await getUserInfo();
     } else {
       if (import.meta.server) {
         throw createError({
-          message: value?.errors,
-          statusCode: value?.statusCode,
+          message: data.data.value?.errors,
+          statusCode: data.data.value?.statusCode,
         });
       }
     }
-    return value?.data;
+    return data.data.value?.data;
   };
 
   /**
@@ -50,6 +51,9 @@ export const useAuth = defineStore("auth", () => {
     const {
       data: { value },
     } = await OAuthApi.info();
+    console.log("----------获取用户信息------------");
+    console.log(value);
+    console.log("---------------------------------");
     store.info = value?.data;
     const info = useCookie<OAuthAccountDetailOutput>("account_info");
     info.value = value!.data!;

@@ -14,7 +14,7 @@
   </v-app>
 </template>
 
-<script setup lang="ts">
+<script async setup lang="ts">
 import { storeToRefs } from "pinia";
 import TopNavBar from "./TopNavBar.vue";
 import SideNavBar from "./SideNavBar.vue";
@@ -33,7 +33,13 @@ const showFooter = computed(() => {
 // 第三方授权登录（QQ）
 const code = (route.params.code || route.query.code) as string;
 if (code) {
-  await authStore.login(code);
+  onMounted(() => {
+    nextTick(async () => {
+      setTimeout(async () => {
+        await authStore.login(code);
+      }, 500);
+    });
+  });
 }
 // });
 </script>

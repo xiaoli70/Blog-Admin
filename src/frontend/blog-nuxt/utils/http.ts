@@ -61,10 +61,6 @@ class http {
        * 如果响应成功，将响应数据存储在response._data中
        */
       onResponse({ request, response, options }) {
-        if (response.url.includes("/oauth/login")) {
-          console.log("-------------登录成功响应结果---------------");
-          console.log(response);
-        }
         if (response.status === 200) {
           const accessToken = response.headers.get(accessTokenKey);
           const refreshAccessToken = response.headers.get(
@@ -74,16 +70,10 @@ class http {
           if (accessToken === "invalid_token") {
             clearAccessTokens();
           } else if (accessToken && refreshAccessToken) {
-            console.log("--------token---------");
-            console.log(accessToken);
-            console.log(refreshAccessToken);
             const token = useCookie(accessTokenKey);
             const refreshToken = useCookie(refreshAccessTokenKey);
             token.value = accessToken;
             refreshToken.value = refreshAccessToken;
-          }
-          if (!response._data?.succeeded) {
-            console.log(response._data);
           }
           if (import.meta.client && !response._data?.succeeded) {
             let message = "";

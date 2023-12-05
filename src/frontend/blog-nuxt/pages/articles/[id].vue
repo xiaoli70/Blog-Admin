@@ -346,7 +346,9 @@ const onPraise = async () => {
   const { data } = await CommentApi.praise(id);
   if (data.value?.succeeded) {
     state.isPraise = data.value.data;
-    state.praiseTotal = data ? state.praiseTotal! + 1 : state.praiseTotal! - 1;
+    state.praiseTotal = state.isPraise
+      ? state.praiseTotal! + 1
+      : state.praiseTotal! - 1;
   }
 };
 onMounted(() => {
