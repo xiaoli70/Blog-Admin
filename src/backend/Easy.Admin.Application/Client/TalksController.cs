@@ -64,6 +64,7 @@ public class TalksController : IDynamicApiController
                 IsTop = x.IsTop,
                 IsAllowComments = x.IsAllowComments,
                 IsPraise = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any(),
+                Comments = SqlFunc.Subqueryable<Comments>().Where(c => c.ModuleId == x.Id && c.RootId == null).Count(),
                 Upvote = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == x.Id).Count(),
                 CreatedTime = x.CreatedTime
             }).FirstAsync();
