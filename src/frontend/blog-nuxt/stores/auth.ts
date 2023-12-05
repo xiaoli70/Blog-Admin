@@ -18,9 +18,6 @@ export const useAuth = defineStore("auth", () => {
    */
   const login = async (code: string) => {
     const data = await OAuthApi.login(code);
-    console.log("------------登录成功--------------");
-    console.log(data);
-    console.log("---------------------------------");
     if (data.data.value?.succeeded) {
       await getUserInfo();
     } else {
