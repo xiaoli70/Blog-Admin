@@ -57,7 +57,11 @@ yarn run build
 
 #### 📚 博客服务端渲染版使用说明
 
-> 项目所在目录：`/src/frontend/vite-ssr-blog`
+> 服务渲染有两种实现方式
+>
+> 1、项目所在目录：`/src/frontend/vite-ssr-blog`，基于`vite-plugin-ssr`实现，官方文档：[vite-plugin-ssr](https://cn.vite-plugin-ssr.com/)
+>
+> 2、项目所在目录：`/src/frontend/blog-nuxt`,基于`nuxtjs`实现，官方文档：[Nuxt](https://nuxt.com/)
 
 ```bash
 # 安装依赖
