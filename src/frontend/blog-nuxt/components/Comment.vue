@@ -295,6 +295,7 @@ const insertComment = async () => {
   if (data.value?.succeeded) {
     state.commentContent = "";
     pager.value.pageNo = 1;
+    pager.value.randomNumber = Math.random();
   }
 };
 
