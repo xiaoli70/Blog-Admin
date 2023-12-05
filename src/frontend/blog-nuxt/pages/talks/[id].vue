@@ -54,7 +54,7 @@
             <div class="talk-operation-item">
               <v-icon size="16" color="#999">mdi-chat</v-icon>
               <div class="operation-count">
-                {{ state.commentCount }}
+                {{ state.commentCount || (item?.data?.comments ?? 0) }}
               </div>
             </div>
           </div>
