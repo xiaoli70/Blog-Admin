@@ -1,17 +1,6 @@
 import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
 import { generateUUID } from "./index";
-import MarkdownItSubscript from "markdown-it-sub";
-import MarkdownItSuperscript from "markdown-it-sup";
-import MarkdownItMark from "markdown-it-mark";
-import MarkdownItAbbreviation from "markdown-it-abbr";
-import MarkdownItContainer from "markdown-it-container";
-import MarkdownItDeflist from "markdown-it-deflist";
-import MarkdownItEmoji from "markdown-it-emoji";
-import MarkdownItFootnote from "markdown-it-footnote";
-import MarkdownItInsert from "markdown-it-ins";
-import MarkdownItTasklists from "markdown-it-task-lists";
-// import MarkdownItKatex from "markdown-it-katex-external";
 export default function markdownToHtml(content: string): string {
   const md = new MarkdownIt({
     html: true,
@@ -47,17 +36,17 @@ export default function markdownToHtml(content: string): string {
       return content;
     },
   })
-    .use(MarkdownItSubscript)
-    .use(MarkdownItSuperscript)
-    .use(MarkdownItMark)
-    .use(MarkdownItAbbreviation)
-    .use(MarkdownItContainer)
-    .use(MarkdownItDeflist)
-    .use(MarkdownItEmoji)
-    .use(MarkdownItFootnote)
-    .use(MarkdownItInsert)
+    .use(() => import("markdown-it-sub"))
+    .use(() => import("markdown-it-sup"))
+    .use(() => import("markdown-it-mark"))
+    .use(() => import("markdown-it-abbr"))
+    .use(() => import("markdown-it-container"))
+    .use(() => import("markdown-it-deflist"))
+    .use(() => import("markdown-it-emoji"))
+    .use(() => import("markdown-it-footnote"))
+    .use(() => import("markdown-it-ins"))
     // .use(MarkdownItKatex)
-    .use(MarkdownItTasklists);
+    .use(() => import("markdown-it-task-lists"));
   // 将markdown替换为html标签
   let s = md.render(content);
   if (s.length > 0) {

@@ -54,9 +54,11 @@
 import { useAuth } from "~/stores/auth";
 import CommentApi from "~/api/CommentApi";
 import { useToast } from "~/stores/toast";
-import vueDanmaku from "vue3-danmaku";
+// import vueDanmaku from "vue3-danmaku";
+const vueDanmaku = defineAsyncComponent(() => import("vue3-danmaku"));
 import AppApi from "~/api/AppApi";
 import type { CommentPageQueryInput } from "~/api/models/comment-page-query-input";
+import type { CommentOutput } from "~/api/models";
 const pager = ref<CommentPageQueryInput>({ pageNo: 1, pageSize: 1000 });
 const [{ data: list }, { data: site }] = await Promise.all([
   CommentApi.list(pager),
@@ -67,7 +69,7 @@ const toast = useToast();
 const authStore = useAuth();
 const state = reactive({
   content: "",
-  items: list.value?.data?.rows ?? [],
+  items: [] as CommentOutput[],
   show: false,
   visible: false,
   message: "",
@@ -108,6 +110,14 @@ const cover = computed(() => {
 // 循环播放
 const loop = computed(() => {
   return state.items.length > 50;
+});
+
+onMounted(() => {
+  setTimeout(() => {
+    console.log(danmaku.value);
+    danmaku.value.show();
+    state.items = list.value?.data?.rows ?? ([] as CommentOutput[]);
+  }, 500);
 });
 
 useSeoMeta({

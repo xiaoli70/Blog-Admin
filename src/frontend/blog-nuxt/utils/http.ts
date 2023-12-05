@@ -24,11 +24,6 @@ class http {
    */
   request = <T>(url: string, options: UseFetchOptions<ApiResult<T>> = {}) => {
     const apiUrl = useRuntimeConfig().public.apiBaseUrl as string;
-    console.log(
-      import.meta.env.MODE === "production" && import.meta.client
-        ? "/api"
-        : apiUrl
-    );
     const defaults: UseFetchOptions<ApiResult<T>> = {
       // 此配置在nuxt.config.ts中
       baseURL:
@@ -66,6 +61,9 @@ class http {
        * 如果响应成功，将响应数据存储在response._data中
        */
       onResponse({ request, response, options }) {
+        if (response.url.includes("/oauth/login")) {
+          console.log(response._data);
+        }
         if (response.status === 200) {
           const accessToken = response.headers.get(accessTokenKey);
           const refreshAccessToken = response.headers.get(

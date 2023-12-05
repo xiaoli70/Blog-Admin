@@ -261,6 +261,7 @@
 // import "https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js";
 import Comment from "~/components/Comment.vue";
 import hljs from "highlight.js";
+import "highlight.js/styles/atom-one-dark.css";
 import "viewerjs/dist/viewer.css";
 import { storeToRefs } from "pinia";
 import * as tocbot from "tocbot";
