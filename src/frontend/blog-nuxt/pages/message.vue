@@ -114,8 +114,6 @@ const loop = computed(() => {
 
 onMounted(() => {
   setTimeout(() => {
-    console.log(danmaku.value);
-    danmaku.value.show();
     state.items = list.value?.data?.rows ?? ([] as CommentOutput[]);
   }, 500);
 });

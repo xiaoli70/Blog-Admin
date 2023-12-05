@@ -48,9 +48,6 @@ export const useAuth = defineStore("auth", () => {
     const {
       data: { value },
     } = await OAuthApi.info();
-    console.log("----------获取用户信息------------");
-    console.log(value);
-    console.log("---------------------------------");
     store.info = value?.data;
     const info = useCookie<OAuthAccountDetailOutput>("account_info");
     info.value = value!.data!;
