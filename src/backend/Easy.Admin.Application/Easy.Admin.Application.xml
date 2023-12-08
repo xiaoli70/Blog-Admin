@@ -1745,11 +1745,6 @@
             授权成功后回调页面缓存键
             </summary>
         </member>
-        <member name="F:Easy.Admin.Application.Client.OAuthController.DomainKey">
-            <summary>
-            请求地址的域名
-            </summary>
-        </member>
         <member name="M:Easy.Admin.Application.Client.OAuthController.Get(System.String,System.String)">
             <summary>
             获取授权地址
