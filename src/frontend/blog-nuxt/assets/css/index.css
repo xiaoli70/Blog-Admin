@@ -236,7 +236,7 @@ p {
   .blog-container {
     animation: main 1s;
     margin: 180px 5px 20px 5px;
-    padding: 36px 14px;
+    padding: 0px 14px !important;
   }
 
   .article-container {
