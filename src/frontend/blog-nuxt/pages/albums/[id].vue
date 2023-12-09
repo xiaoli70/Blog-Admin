@@ -78,8 +78,15 @@ useSeoMeta({
   flex-grow: 9999;
 }
 @media (max-width: 759px) {
+  .photo-wrap {
+    padding: 5px;
+  }
   .photo {
     width: 100%;
+    border-radius: 15px;
+    object-fit: cover;
+    margin: auto;
+    margin-bottom: 5px;
   }
 }
 </style>

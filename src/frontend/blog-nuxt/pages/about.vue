@@ -54,6 +54,7 @@ useHead({
 }
 .my-wrapper {
   text-align: center;
+  margin-top: 20px;
 }
 .author-avatar {
   transition: all 0.5s;
