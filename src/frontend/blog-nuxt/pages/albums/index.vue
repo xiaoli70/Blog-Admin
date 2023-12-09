@@ -1,46 +1,44 @@
 <template>
-  <div>
-    <!-- banner -->
-    <div class="banner" :style="cover">
-      <h1 class="banner-title">相册</h1>
-    </div>
-    <!-- 相册内容 -->
-    <v-card class="blog-container">
-      <v-row>
-        <v-col
-          :md="6"
-          v-for="item of list?.data?.rows"
-          :key="item.id"
-          style="flex-basis: auto"
-        >
-          <div class="album-item">
-            <v-img class="album-cover" :src="item.cover!" cover />
-            <a
-              class="album-wrapper"
-              :href="'/albums/' + item.id"
-              :title="item.name!"
-            >
-              <div class="album-name">{{ item.name }}</div>
-              <div class="album-desc">{{ item.remark ?? item.name }}</div>
-            </a>
-          </div>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-pagination
-            v-if="(list?.data?.pages ?? 0) > 1"
-            v-model="pager.pageNo"
-            size="x-small"
-            :length="list?.data?.pages"
-            active-color="#00C4B6"
-            :total-visible="3"
-            variant="elevated"
-          ></v-pagination>
-        </v-col>
-      </v-row>
-    </v-card>
+  <!-- banner -->
+  <div class="banner" :style="cover">
+    <h1 class="banner-title">相册</h1>
   </div>
+  <!-- 相册内容 -->
+  <v-card class="blog-container">
+    <v-row class="row">
+      <v-col
+        :md="6"
+        v-for="item of list?.data?.rows"
+        :key="item.id"
+        style="flex-basis: auto"
+      >
+        <div class="album-item">
+          <v-img class="album-cover" :src="item.cover!" cover />
+          <a
+            class="album-wrapper"
+            :href="'/albums/' + item.id"
+            :title="item.name!"
+          >
+            <div class="album-name">{{ item.name }}</div>
+            <div class="album-desc">{{ item.remark ?? item.name }}</div>
+          </a>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row class="pager">
+      <v-col>
+        <v-pagination
+          v-if="(list?.data?.pages ?? 0) > 1"
+          v-model="pager.pageNo"
+          size="x-small"
+          :length="list?.data?.pages"
+          active-color="#00C4B6"
+          :total-visible="3"
+          variant="elevated"
+        ></v-pagination>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -62,6 +60,20 @@ const cover = computed(() => {
   const url = arr[randomNumber(0, arr.length - 1)];
   return "background: url(" + url + ") center center / cover no-repeat";
 });
+
+watch(
+  () => pager.value.pageNo,
+  () => {
+    if (import.meta.client) {
+      setTimeout(() => {
+        window.scrollTo({
+          behavior: "smooth",
+          top: 0,
+        });
+      }, 200);
+    }
+  }
+);
 
 useSeoMeta({
   title: "相册-" + site.value?.data?.site?.siteName,
@@ -144,6 +156,16 @@ useSeoMeta({
   button {
     background-color: #49b1f5;
     color: #fff;
+  }
+}
+@media (max-width: 759px) {
+  .blog-container {
+    .row {
+      padding-top: 14px;
+    }
+  }
+  .pager {
+    margin-bottom: 14px;
   }
 }
 </style>

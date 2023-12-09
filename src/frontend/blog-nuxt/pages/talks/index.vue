@@ -117,6 +117,20 @@ const cover = computed(() => {
   return "background: url(" + url + ") center center / cover no-repeat";
 });
 
+watch(
+  () => pager.value.pageNo,
+  () => {
+    if (import.meta.client) {
+      setTimeout(() => {
+        window.scrollTo({
+          behavior: "smooth",
+          top: 0,
+        });
+      }, 200);
+    }
+  }
+);
+
 useSeoMeta({
   title: "说说-" + site.value?.data?.site?.siteName,
   description: site.value?.data?.site?.description,
