@@ -245,7 +245,7 @@ p {
   }
 
   .article-wrapper {
-    padding: 36px 14px;
+    padding: 36px 14px !important;
   }
 
   .banner-title {
