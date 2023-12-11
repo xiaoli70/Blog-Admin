@@ -61,10 +61,9 @@ const emit = defineEmits<{ (e: "update:isShow", isShow: boolean): void }>();
 const closeHandle = () => {
   emit("update:isShow", false);
 };
-const goTo = async (id: any) => {
+const goTo = async (id: number) => {
   emit("update:isShow", false);
-  articleList.list = [];
-  await navigateTo({ path: "/articles", params: { id } });
+  await navigateTo(`/articles/${id}`);
 };
 const handlerUpdateValue = (v: boolean) => {
   emit("update:isShow", v);
