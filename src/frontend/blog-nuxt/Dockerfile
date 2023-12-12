@@ -1,5 +1,4 @@
 # 使用Node.js 基础镜像
-#FROM node:18.18.1
 FROM node:18-alpine
 
 RUN mkdir -p /app
