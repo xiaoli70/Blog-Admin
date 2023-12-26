@@ -6,9 +6,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list.d/debian.sources
 #RUN cat /etc/apt/sources.list
 #°²×°fontconfig
-#RUN apt-get clean
-#RUN apt-get update 
-#RUN apt-get install -y fontconfig
+RUN apt-get clean
+RUN apt-get update 
+RUN apt-get install -y fontconfig
 
 WORKDIR /app
 EXPOSE 8066
