@@ -4,7 +4,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 
 #修改apt-get源，加速apt下载
-RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list
+RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list.d/debian.sources
 RUN cat /etc/apt/sources.list
 #安装fontconfig
 RUN apt-get clean
