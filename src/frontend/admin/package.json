@@ -8,7 +8,7 @@
 		"dev": "vite",
 		"build": "vite build",
 		"lint-fix": "eslint --fix --ext .js --ext .jsx --ext .vue src/",
-		"gen": "sta -p http://localhost:5005/swagger/Default/swagger.json -o ./src/apis --modular --route-types --axios --module-name-index 1 --extract-request-params -t ./templates"
+		"gen": "sta -p http://localhost:53785/swagger/Default/swagger.json -o ./src/apis --modular --route-types --axios --module-name-index 1 --extract-request-params -t ./templates"
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.1.0",
