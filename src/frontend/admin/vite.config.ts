@@ -27,10 +27,10 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 			host: '0.0.0.0',
 			port: env.VITE_PORT as unknown as number,
 			open: JSON.parse(env.VITE_OPEN),
-			hmr: true,
+			hmr:  true,
 			proxy: {
 				'/api': {
-					target: 'http://localhost:53785',
+					target: 'http://192.168.1.101:8088/',
 					ws: true,
 					changeOrigin: true,
 					secure: false, //解决target使用https出错问题

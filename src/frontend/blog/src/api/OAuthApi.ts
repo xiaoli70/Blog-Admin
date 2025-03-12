@@ -33,6 +33,20 @@ class OAuthApi {
   addLink = (data: AddLinkOutput) => {
     return http.post("/oauth/link", data);
   };
+
+  SendEmail = (email: string) => {
+    return http.get<object>("/auth/shenemailasunc/" + email);
+  };
+
+  Register = (data: object) => {
+    return http.post("/auth/register/" , data);
+  };
+ loginemail = (data: object) => {
+    return http.post('/auth/signinblog/', data);
+  };
+  
+
 }
+
 
 export default new OAuthApi();

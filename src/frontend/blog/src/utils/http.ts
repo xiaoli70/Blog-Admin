@@ -70,7 +70,7 @@ class Axios {
 
   // 基础配置，url和超时时间
   baseConfig: AxiosRequestConfig = {
-    baseURL: "/api", //import.meta.env.VITE_API_URL,
+    baseURL: "http://192.168.0.17:8088/api", //import.meta.env.VITE_API_URL,
     headers: { "Content-Type": "application/json" },
     timeout: 30000,
   };

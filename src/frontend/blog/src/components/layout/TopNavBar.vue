@@ -99,6 +99,14 @@
           </ul>
         </div>
         <div class="menus-item">
+          <router-link class="menu-btn" to="/love">
+            <!-- <i class="iconfont iconlianjie" />  -->
+            <!-- <v-icon size="small">mdi mdi-camera-iris</v-icon> -->
+            <v-icon size="small">mdi-heart</v-icon>
+            恋爱
+          </router-link>
+        </div>
+        <div class="menus-item">
           <router-link class="menu-btn" to="/links">
             <!-- <i class="iconfont iconlianjie" />  -->
             <v-icon size="small">mdi mdi-camera-iris</v-icon>
@@ -129,7 +137,7 @@
         </div>
         <div class="menus-item">
           <!-- <a class="menu-btn"> <i class="iconfont icondenglu" /> 登录 </a> -->
-          <a v-if="!authStore.info" @click="handleLogin" class="menu-btn">
+          <a v-if="!authStore.info" @click="loginModelHandel" class="menu-btn">
             <!-- <i class="iconfont iconqq" />  -->
             <v-icon size="small">mdi mdi-qqchat</v-icon>
             登录
@@ -163,7 +171,9 @@
       </div>
     </div>
   </v-app-bar>
+  
   <search-model v-model:isShow="vm.isShow"></search-model>
+  <login-model v-model:isShow="vm.isShow2"></login-model>
 </template>
 
 <script setup lang="ts">
@@ -172,11 +182,13 @@ import { onMounted, watch, reactive } from "vue";
 import { useDrawerSettingStore } from "../../stores/drawerSetting";
 import OAuthApi from "@/api/OAuthApi";
 import SearchModel from "../SearchModel.vue";
+import LoginModel from "../LoginModel.vue";
 import { useAuth } from "@/stores/auth";
 const authStore = useAuth();
 const vm = reactive({
   scrollTop: 0,
   navClass: "nav",
+  isShow2: false,
   isShow: false,
   isLogin: false,
   top: 0, //控制头部菜单栏显示隐藏
@@ -202,8 +214,13 @@ const searchModelHandel = () => {
   vm.isShow = true;
 };
 
+const loginModelHandel = () => {
+  vm.isShow2 = true;
+};
+
 const handleLogin = async () => {
   const { data } = await OAuthApi.get(location.href);
+  alert(data);
   location.href = data!;
 };
 const handleLoginOut = () => {

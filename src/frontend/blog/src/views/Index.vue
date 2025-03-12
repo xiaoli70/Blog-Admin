@@ -316,7 +316,7 @@ watch(
 onMounted(async () => {
   new EasyTyper(
     state.print,
-    blogSetting.value.motto ??
+    appStore.mottoD() ??
       "虽然人生在世有种种不如意，但你仍可以在幸福与不幸中做选择。-王小波",
     () => {},
     () => {}

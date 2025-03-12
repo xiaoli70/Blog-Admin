@@ -131,6 +131,13 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: "用户中心",
     },
+  },{
+    name: "love",
+    path: "/love",
+    component: () => import("../views/article/Love.vue"),
+    meta: {
+      title: "恋爱",
+    },
   },
 ];
 

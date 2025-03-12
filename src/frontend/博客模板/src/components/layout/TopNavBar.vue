@@ -106,6 +106,13 @@
           </router-link>
         </div>
         <div class="menus-item">
+          <router-link class="menu-btn" to="/love">
+            <!-- <i class="iconfont iconlianjie" />  -->
+            <v-icon size="small">mdi mdi-camera-iris</v-icon>
+            恋爱
+          </router-link>
+        </div>
+        <div class="menus-item">
           <router-link class="menu-btn" to="/about">
             <!-- <i class="iconfont iconzhifeiji" />  -->
             <v-icon

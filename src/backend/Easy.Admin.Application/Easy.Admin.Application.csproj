@@ -18,12 +18,15 @@
     <ProjectReference Include="..\Easy.Admin.Core\Easy.Admin.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Auth\Dtos\" />
     <Folder Include="Blog\Dtos\" />
     <Folder Include="Config\Dtos\" />
     <Folder Include="File\Dtos\" />
     <Folder Include="Logging\Dtos\" />
     <Folder Include="Menu\Dtos\" />
     <Folder Include="Organization\Dtos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.1.0" />
+    <PackageReference Include="MimeKit" Version="4.1.0" />
   </ItemGroup>
 </Project>

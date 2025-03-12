@@ -39,6 +39,11 @@
             用户授权
             </summary>
         </member>
+        <member name="F:Easy.Admin.Application.Auth.AuthService.OAuthKey">
+            <summary>
+            第三方授权缓存
+            </summary>
+        </member>
         <member name="M:Easy.Admin.Application.Auth.AuthService.SignIn(Easy.Admin.Application.Auth.Dtos.AdminLoginInput)">
             <summary>
             系统用户登录
@@ -46,11 +51,33 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:Easy.Admin.Application.Auth.AuthService.SignInBlog(Easy.Admin.Application.Auth.Dtos.AdminLoginInputre)">
+            <summary>
+            博客用户登录
+            </summary>
+            <param name="dto"></param>
+            <param name="referer">地址</param>
+            <returns></returns>
+        </member>
         <member name="M:Easy.Admin.Application.Auth.AuthService.Captcha(System.String)">
             <summary>
             获取验证码
             </summary>
             <param name="id">验证码唯一id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Auth.AuthService.ShenEmailAsunc(System.String)">
+            <summary>
+            发送邮件并获取验证码
+            </summary>
+            <param name="Email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Easy.Admin.Application.Auth.AuthService.Register(Easy.Admin.Application.Auth.Dtos.Risuget)">
+            <summary>
+            发送邮件并获取验证码
+            </summary>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInput.Account">
@@ -72,6 +99,33 @@
             <summary>
             验证码
             </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInputre.Account">
+            <summary>
+            登录名
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInputre.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInputre.Id">
+            <summary>
+            验证码唯一ID
+            </summary>
+        </member>
+        <member name="P:Easy.Admin.Application.Auth.Dtos.AdminLoginInputre.Code">
+            <summary>
+            验证码
+            </summary>
+        </member>
+        <member name="M:Easy.Admin.Application.Auth.Dtos.EmailSignIn.SendVerificationEmail(System.String,System.String)">
+            <summary>
+            登录验证码邮件
+            </summary>
+            <param name="email"></param>
+            <param name="verificationCode"></param>
         </member>
         <member name="M:Easy.Admin.Application.BaseService`1.Delete(Easy.Admin.Core.Shared.KeyDto)">
             <summary>

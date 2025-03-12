@@ -39,12 +39,12 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3000,
-    host: "0.0.0.0",
+    port: 0,
+    host: "",
     hmr: true,
     proxy: {
       "/api": {
-        target: "http://localhost:53785",
+        target: "http://192.168.0.17:8088/",//代理ip
         ws: true,
         changeOrigin: true,
         secure: false, //解决target使用https出错问题

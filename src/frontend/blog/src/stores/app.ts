@@ -77,6 +77,11 @@ export const useApp = defineStore("app", () => {
     app.covers.tagList = covers.tagList ?? ["/cover/default.jpg"];
     app.covers.categories = covers.categories ?? ["/cover/default.jpg"];
   };
+  const mottoD = () => {
+    const arr = app.blogSetting.motto?.split("||") as Array<string>;
+    return arr[randomNumber(0, arr.length - 1)];
+  };
+
   /**
    * 首页cover
    */
@@ -110,6 +115,13 @@ export const useApp = defineStore("app", () => {
    */
   const tagCover = () => {
     const arr = app.covers.tag;
+    return arr[randomNumber(0, arr.length - 1)];
+  };
+  /**
+   * 恋爱
+   */
+  const loveCover = () => {
+    const arr = app.covers.album;
     return arr[randomNumber(0, arr.length - 1)];
   };
   /**
@@ -199,6 +211,8 @@ export const useApp = defineStore("app", () => {
     tagCover,
     albumCover,
     talkCover,
+    loveCover,
+
     messageCover,
     userCover,
     linkCover,
@@ -209,5 +223,6 @@ export const useApp = defineStore("app", () => {
     info,
     blogSetting,
     report,
+    mottoD
   };
 });
